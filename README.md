@@ -10,6 +10,11 @@ quick start - OSX
     $brew install node
     $npm install -g n
     $n 0.10.32
+    # install project dependencies to run locally
+    $cd this_repo_directory
+    $npm install
+    # run locally
+    $npm start
     # install IBM BlueMix cli
     $brew tap pivotal/tap
     $brew install cloudfoundry-cli
