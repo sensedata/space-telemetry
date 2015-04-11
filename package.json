@@ -1,0 +1,13 @@
+{
+	"name": "ISSTelemetryChallenge",
+	"version": "0.0.1",
+	"description": "SenseData Group Space App Challenge Entry (April 11-12, 2015)",
+	"scripts": {
+		"start": "node server.js"
+	},
+	"dependencies": {
+		"express": "4.12.x",
+		"cfenv": "1.0.x"
+	},
+	"repository": {}
+}
