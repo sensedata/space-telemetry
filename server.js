@@ -84,7 +84,7 @@ telemetrySub.addListener({
   
   onItemUpdate: function(update) {
 
-    var u = {n: update.getItemName(), v: update.getValue("Value"), t: Date.now()};
+    var u = {n: update.getItemName(), v: update.getValue("Value"), t: Date.now()/1000|0};
     
     io.emit(u.n, [{u: u.v, t: u.t}]);
   }
