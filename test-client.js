@@ -4,6 +4,8 @@ var socket = require('socket.io-client')('http://0.0.0.0:6001');
 socket.on('connect', function(){
   
   console.log('connect');
+  
+  socket.emit('AIRLOCK000049', 1428860000);
 });
 
 // listen for feed status
@@ -25,8 +27,8 @@ socket.on('disconnect', function() {
 });
 
 // query for the feed status every 5 seconds
-setInterval(function () {
-  
-  socket.emit('STATUS');
-  
-}, 5000);
+// setInterval(function () {
+//
+//   socket.emit('STATUS');
+//
+// }, 5000);
