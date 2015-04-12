@@ -1,27 +1,466 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
   <head>
-    <title>NodeJS Starter Application</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="stylesheets/style.css">
+
+    <title>ISS Telemetry</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
   </head>
 
   <body>
-    <table>
-      <tr>
-        <td style= "width:30%;">
-          <img class = "newappIcon" src="images/newapp-icon.png">
-        <td>
-            <h1>Hi there!</h1>
-          <p>Thanks for creating a
-            <span class = "blue">NodeJS Starter Application</span>.
-            Get started by reading our
-            <a href = "https://www.ng.bluemix.net/docs/#starters/nodejs/index.html#nodejs">documentation</a>
-            or use the Start Coding guide under your app in your dashboard.
-    </table>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-12 main">
+          <h1 class="page-header">ISS Telemetry</h1>
+
+          <h2 class="sub-header">Attitude Control</h2>
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="row">
+                <div class="col-sm-12">
+                  <span id="attitude-alarm-iss" data-record="USLAB000042" class="alarm-symbol"></span>
+                  Station
+                  <span id="station-attitude-control-history" data-record="USLAB000042"></span>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-sm-12">
+                  <span id="attitude-alarm-gyro" class="alarm-symbol" data-record="USLAB000041"></span>
+                  Gyro
+                  <span id="gyro-attitude-control-history" data-record="USLAB000041" class="win-lose"></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-4">
+              <div class="row">
+                <div class="col-sm-12">
+                  <span class="value-label">Reference Frame:</span>
+                  <span id="gnc-reference-frame" class="value text" data-record="USLAB000017"></span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <span class="value-label">Mode:</span>
+                  <span id="gnc-mode" class="value text" data-record="USLAB000012"></span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <span class="value-label">Type:</span>
+                  <span id="gnc-type" class="value text" data-record="USLAB000016"></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-sm-4">
+              <div class="row">
+                <div class="col-sm-12">
+                  <span class="value-label">GPS-1:</span>
+                  <span id="gps-state-1" class="value text" data-record="USLAB000043"></span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <span class="value-label">GPS-2:</span>
+                  <span id="gps-state-2" class="value text" data-record="USLAB000044"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>Actual (<span id="attitude-actual-source" data-record="SLAB000013"></span>)</th>
+                      <th>Target</th>
+                      <th>Error</th>
+                      <th>Change (<span id="attitude-change-source" data-record="USLAB000014"></span>)</th>
+                      <th>Torque</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <th>Roll</th>
+                      <td>
+                        <span id="attitude-actual-roll" data-key="USLAB000019" class="value decimal degrees"></span>
+                      </td>
+
+                      <td>
+                        <span id="attitude-command-roll" data-key="USLAB000029" class="value decimal degrees"></span>
+                      </td>
+
+                      <td>
+                        <span id="attitude-error-alarm-roll" data-record="USLAB000022" class="alarm-symbol"></span>
+                        <span id="attitude-error-history-roll" data-record="USLAB000022" class="sparkline attitude"></span>
+                        <span id="attitude-error-roll" class="value decimal radians" data-record="USLAB000022"></span>
+                      </td>
+
+                      <td>
+                        <span id="attitude-change-history-roll" data-record="USLAB000025" class="sparkline attitude"></span>
+                        <span id="attitude-change-roll" class="value decimal radians-per-second" data-record="USLAB000025">0.00300</span>
+                      </td>
+
+                      <td>
+                        <span id="attitude-torque-history-roll" data-record="USLAB000006" class="sparkline attitude"></span>
+                        <span id="attitude-torque-roll" class="value decimal newton-meters" data-record="USLAB000006">23.34</span>
+                      </td>
+                    </tr>
+
+                  </tbody>
+
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+    <script>
+      function sparkline(id, data) {
+        var svg;
+        var current, path, line;
+        var x, y;
+        var height, width;
+
+        if (data.length < 3) {
+          return;
+        }
+
+        dElement = d3.select(id);
+        jElement = $(id);
+
+        jElement.empty();
+        svg = dElement.append("svg");
+        path = svg.append("path");
+        current = svg.append("circle");
+        line = d3.svg.line();
+
+        height = parseInt(jElement.height());
+        width = parseInt(jElement.width());
+
+        x = d3.scale.linear().range([0, width - 2]);
+        y = d3.scale.linear().range([height - 4, 0]);
+
+        x.domain(d3.extent(data, function(d) { return d.t; }));
+        y.domain(d3.extent(data, function(d) { return d.u; }));
+
+        svg.attr("width", width)
+          .attr("height", height)
+          .append("g")
+          .attr("transform", "translate(0, 2)");
+
+        line
+          .x(function(d) { return x(d.t); })
+          .y(function(d) { return y(d.u); });
+
+        path.datum(data)
+           .attr("class", "sparkline")
+           .attr("d", line);
+
+        current.attr("class", "sparkcircle")
+           .attr("cx", x(data[data.length - 1].t))
+           .attr("cy", y(data[data.length - 1].u))
+           .attr("r", 1.5);
+      }
+
+      function radToDeg(rad) {
+        return rad / (Math.PI / 180);
+      }
+
+      // function round(raw, decimals) {
+      //   Math.round(raw * 10) / 100000
+      // }
+
+      function updateAttitudeActual(attitudeActualQ) {
+        var eulers = new THREE.Euler().setFromQuaternion(attitudeActualQ);
+
+        $("#attitude-actual-roll").text(radToDeg(eulers.x).toFixed(5));
+        $("#attitude-actual-pitch").text(radToDeg(eulers.y).toFixed(5));
+        $("#attitude-actual-yaw").text(radToDeg(eulers.z).toFixed(5));
+      }
+
+      function updateAttitudeTarget(attitudeCommandQ) {
+        var eulers = new THREE.Euler().setFromQuaternion(attitudeCommandQ);
+
+        $("#attitude-command-roll").text(radToDeg(eulers.x).toFixed(5));
+        $("#attitude-command-pitch").text(radToDeg(eulers.y).toFixed(5));
+        $("#attitude-command-yaw").text(radToDeg(eulers.z).toFixed(5));
+      }
+
+      function updateGPSState(id, rawState) {
+        switch (rawState) {
+          case "0": status = "Doing position fixes"; break;
+          case "1": status = "SV timing"; break;
+          case "2": status = "Approximate timing"; break;
+          case "3": status = "GPS time"; break;
+          case "4": status = "Need initialization"; break;
+          case "5": status = "GDOP needed"; break;
+          case "6": status = "Bad timing"; break;
+          case "7": status = "No usable satellite"; break;
+          case "8": status = "Track 1 satellite"; break;
+          case "9": status = "Track 2 satellite"; break;
+          case "10": status = "Track 3 satellite"; break;
+          case "11": status = "Bad integrity"; break;
+          case "12": status = "No vel available"; break;
+          case "13": status = "Unusable fix"; break;
+          default: status = "Unknown"; break;
+        }
+
+        $(id).text(rawState + " - " + status);
+      }
+
+
+      $(function() {
+        var attitudeActualQ, attitudeCommandQ;
+        var hourAgo, mostRecent;
+        var socket;
+
+        attitudeActualQ = new THREE.Quaternion();
+        attitudeCommandQ = new THREE.Quaternion();
+
+        hourAgo = moment().subtract(1, "hours").unix();
+        mostRecent = -1;
+
+        socket = io("https://iss-telemetry-challenge.mybluemix.net");
+
+        socket.on("USLAB000012", function (data) {
+          var mode;
+          var datum;
+
+          datum = data[data.length - 1];
+
+          switch (datum.u) {
+            case "0": mode = "Default"; break;
+            case "1": mode = "Wait"; break;
+            case "2": mode = "Reserved"; break;
+            case "3": mode = "Standby"; break;
+            case "4": mode = "CMG attitude control"; break;
+            case "5": mode = "CMG thruster assist"; break;
+            case "6": mode = "User data generation"; break;
+            case "7": mode = "Free drift"; break;
+            default: mode = "Unknown";
+          }
+
+          $("#gnc-mode").text(datum.u + " - " + mode);
+        });
+        socket.emit("USLAB000012", mostRecent);
+
+        socket.on("USLAB000013", function (data) {
+          var source;
+          var datum;
+
+          datum = data[data.length - 1];
+
+          switch (datum.u) {
+            case "0": source = "None"; break;
+            case "1": source = "GPS 1"; break;
+            case "2": source = "GPS 2"; break;
+            case "3": source = "Russian"; break;
+            case "4": source = "Ku band"; break;
+            default: source = "Unknown";
+          }
+
+          $("#attitude-actual-source").text(source);
+        });
+        socket.emit("USLAB000013", mostRecent);
+
+        socket.on("USLAB000014", function (data) {
+          var source;
+          var datum;
+
+          datum = data[data.length - 1];
+
+          switch (datum.u) {
+            case "0": source = "None"; break;
+            case "1": source = "RGA 1"; break;
+            case "2": source = "RGA 2"; break;
+            case "3": source = "Russian"; break;
+            default: source = "Unknown";
+          }
+
+          $("#attitude-change-source").text(source);
+        });
+        socket.emit("USLAB000014", mostRecent);
+
+        socket.on("USLAB000016", function (data) {
+          var type;
+          var datum;
+
+          datum = data[data.length - 1];
+
+          switch (datum.u) {
+            case "0": type = "Attitude hold"; break;
+            case "1": type = "Momentum management"; break;
+            default: type = "Unknown";
+          }
+
+          $("#gnc-type").text(datum.u + " - " + type);
+        });
+        socket.emit("USLAB000017", mostRecent);
+
+        socket.on("USLAB000017", function (data) {
+          var datum;
+          var frame;
+
+          datum = data[data.length - 1];
+
+          switch (datum.u) {
+            case "0": frame = "LVLH"; break;
+            case "1": frame = "J2000"; break;
+            case "2": frame = "XPOP"; break;
+            default: frame = "Unknown";
+          }
+
+          $("#gnc-reference-frame").text(datum.u + " - " + frame);
+        });
+        socket.emit("USLAB000017", mostRecent);
+
+        socket.on("USLAB000022", function (data) {
+          var chart = $("#attitude-error-history-roll");
+          var stored = chart.data("d");
+
+          if (!stored) {
+            stored = [];
+            chart.data("d", stored);
+          }
+
+          data.forEach(function (datum) {
+            datum.u = parseFloat(datum.u);
+            stored.push(datum);
+
+            if (stored.length > chart.width()) {
+              stored.pop();
+            }
+          });
+
+          sparkline("#attitude-error-history-roll", stored);
+          $("#attitude-error-roll").text(Math.round(data[data.length - 1].u * 100000) / 100000);
+        });
+        socket.emit("USLAB000022", hourAgo);
+
+        socket.on("USLAB000006", function (data) {
+          var chart = $("#attitude-torque-history-roll");
+          var stored = chart.data("d");
+
+          if (!stored) {
+            stored = [];
+            chart.data("d", stored);
+          }
+
+          data.forEach(function (datum) {
+            datum.u = parseFloat(datum.u);
+            stored.push(datum);
+
+            if (stored.length > chart.width()) {
+              stored.pop();
+            }
+          });
+
+          sparkline("#attitude-torque-history-roll", stored);
+          $("#attitude-torque-roll").text(Math.round(data[data.length - 1].u * 100000) / 100000);
+        });
+        socket.emit("USLAB000006", hourAgo);
+
+        socket.on("USLAB000025", function (data) {
+          var chart = $("#attitude-change-history-roll");
+          var stored = chart.data("d");
+
+          if (!stored) {
+            stored = chart.data("d", []);
+          }
+
+          data.forEach(function (datum) {
+            datum.u = parseFloat(datum.u);
+            stored.push(datum);
+
+            if (stored.length > chart.width()) {
+              stored.pop();
+            }
+          });
+
+          sparkline("#attitude-change-history-roll", stored);
+          $("#attitude-change-roll").text(Math.round(data[data.length - 1].u * 100000) / 100000);
+        });
+        socket.emit("USLAB000024", hourAgo);
+
+
+
+
+
+
+
+        socket.on("USLAB000028", function (data) {
+          attitudeActualQ.x = parseFloat(data[data.length - 1].u);
+          updateAttitudeActual(attitudeActualQ);
+        });
+        socket.emit("USLAB000028", mostRecent);
+
+        socket.on("USLAB000029", function (data) {
+          attitudeActualQ.y = parseFloat(data[data.length - 1].u);
+          updateAttitudeActual(attitudeActualQ);
+        });
+        socket.emit("USLAB000029", mostRecent);
+
+        socket.on("USLAB000030", function (data) {
+          attitudeActualQ.z = parseFloat(data[data.length - 1].u);
+          updateAttitudeActual(attitudeActualQ);
+        });
+        socket.emit("USLAB000030", mostRecent);
+
+        socket.on("USLAB000031", function (data) {
+          attitudeActualQ.w = parseFloat(data[data.length - 1].u);
+          updateAttitudeActual(attitudeActualQ);
+        });
+        socket.emit("USLAB000031", mostRecent);
+
+        socket.on("USLAB000041", function (data) {
+          $("#attitude-alarm-gryo").toggleClass(
+            "active", (data[data.length - 1].u === "1")
+          );
+        });
+        socket.emit("USLAB000041", mostRecent);
+
+        socket.on("USLAB000042", function (data) {
+          $("#attitude-alarm-iss").toggleClass(
+            "active", (data[data.length - 1].u === "1")
+          );
+        });
+        socket.emit("USLAB000042", mostRecent);
+
+        socket.on("USLAB000043", function (data) {
+          updateGPSState("#gps-state-1", data[data.length - 1].u);
+        });
+        socket.emit("USLAB000043", mostRecent);
+
+        socket.on("USLAB000044", function (data) {
+          updateGPSState("#gps-state-2", data[data.length - 1].u);
+        });
+        socket.emit("USLAB000044", mostRecent);
+
+      });
+  </script>
+
   </body>
+
 
 </html>

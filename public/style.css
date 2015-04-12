@@ -1,0 +1,52 @@
+th {
+  font-weight: normal;
+}
+
+.sparkline {
+  display: inline-block;
+  fill: none;
+  stroke: #000;
+  stroke-width: 0.5px;
+  vertical-align: middle;
+}
+
+.sparkline.attitude {
+  width: 150px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+.sparkcircle {
+  fill: #f00;
+  stroke: none;
+}
+
+.value {
+  font-weight: bold;
+}
+
+
+.value:after {
+  font-weight: normal;
+}
+
+.value.degrees:after {
+  content: " deg";
+}
+
+.value.newton-meters:after {
+  content: " N⋅m";
+}
+
+.value.newton-meter-second:after {
+  content: " N⋅m⋅s";
+}
+
+.value.radians:after {
+  content: " rad";
+}
+
+.value.radians-per-second:after {
+  content: " rad/s"
+}
+
