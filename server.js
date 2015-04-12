@@ -64,13 +64,15 @@ pg.connect(psql, function(err, client, done) {
   if (err) {
     return console.error('Error requesting client', err);
   }
-  client.query('create table if not exists data(idx smallint, value TEXT, ts timestamp without time zone)',
+    
+  client.query('create table if not exists data(idx smallint, value double precision, ts timestamp without time zone)',
   function (err, result) {
     done();
     if (err) {
       return console.error('Error creating table data', err);
     }
   });
+
 });
 
 var ddlist = require('./data_dictionary').list;
@@ -151,6 +153,30 @@ telemetrySub.addListener({
   }
 });
 
+function queryUnixtime(type, unixtime, client, cb) {
+  // 'SELECT * from data where idx = $1 and ts > to_timestamp($2) order by ts asc',
+client.query(
+  "select date_trunc('minute', ts) + date_part('second', ts)::int / 10 * interval '10 sec' as ts, avg(value) as value from data where idx = $1 and ts > to_timestamp($2) group by date_trunc('minute', ts) + date_part('second', ts)::int / 10 * interval '10 sec' order by date_trunc('minute', ts) + date_part('second', ts)::int / 10 * interval '10 sec'",
+  [ddhash[type], unixtime],
+  function(err, res) {
+    cb(err, res);
+  });
+}
+
+function queryMostRecent(type, client, cb) {
+  
+client.query('select * from data where idx = $1 and ts = (select MAX(ts) from data where idx = $1)',
+  [ddhash[type]],
+  function(err, res) {
+    cb(err, res);
+  });
+}
+
+
+function emitRows(socket, type, rows) {
+  socket.emit(type, rows.map(function(v) { return {u: v.value.toString(), t: v.ts.getTime()/1000|0}; })); 
+}
+
 io.on('connection', function (socket) {
   console.log('connection');
   
@@ -173,22 +199,45 @@ io.on('connection', function (socket) {
           if (err) {
             return console.error('Error requesting client', err);
           }
-
-          client.query('SELECT * from data where idx = $1 and ts > to_timestamp($2) order by ts asc',
-            [ddhash[type], unixtime],
-            function(err, res) {
+          
+          if(unixtime === -1) {
+            
+            queryMostRecent(type, client, function(err, res) {
               done();
               if (err) {
                 return console.error('Error querying type: ' + type, err);
               }
-              socket.emit(type, res.rows.map(function(v) { return {u: v.value, t: v.ts.getTime()/1000|0}; }));
-            }
-          );
+              emitRows(socket, type, res.rows);
+            });
+            
+          } else {
+            
+            queryUnixtime(type, unixtime, client, function(err, res) {
+              
+              if (err) {
+                return console.error('Error querying type: ' + type, err);
+              }
+              if (res.rows.length === 0) {
+                
+                queryMostRecent(type, client, function(err, res) {
+                  done();
+                  if (err) {
+                    return console.error('Error querying type: ' + type, err);
+                  }
+                  emitRows(socket, type, res.rows);
+                });
+              
+              } else {
+                done();
+                emitRows(socket, type, res.rows);
+              }
+              
+          });
+         } 
         });
       });
     })(type);
   
   }
-  
 });
 
