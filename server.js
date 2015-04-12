@@ -27,7 +27,7 @@ app.use(express.static(__dirname + '/public'));
 var appEnv = cfenv.getAppEnv();
 
 // start server on the specified port and binding host
-app.listen(appEnv.port, appEnv.bind, function() {
+server.listen(appEnv.port, appEnv.bind, function() {
 
 	// print a message when the server starts listening
   console.log("server starting on " + appEnv.url);
@@ -61,7 +61,6 @@ function broadcastStatus () {
 
 lsClient.addListener({
   onStatusChange: function (status) {
-    
    
     broadcastStatus();
   }
@@ -84,11 +83,10 @@ telemetrySub.addListener({
   },
   
   onItemUpdate: function(update) {
-    
+
     var u = {n: update.getItemName(), v: update.getValue("Value"), t: Date.now()};
     
-    io.emit(u.n, {u: u.v, t: u.t});
-    // console.log(JSON.stringify(u));
+    io.emit(u.n, [{u: u.v, t: u.t}]);
   }
 });
 
