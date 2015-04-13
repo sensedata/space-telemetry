@@ -2,6 +2,95 @@ th {
   font-weight: normal;
 }
 
+td, th {
+  border: none !important;
+  padding: 4px 8px 4px 8px !important;
+  vertical-align: middle !important;
+}
+
+.alarm-label {
+  display: inline-block;
+  text-align: right;
+  width: 50px;
+}
+
+.alarm-symbol-container {
+  display: inline-block;
+  position: relative;
+  padding-right: 25px;
+}
+
+.alarm-symbol:before {
+  color: "#323832";
+  content: "●";
+  font-size: 28px;
+  position: absolute; top: -11px; right: 0;
+}
+
+.alarm-symbol.active:before {
+  color: "#ff7f00";
+  content: "▲";
+}
+
+#attitude-control-history-gyro {
+  margin-top: 20px;
+}
+
+#attitude-momentum {
+  margin-left: 10px;
+}
+
+#attitude-momentum-chart {
+  display: inline-block;
+  margin-left: 10px;
+  position: relative; top: 3px;
+  width: 150px;
+}
+
+#desaturation-thrusters {
+  color: #666;
+  display: inline-block;
+  font-weight: normal;
+  margin-left: 75px;
+}
+
+#desaturation-thrusters .active-symbol {
+  color: #888;
+}
+
+#desaturation-thrusters .active-text {
+  display: none;
+}
+
+#desaturation-thrusters.active {
+  color: #000;
+  font-weight: bold;
+}
+
+#desaturation-thrusters.active .inactive-text {
+  display: none;
+}
+
+#desaturation-thrusters.active .active-text {
+  display: inline-block;
+}
+
+.bullet { font: 10px sans-serif; }
+.bullet .marker { stroke: #000; stroke-width: 2px; }
+.bullet .tick line { stroke: #666; stroke-width: .5px; }
+.bullet .range.s0 { fill: #eee; }
+.bullet .range.s1 { fill: #ddd; }
+.bullet .range.s2 { fill: #ccc; }
+.bullet .measure.s0 { fill: lightsteelblue; }
+.bullet .measure.s1 { fill: steelblue; }
+.bullet .title { font-size: 14px; font-weight: bold; }
+.bullet .subtitle { fill: #999; }
+
+.bullet.attitude {
+  width: 150px;
+  height: 20px;
+}
+
 .sparkline {
   display: inline-block;
   fill: none;
@@ -9,6 +98,7 @@ th {
   stroke-width: 0.5px;
   vertical-align: middle;
 }
+
 
 .sparkline.attitude {
   width: 150px;
@@ -19,6 +109,11 @@ th {
 .sparkcircle {
   fill: #f00;
   stroke: none;
+}
+
+.tristate {
+  display: inline-block;
+  margin-left: 5px;
 }
 
 .value {

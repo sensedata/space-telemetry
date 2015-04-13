@@ -24,17 +24,23 @@
             <div class="col-sm-4">
               <div class="row">
                 <div class="col-sm-12">
-                  <span id="attitude-alarm-iss" data-record="USLAB000042" class="alarm-symbol"></span>
-                  Station
-                  <span id="station-attitude-control-history" data-record="USLAB000042"></span>
+                  <div class="alarm-container">
+                    <span class="alarm-symbol-container">
+                      <span class="alarm-label">Station</span>
+                      <span id="attitude-alarm-iss" data-record="USLAB000042" class="alarm-symbol"></span>
+                    </span>
+                    <span id="attitude-control-history-iss" class="tristate" data-record="USLAB000042"></span>
+                  </div>
                 </div>
               </div>
 
               <div class="row">
                 <div class="col-sm-12">
-                  <span id="attitude-alarm-gyro" class="alarm-symbol" data-record="USLAB000041"></span>
-                  Gyro
-                  <span id="gyro-attitude-control-history" data-record="USLAB000041" class="win-lose"></span>
+                  <span class="alarm-symbol-container">
+                    <span class="alarm-label">Gyro</span>
+                    <span id="attitude-alarm-gyro" class="alarm-symbol" data-record="USLAB000041"></span>
+                  </span>
+                  <span id="attitude-control-history-gyro" class="tristate" data-record="USLAB000041"></span>
                 </div>
               </div>
             </div>
@@ -86,7 +92,7 @@
                     <tr>
                       <th></th>
                       <th>Actual (<span id="attitude-actual-source" data-record="SLAB000013"></span>)</th>
-                      <th>Target</th>
+                      <th>Command</th>
                       <th>Error</th>
                       <th>Change (<span id="attitude-change-source" data-record="USLAB000014"></span>)</th>
                       <th>Torque</th>
@@ -105,7 +111,6 @@
                       </td>
 
                       <td>
-                        <span id="attitude-error-alarm-roll" data-record="USLAB000022" class="alarm-symbol"></span>
                         <span id="attitude-error-history-roll" data-record="USLAB000022" class="sparkline attitude"></span>
                         <span id="attitude-error-roll" class="value decimal radians" data-record="USLAB000022"></span>
                       </td>
@@ -132,7 +137,6 @@
                       </td>
 
                       <td>
-                        <span id="attitude-error-alarm-pitch" data-record="USLAB000022" class="alarm-symbol"></span>
                         <span id="attitude-error-history-pitch" data-record="USLAB000022" class="sparkline attitude"></span>
                         <span id="attitude-error-pitch" class="value decimal radians" data-record="USLAB000022"></span>
                       </td>
@@ -160,7 +164,6 @@
                       </td>
 
                       <td>
-                        <span id="attitude-error-alarm-yaw" data-record="USLAB000022" class="alarm-symbol"></span>
                         <span id="attitude-error-history-yaw" data-record="USLAB000022" class="sparkline attitude"></span>
                         <span id="attitude-error-yaw" class="value decimal radians" data-record="USLAB000022"></span>
                       </td>
@@ -183,367 +186,35 @@
               </div>
             </div>
           </div>
+
+          <div class="row">
+            <div class="col-sm-12">
+              <span class="value-label">Momentum</span>
+              <span id="attitude-momentum" class="value newton-meter-second"></span>
+              <span id="attitude-momentum-chart"></span>
+              <span id="desaturation-thrusters">
+                <span class="active-symbol">●</span>
+                Desaturation thrusters
+                <span class="active-text">enabled</span>
+                <span class="inactive-text">inhibited</span>
+              </span>
+              <hr>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sparklines/2.1.2/jquery.sparkline.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
-    <script>
-      var SCALE = 5;
-
-      function sparkline(id, data) {
-        var svg;
-        var current, path, line;
-        var x, y;
-        var height, width;
-
-        if (data.length < 3) {
-          return;
-        }
-
-        dElement = d3.select(id);
-        jElement = $(id);
-
-        jElement.empty();
-        svg = dElement.append("svg");
-        path = svg.append("path");
-        current = svg.append("circle");
-        line = d3.svg.line();
-
-        height = parseInt(jElement.height());
-        width = parseInt(jElement.width());
-
-        x = d3.scale.linear().range([0, width - 2]);
-        y = d3.scale.linear().range([height - 4, 0]);
-
-        x.domain(d3.extent(data, function(d) { return d.t; }));
-        y.domain(d3.extent(data, function(d) { return d.u; }));
-
-        svg.attr("width", width)
-          .attr("height", height)
-          .append("g")
-          .attr("transform", "translate(0, 2)");
-
-        line
-          .x(function(d) { return x(d.t); })
-          .y(function(d) { return y(d.u); });
-
-        path.datum(data)
-           .attr("class", "sparkline")
-           .attr("d", line);
-
-        current.attr("class", "sparkcircle")
-           .attr("cx", x(data[data.length - 1].t))
-           .attr("cy", y(data[data.length - 1].u))
-           .attr("r", 1.5);
-      }
-
-      function radToDeg(rad) {
-        return rad / (Math.PI / 180);
-      }
-
-      function updateAttitudeActual(attitudeActualQ) {
-        var eulers = new THREE.Euler().setFromQuaternion(attitudeActualQ);
-
-        $("#attitude-actual-roll").text(radToDeg(eulers.x).toFixed(SCALE));
-        $("#attitude-actual-pitch").text(radToDeg(eulers.y).toFixed(SCALE));
-        $("#attitude-actual-yaw").text(radToDeg(eulers.z).toFixed(SCALE));
-      }
-
-      function updateAttitudeCommand(attitudeCommandQ) {
-        var eulers = new THREE.Euler().setFromQuaternion(attitudeCommandQ);
-
-        $("#attitude-command-roll").text(radToDeg(eulers.x).toFixed(SCALE));
-        $("#attitude-command-pitch").text(radToDeg(eulers.y).toFixed(SCALE));
-        $("#attitude-command-yaw").text(radToDeg(eulers.z).toFixed(SCALE));
-      }
-
-      function updateChartData(id, data) {
-        var chart;
-        var stored;
-
-        chart = $(id);
-        stored = chart.data("d");
-        if (!stored) {
-          stored = [];
-          chart.data("d", stored);
-        }
-
-        data.forEach(function (datum) {
-          datum.u = parseFloat(datum.u);
-          stored.push(datum);
-
-          if (stored.length > chart.width() / 2) {
-            stored.shift();
-          }
-        });
-
-        sparkline(id, stored);
-      }
-
-
-      function updateGPSState(id, rawState) {
-        switch (rawState) {
-          case "0": status = "Doing position fixes"; break;
-          case "1": status = "SV timing"; break;
-          case "2": status = "Approximate timing"; break;
-          case "3": status = "GPS time"; break;
-          case "4": status = "Need initialization"; break;
-          case "5": status = "GDOP needed"; break;
-          case "6": status = "Bad timing"; break;
-          case "7": status = "No usable satellite"; break;
-          case "8": status = "Track 1 satellite"; break;
-          case "9": status = "Track 2 satellite"; break;
-          case "10": status = "Track 3 satellite"; break;
-          case "11": status = "Bad integrity"; break;
-          case "12": status = "No vel available"; break;
-          case "13": status = "Unusable fix"; break;
-          default: status = "Unknown"; break;
-        }
-
-        $(id).text(rawState + " - " + status);
-      }
-
-
-      $(function() {
-        var attitudeActualQ, attitudeCommandQ;
-        var hourAgo, mostRecent;
-        var socket;
-
-        attitudeActualQ = new THREE.Quaternion();
-        attitudeCommandQ = new THREE.Quaternion();
-
-        hourAgo = moment().subtract(30, "minutes").unix();
-        mostRecent = -1;
-
-        socket = io("https://iss-telemetry-challenge.mybluemix.net");
-
-        socket.on("USLAB000006", function (data) {
-          updateChartData("#attitude-torque-history-roll", data);
-          $("#attitude-torque-roll").text(data[data.length - 1].u.toFixed(SCALE));
-        });
-        socket.emit("USLAB000006", hourAgo);
-
-        socket.on("USLAB000007", function (data) {
-          updateChartData("#attitude-torque-history-pitch", data);
-          $("#attitude-torque-pitch").text(data[data.length - 1].u.toFixed(SCALE));
-        });
-        socket.emit("USLAB000007", hourAgo);
-
-        socket.on("USLAB000008", function (data) {
-          updateChartData("#attitude-torque-history-yaw", data);
-          $("#attitude-torque-yaw").text(data[data.length - 1].u.toFixed(SCALE));
-        });
-        socket.emit("USLAB000008", hourAgo);
-
-        socket.on("USLAB000012", function (data) {
-          var mode;
-          var datum;
-
-          datum = data[data.length - 1];
-
-          switch (datum.u) {
-            case "0": mode = "Default"; break;
-            case "1": mode = "Wait"; break;
-            case "2": mode = "Reserved"; break;
-            case "3": mode = "Standby"; break;
-            case "4": mode = "CMG attitude control"; break;
-            case "5": mode = "CMG thruster assist"; break;
-            case "6": mode = "User data generation"; break;
-            case "7": mode = "Free drift"; break;
-            default: mode = "Unknown";
-          }
-
-          $("#gnc-mode").text(datum.u + " - " + mode);
-        });
-        socket.emit("USLAB000012", mostRecent);
-
-        socket.on("USLAB000013", function (data) {
-          var source;
-          var datum;
-
-          datum = data[data.length - 1];
-
-          switch (datum.u) {
-            case "0": source = "None"; break;
-            case "1": source = "GPS 1"; break;
-            case "2": source = "GPS 2"; break;
-            case "3": source = "Russian"; break;
-            case "4": source = "Ku band"; break;
-            default: source = "Unknown";
-          }
-
-          $("#attitude-actual-source").text(source);
-        });
-        socket.emit("USLAB000013", mostRecent);
-
-        socket.on("USLAB000014", function (data) {
-          var source;
-          var datum;
-
-          datum = data[data.length - 1];
-
-          switch (datum.u) {
-            case "0": source = "None"; break;
-            case "1": source = "RGA 1"; break;
-            case "2": source = "RGA 2"; break;
-            case "3": source = "Russian"; break;
-            default: source = "Unknown";
-          }
-
-          $("#attitude-change-source").text(source);
-        });
-        socket.emit("USLAB000014", mostRecent);
-
-        socket.on("USLAB000016", function (data) {
-          var type;
-          var datum;
-
-          datum = data[data.length - 1];
-
-          switch (datum.u) {
-            case "0": type = "Attitude hold"; break;
-            case "1": type = "Momentum management"; break;
-            default: type = "Unknown";
-          }
-
-          $("#gnc-type").text(datum.u + " - " + type);
-        });
-        socket.emit("USLAB000016", mostRecent);
-
-        socket.on("USLAB000017", function (data) {
-          var datum;
-          var frame;
-
-          datum = data[data.length - 1];
-
-          switch (datum.u) {
-            case "0": frame = "LVLH"; break;
-            case "1": frame = "J2000"; break;
-            case "2": frame = "XPOP"; break;
-            default: frame = "Unknown";
-          }
-
-          $("#gnc-reference-frame").text(datum.u + " - " + frame);
-        });
-        socket.emit("USLAB000017", mostRecent);
-
-        socket.on("USLAB000018", function (data) {
-          attitudeActualQ.x = parseFloat(data[data.length - 1].u);
-          updateAttitudeActual(attitudeActualQ);
-        });
-        socket.emit("USLAB000018", mostRecent);
-
-        socket.on("USLAB000019", function (data) {
-          attitudeActualQ.y = parseFloat(data[data.length - 1].u);
-          updateAttitudeActual(attitudeActualQ);
-        });
-        socket.emit("USLAB000019", mostRecent);
-
-        socket.on("USLAB000020", function (data) {
-          attitudeActualQ.z = parseFloat(data[data.length - 1].u);
-          updateAttitudeActual(attitudeActualQ);
-        });
-        socket.emit("USLAB000020", mostRecent);
-
-        socket.on("USLAB000021", function (data) {
-          attitudeActualQ.w = parseFloat(data[data.length - 1].u);
-          updateAttitudeActual(attitudeActualQ);
-        });
-        socket.emit("USLAB000021", mostRecent);
-
-        socket.on("USLAB000022", function (data) {
-          updateChartData("#attitude-error-history-roll", data);
-          $("#attitude-error-roll").text(data[data.length - 1].u.toFixed(SCALE));
-        });
-        socket.emit("USLAB000022", hourAgo);
-
-        socket.on("USLAB000023", function (data) {
-          updateChartData("#attitude-error-history-pitch", data);
-          $("#attitude-error-pitch").text(data[data.length - 1].u.toFixed(SCALE));
-        });
-        socket.emit("USLAB000023", hourAgo);
-
-        socket.on("USLAB000024", function (data) {
-          updateChartData("#attitude-error-history-yaw", data);
-          $("#attitude-error-yaw").text(data[data.length - 1].u.toFixed(SCALE));
-        });
-        socket.emit("USLAB000024", hourAgo);
-
-        socket.on("USLAB000025", function (data) {
-          updateChartData("#attitude-change-history-roll", data);
-          $("#attitude-change-roll").text(data[data.length - 1].u.toFixed(SCALE));
-        });
-        socket.emit("USLAB000025", hourAgo);
-
-        socket.on("USLAB000026", function (data) {
-          updateChartData("#attitude-change-history-pitch", data);
-          $("#attitude-change-pitch").text(data[data.length - 1].u.toFixed(SCALE));
-        });
-        socket.emit("USLAB000026", hourAgo);
-
-        socket.on("USLAB000027", function (data) {
-          updateChartData("#attitude-change-history-yaw", data);
-          $("#attitude-change-yaw").text(data[data.length - 1].u.toFixed(SCALE));
-        });
-        socket.emit("USLAB000027", hourAgo);
-
-        socket.on("USLAB000028", function (data) {
-          attitudeCommandQ.x = parseFloat(data[data.length - 1].u);
-          updateAttitudeCommand(attitudeCommandQ);
-        });
-        socket.emit("USLAB000028", mostRecent);
-
-        socket.on("USLAB000029", function (data) {
-          attitudeCommandQ.y = parseFloat(data[data.length - 1].u);
-          updateAttitudeCommand(attitudeCommandQ);
-        });
-        socket.emit("USLAB000029", mostRecent);
-
-        socket.on("USLAB000030", function (data) {
-          attitudeCommandQ.z = parseFloat(data[data.length - 1].u);
-          updateAttitudeCommand(attitudeCommandQ);
-        });
-        socket.emit("USLAB000030", mostRecent);
-
-        socket.on("USLAB000031", function (data) {
-          attitudeCommandQ.w = parseFloat(data[data.length - 1].u);
-          updateAttitudeCommand(attitudeCommandQ);
-        });
-        socket.emit("USLAB000031", mostRecent);
-
-        socket.on("USLAB000041", function (data) {
-          $("#attitude-alarm-gryo").toggleClass(
-            "active", (data[data.length - 1].u === "1")
-          );
-        });
-        socket.emit("USLAB000041", mostRecent);
-
-        socket.on("USLAB000042", function (data) {
-          $("#attitude-alarm-iss").toggleClass(
-            "active", (data[data.length - 1].u === "1")
-          );
-        });
-        socket.emit("USLAB000042", mostRecent);
-
-        socket.on("USLAB000043", function (data) {
-          updateGPSState("#gps-state-1", data[data.length - 1].u);
-        });
-        socket.emit("USLAB000043", mostRecent);
-
-        socket.on("USLAB000044", function (data) {
-          updateGPSState("#gps-state-2", data[data.length - 1].u);
-        });
-        socket.emit("USLAB000044", mostRecent);
-
-      });
-  </script>
+    <script src="bullet.js"></script>
+    <script src="main.js"></script>
 
   </body>
 
