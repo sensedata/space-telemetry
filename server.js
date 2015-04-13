@@ -1,7 +1,7 @@
 /*jshint node:true*/
 
 var port = (process.env.VCAP_APP_PORT || process.env.PORT || 6001),
-    host = (process.env.VCAP_APP_HOST || 'localhost');
+    host = (process.env.VCAP_APP_HOST || '0.0.0.0');
     
 // Postgresql database connectivity
 var pg = require('pg');
