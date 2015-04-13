@@ -144,6 +144,7 @@ telemetrySub.addListener({
 
     var u = {n: update.getItemName(), v: update.getValue("Value"), t: Date.now()/1000|0};
 
+    
     pg.connect(psql, function(err, client, done) {
       if (err) {
         return console.error('Error requesting postgres client', err);
@@ -160,7 +161,7 @@ telemetrySub.addListener({
         }
       });
     });
-
+    
     io.emit(u.n, [{u: u.v, t: u.t}]);
   }
 });
@@ -270,16 +271,13 @@ function pruneData() {
         }
         console.log('PRUNING Data END');
         // resubscribe to feeds
-        if(telemetrySub.isSubscribed()) {
-          lsClient.unsubscribe(telemetrySub);
-          setTimeout(function () {
-            
-            if(!telemetrySub.isSubscribed()) {
-              lsClient.subscribe(telemetrySub);
-            }
-            
-          }, 8000);
-        }
+        
+        setTimeout(function () {
+          
+          lsClient.disconnect();
+          setTimeout(function () { lsClient.connect(); }, 5000);
+        
+        }, 5000);
         
       });
   });
