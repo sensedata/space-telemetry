@@ -70,13 +70,24 @@ pg.connect(psql, function(err, client, done) {
     return console.error('Error requesting client', err);
   }
 
-  client.query('create table if not exists data(idx smallint, value double precision, ts timestamp without time zone)',
-  function (err, result) {
-    done();
-    if (err) {
-      return console.error('Error creating table data', err);
-    }
-  });
+  // client.query('drop table if exists data',
+  // function (err, result) {
+  //   if (err) {
+  //     done();
+  //     return console.error('Error dropping table data', err);
+  //   }
+    
+    client.query('create table if not exists data(idx smallint, value double precision, ts timestamp without time zone)',
+    function (err, result) {
+      done();
+      if (err) {
+        return console.error('Error creating table data', err);
+      }
+    });
+    
+  // });
+  
+  
 
 });
 
