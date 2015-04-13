@@ -86,6 +86,29 @@ pg.connect(psql, function(err, client, done) {
 
 });
 
+// Periodically Prune the Data, so the the BlueMix Postgres Instance
+// does not fill up and fail, hopefully
+function pruneData() {
+  pg.connect(psql, function(err, client, done) {
+    if (err) {
+      return console.error('Error requesting client', err);
+    }
+    client.query('delete from data where ts < to_timestamp($1)',
+    [(Date.now()/1000|0) - (3 * 60 * 60)], // 3hrs ago
+      function (err, result) {
+        done();
+        if (err) {
+          return console.error('Error pruning table data', err);
+        }
+      });
+  });
+}
+
+pruneData();
+setInterval(pruneData, (1000 * 60 * 60));  // kick off every hour
+
+///// 
+
 var ddlist = require('./data_dictionary').list;
 
 var ls = require("lightstreamer-client");
