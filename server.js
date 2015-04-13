@@ -47,6 +47,11 @@ if (process.env.VCAP_SERVICES) {
     // property but the pg.js Node.js module expects it to be in the
     // "database" property.
     psql.database = psql.name;
+
+// or Heroku
+} else if (process.env.DATABASE_URL) {
+  psql = process.env.DATABASE_URL;
+
 } else {
     // Specify local Postgresql connection properties here.
     psql = {
