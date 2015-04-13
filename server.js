@@ -1,19 +1,14 @@
 /*jshint node:true*/
 
-//------------------------------------------------------------------------------
-// node.js starter application for Bluemix
-//------------------------------------------------------------------------------
-
+var port = (process.env.VCAP_APP_PORT || process.env.PORT || 6001),
+    host = (process.env.VCAP_APP_HOST || 'localhost');
+    
 // Postgresql database connectivity
 var pg = require('pg');
 
 // This application uses express as it's web server
 // for more info, see: http://expressjs.com
 var express = require('express');
-
-// cfenv provides access to your Cloud Foundry environment
-// for more info, see: https://www.npmjs.com/package/cfenv
-var cfenv = require('cfenv');
 
 // create a new express server
 var app = express();
@@ -26,14 +21,11 @@ var io = require('socket.io')(server);
 // serve the files out of ./public as our main files
 app.use(express.static(__dirname + '/public'));
 
-// get the app environment from Cloud Foundry
-var appEnv = cfenv.getAppEnv();
-
 // start server on the specified port and binding host
-server.listen(appEnv.port, appEnv.bind, function() {
+server.listen(port, host, function() {
 
 	// print a message when the server starts listening
-  console.log("server starting on " + appEnv.url);
+  console.log("server starting on host: " + host + ", port: " + port);
 });
 
 // Postgres confg
