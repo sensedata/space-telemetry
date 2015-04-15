@@ -239,12 +239,17 @@ function updateChartData(sparkId, valueId, data) {
     stored = [];
   }
 
+  var thirty = moment().subtract(30, "minutes").unix();
+
   data.forEach(function (datum) {
     datum.u = parseFloat(datum.u);
-    stored.push(datum);
 
-    if (stored.length > spark.width() / 2) {
-      stored.shift();
+    if (datum.t >= thirty) {
+      stored.push(datum);
+
+      if (stored.length > spark.width() / 2) {
+        stored.shift();
+      }
     }
   });
 
