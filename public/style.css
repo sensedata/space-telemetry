@@ -1,3 +1,55 @@
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 100px;
+}
+
+.jumbotron {
+  padding: 30px 0 10px;
+}
+
+.jumbotron h1{
+  font-size: 32px;
+  text-align: center;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 85px;
+  background-color: #f5f5f5;
+  padding-top: 15px;
+  font-size: 16px;
+}
+
+.legal {
+  font-size: 10px;
+}
+
+
+h1, h2, h3 {
+  margin-top: 0;
+}
+
+h2 {
+  font-size: 20px;
+}
+
+h3 {
+  font-size: 16px;
+}
+
+h4 {
+  font-size: 14px;
+}
+
 th {
   font-weight: normal;
 }
@@ -11,20 +63,21 @@ td, th {
 .alarm-label {
   display: inline-block;
   text-align: right;
-  width: 50px;
+  width: 90px;
 }
 
 .alarm-symbol-container {
   display: inline-block;
   position: relative;
   padding-right: 25px;
+  margin-right: 6px;
 }
 
 .alarm-symbol:before {
   color: "#323832";
   content: "●";
   font-size: 28px;
-  position: absolute; top: -11px; right: 0;
+  position: absolute; top: -10px; right: 0;
 }
 
 .alarm-symbol.active:before {
@@ -33,7 +86,6 @@ td, th {
 }
 
 #attitude-control-history-gyro {
-  margin-top: 20px;
 }
 
 #attitude-momentum {
@@ -44,14 +96,14 @@ td, th {
   display: inline-block;
   margin-left: 10px;
   position: relative; top: 3px;
-  width: 150px;
+  width: 250px;
 }
 
 #desaturation-thrusters {
   color: #666;
   display: inline-block;
   font-weight: normal;
-  margin-left: 75px;
+  margin-left: 15px;
 }
 
 #desaturation-thrusters .active-symbol {
@@ -75,35 +127,140 @@ td, th {
   display: inline-block;
 }
 
-.bullet { font: 10px sans-serif; }
-.bullet .marker { stroke: #000; stroke-width: 2px; }
-.bullet .tick line { stroke: #666; stroke-width: .5px; }
-.bullet .range.s0 { fill: #eee; }
-.bullet .range.s1 { fill: #ddd; }
-.bullet .range.s2 { fill: #ccc; }
-.bullet .measure.s0 { fill: lightsteelblue; }
-.bullet .measure.s1 { fill: steelblue; }
-.bullet .title { font-size: 14px; font-weight: bold; }
-.bullet .subtitle { fill: #999; }
+.container {
+  min-width: 1150px;
+}
+
+#momentum {
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  text-align: center;
+}
+
+.bullet-container {
+  display: inline-block;
+  position: relative; top: 3px;
+  width: 100%;
+}
 
 .bullet.attitude {
   width: 150px;
   height: 20px;
 }
 
-.sparkline {
-  display: inline-block;
-  fill: none;
-  stroke: #000;
-  stroke-width: 0.5px;
-  vertical-align: middle;
+@font-face {
+  font-family: 'iec_unicoderegular';
+  src: url('fonts/Unicode_IEC_symbol.eot');
+  src: url('fonts/Unicode_IEC_symbol.eot?#iefix') format('embedded-opentype'),
+       url('fonts/Unicode_IEC_symbol.woff') format('woff'),
+       url('fonts/Unicode_IEC_symbol.ttf') format('truetype'),
+       url('fonts/Unicode_IEC_symbol.svg#iec_unicoderegular') format('svg');
+  font-weight: normal;
+  font-style: normal;
 }
 
 
-.sparkline.attitude {
+.power-symbol {
+  font-family: 'iec_unicoderegular';
+  position: relative; top: 1.5px;
+}
+
+.attitude.table {
+  margin: 15px 0;
+  width: auto;
+}
+
+.attitude tbody {
+  text-align: right;
+}
+
+.attitude .column-header {
+  width: 70px;
+}
+
+.attitude .column-euler {
+  width: 125px;
+}
+
+.attitude .column-sparkline, .attitude .sparkline {
+  width: 141px;
+}
+
+.attitude .column-sparkline-value {
+  width: 125px;
+}
+
+.table.cmg {
+  width: 245px;
+}
+
+table.cmg td, table.cmg th {
+  border: 1px solid #f2f2f2 !important;
+}
+
+.cmg tbody {
+  text-align: right;
+}
+
+/*.cmg.bullet-container {
+  margin: 0 10px 0 6px;
   width: 150px;
+}*/
+
+.cmg .column-header {
+  width: 100px;
+}
+
+.cmg .column-sparkline-chart {
+  width: 60px;
+}
+
+.cmg .column-sparkline-value {
+  width: 80px;
+}
+
+.on .power-symbol:after {
+  content: "⏽";
+}
+
+.off .power-symbol:after {
+  content: "⭘";
+}
+
+.col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+table.attitude, table.cmg {
+  table-layout: fixed;
+}
+
+table.attitude td, table.attitude th {
+  border: 1px solid #f2f2f2 !important;
+}
+
+table.attitude thead th {
+  text-align: center;
+}
+
+table.attitude tbody th {
+  text-align: right;
+}
+
+.row {
+  margin-right: -5px;
+  margin-left: -5px;
+}
+
+.sparkline {
+  display: block;
+  fill: none;
+  stroke: #333;
+  stroke-width: 0.5px;
+  vertical-align: middle;
   height: 20px;
-  margin-right: 10px;
 }
 
 .sparkcircle {
@@ -111,22 +268,68 @@ td, th {
   stroke: none;
 }
 
+
+.status {
+  color: #999;
+}
+
+.status.off {
+  color: #ccc;
+}
+
+.status.on {
+  color: #333;
+}
+
+.status.unknown {
+  color: red;
+}
+
 .tristate {
   display: inline-block;
-  margin-left: 5px;
+  position: relative; top: 1.5px;
 }
 
 .value {
   font-weight: bold;
+  font-family: Consolas, "Lucida Console", monospace;
+  text-align: right;
 }
 
+.digits {
+  display: inline-block;
+}
+
+.digits.four {
+  width: 34px;
+}
+
+.digits.four.rotations-per-minute {
+  width: 68px;
+}
 
 .value:after {
   font-weight: normal;
 }
 
+.value-column {
+  text-align: right;
+}
+
+.value.amps:after {
+  content: " A";
+}
+
+.value.celsius:after {
+  content: " C";
+}
+
 .value.degrees:after {
   content: " deg";
+}
+
+.value.degrees-per-second:after {
+  content: " deg/s";
 }
 
 .value.newton-meters:after {
@@ -143,5 +346,9 @@ td, th {
 
 .value.radians-per-second:after {
   content: " rad/s"
+}
+
+.value.rotations-per-minute:after {
+  content: " rpm"
 }
 

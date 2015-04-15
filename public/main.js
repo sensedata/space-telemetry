@@ -46,13 +46,12 @@ function bullet(id, data) {
   var datum;
   var points;
 
-  capacity = $(id).data("capacity");
+  capacity = parseFloat($(id).data("capacity"));
 
   datum = data[data.length - 1];
   points = [null, parseFloat(datum.u), capacity * 0.25, capacity * 0.50, capacity * 0.75, capacity];
   points = [capacity * 0.95, parseFloat(datum.u), capacity, capacity * 0.75, capacity * 0.5];
 
-  console.log(points);
   $(id).sparkline(points, {
     type: 'bullet',
     height: '15',
@@ -61,6 +60,60 @@ function bullet(id, data) {
     performanceColor: '#333',
     rangeColors: ["#aaa", '#ddd','#eee'],
     width: 200
+  });
+}
+
+function negativePad(numStr) {
+  return (numStr[0] === "-") ? numStr : " " + numStr;
+}
+
+function zeroPad(num, targetLength) {
+  var numStr;
+  var pad = "";
+  var prefix = "";
+
+  numStr = num.toString();
+  if (numStr[0] === "-") {
+    prefix = "-";
+    numStr = numStr.slice(1);
+  }
+
+  padLength = targetLength - numStr.replace(/\D+/, "").length;
+  for (i = 0; i < padLength; i++) {
+    numStr = "0" + numStr;
+  }
+
+  return prefix + numStr;
+}
+
+function bullet2(valueId, chartId, data, conversion) {
+  var chart;
+  var current;
+  var points;
+  var target;
+
+  chart = $(chartId);
+  value = $(valueId);
+
+  conversion = conversion || 1.0;
+
+  capacity = parseFloat(chart.data("capacity"));
+  current = parseFloat(data[data.length - 1].u) * conversion;
+  target = parseFloat(chart.data("target") || capacity * 0.95);
+  points = [target, current, capacity, capacity * 0.75, capacity * 0.5];
+
+  value.html(negativePad(zeroPad(
+    current.toFixed(value.data("scale")), value.data("precision")
+  )));
+
+  chart.sparkline(points, {
+    type: 'bullet',
+    height: '15',
+    targetWidth: 2,
+    targetColor: '#333',
+    performanceColor: '#333',
+    rangeColors: ["#aaa", '#ddd','#eee'],
+    width: chart.width()
   });
 }
 
@@ -116,9 +169,14 @@ function radToDeg(rad) {
 }
 
 function tristate(id, data) {
+  var container;
+  var maxLength;
   var states;
 
+  container = $(id);
   states = [];
+  maxLength = parseInt(container.data("maxLength"));
+
   data.forEach(function (datum) {
     switch (datum.u) {
       case "0": states.push(1); break;
@@ -127,11 +185,19 @@ function tristate(id, data) {
     }
   });
 
-  for (i = 0; i < 50 - states.length; i++) {
-    states.push(1);
+  while (maxLength > states.length) {
+    states.unshift(1);
   }
 
-  $(id).sparkline(
+  while (maxLength < states.length) {
+    states.shift();
+  }
+
+  states = states.sort(function (a, b) {
+    return a.t - b.t;
+  });
+
+  container.sparkline(
     states, {
       type: 'tristate',
       posBarColor: '#323832',
@@ -146,28 +212,31 @@ function tristate(id, data) {
 function updateAttitudeActual(attitudeActualQ) {
   var eulers = new THREE.Euler().setFromQuaternion(attitudeActualQ);
 
-  $("#attitude-actual-roll").text(radToDeg(eulers.x).toFixed(SCALE));
-  $("#attitude-actual-pitch").text(radToDeg(eulers.y).toFixed(SCALE));
-  $("#attitude-actual-yaw").text(radToDeg(eulers.z).toFixed(SCALE));
+  $("#attitude-actual-roll").html(negativePad(zeroPad(radToDeg(eulers.x).toFixed(3), 6)));
+  $("#attitude-actual-pitch").html(negativePad(zeroPad(radToDeg(eulers.y).toFixed(3), 6)));
+  $("#attitude-actual-yaw").html(negativePad(zeroPad(radToDeg(eulers.z).toFixed(3), 6)));
 }
 
 function updateAttitudeCommand(attitudeCommandQ) {
   var eulers = new THREE.Euler().setFromQuaternion(attitudeCommandQ);
 
-  $("#attitude-command-roll").text(radToDeg(eulers.x).toFixed(SCALE));
-  $("#attitude-command-pitch").text(radToDeg(eulers.y).toFixed(SCALE));
-  $("#attitude-command-yaw").text(radToDeg(eulers.z).toFixed(SCALE));
+  $("#attitude-command-roll").html(negativePad(zeroPad(radToDeg(eulers.x).toFixed(3), 6)));
+  $("#attitude-command-pitch").html(negativePad(zeroPad(radToDeg(eulers.y).toFixed(3), 6)));
+  $("#attitude-command-yaw").html(negativePad(zeroPad(radToDeg(eulers.z).toFixed(3), 6)));
 }
 
 function updateChartData(sparkId, valueId, data) {
+  var current;
   var spark;
   var stored;
+  var value;
 
   spark = $(sparkId);
+  value = $(valueId);
+
   stored = spark.data("d");
   if (!stored) {
     stored = [];
-    spark.data("d", stored);
   }
 
   data.forEach(function (datum) {
@@ -179,10 +248,21 @@ function updateChartData(sparkId, valueId, data) {
     }
   });
 
+  stored = stored.sort(function (a, b) {
+    return a.t - b.t;
+  });
+
   if (stored.length > 0) {
-    $(valueId).text(stored[stored.length - 1].u.toFixed(SCALE));
+    current = stored[stored.length - 1].u;
+
+    value.html(negativePad(zeroPad(
+      current.toFixed(value.data("scale")), value.data("precision")
+    )));
+
     sparkline(sparkId, stored);
   }
+
+  spark.data("d", stored);
 }
 
 function updateGPSState(id, rawState) {
@@ -207,6 +287,21 @@ function updateGPSState(id, rawState) {
   $(id).text(rawState + " - " + status);
 }
 
+function updateStatus(id, data) {
+  var status = data[data.length - 1].u;
+  var target = $(id);
+
+  if (status === "0") {
+    target.removeClass("on").addClass("off").removeClass("unknown");
+
+  } else if (status === "1") {
+    target.addClass("on").removeClass("off").removeClass("unknown");
+
+  } else {
+    target.removeClass("on").removeClass("off").addClass("unknown");
+
+  }
+}
 
 $(function() {
   var attitudeActualQ, attitudeCommandQ;
@@ -220,6 +315,26 @@ $(function() {
   mostRecent = -1;
 
   socket = io();//"https://iss-telemetry-challenge.mybluemix.net");
+
+  socket.on("USLAB000001", function (data) {
+    updateStatus("#cmg-status-1", data);
+  });
+  socket.emit("USLAB000001", mostRecent);
+
+  socket.on("USLAB000002", function (data) {
+    updateStatus("#cmg-status-2", data);
+  });
+  socket.emit("USLAB000002", mostRecent);
+
+  socket.on("USLAB000003", function (data) {
+    updateStatus("#cmg-status-3", data);
+  });
+  socket.emit("USLAB000003", mostRecent);
+
+  socket.on("USLAB000004", function (data) {
+    updateStatus("#cmg-status-4", data);
+  });
+  socket.emit("USLAB000004", mostRecent);
 
   socket.on("USLAB000006", function (data) {
     updateChartData("#attitude-torque-history-roll", "#attitude-torque-roll", data);
@@ -441,7 +556,7 @@ $(function() {
   socket.emit("USLAB000042", hourAgo);
 
   socket.on("USLAB000011", function (data) {
-    $("#desaturation-thrusters").toggleClass("active", data[data.length - 1].u === "1");
+    updateStatus("#desaturation-thrusters", data);
   });
   socket.emit("USLAB000011", mostRecent);
 
@@ -451,9 +566,98 @@ $(function() {
   socket.emit("USLAB000038", mostRecent);
 
   socket.on("USLAB000009", function (data) {
-    $("#attitude-momentum").text(parseFloat(data[data.length - 1].u).toFixed(SCALE));
-    bullet("#attitude-momentum-chart", data);
+    // $("#attitude-momentum").text(parseFloat(data[data.length - 1].u).toFixed(SCALE));
+    bullet2("#attitude-momentum", "#attitude-momentum-chart", data);
   });
-  socket.emit("USLAB000009", hourAgo);
+  socket.emit("USLAB000009", mostRecent);
+
+  socket.on("Z1000009", function (data) {
+    bullet2("#cmg-rpm-1-value", "#cmg-rpm-1-bullet", data);
+  });
+  socket.emit("Z1000009", mostRecent);
+
+  socket.on("Z1000010", function (data) {
+    bullet2("#cmg-rpm-2-value", "#cmg-rpm-2-bullet", data);
+  });
+  socket.emit("Z1000010", mostRecent);
+
+  socket.on("Z1000011", function (data) {
+    bullet2("#cmg-rpm-3-value", "#cmg-rpm-3-bullet", data);
+  });
+  socket.emit("Z1000011", mostRecent);
+
+  socket.on("Z1000012", function (data) {
+    bullet2("#cmg-rpm-4-value", "#cmg-rpm-4-bullet", data);
+  });
+  socket.emit("Z1000012", mostRecent);
+
+  socket.on("Z1000005", function (data) {
+    bullet2("#cmg-amps-1-value", "#cmg-amps-1-bullet", data);
+  });
+  socket.emit("Z1000005", mostRecent);
+
+  socket.on("Z1000006", function (data) {
+    bullet2("#cmg-amps-2-value", "#cmg-amps-2-bullet", data);
+  });
+  socket.emit("Z1000006", mostRecent);
+
+  socket.on("Z1000007", function (data) {
+    bullet2("#cmg-amps-3-value", "#cmg-amps-3-bullet", data);
+  });
+  socket.emit("Z1000007", mostRecent);
+
+  socket.on("Z1000008", function (data) {
+    bullet2("#cmg-amps-4-value", "#cmg-amps-4-bullet", data);
+  });
+  socket.emit("Z1000008", mostRecent);
+
+
+
+  socket.on("USLAB000045", function (data) {
+    updateChartData("#cmg-temp-spin-motor-1-chart", "#cmg-temp-spin-motor-1-value", data);
+  });
+  socket.emit("USLAB000045", hourAgo);
+
+  socket.on("USLAB000046", function (data) {
+    updateChartData("#cmg-temp-spin-motor-2-chart", "#cmg-temp-spin-motor-2-value", data);
+  });
+  socket.emit("USLAB000046", hourAgo);
+
+
+  socket.on("USLAB000047", function (data) {
+    updateChartData("#cmg-temp-spin-motor-3-chart", "#cmg-temp-spin-motor-3-value", data);
+  });
+  socket.emit("USLAB000047", hourAgo);
+
+
+  socket.on("USLAB000048", function (data) {
+    updateChartData("#cmg-temp-spin-motor-4-chart", "#cmg-temp-spin-motor-4-value", data);
+  });
+  socket.emit("USLAB000048", hourAgo);
+
+
+
+  socket.on("USLAB000049", function (data) {
+    updateChartData("#cmg-temp-hall-resolver-1-chart", "#cmg-temp-hall-resolver-1-value", data);
+  });
+  socket.emit("USLAB000049", hourAgo);
+
+  socket.on("USLAB000050", function (data) {
+    updateChartData("#cmg-temp-hall-resolver-2-chart", "#cmg-temp-hall-resolver-2-value", data);
+  });
+  socket.emit("USLAB000050", hourAgo);
+
+
+  socket.on("USLAB000051", function (data) {
+    updateChartData("#cmg-temp-hall-resolver-3-chart", "#cmg-temp-hall-resolver-3-value", data);
+  });
+  socket.emit("USLAB000051", hourAgo);
+
+
+  socket.on("USLAB000052", function (data) {
+    updateChartData("#cmg-temp-hall-resolver-4-chart", "#cmg-temp-hall-resolver-4-value", data);
+  });
+  socket.emit("USLAB000052", hourAgo);
+
 
 });
