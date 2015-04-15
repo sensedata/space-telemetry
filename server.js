@@ -31,17 +31,8 @@ server.listen(port, host, function() {
 // Postgres confg
 var psql;
 
-// are we operating in BlueMix
-if (process.env.VCAP_SERVICES) {
-    var env = JSON.parse(process.env.VCAP_SERVICES);
-    psql = env['postgresql-9.1'][0].credentials;
-    // The Postgresql service returns the database name in the "name"
-    // property but the pg.js Node.js module expects it to be in the
-    // "database" property.
-    psql.database = psql.name;
-
-// or Heroku
-} else if (process.env.DATABASE_URL) {
+// are we operating in BlueMix or Heroku
+if (process.env.DATABASE_URL) {
   psql = process.env.DATABASE_URL;
 
 } else {
@@ -140,23 +131,25 @@ telemetrySub.addListener({
 
     var u = {n: update.getItemName(), v: update.getValue("Value"), t: Date.now()/1000|0};
 
-    pg.connect(psql, function(err, client, done) {
-      if (err) {
-        return console.error('Error requesting postgres client', err);
-      }
-
-      client.query('insert into data (idx, value, ts) values ($1, $2, to_timestamp($3))',
-      [ddhash[u.n], u.v, u.t],
-
-      function(err, result) {
-        done();
-
+    // if we are not in BlueMix add new data
+    if(!process.env.VCAP_APP_PORT) {
+      pg.connect(psql, function(err, client, done) {
         if (err) {
-          return console.error('Error inserting data', err);
+          return console.error('Error requesting postgres client', err);
         }
-      });
-    });
 
+        client.query('insert into data (idx, value, ts) values ($1, $2, to_timestamp($3))',
+        [ddhash[u.n], u.v, u.t],
+
+        function(err, result) {
+          done();
+
+          if (err) {
+            return console.error('Error inserting data', err);
+          }
+        });
+      });
+    }
     io.emit(u.n, [{u: u.v, t: u.t}]);
   }
 });
