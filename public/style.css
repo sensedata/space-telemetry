@@ -60,6 +60,22 @@ td, th {
   vertical-align: middle !important;
 }
 
+.vibration .alarm-symbol:before {
+  top: -25px;
+  color: #eee;
+}
+
+.vibration .active .alarm-symbol:before {
+  color: #ff7f00;
+  top: -19px;
+}
+
+.vibration .alarm-symbol-container {
+  padding-right: 0;
+  margin-right: 0;
+  margin-left: 20px;
+}
+
 .alarm-label {
   display: inline-block;
   text-align: right;
@@ -74,15 +90,17 @@ td, th {
 }
 
 .alarm-symbol:before {
-  color: "#323832";
+  color: #323832;
   content: "●";
   font-size: 28px;
   position: absolute; top: -10px; right: 0;
 }
 
-.alarm-symbol.active:before {
-  color: "#ff7f00";
+.active .alarm-symbol:before {
+  color: #ff7f00;
+  font-size: 20px;
   content: "▲";
+  top: -19px;
 }
 
 #attitude-control-history-gyro {
@@ -197,10 +215,7 @@ td, th {
 
 table.cmg td, table.cmg th {
   border: 1px solid #f2f2f2 !important;
-}
-
-.cmg tbody {
-  text-align: right;
+  text-align: right !important;
 }
 
 /*.cmg.bullet-container {
@@ -334,6 +349,10 @@ table.attitude tbody th {
 
 .value.newton-meters:after {
   content: " N⋅m";
+}
+
+.value.g-force:after {
+  content: " G";
 }
 
 .value.newton-meter-second:after {
