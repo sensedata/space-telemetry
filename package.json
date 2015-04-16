@@ -8,7 +8,8 @@
     "node": "0.10.x"
   },
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "./node_modules/.bin/mocha --reporter spec"
   },
   "dependencies": {
     "express": "4.12.x",
@@ -21,5 +22,9 @@
     "type": "git",
     "url": "https://github.com/sensedata/iss-telemetry-challenge"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^2.2.0",
+    "mocha": "^2.2.4"
+  }
 }
