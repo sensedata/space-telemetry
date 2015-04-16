@@ -1,8 +1,12 @@
 {
-  "name": "ISSTelemetryChallenge",
-  "author": "SenseDataGroup (http://www.sensedata.com/)",
+  "name": "Space-Telemetry-App",
+  "author": "SenseDataGroup <hello@sensedata.com> (http://www.sensedata.com/)",
+  "contributors": [
+    "Matthew Jones <matt@sensedata.com> (http://www.sensedata.com/about/us#matt)"
+    "Yuri Gadow <yuri@sensedata.com> (http://www.sensedata.com/about/us#yuri)"
+  ],
   "version": "0.0.1",
-  "description": "SenseData Group Space App Challenge Entry (April 11-12, 2015)",
+  "description": "A view of telementry from space vehicles; so far only the International Space Station.",
   "main": "server.js",
   "engines": {
     "node": "0.10.x"
@@ -20,7 +24,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/sensedata/iss-telemetry-challenge"
+    "url": "https://github.com/sensedata/space-telemetry"
   },
   "license": "MIT",
   "devDependencies": {
