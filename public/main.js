@@ -665,4 +665,46 @@ $(function() {
   socket.emit("USLAB000052", hourAgo);
 
 
+
+  socket.on("Z1000001", function (data) {
+    var alarm;
+
+    alarm = parseFloat(data[data.length - 1].u) >= 0.15;
+    $("#cmg-vibration-1-alarm").toggleClass("active", alarm).toggleClass("inactive", !alarm);
+
+    updateChartData("#cmg-vibration-1-chart", "#cmg-vibration-1-value", data);
+  });
+  socket.emit("Z1000001", hourAgo);
+
+  socket.on("Z1000002", function (data) {
+    var alarm;
+
+    alarm = parseFloat(data[data.length - 1].u) >= 0.15;
+    $("#cmg-vibration-2-alarm").toggleClass("active", alarm).toggleClass("inactive", !alarm);
+
+    updateChartData("#cmg-vibration-2-chart", "#cmg-vibration-2-value", data);
+  });
+  socket.emit("Z1000002", hourAgo);
+
+  socket.on("Z1000003", function (data) {
+    var alarm;
+
+    alarm = parseFloat(data[data.length - 1].u) >= 0.15;
+    $("#cmg-vibration-3-alarm").toggleClass("active", alarm).toggleClass("inactive", !alarm);
+
+    updateChartData("#cmg-vibration-3-chart", "#cmg-vibration-3-value", data);
+  });
+  socket.emit("Z1000003", hourAgo);
+
+  socket.on("Z1000004", function (data) {
+    var alarm;
+
+    alarm = parseFloat(data[data.length - 1].u) >= 0.15;
+    $("#cmg-vibration-1-alarm").toggleClass("active", alarm).toggleClass("inactive", !alarm);
+
+    updateChartData("#cmg-vibration-4-chart", "#cmg-vibration-4-value", data);
+  });
+  socket.emit("Z1000004", hourAgo);
+
+
 });
