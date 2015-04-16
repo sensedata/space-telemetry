@@ -52,6 +52,8 @@ io.on('connection', function (socket) {
 
     var type = ddlist[i];
 
+    // creating functions within the loop is ok, in this case
+    /* jshint ignore:start */
     (function (type) {
 
       socket.on(type, function (unixtime) {
@@ -87,6 +89,7 @@ io.on('connection', function (socket) {
         }
       });
     })(type);
+    /* jshint ignore:end */
   }
 });
 
