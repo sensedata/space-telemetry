@@ -1,5 +1,7 @@
 /*jshint node:true*/
 
+// The list of data types available to us via LightStreamer
+
 // WARNING!  DO NOT CHANGE THE POSITIONS OF ANY LIST ENTRIES!
 // YOU MAY ADD ENTRIES TO THE END OF THE LIST IF NECESSARY!
 exports.list =

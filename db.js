@@ -4,6 +4,7 @@
 var pg = require('pg');
 
 var utils = require('./utils');
+
 var dataDictionary = require('./data_dictionary');
 
 // Postgres confg
@@ -90,29 +91,3 @@ exports.insertTelemetryData = function (name, value, timestamp) {
     });
   }
 };
-
-// DDL
-
-// // On startup, create the table if it does not exist.
-// pg.connect(psql, function(err, client, done) {
-//   if (err) {
-//     return console.error('Error requesting client', err);
-//   }
-//
-//   client.query('drop table if exists data',
-//   function (err, result) {
-//     if (err) {
-//       done();
-//       return console.error('Error dropping table data', err);
-//     }
-//
-//     client.query('create table if not exists data(idx smallint, value double precision, ts timestamp without time zone)',
-//     function (err, result) {
-//       done();
-//       if (err) {
-//         return console.error('Error creating table data', err);
-//       }
-//     });
-//
-//   });
-// });
