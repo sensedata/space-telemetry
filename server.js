@@ -1,4 +1,5 @@
 /*jshint node:true*/
+/*jshint loopfunc: true */
 
 var port = (process.env.VCAP_APP_PORT || process.env.PORT || 6001),
     host = (process.env.VCAP_APP_HOST || '0.0.0.0');
@@ -53,7 +54,6 @@ io.on('connection', function (socket) {
     var type = ddlist[i];
 
     // creating functions within the loop is ok, in this case
-    /* jshint ignore:start */
     (function (type) {
 
       socket.on(type, function (unixtime) {
@@ -89,7 +89,6 @@ io.on('connection', function (socket) {
         }
       });
     })(type);
-    /* jshint ignore:end */
   }
 });
 

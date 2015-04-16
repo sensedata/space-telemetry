@@ -1,8 +1,8 @@
 /*jshint node:true*/
+/*jshint loopfunc: true */
 
-
-// var socket = require('socket.io-client')('http://0.0.0.0:6001');
-var socket = require('socket.io-client')('https://iss-telemetry-challenge.mybluemix.net');
+var socket = require('socket.io-client')('http://0.0.0.0:6001');
+// var socket = require('socket.io-client')('https://iss-telemetry-challenge.mybluemix.net');
 
 // listen for when a connection is established
 socket.on('connect', function(){
