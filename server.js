@@ -1,6 +1,8 @@
 /*jshint node:true*/
-/*jshint loopfunc: true */
+/*jshint loopfunc:true */
 
+// VCAP_* indicated IBM BlueMix
+// process.env.PORT indicates Heroku
 var port = (process.env.VCAP_APP_PORT || process.env.PORT || 6001),
     host = (process.env.VCAP_APP_HOST || '0.0.0.0');
     
@@ -25,26 +27,28 @@ app.use(express.static(__dirname + '/public'));
 
 // start server on the specified port and binding host
 server.listen(port, host, function() {
-
 	// print a message when the server starts listening
   console.log("server starting on host: " + host + ", port: " + port);
 });
 
+// require lightstreamer AFTER socket.io is configured (race condition here)
 var ls = require('./lightstreamer');
 
 var broadcastStatus = ls.broadcastStatus;
 
+// do some transformation of the data before emitting
 function emitRows(socket, type, rows) {
+  
   socket.emit(type, rows.map(function(v) { return {u: v.value.toString(), t: v.ts.getTime()/1000|0}; }));
 }
 
 io.on('connection', function (socket) {
-  console.log('connection');
-
+  // broacast status to client upon connection
   broadcastStatus();
 
+  // broadcast status when requested
   socket.on('STATUS', function () {
-
+    
     broadcastStatus();
   });
 
@@ -57,8 +61,9 @@ io.on('connection', function (socket) {
     (function (type) {
 
       socket.on(type, function (unixtime) {
-
+        // unixtime of -1 indicates the client wants the latest record available
         if(unixtime === -1) {
+          
           db.selectMostRecentByType(type, function(err, res) {
             
             if (err) { return; }
@@ -67,11 +72,12 @@ io.on('connection', function (socket) {
           });
           
         } else {
-            
+          // get a list of records later than unixtime of a type
           db.selectByTypeUnixtime(type, unixtime, function(err, res) {
 
             if (err) { return; }
-              
+            
+            // if no records found, get the latest
             if (res.rows.length === 0) {
               
               db.selectMostRecentByType(type, function(err, res) {
