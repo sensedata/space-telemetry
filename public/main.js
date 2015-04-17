@@ -1,91 +1,3 @@
-var SCALE = 5;
-
-
-function bulletBroken(id, data) {
-  var width = 200;//jElement.width();
-  var height = 25;//jElement.height();
-  var margin = {top: 5, right: 40, bottom: 20, left: 120};
-
-  var chart = d3.bullet()
-      .width(width)
-      .height(height);
-
-  var bulletData = {
-    "title": "Revenue",
-    "subtitle":"US$, in thousands",
-    "ranges":[150,225,300],
-    "measures":[220,270],
-    "markers":[250]
-  };
-
-  var svg = d3.select(id).selectAll("svg")
-        .data(bulletData)
-      .enter().append("svg")
-        .attr("class", "bullet")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-        .call(chart);
-
-    var title = svg.append("g")
-        .style("text-anchor", "end")
-        .attr("transform", "translate(-6," + height / 2 + ")");
-
-    title.append("text")
-        .attr("class", "title")
-        .text(function(d) { return d.title; });
-
-    title.append("text")
-        .attr("class", "subtitle")
-        .attr("dy", "1em")
-        .text(function(d) { return d.subtitle; });
-}
-
-function bullet(id, data) {
-  var datum;
-  var points;
-
-  capacity = parseFloat($(id).data("capacity"));
-
-  datum = data[data.length - 1];
-  points = [null, parseFloat(datum.u), capacity * 0.25, capacity * 0.50, capacity * 0.75, capacity];
-  points = [capacity * 0.95, parseFloat(datum.u), capacity, capacity * 0.75, capacity * 0.5];
-
-  $(id).sparkline(points, {
-    type: 'bullet',
-    height: '15',
-    targetWidth: 2,
-    targetColor: '#333',
-    performanceColor: '#333',
-    rangeColors: ["#aaa", '#ddd','#eee'],
-    width: 200
-  });
-}
-
-function negativePad(numStr) {
-  return (numStr[0] === "-") ? numStr : " " + numStr;
-}
-
-function zeroPad(num, targetLength) {
-  var numStr;
-  var pad = "";
-  var prefix = "";
-
-  numStr = num.toString();
-  if (numStr[0] === "-") {
-    prefix = "-";
-    numStr = numStr.slice(1);
-  }
-
-  padLength = targetLength - numStr.replace(/\D+/, "").length;
-  for (i = 0; i < padLength; i++) {
-    numStr = "0" + numStr;
-  }
-
-  return prefix + numStr;
-}
-
 function bullet2(valueId, chartId, data, conversion) {
   var chart;
   var current;
@@ -126,6 +38,11 @@ function sparkline(id, data) {
   if (data.length < 3) {
     return;
   }
+
+  if (id === "#attitude-torque-history-roll") {
+    console.log("original spark", data);
+  }
+
 
   dElement = d3.select(id);
   jElement = $(id);
@@ -264,6 +181,10 @@ function updateChartData(sparkId, valueId, data) {
       current.toFixed(value.data("scale")), value.data("precision")
     )));
 
+    if (sparkId === "#attitude-torque-history-roll") {
+      console.log("old", stored.map(function (s) { return s.t; }));
+    }
+
     sparkline(sparkId, stored);
   }
 
@@ -308,7 +229,28 @@ function updateStatus(id, data) {
   }
 }
 
+var frequency;
+var telemetry;
+var time;
+
+function updateFromCrossFilter(recordKeys) {
+  var charts;
+
+  for (i = 0; i < arguments.length; i++) {
+    charts = $("span.microchart." + arguments[i]);
+    // FIXME don't make functions in a loop. Or, get a real language.
+    charts.each(function (i, c) {
+      getDataFor(c, drawSparkline);
+    });
+  }
+}
+
 $(function() {
+  frequency = 1;
+  telemetry = crossfilter();
+  time = telemetry.dimension(function (d) { return d.t; });
+  key = telemetry.dimension(function (d) { return d.k; });
+
   var attitudeActualQ, attitudeCommandQ;
   var hourAgo, mostRecent;
   var socket;
@@ -319,7 +261,10 @@ $(function() {
   hourAgo = moment().subtract(30, "minutes").unix();
   mostRecent = -1;
 
-  socket = io();//"https://iss-telemetry-challenge.mybluemix.net");
+  socket = io();
+
+  // Uncomment to test local client code againt the production back end.
+  // socket = io("https://space-telemetry.herokuapp.com");
 
   socket.on("USLAB000001", function (data) {
     updateStatus("#cmg-status-1", data);
@@ -341,9 +286,19 @@ $(function() {
   });
   socket.emit("USLAB000004", mostRecent);
 
+
+
+
   socket.on("USLAB000006", function (data) {
     updateChartData("#attitude-torque-history-roll", "#attitude-torque-roll", data);
+
+    telemetry.add(data.map(function (datum) {
+      return { k: 184, t: datum.t, v: parseFloat(datum.u) };
+    }));
+
+    updateFromCrossFilter("USLAB000006");
   });
+
   socket.emit("USLAB000006", hourAgo);
 
   socket.on("USLAB000007", function (data) {
@@ -571,7 +526,6 @@ $(function() {
   socket.emit("USLAB000038", mostRecent);
 
   socket.on("USLAB000009", function (data) {
-    // $("#attitude-momentum").text(parseFloat(data[data.length - 1].u).toFixed(SCALE));
     bullet2("#attitude-momentum", "#attitude-momentum-chart", data);
   });
   socket.emit("USLAB000009", mostRecent);
