@@ -1,10 +1,16 @@
 /*jshint node:true*/
 
+var _ = require('highland');
+
+var EventEmitter = require('events').EventEmitter;
+
+var emitter = new EventEmitter();
+
+exports.dataStream = _('data', emitter);
+
+exports.statusStream = _('status', emitter);
+
 var ls = require('lightstreamer-client');
-
-var io = require('./server').io;
-
-var db = require('./db');
 
 var ddlist = require('./data_dictionary').list;
 
@@ -15,9 +21,13 @@ var lsClient = new ls.LightstreamerClient("http://push.lightstreamer.com", "ISSL
 var telemetrySub = new ls.Subscription("MERGE", ddlist , ['Value']);
 
 // interpret status based on our connection health with lightstreamer
-var broadcastStatus = exports.broadcastStatus = function () {
+function statusUpdate() {
 
-  var cs = lsClient.getStatus(), c = "DISCONNECTED";
+  var cs = lsClient.getStatus(),
+  
+  c = "DISCONNECTED",
+  
+  isSubscribed = telemetrySub.isSubscribed();
 
   if (cs.indexOf("STALLED") > -1) {
 
@@ -31,16 +41,15 @@ var broadcastStatus = exports.broadcastStatus = function () {
 
     c = "DISCONNECTED";
   }
-
-  io.emit('STATUS', {connection: c, subscription: telemetrySub.isSubscribed()});
-
-  console.log({connection: c, subscription: telemetrySub.isSubscribed()});
-};
+  
+  emitter.emit('status', { connection: c, subscription: isSubscribed });
+}
 
 lsClient.addListener({
+  
   onStatusChange: function (status) {
-    // notifiy clients when our status has changed
-    broadcastStatus();
+
+    statusUpdate();
   }
 });
 
@@ -51,24 +60,20 @@ lsClient.subscribe(telemetrySub);
 telemetrySub.addListener({
 
   onSubscription: function() {
-    // notifiy clients when our status has changed
-    broadcastStatus();
+
+    statusUpdate();
   },
 
   onUnsubscription: function() {
-    // notifiy clients when our status has changed
-    broadcastStatus();
+
+    statusUpdate();
   },
 
   onItemUpdate: function(update) {
-
-    // transform data
-    var n = update.getItemName(),
-    v = update.getValue("Value"),
-    t = Date.now()/1000|0;
-    // persist
-    db.insertTelemetryData(n, v, t);
-    // broacast to listening clients
-    io.emit(n, [{u: v, t: t}]);
+    
+    emitter.emit('data',
+    { n: update.getItemName(),
+      v: update.getValue("Value"),
+      t: Date.now()/1000|0 });
   }
 });

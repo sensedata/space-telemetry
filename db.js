@@ -3,6 +3,8 @@
 // Postgresql database connectivity
 var pg = require('pg');
 
+var ls = require('./lightstreamer');
+
 var utils = require('./utils');
 
 var dataDictionary = require('./data_dictionary');
@@ -67,9 +69,9 @@ exports.selectMostRecentByType = function (type, cb) {
   });
 };
 
-exports.insertTelemetryData = function (name, value, timestamp) {
-  // if we are not in BlueMix add new data
-  // only load data to the production env via Heroku
+
+var dataStream = ls.dataStream.fork().each(function(data) {
+
   if(!utils.isBluemix()) {
     
     pg.connect(psql, function(err, client, done) {
@@ -79,7 +81,7 @@ exports.insertTelemetryData = function (name, value, timestamp) {
       }
 
       client.query('insert into data (idx, value, ts) values ($1, $2, to_timestamp($3))',
-      [dataDictionary.hash[name], value, timestamp],
+      [dataDictionary.hash[data.n], data.v, data.t],
 
       function(err, res) {
         done();
@@ -90,4 +92,13 @@ exports.insertTelemetryData = function (name, value, timestamp) {
       });
     });
   }
-};
+  // console.log(data);
+});
+
+var lastKnownStatus;
+
+var statusStream = ls.statusStream.fork().each(function(status) {
+
+  lastKnownStatus = status;
+  // console.log(status);
+});
