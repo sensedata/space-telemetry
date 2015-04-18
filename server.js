@@ -5,8 +5,6 @@
 // process.env.PORT indicates Heroku
 var port = (process.env.VCAP_APP_PORT || process.env.PORT || 6001),
     host = (process.env.VCAP_APP_HOST || '0.0.0.0');
-    
-var db = require('./db');
 
 var ddlist = require('./data_dictionary').list;
 
@@ -31,10 +29,26 @@ server.listen(port, host, function() {
   console.log("server starting on host: " + host + ", port: " + port);
 });
 
-// require lightstreamer AFTER socket.io is configured (race condition here)
 var ls = require('./lightstreamer');
 
-var broadcastStatus = ls.broadcastStatus;
+var db = require('./db');
+
+var dataStream = ls.dataStream.fork().each(function(data) {
+
+  io.emit(data.n, [ {u: data.v, t: data.t} ]);
+  // console.log(data);
+});
+
+var lastKnownStatus;
+
+var statusStream = ls.statusStream.fork().each(function(status) {
+
+  lastKnownStatus = status;
+  
+  io.emit('STATUS', status);
+  // console.log(status);
+});
+
 
 // do some transformation of the data before emitting
 function emitRows(socket, type, rows) {
@@ -44,12 +58,18 @@ function emitRows(socket, type, rows) {
 
 io.on('connection', function (socket) {
   // broacast status to client upon connection
-  broadcastStatus();
+  if (lastKnownStatus) {
+    
+    io.emit('STATUS', lastKnownStatus);
+  }
 
   // broadcast status when requested
   socket.on('STATUS', function () {
     
-    broadcastStatus();
+    if (lastKnownStatus) {
+      
+      io.emit('STATUS', lastKnownStatus);
+    }
   });
 
   // create a handler for each telemetry type
