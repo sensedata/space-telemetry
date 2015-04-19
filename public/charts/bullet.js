@@ -239,3 +239,45 @@ function bulletWidth(x) {
 }
 
 })();
+
+function drawBulletCharts(key, data) {
+  var jElement = $(".bulletChart." + key);
+  var width = 200;//jElement.width();
+  var height = 25;//jElement.height();
+  var margin = {top: 5, right: 40, bottom: 20, left: 120};
+
+  var chart = d3.bullet()
+      .width(width)
+      .height(height);
+
+  var bulletData = {
+    "title": "Revenue",
+    "subtitle":"US$, in thousands",
+    "ranges":[150,225,300],
+    "measures":[220,270],
+    "markers":[250]
+  };
+
+  var svg = d3.selectAll(jElement.toArray()).selectAll("svg")
+        .data(bulletData)
+      .enter().append("svg")
+        .attr("class", "bullet")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+        .call(chart);
+
+    var title = svg.append("g")
+        .style("text-anchor", "end")
+        .attr("transform", "translate(-6," + height / 2 + ")");
+
+    title.append("text")
+        .attr("class", "title")
+        .text(function(d) { return d.title; });
+
+    title.append("text")
+        .attr("class", "subtitle")
+        .attr("dy", "1em")
+        .text(function(d) { return d.subtitle; });
+}

@@ -1,16 +1,23 @@
-var PIXELS_PER_SAMPLE = 2;
+function addTelemetry(key, data) {
+  var keyPosition;
 
-function getDataFor(chart, callback) {
+  keyPosition = keyIndex[key];
+  telemetry.add(data.map(function (datum) {
+    return { k: keyPosition, t: datum.t, v: parseFloat(datum.u) };
+  }));
+}
+
+function getDataRange(key, chart, callback) {
   var available;
   var timeLimit;
 
-  var filter;
   var reducer;
   var sampler;
 
   var data;
 
   chart = $(chart);
+  resetDimensions();
 
   // Number of data points the chart can handle readably.
   available = Math.floor(chart.width() / PIXELS_PER_SAMPLE);
@@ -19,16 +26,16 @@ function getDataFor(chart, callback) {
   timeLimit = moment().subtract(available * frequency, "seconds").unix();
   timeLimit = moment().subtract(30, "minutes").unix();
 
-  // Reset previous filters
-  time.filterAll();
-
   // Group the
-  sampler = time.group(function (t) {
+  sampler = timeDimension.group(function (t) {
     return t;
   });
 
+  // Only the keyed records
+  keyDimension.filterExact(keyIndex[key]);
+
   // In time window.
-  filter = time.filter(function (t) {
+  timeDimension.filter(function (t) {
     return t >= timeLimit;
   });
 
@@ -59,4 +66,23 @@ function getDataFor(chart, callback) {
   sampler.dispose();
 
   callback(chart, data);
+}
+
+
+function resetDimensions() {
+  keyDimension.filterAll();
+  timeDimension.filterAll();
+}
+
+
+function extractLatest(data) {
+  var mostRecent = data[0];
+
+  data.forEach(function (d) {
+    if (d.t > mostRecent.t) {
+      mostRecent = d;
+    }
+  });
+
+  return mostRecent;
 }
