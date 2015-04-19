@@ -1,38 +1,15 @@
-/* Sticky footer styles
--------------------------------------------------- */
 html {
   position: relative;
   min-height: 100%;
 }
+
 body {
-  /* Margin bottom by footer height */
   margin-bottom: 100px;
 }
 
-.jumbotron {
-  padding: 30px 0 10px;
+dt {
+  font-weight: normal;
 }
-
-.jumbotron h1{
-  font-size: 32px;
-  text-align: center;
-}
-
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  /* Set the fixed height of the footer here */
-  height: 85px;
-  background-color: #f5f5f5;
-  padding-top: 15px;
-  font-size: 16px;
-}
-
-.legal {
-  font-size: 10px;
-}
-
 
 h1, h2, h3 {
   margin-top: 0;
@@ -53,6 +30,72 @@ h4 {
 th {
   font-weight: normal;
 }
+
+
+.dl-horizontal dd {
+  margin-left: 120px;
+}
+
+.dl-horizontal dt {
+  text-align: left;
+  vertical-align: top;
+  width: 120px;
+}
+
+.footer {
+  background-color: #f5f5f5;
+  font-size: 16px;
+  height: 85px; width: 100%;
+  padding-top: 15px;
+  position: absolute; bottom: 0;
+}
+
+.jumbotron {
+  padding: 30px 0 10px;
+}
+
+.jumbotron h1 {
+  font-size: 32px;
+  text-align: center;
+}
+
+
+.legal {
+  font-size: 10px;
+}
+
+.status-symbol.alarm:before {
+  position: relative;
+}
+
+.off .status-symbol.alarm:before {
+  color: #999;
+  content: "●";
+  font-size: 28px;
+  top: -11px;
+}
+
+.on .status-symbol.alarm:before {
+  color: #ff7f00;
+  font-size: 20px;
+  content: "▲";
+  top: 2px;
+}
+
+.tristate-chart {
+  margin-top: 2px;
+  margin-right: 10px;
+}
+
+
+
+
+
+
+
+
+
+
 
 td, th {
   border: none !important;
@@ -87,20 +130,6 @@ td, th {
   position: relative;
   padding-right: 25px;
   margin-right: 6px;
-}
-
-.alarm-symbol:before {
-  color: #323832;
-  content: "●";
-  font-size: 28px;
-  position: absolute; top: -10px; right: 0;
-}
-
-.active .alarm-symbol:before {
-  color: #ff7f00;
-  font-size: 20px;
-  content: "▲";
-  top: -19px;
 }
 
 #attitude-control-history-gyro {
@@ -370,4 +399,3 @@ table.attitude tbody th {
 .value.rotations-per-minute:after {
   content: " rpm"
 }
-
