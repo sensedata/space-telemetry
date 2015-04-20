@@ -25,31 +25,28 @@
           <h2 class="sub-header">Attitude Control</h2>
           <hr>
           <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-3">
               <div class="row">
                 <div class="col-sm-12">
-                  <dl class="dl-horizontal attitude-alarms">
-                    <dt class="status-boolean USLAB000042">
+                  <ul class="attitude-alarms">
+                    <li class="status-boolean USLAB000042">
                       <span class="status-symbol alarm"></span>
                       Station Alarm
-                    </dt>
-                    <dd class="microchart tristate-chart inverse USLAB000042"></dd>
+                    </li>
 
-                    <dt class="status-boolean USLAB000041">
+                    <li class="status-boolean USLAB000041">
                       <span class="status-symbol alarm"></span>
                       Gyro Alarm
-                    </dt>
-
-                    <dd class="microchart tristate-chart inverse USLAB000041"></dd>
-                  </dl>
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>
 
-            <div class="col-sm-3">
+            <div class="col-sm-4">
               <div class="row">
                 <div class="col-sm-12">
-                  <dl>
+                  <dl class="dl-horizontal attitude-settings">
                     <dt>Reference Frame:</dt>
                     <dd class="readout text USLAB000017"></dd>
 
@@ -63,10 +60,10 @@
               </div>
             </div>
 
-            <div class="col-sm-3">
+            <div class="col-sm-4">
               <div class="row">
                 <div class="col-sm-12">
-                  <dl>
+                  <dl class="dl-horizontal attitude-settings">
                     <dt>GPS 1:</dt>
                     <dd class="readout text USLAB000043"></dd>
 
@@ -107,8 +104,8 @@
                 <tbody>
                   <tr>
                     <th>Roll</th>
-                    <td class="readout degrees USLAB000018" data-scale="1"></td>
-                    <td class="readout degrees USLAB000028" data-scale="1"></td>
+                    <td class="readout degrees attitude actual roll" data-scale="1"></td>
+                    <td class="readout degrees attitude command roll" data-scale="1"></td>
                     <td class="microchart sparkline-chart USLAB000022"></td>
                     <td class="readout degrees USLAB000022" data-scale="3"></td>
                     <td class="microchart sparkline-chart USLAB000025"></td>
@@ -119,8 +116,8 @@
 
                   <tr>
                     <th>Pitch</th>
-                    <td class="readout degrees USLAB000019" data-scale="1"></td>
-                    <td class="readout degrees USLAB000029" data-scale="1"></td>
+                    <td class="readout degrees attitude actual pitch" data-scale="1"></td>
+                    <td class="readout degrees attitude command pitch" data-scale="1"></td>
                     <td class="microchart sparkline-chart USLAB000023"></td>
                     <td class="readout degrees USLAB000023" data-scale="3"></td>
                     <td class="microchart sparkline-chart USLAB000026"></td>
@@ -131,8 +128,8 @@
 
                   <tr>
                     <th>Yaw</th>
-                    <td class="readout degrees USLAB000020" data-scale="1"></td>
-                    <td class="readout degrees USLAB000030" data-scale="1"></td>
+                    <td class="readout degrees attitude actual yaw" data-scale="1"></td>
+                    <td class="readout degrees attitude command yaw" data-scale="1"></td>
                     <td class="microchart sparkline-chart USLAB000024"></td>
                     <td class="readout degrees USLAB000024" data-scale="3"></td>
                     <td class="microchart sparkline-chart USLAB000027"></td>
@@ -392,6 +389,7 @@
     <script src="display.js"></script>
     <script src="formatting.js"></script>
     <script src="temp_dd.js"></script>
+    <script src="text.js"></script>
 
     <script src="main.js"></script>
 

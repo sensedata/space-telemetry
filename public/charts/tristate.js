@@ -1,4 +1,4 @@
-function drawTristateCharts(key, data) {
+function drawTristateCharts(key) {
   $(".tristate-chart." + key).each(function (i, c) {
     getDataRange(key, $(c), drawTristateChart);
   });
@@ -14,7 +14,6 @@ function drawTristateChart(chart, data) {
   ticks = Math.floor(chart.width() / (BAR_WIDTH + BAR_PAD));
   invert = (chart.hasClass("inverse")) ? -1 : 1;
 
-  console.log("data", data.map(function (d) { return d.value.v; }));
   data.forEach(function (datum) {
     switch (datum.value.v) {
       case 0: states.push(-1 * invert); break;
