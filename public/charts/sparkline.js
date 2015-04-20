@@ -52,7 +52,7 @@ function drawSparklineJQuery(chart, data) {
   min = Math.min.apply(null, plot);
   max = Math.max.apply(null, plot);
 
-  console.log(chart, min, max, data, plot);
+  // console.log(chart, min, max, data, plot);
 
   chart.sparkline(plot, {
     type: 'line',

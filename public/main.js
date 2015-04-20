@@ -27,7 +27,7 @@ $(function() {
     // CMG statuses
     "USLAB000001", "USLAB000002", "USLAB000003", "USLAB000004",
 
-    // Momentum, desaturation
+    // Momentum and desaturation (see special section below for capacity.)
     "USLAB000009", "USLAB000011",
 
     // GNC settings
@@ -38,6 +38,9 @@ $(function() {
 
     // Attitude command
     // "USLAB000028", "USLAB000029", "USLAB000030", "USLAB000031",
+
+    // Attitude control alarms
+    "USLAB000041", "USLAB000042",
 
     // GPS statuses
     "USLAB000043", "USLAB000044",
@@ -58,9 +61,6 @@ $(function() {
 
     // Attitude change rate
     "USLAB000025", "USLAB000026", "USLAB000027",
-
-    // Attitude control alarms
-    "USLAB000041", "USLAB000042",
 
     // CMG bearing temps
     "USLAB000045", "USLAB000046", "USLAB000047", "USLAB000048",
@@ -96,7 +96,7 @@ $(function() {
   // Special cases
 
   socket.on("USLAB000038", function (data) {
-    $(".bulletChart.USLAB000038").data("capacity", extractLatest("USLAB000038", data).v);
+    $(".bullet-chart.USLAB000038").data("capacity", extractLatest("USLAB000038", data).v);
   });
 
   axes = {

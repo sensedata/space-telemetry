@@ -19,7 +19,7 @@ function drawAttitude(type) {
 }
 
 function drawCharts(key, data) {
-  $("dd.microchart." + key + ", td.microchart." + key).each(function (i, c) {
+  $(".microchart." + key).each(function (i, c) {
     var chart;
     var draw;
 
@@ -85,7 +85,7 @@ function drawStatuses(key, data) {
 
   status = extractLatest(key, data);
 
-  $(".status-boolean." + key).each(function (i, t) {
+  $(".status." + key).each(function (i, t) {
     var target;
     var low, high;
 
