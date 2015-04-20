@@ -240,7 +240,7 @@ function bulletWidth(x) {
 
 })();
 
-function drawBulletChart(jChart, data) {
+function drawBulletD3(jChart, data) {
   var width = 200;//jElement.width();
   var height = 25;//jElement.height();
   var margin = {top: 5, right: 40, bottom: 20, left: 120};
@@ -280,3 +280,26 @@ function drawBulletChart(jChart, data) {
         .attr("dy", "1em")
         .text(function(d) { return d.subtitle; });
 }
+
+function drawBulletjQuery(chart, data) {
+  var capacity;
+  var points;
+
+  capacity = parseFloat(chart.data("capacity"));
+
+  points = [
+    capacity * 0.95, parseFloat(data[0].v), capacity, capacity * 0.75, capacity * 0.5
+  ];
+
+  chart.sparkline(points, {
+    type: 'bullet',
+    height: '15',
+    targetWidth: 2,
+    targetColor: '#333',
+    performanceColor: '#333',
+    rangeColors: ["#aaa", '#ddd','#eee'],
+    width: chart.width()
+  });
+}
+
+var drawBulletChart = drawBulletjQuery;

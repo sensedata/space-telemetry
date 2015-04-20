@@ -105,18 +105,18 @@ th {
   position: relative;
 }
 
-.off .status-symbol.alarm:before {
+.off .status-symbol.alarm:before, .on .off .status-symbol.alarm:before {
   color: #ccc;
   content: "●";
   font-size: 28px;
   top: 4px;
 }
 
-.attitude-alarms .off {
+.status.off, .on .status.off {
   color: #999;
 }
 
-.on .status-symbol.alarm:before {
+.on .status-symbol.alarm:before, .off .on .status-symbol.alarm:before {
   color: #ff7f00;
   font-size: 20px;
   content: "▲";
@@ -173,68 +173,32 @@ td, th {
   margin-right: 6px;
 }
 
-#attitude-control-history-gyro {
+.momentum {
+  text-align: center;
 }
 
-#attitude-momentum {
-  margin-left: 10px;
+.momentum dt {
+  display: inline;
 }
 
-#attitude-momentum-chart {
+.momentum dd {
   display: inline-block;
-  margin-left: 10px;
+  font-weight: normal;
+}
+
+.momentum .bullet-chart {
+  display: inline-block;
+  margin: 0 20px;
   position: relative; top: 3px;
   width: 250px;
 }
 
-#desaturation-thrusters {
-  color: #666;
-  display: inline-block;
-  font-weight: normal;
-  margin-left: 15px;
-}
-
-#desaturation-thrusters .active-symbol {
-  color: #888;
-}
-
-#desaturation-thrusters .active-text {
-  display: none;
-}
-
-#desaturation-thrusters.active {
-  color: #000;
-  font-weight: bold;
-}
-
-#desaturation-thrusters.active .inactive-text {
-  display: none;
-}
-
-#desaturation-thrusters.active .active-text {
-  display: inline-block;
+.momentum .status.off {
+  color: #999;
 }
 
 .container {
   min-width: 1150px;
-}
-
-#momentum {
-  border-bottom: 1px solid #ddd;
-  margin-bottom: 16px;
-  padding-bottom: 16px;
-  text-align: center;
-}
-
-.bullet-container {
-  display: inline-block;
-  position: relative; top: 3px;
-  width: 100%;
-}
-
-.bullet.attitude {
-  width: 150px;
-  height: 20px;
 }
 
 @font-face {
@@ -249,14 +213,14 @@ td, th {
 }
 
 
-.power-symbol {
+.status-symbol.power {
   font-family: 'iec_unicoderegular';
-  position: relative; top: 1.5px;
+  position: relative; top: 0.5px;
 }
 
 .attitude.table {
   margin: 15px 0;
-  width: auto;
+  width: 100%;
 }
 
 .attitude tbody {
@@ -275,11 +239,15 @@ td, th {
   width: 125px;
 }
 
-.table.cmg {
-  width: 245px;
+.cmg .table {
+  width: 100%;
 }
 
-table.cmg td, table.cmg th {
+.cmg h3 {
+  font-weight: normal;
+}
+
+.cmg table td, .cmg table th {
   border: 1px solid #f2f2f2 !important;
   text-align: right !important;
 }
@@ -301,21 +269,17 @@ table.cmg td, table.cmg th {
   width: 80px;
 }
 
-.on .power-symbol:after {
+.on .status-symbol.power:after, .off .on .status-symbol.power:after {
   content: "⏽";
 }
 
-.off .power-symbol:after {
+.off .status-symbol.power:after, .on .off .status-symbol.power:after {
   content: "⭘";
 }
 
 .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
   padding-right: 5px;
   padding-left: 5px;
-}
-
-table.attitude, table.cmg {
-  table-layout: fixed;
 }
 
 table.attitude td, table.attitude th {
