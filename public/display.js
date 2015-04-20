@@ -1,41 +1,66 @@
-function drawCharts(key) {
+function applyMeta(target, datum) {
+  target.attr("data-deviation", datum.d);
+  target.data("meanAge", datum.m);
+  target.data("status", datum.s);
+  target.data("timestamp", datum.t);
+}
+
+function drawAttitude(type) {
+  var axes;
+  var eulers;
+
+  axes = {"x": "roll", "y": "pitch", "z": "yaw"};
+  eulers = new THREE.Euler().setFromQuaternion(attitudes[type]);
+  for (var axis in axes) {
+    $(".attitude." + type + "." + axes[axis]).html(
+      negativePad(zeroPad(radToDeg(eulers[axis]).toFixed(3), 6))
+    );
+  }
+}
+
+function drawCharts(key, data) {
   $("dd.microchart." + key + ", td.microchart." + key).each(function (i, c) {
     var chart;
     var draw;
 
     chart = $(c);
-    if (chart.hasClass("bulletChart")) {
+    if (chart.hasClass("bullet-chart")) {
       draw = drawBulletChart;
 
-    } else if (chart.hasClass("sparklineChart")) {
+    } else if (chart.hasClass("sparkline-chart")) {
       draw = drawSparklineChart;
 
-    } else if (chart.hasClass("tristate")) {
+    } else if (chart.hasClass("tristate-chart")) {
       draw = drawTristateChart;
 
     } else {
       return;
     }
 
-    getDataRange(key, chart, draw);
+    if (data) {
+      draw(chart, clean(key, data));
+
+    } else {
+      getDataRange(key, chart, draw);
+    }
   });
 }
 
 function drawReadouts(key, data) {
   var value;
 
-  $("dd.readout." + key + ", td.readout." + key).each(function (i, r) {
+  $(".readout." + key).each(function (i, r) {
+    var latest;
     var readout;
     var value;
 
     readout = $(r);
-
-    value = extractLatest(data);
+    latest = extractLatest(key, data);
 
     if (readout.hasClass("text")) {
       values = textValues[key];
       if (values) {
-        value = values[value];
+        value = values[latest.v];
       }
 
       if (typeof(value) === "undefined") {
@@ -43,7 +68,7 @@ function drawReadouts(key, data) {
       }
 
     } else {
-      value = value.toFixed(readout.data("scale"));
+      value = latest.v.toFixed(readout.data("scale"));
 
       if (readout.data("zeroPad") === "true") {
         value = zeroPad(value, readout.data("precision"));
@@ -51,58 +76,39 @@ function drawReadouts(key, data) {
     }
 
     readout.html(value);
-
-    // This will be selected by CSS, which can't see into jQuery data.
-    readout.attr("age-deviation", data.d);
+    applyMeta(readout, latest);
   });
 }
 
-function drawBooleanStatuses(key) {
+function drawStatuses(key, data) {
   var status;
 
-  resetDimensions();
+  status = extractLatest(key, data);
 
-  keyDimension.filterExact(keyIndex[key]);
-  status = timeDimension.top(1)[0];
+  $(".status-boolean." + key).each(function (i, t) {
+    var target;
+    var low, high;
 
-  targets = $(".status-boolean." + key);
+    target = $(t);
 
+    // Defaults for binary, i.e., 0 is off, 1 is on.
+    low = parseFloat(target.data("rangeLow")) || 0;
+    high = parseFloat(target.data("rangeHigh")) || 0.1;
 
-  if (key === "USLAB000042") {
-    console.log("bool status", key, status);
-    console.log("targets", targets);
-  }
+    if (typeof(status) === "undefined" || isNaN(status.v)) {
+      target.addClass("off unknown").removeClass("high low on");
 
-  if (typeof(status) === "undefined" || status.v === 0) {
-    targets.removeClass("on").addClass("off").removeClass("unknown");
+    } else if (status.v < low) {
+      target.addClass("on low").removeClass("high off unknown");
 
-  } else if (status.v === 1) {
-    targets.addClass("on").removeClass("off").removeClass("unknown");
+    } else if (status.v > high) {
+      target.addClass("on high").removeClass("low off unknown");
 
-  } else {
-    targets.removeClass("on").removeClass("off").addClass("unknown");
+    } else {
+      target.addClass("off").removeClass("high low on unknown");
 
-  }
-}
+    }
 
-function drawRangeStatuses(key) {
-  var status;
-
-  resetDimensions();
-
-  keyDimension.filterExact(key);
-  status = timeDimension.top(1)[0];
-
-  targets = $("div.status-range." + key);
-
-  if (status === "0") {
-    targets.removeClass("on").addClass("off").removeClass("unknown");
-
-  } else if (status === "1") {
-    targets.addClass("on").removeClass("off").removeClass("unknown");
-
-  } else {
-    targets.removeClass("on").removeClass("off").addClass("unknown");
-
-  }
+    applyMeta(target, status);
+  });
 }

@@ -240,8 +240,7 @@ function bulletWidth(x) {
 
 })();
 
-function drawBulletCharts(key, data) {
-  var jElement = $(".bulletChart." + key);
+function drawBulletChart(jChart, data) {
   var width = 200;//jElement.width();
   var height = 25;//jElement.height();
   var margin = {top: 5, right: 40, bottom: 20, left: 120};
@@ -258,7 +257,7 @@ function drawBulletCharts(key, data) {
     "markers":[250]
   };
 
-  var svg = d3.selectAll(jElement.toArray()).selectAll("svg")
+  var svg = d3.selectAll(jChart.toArray()).selectAll("svg")
         .data(bulletData)
       .enter().append("svg")
         .attr("class", "bullet")
