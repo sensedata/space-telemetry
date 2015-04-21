@@ -23,11 +23,22 @@ $(function() {
   // Uncomment to test local client code againt the production back end.
   // socket = io("https://space-telemetry.herokuapp.com");
 
+
+  // Special cases
+
+  socket.on("USLAB000038", function (data) {
+    $(".bullet-chart.USLAB000038").data("capacity", extractLatest("USLAB000038", data).v);
+  });
+  socket.emit("USLAB000038", -1);
+
+
+  // General cases
+
   var currentOnlyKeys = [
     // CMG statuses
     "USLAB000001", "USLAB000002", "USLAB000003", "USLAB000004",
 
-    // Momentum and desaturation (see special section below for capacity.)
+    // Momentum and desaturation (see special section above for capacity.)
     "USLAB000009", "USLAB000011",
 
     // GNC settings
@@ -91,12 +102,6 @@ $(function() {
     });
 
     socket.emit(key, moment().subtract(frequency * 200, "seconds").unix());
-  });
-
-  // Special cases
-
-  socket.on("USLAB000038", function (data) {
-    $(".bullet-chart.USLAB000038").data("capacity", extractLatest("USLAB000038", data).v);
   });
 
   axes = {
