@@ -8,10 +8,10 @@ socket.on('connect', function(){
   
   console.log('connect');
   
-  socket.emit('AIRLOCK000021', Date.now()/1000|0 - 1000);
+  // socket.emit('AIRLOCK000021', Date.now()/1000|0 - 1000);
   socket.emit('AIRLOCK000021', -1);
   
-  socket.emit('AIRLOCK000049', Date.now()/1000|0 - 1000);
+  // socket.emit('AIRLOCK000049', Date.now()/1000|0 - 1000);
   
   
 });
@@ -30,10 +30,10 @@ socket.on('AIRLOCK000021', function(data){
 
 // listen for AIRLOCK000049 updates
 socket.on('AIRLOCK000049', function(data){
-  
-  data.forEach(function(record) {
-    console.log(JSON.stringify(record));
-  });
+  console.log(data);
+  // data.forEach(function(record) {
+  //   console.log(JSON.stringify(record));
+  // });
   // console.log("AIRLOCK000049: " + JSON.stringify(data));
 });
 
