@@ -284,11 +284,13 @@ function drawBulletD3(jChart, data) {
 function drawBulletjQuery(chart, data) {
   var capacity;
   var points;
+  var target;
 
   capacity = parseFloat(chart.data("capacity"));
-
+  target = parseFloat(chart.data("target")) || capacity * 0.95;
+  
   points = [
-    capacity * 0.95, parseFloat(data[0].v), capacity, capacity * 0.75, capacity * 0.5
+    target, parseFloat(data[0].v), capacity, capacity * 0.75, capacity * 0.5
   ];
 
   chart.sparkline(points, {

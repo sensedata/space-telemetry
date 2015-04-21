@@ -361,6 +361,15 @@ table.attitude tbody th {
   text-align: right;
 }
 
+.readout {
+  font-weight: bold;
+}
+
+.readout:after {
+  font-weight: normal;
+  color: #999;
+}
+
 .readout.amps:after {
   content: " A";
 }
