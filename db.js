@@ -59,7 +59,7 @@ exports.selectMostRecentByType = function (type, cb) {
       return cb(err);
     }
     
-    client.query('select * from data where idx = $1 and ts = (select MAX(ts) from data where idx = $1)',
+    client.query('select * from data where idx = $1 order by ts desc limit 1',
       [dataDictionary.hash[type]],
       function(err, res) {
         
