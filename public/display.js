@@ -1,3 +1,5 @@
+var PIXELS_PER_SAMPLE = 2;
+
 function applyMeta(target, datum) {
   target.attr("data-deviation", datum.d);
   target.data("meanAge", datum.m);
@@ -21,49 +23,58 @@ function drawAttitude(type) {
 function drawCharts(key, data) {
   $(".microchart." + key).each(function (i, c) {
     var chart;
-    var draw;
+    var drawCallback;
+    var maxPoints;
+    var timeLimit;
 
     chart = $(c);
     if (chart.hasClass("bullet-chart")) {
-      draw = drawBulletChart;
+      drawCallback = drawBulletChart;
 
     } else if (chart.hasClass("sparkline-chart")) {
-      draw = drawSparklineChart;
+      drawCallback = drawSparklineChart;
 
     } else if (chart.hasClass("tristate-chart")) {
-      draw = drawTristateChart;
+      drawCallback = drawTristateChart;
 
     } else {
       return;
     }
 
     if (data) {
-      draw(chart, clean(key, data));
+      drawCallback(chart, clean(key, data));
 
     } else {
-      getDataRange(key, chart, draw);
+      // Number of data points the chart can handle readably.
+      maxPoints = Math.floor(chart.width() / PIXELS_PER_SAMPLE);
+
+      // How far back in time the number of available points takes the data.
+      timeLimit = moment().subtract(maxPoints * frequency, "seconds").unix();
+
+      getDataRange(key, timeLimit, maxPoints, chart, drawCallback);
     }
   });
 }
 
 function drawReadouts(key, data) {
-  var value;
 
   $(".readout." + key).each(function (i, r) {
     var latest;
     var readout;
     var value;
+    var values;
 
     readout = $(r);
     latest = extractLatest(key, data);
 
     if (readout.hasClass("text")) {
       values = textValues[key];
+
       if (values) {
         value = values[latest.v];
       }
 
-      if (typeof(value) === "undefined") {
+      if (typeof value === "undefined") {
         value = "Unknown";
       }
 
@@ -95,7 +106,7 @@ function drawStatuses(key, data) {
     low = parseFloat(target.data("rangeLow")) || 0;
     high = parseFloat(target.data("rangeHigh")) || 0.1;
 
-    if (typeof(status) === "undefined" || isNaN(status.v)) {
+    if (typeof status === "undefined" || isNaN(status.v)) {
       target.addClass("off unknown").removeClass("high low on");
 
     } else if (status.v < low) {

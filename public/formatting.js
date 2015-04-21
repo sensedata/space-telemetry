@@ -1,11 +1,10 @@
-
 function negativePad(numStr) {
-  return (numStr[0] === "-") ? numStr : " " + numStr;
+  return numStr[0] === "-" ? numStr : " " + numStr;
 }
 
 function zeroPad(num, targetLength) {
   var numStr;
-  var pad = "";
+  var padLength;
   var prefix = "";
 
   numStr = num.toString();
@@ -15,7 +14,7 @@ function zeroPad(num, targetLength) {
   }
 
   padLength = targetLength - numStr.replace(/\D+/, "").length;
-  for (i = 0; i < padLength; i++) {
+  for (var i = 0; i < padLength; i++) {
     numStr = "0" + numStr;
   }
 

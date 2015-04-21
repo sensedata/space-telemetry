@@ -1,9 +1,3 @@
-function drawTristateCharts(key) {
-  $(".tristate-chart." + key).each(function (i, c) {
-    getDataRange(key, $(c), drawTristateChart);
-  });
-}
-
 function drawTristateChart(chart, data) {
   var BAR_PAD = 2;
   var BAR_WIDTH = 8;
