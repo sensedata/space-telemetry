@@ -108,13 +108,19 @@ $(function() {
     }
   };
 
+  /* jshint loopfunc: true, shadow: false */
   for (var type in axes) {
     for (var axis in axes[type]) {
-      socket.on(axes[type][axis], function (data) {
-        attitudes[type][axis] = extractLatest(axes[type][axis], data).v;
-        drawAttitude(type);
-      });
+      (function (type, axis) {
+        socket.on(axes[type][axis], function (data) {
+          attitudes[type][axis] = extractLatest(axes[type][axis], data).v;
+          drawAttitude(type);
+        });
+      })(type, axis);
+
       socket.emit(axes[type][axis], -1);
     }
   }
+  /* jshint loopfunc: false, shadow: true */
+
 });
