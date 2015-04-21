@@ -1,0 +1,27 @@
+{
+  "bitwise": false,
+  "curly": true,
+  "eqeqeq": true,
+  "es3": false,
+  "es5": false,
+  "forin": false,
+  "freeze": true,
+  "funcscope": false,
+  "futurehostile": true,
+  "iterator": false,
+  "latedef": "nofunc",
+  "maxcomplexity": 4,
+  "maxdepth": false,
+  "maxparams": false,
+  "maxstatements": 20,
+  "noarg": true,
+  "nocomma": true,
+  "nonbsp": true,
+  "nonew": true,
+  "shadow": "outer",
+  "singleGroups": true,
+  "undef": true,
+  "unused": "vars",
+
+  "node": true
+}

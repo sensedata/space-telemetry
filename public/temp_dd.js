@@ -1,5 +1,3 @@
-var PIXELS_PER_SAMPLE = 2;
-
 var keyData = [
 "AIRLOCK000001",
 "AIRLOCK000002",

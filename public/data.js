@@ -1,30 +1,13 @@
 function addTelemetry(key, data) {
-  var keyPosition;
-
-  keyPosition = keyIndex[key];
-  telemetry.add(data.map(function (datum) {
-    return { k: keyPosition, t: datum.t, v: parseFloat(datum.u) };
-  }));
+  telemetry.add(clean(key, data));
 }
 
-function getDataRange(key, chart, callback) {
-  var available;
-  var timeLimit;
-
+function getDataRange(key, timeLimit, maxRecords, chart, callback) {
+  var data;
   var reducer;
   var sampler;
 
-  var data;
-
-  chart = $(chart);
   resetDimensions();
-
-  // Number of data points the chart can handle readably.
-  available = Math.floor(chart.width() / PIXELS_PER_SAMPLE);
-
-  // How far back in time the number of available points takes the data.
-  timeLimit = moment().subtract(available * frequency, "seconds").unix();
-  timeLimit = moment().subtract(30, "minutes").unix();
 
   // Group the
   sampler = timeDimension.group(function (t) {
@@ -68,7 +51,7 @@ function getDataRange(key, chart, callback) {
 
   sampler.order(function (s) { return s.t; });
 
-  data = sampler.top(available).map(function (d) { return d.value; });
+  data = sampler.top(maxRecords).map(function (d) { return d.value; });
   sampler.dispose();
 
   callback(chart, data);
@@ -79,7 +62,7 @@ function clean(key, data) {
   var stripped;
 
   stripped = data.filter(function (d) {
-    return d && typeof(d.u) !== "undefined" && !isNaN(parseFloat(d.u));
+    return d && typeof d.u !== "undefined" && !isNaN(parseFloat(d.u));
   });
 
   cleaned = stripped.map(function (d) {
@@ -96,7 +79,7 @@ function extractLatest(key, data) {
     mostRecent = data[0];
 
     data.forEach(function (d) {
-      if (d.t > mostRecent.t) {
+      if (typeof mostRecent === "undefined" || d.t > mostRecent.t) {
         mostRecent = d;
       }
     });
