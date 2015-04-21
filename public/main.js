@@ -69,7 +69,7 @@ $(function() {
     "USLAB000049", "USLAB000050", "USLAB000051", "USLAB000052",
 
     // CMG vibration
-    "Z1000001", "Z1000002", "Z1000003", "Z1000001"
+    "Z1000001", "Z1000002", "Z1000003", "Z1000004"
   ];
 
   currentOnlyKeys.forEach(function (key) {
