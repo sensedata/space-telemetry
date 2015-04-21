@@ -90,7 +90,7 @@ $(function() {
       drawStatuses(key);
     });
 
-    socket.emit(key, moment().subtract(frequency * 100).unix());
+    socket.emit(key, moment().subtract(frequency * 200, "seconds").unix());
   });
 
   // Special cases
