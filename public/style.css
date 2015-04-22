@@ -1,12 +1,3 @@
-html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-  margin-bottom: 100px;
-}
-
 dd {
   font-weight: bold;
 }
@@ -19,21 +10,76 @@ h1, h2, h3 {
   margin-top: 0;
 }
 
+
 h2 {
   font-size: 20px;
 }
 
 h3 {
-  font-size: 16px;
+  font-size: 14px;
 }
 
 h4 {
-  font-size: 14px;
+  font-size: 12px;
+}
+
+body {
+  font-size: 12px;
+}
+
+@media (min-width: 1200px) {
+  h2 {
+    font-size: 20px;
+  }
+
+  h3 {
+    font-size: 16px;
+  }
+
+  h4 {
+    font-size: 14px;
+  }
+
+  body {
+    font-size: 14px;
+  }
 }
 
 th {
   font-weight: normal;
 }
+
+
+.attitude-alarms {
+  list-style: none;
+  margin: 15px 0 0 0;
+  padding-left: 0;
+}
+
+.attitude-alarms li {
+  margin-top: 5px;
+}
+
+
+@media (min-width: 922px) {
+  .attitude-alarms {
+    margin: 0 0 15px 0;
+  }
+
+  .attitude-alarms-col {
+    margin-bottom: 0;
+  }
+
+  .attitude-alarms-col {
+    margin-bottom: -15px;
+  }
+
+  .attitude-header {
+    margin: 0;
+    position: relative; top: 10px;
+  }
+}
+
 
 
 .dl-horizontal dd {
@@ -42,18 +88,28 @@ th {
 
 .dl-horizontal dt {
   text-align: left;
+  margin-top: 0.5px;
   vertical-align: top;
   width: 120px;
 }
 
-.dl-horizontal.attitude-alarms dt, .dl-horizontal.attitude-alarms dd {
-  margin-top: 5px;
-}
-
 .dl-horizontal.attitude-settings dt, .dl-horizontal.attitude-settings dd {
   float: left;
-  margin-top: 5px;
   width: auto;
+}
+
+@media (min-width: 922px) {
+  .dl-horizontal.attitude-settings dt {
+    margin-top: 5.5px;
+  }
+
+  .dl-horizontal.attitude-settings.gps dt {
+    margin-top: 6px;
+  }
+
+  .dl-horizontal.attitude-settings dd {
+    margin-top: 5px;
+  }
 }
 
 .dl-horizontal.attitude-settings dt {
@@ -64,13 +120,14 @@ th {
   margin-left: 10px;
 }
 
-.attitude-alarms {
-  list-style: none;
-  padding-left: 0;
+hr {
+  margin: 15px 0 -10px;
 }
 
-.attitude-alarms li {
-  margin-top: 5px;
+@media (min-width: 768px) {
+  hr {
+    margin: 10px 0 15px;
+  }
 }
 
 .attitude .sparkline-chart {
@@ -78,12 +135,67 @@ th {
 }
 
 
+html {
+  position: relative;
+  min-height: 100%;
+}
+
 .footer {
   background-color: #f5f5f5;
-  font-size: 16px;
-  height: 85px; width: 100%;
+  font-size: 14px;
+  height: auto; width: 100%;
   padding-top: 15px;
-  position: absolute; bottom: 0;
+}
+
+.touch .footer {
+  line-height: 1.75;
+}
+
+.touch .legal {
+  font-size: 12px;
+  line-height: 2.2;
+  margin-top: 15x;
+}
+
+@media (min-width: 768px) {
+  .footer {
+    height: 110px;
+    position: absolute; bottom: 0;
+  }
+
+  .has-footer {
+    margin-bottom: 125px;
+  }
+
+}
+
+@media (min-width: 992px) {
+  .footer {
+    height: 110px;
+  }
+
+  .has-footer {
+    margin-bottom: 110px;
+  }
+
+  .touch .footer {
+    height: 175px;
+  }
+
+  .touch .has-footer {
+    margin-bottom: 175px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .footer {
+    font-size: 16px;
+    height: 85px;
+  }
+
+  .has-footer {
+    margin-bottom: 100px;
+  }
 }
 
 .jumbotron {
@@ -91,8 +203,14 @@ th {
 }
 
 .jumbotron h1 {
-  font-size: 32px;
+  font-size: 26px;
   text-align: center;
+}
+
+@media (min-width: 768px) {
+  .jumbotron h1 {
+    font-size: 32px;
+  }
 }
 
 
@@ -114,6 +232,22 @@ th {
 
 .status.off, .on .status.off {
   color: #999;
+}
+
+.status.off .text-off, .on .status.off .text-off {
+  display: inline;
+}
+
+.status.off .on-text, .on .status.off .on-text {
+  display: none;
+}
+
+.status.on .text-off, .off .status.on .text-off {
+  display: none;
+}
+
+.status.on .on-text, .off .status.on .on-text {
+  display: inline;
 }
 
 .on .status-symbol.alarm:before, .off .on .status-symbol.alarm:before {
@@ -186,19 +320,37 @@ td, th {
   font-weight: normal;
 }
 
-.momentum .bullet-chart {
-  display: inline-block;
-  margin: 0 20px;
-  position: relative; top: 3px;
-  width: 250px;
+.row.momentum {
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+.momentum-readout-col {
+  margin-bottom: -20px;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .momentum {
+    text-align: left;
+  }
+
+  .momentum .bullet-chart {
+    padding-top: 0.5px;
+  }
+
+  .momentum-readout-col {
+    margin-bottom: 0;
+    text-align: right;
+  }
+
+  .row.momentum {
+    margin-bottom: 15px;
+  }
 }
 
 .momentum .status.off {
   color: #999;
-}
-
-.container {
-  min-width: 1150px;
 }
 
 @font-face {
@@ -318,12 +470,8 @@ table.attitude tbody th {
   color: #999;
 }
 
-.status.off {
-  color: #ccc;
-}
-
 .status.on {
-  color: #333;
+  color: black;
 }
 
 .status.unknown {
