@@ -128,4 +128,14 @@ $(function() {
   }
   /* jshint loopfunc: false, shadow: true */
 
+  window.onresize = function () {
+    // Delay redrawing else jQuery won't always get new values for chart
+    // container widths.
+    setTimeout(function () {
+      historyKeys.forEach(function (k) {
+        drawCharts(k);
+      });
+    }, 500
+  );
+  };
 });

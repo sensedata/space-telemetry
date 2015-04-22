@@ -288,10 +288,12 @@ function drawBulletjQuery(chart, data) {
 
   capacity = parseFloat(chart.data("capacity"));
   target = parseFloat(chart.data("target")) || capacity * 0.95;
-  
+
   points = [
     target, parseFloat(data[0].v), capacity, capacity * 0.75, capacity * 0.5
   ];
+
+  chart.empty();
 
   chart.sparkline(points, {
     type: 'bullet',

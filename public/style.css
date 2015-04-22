@@ -223,6 +223,19 @@ html {
   position: relative;
 }
 
+.attitude-tables>div:first-child th:first-child {
+  display: table-cell;
+}
+
+.attitude-tables>div {
+  padding: 0;
+}
+
+
+.attitude-tables th:first-child {
+  display: none;
+}
+
 .off .status-symbol.alarm:before, .on .off .status-symbol.alarm:before {
   color: #ccc;
   content: "●";
@@ -384,15 +397,21 @@ td, th {
 }
 
 .attitude .column-euler {
-  width: 125px;
+  width: 165px;
 }
 
 .attitude .column-sparkline-value {
-  width: 125px;
+  width: 165px;
 }
 
+.cmg {
+  text-align: center;
+}
 .cmg .table {
-  width: 100%;
+  width: 277px;
+  table-layout: fixed;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .cmg h3 {
@@ -410,11 +429,17 @@ td, th {
 }*/
 
 .cmg .column-header {
-  width: 100px;
+  width: 80px;
+}
+
+@media (min-width: 768px) {
+  .cmg .column-header {
+    width: 100px;
+  }
 }
 
 .cmg .column-sparkline-chart {
-  width: 60px;
+  min-width: 60px;
 }
 
 .cmg .column-sparkline-value {

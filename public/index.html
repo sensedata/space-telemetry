@@ -42,7 +42,7 @@
           </div>
           <hr>
           <div class="row">
-            <div class="col-sm-3">
+            <div class="col-sm-4">
               <div class="row">
                 <div class="col-sm-12">
                   <dl class="dl-horizontal attitude-settings">
@@ -59,7 +59,7 @@
               </div>
             </div>
 
-            <div class="col-sm-7">
+            <div class="col-sm-6">
               <div class="row">
                 <div class="col-sm-12">
                   <dl class="dl-horizontal attitude-settings gps">
@@ -74,20 +74,14 @@
             </div>
           </div>
 
-          <div class="row">
-            <div class="col-sm-12">
-              <div class="responsive-table">
+          <div class="row attitude-tables">
+            <div class="col-sm-3">
+              <div class="xresponsive-table">
                 <table class="table attitude">
                   <colgroup>
                     <col class="column-header">
                     <col class="column-euler">
                     <col class="column-euler">
-                    <col class="column-sparkline">
-                    <col class="column-sparkline-value">
-                    <col class="column-sparkline">
-                    <col class="column-sparkline-value">
-                    <col class="column-sparkline">
-                    <col class="column-sparkline-value">
                   </colgroup>
 
                   <thead>
@@ -95,9 +89,6 @@
                       <th></th>
                       <th>LVLH Actual<!-- (<span id="attitude-actual-source" data-record="SLAB000013"></span>)--></th>
                       <th>Command</th>
-                      <th colspan="2">Error</th>
-                      <th colspan="2">Rate of Change<!-- (<span id="attitude-change-source" data-record="USLAB000014"></span>)--></th>
-                      <th colspan="2">Command Torque</th>
                     </tr>
                   </thead>
 
@@ -106,34 +97,130 @@
                       <th>Roll</th>
                       <td class="readout degrees attitude actual roll" data-scale="1"></td>
                       <td class="readout degrees attitude command roll" data-scale="1"></td>
-                      <td class="microchart sparkline-chart USLAB000022"></td>
-                      <td class="readout degrees USLAB000022" data-scale="3"></td>
-                      <td class="microchart sparkline-chart USLAB000025"></td>
-                      <td class="readout degrees-per-second USLAB000025" data-scale="3"></td>
-                      <td class="microchart sparkline-chart USLAB000006"></td>
-                      <td class="readout newton-meters USLAB000006" data-scale="3"></td>
                     </tr>
 
                     <tr>
                       <th>Pitch</th>
                       <td class="readout degrees attitude actual pitch" data-scale="1"></td>
                       <td class="readout degrees attitude command pitch" data-scale="1"></td>
-                      <td class="microchart sparkline-chart USLAB000023"></td>
-                      <td class="readout degrees USLAB000023" data-scale="3"></td>
-                      <td class="microchart sparkline-chart USLAB000026"></td>
-                      <td class="readout degrees-per-second USLAB000026" data-scale="3"></td>
-                      <td class="microchart sparkline-chart USLAB000007"></td>
-                      <td class="readout newton-meters USLAB000007" data-scale="3"></td>
                     </tr>
 
                     <tr>
                       <th>Yaw</th>
                       <td class="readout degrees attitude actual yaw" data-scale="1"></td>
                       <td class="readout degrees attitude command yaw" data-scale="1"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="xresponsive-table">
+                <table class="table attitude">
+                  <colgroup>
+                    <col class="column-header">
+                    <col class="column-sparkline">
+                    <col class="column-sparkline-value">
+                  </colgroup>
+
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th colspan="2">Error</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <th>Roll</th>
+                      <td class="microchart sparkline-chart USLAB000022"></td>
+                      <td class="readout degrees USLAB000022" data-scale="3"></td>
+                    </tr>
+
+                    <tr>
+                      <th>Pitch</th>
+                      <td class="microchart sparkline-chart USLAB000023"></td>
+                      <td class="readout degrees USLAB000023" data-scale="3"></td>
+                    </tr>
+
+                    <tr>
+                      <th>Yaw</th>
                       <td class="microchart sparkline-chart USLAB000024"></td>
                       <td class="readout degrees USLAB000024" data-scale="3"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="xresponsive-table">
+                <table class="table attitude">
+                  <colgroup>
+                    <col class="column-header">
+                    <col class="column-sparkline">
+                    <col class="column-sparkline-value">
+                  </colgroup>
+
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th colspan="2">Rate of Change<!-- (<span id="attitude-change-source" data-record="USLAB000014"></span>)--></th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <th>Roll</th>
+                      <td class="microchart sparkline-chart USLAB000025"></td>
+                      <td class="readout degrees-per-second USLAB000025" data-scale="3"></td>
+                    </tr>
+
+                    <tr>
+                      <th>Pitch</th>
+                      <td class="microchart sparkline-chart USLAB000026"></td>
+                      <td class="readout degrees-per-second USLAB000026" data-scale="3"></td>
+                    </tr>
+
+                    <tr>
+                      <th>Yaw</th>
                       <td class="microchart sparkline-chart USLAB000027"></td>
                       <td class="readout degrees-per-second USLAB000027" data-scale="3"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="xresponsive-table">
+                <table class="table attitude">
+                  <colgroup>
+                    <col class="column-header">
+                    <col class="column-sparkline">
+                    <col class="column-sparkline-value">
+                  </colgroup>
+
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th colspan="2">Command Torque</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <th>Roll</th>
+                      <td class="microchart sparkline-chart USLAB000006"></td>
+                      <td class="readout newton-meters USLAB000006" data-scale="3"></td>
+                    </tr>
+
+                    <tr>
+                      <th>Pitch</th>
+                      <td class="microchart sparkline-chart USLAB000007"></td>
+                      <td class="readout newton-meters USLAB000007" data-scale="3"></td>
+                    </tr>
+
+                    <tr>
+                      <th>Yaw</th>
                       <td class="microchart sparkline-chart USLAB000008"></td>
                       <td class="readout newton-meters USLAB000008" data-scale="3"></td>
                     </tr>
@@ -165,206 +252,211 @@
           </div>
 
           <div class="row">
-            <div class="col-sm-3 status USLAB000001 cmg">
-              <h3><span class="status-symbol power"></span> Control Moment Gyroscope 1</h3>
-
+            <div class="col-lg-6">
               <div class="row">
-                <div class="col-sm-12">
-                  <table class="table">
-                    <colgroup>
-                      <col class="column-header">
-                      <col class="column-sparkline-chart">
-                      <col class="column-sparkline-value">
-                    </colgroup>
+                <div class="col-sm-6 status USLAB000001 cmg">
+                  <h3><span class="status-symbol power"></span> Control Moment Gyroscope 1</h3>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <table class="table">
+                        <colgroup>
+                          <col class="column-header">
+                          <col class="column-sparkline-chart">
+                          <col class="column-sparkline-value">
+                        </colgroup>
 
-                    <tbody>
-                      <tr>
-                        <td class="readout rotations-per-minute Z1000009" data-scale="0"></td>
-                        <td colspan="2" class="microchart bullet-chart Z1000009" data-capacity="7000" data-target="6600"></td>
-                      </tr>
+                        <tbody>
+                          <tr>
+                            <td class="readout rotations-per-minute Z1000009" data-scale="0"></td>
+                            <td colspan="2" class="microchart bullet-chart Z1000009" data-capacity="7000" data-target="6600"></td>
+                          </tr>
 
-                      <tr>
-                        <td class="readout amps Z1000005" data-scale="3"></td>
-                        <td colspan="2" class="microchart bullet-chart Z1000005" data-capacity="1" data-target="0.6"></td>
-                      </tr>
+                          <tr>
+                            <td class="readout amps Z1000005" data-scale="3"></td>
+                            <td colspan="2" class="microchart bullet-chart Z1000005" data-capacity="1" data-target="0.6"></td>
+                          </tr>
 
-                      <tr>
-                        <th>Hall Resolver</th>
-                        <td class="microchart sparkline-chart USLAB000049"></td>
-                        <td class="readout celsius USLAB000049" data-scale="1"></td>
-                      </tr>
+                          <tr>
+                            <th>Hall Resolver</th>
+                            <td class="microchart sparkline-chart USLAB000049"></td>
+                            <td class="readout celsius USLAB000049" data-scale="1"></td>
+                          </tr>
 
-                      <tr>
-                        <th>Spin Motor</th>
-                        <td class="microchart sparkline-chart USLAB000045"></td>
-                        <td class="readout celsius USLAB000045" data-scale="1"></td>
-                      </tr>
+                          <tr>
+                            <th>Spin Motor</th>
+                            <td class="microchart sparkline-chart USLAB000045"></td>
+                            <td class="readout celsius USLAB000045" data-scale="1"></td>
+                          </tr>
 
-                      <tr>
-                        <th>
-                          Vibration
-                          <span class="status Z1000001" data-max="0.2">
-                            <span class="status-symbol alarm"></span>
-                          </span>
-                        </th>
-                        <td class="microchart sparkline-chart Z1000001"></td>
-                        <td class="readout g-force Z1000001" data-scale="3"></td>
-                      </tr>
-                    </tbody>
-                  </table>
+                          <tr>
+                            <th>
+                              Vibration
+                              <span class="status Z1000001" data-max="0.2">
+                                <span class="status-symbol alarm"></span>
+                              </span>
+                            </th>
+                            <td class="microchart sparkline-chart Z1000001"></td>
+                            <td class="readout g-force Z1000001" data-scale="3"></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-sm-6 status USLAB000002 cmg">
+                  <h3><span class="status-symbol power"></span> Control Moment Gyroscope 2</h3>
+
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <table class="table">
+                        <colgroup>
+                          <col class="column-header">
+                          <col class="column-sparkline-chart">
+                          <col class="column-sparkline-value">
+                        </colgroup>
+
+                        <tbody>
+                          <tr>
+                            <td class="readout rotations-per-minute Z1000010" data-scale="0"></td>
+                            <td colspan="2" class="microchart bullet-chart Z1000010" data-capacity="7000" data-target="6600"></td>
+                          </tr>
+
+                          <tr>
+                            <td class="readout amps Z1000006" data-scale="3"></td>
+                            <td colspan="2" class="microchart bullet-chart Z1000006" data-capacity="1" data-target="0.6"></td>
+                          </tr>
+
+                          <tr>
+                            <th>Hall Resolver</th>
+                            <td class="microchart sparkline-chart USLAB000050"></td>
+                            <td class="readout celsius USLAB000050" data-scale="1"></td>
+                          </tr>
+
+                          <tr>
+                            <th>Spin Motor</th>
+                            <td class="microchart sparkline-chart USLAB000046"></td>
+                            <td class="readout celsius USLAB000046" data-scale="1"></td>
+                          </tr>
+
+                          <tr>
+                            <th>
+                              Vibration
+                              <span class="status Z1000002 off" data-max="0.2">
+                                <span class="status-symbol alarm"></span>
+                              </span>
+                            </th>
+                            <td class="microchart sparkline-chart Z1000002"></td>
+                            <td class="readout g-force Z1000002" data-scale="3"></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div class="col-sm-3 status USLAB000002 cmg">
-              <h3><span class="status-symbol power"></span> Control Moment Gyroscope 2</h3>
+            <div class="col-lg-6">
+              <div class="col-sm-6 status USLAB000003 cmg">
+                <h3><span class="status-symbol power"></span> Control Moment Gyroscope 3</h3>
 
-              <div class="row">
-                <div class="col-sm-12">
-                  <table class="table">
-                    <colgroup>
-                      <col class="column-header">
-                      <col class="column-sparkline-chart">
-                      <col class="column-sparkline-value">
-                    </colgroup>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <table class="table">
+                      <colgroup>
+                        <col class="column-header">
+                        <col class="column-sparkline-chart">
+                        <col class="column-sparkline-value">
+                      </colgroup>
 
-                    <tbody>
-                      <tr>
-                        <td class="readout rotations-per-minute Z1000010" data-scale="0"></td>
-                        <td colspan="2" class="microchart bullet-chart Z1000010" data-capacity="7000" data-target="6600"></td>
-                      </tr>
+                      <tbody>
+                        <tr>
+                          <td class="readout rotations-per-minute Z1000011" data-scale="0"></td>
+                          <td colspan="2" class="microchart bullet-chart Z1000011" data-capacity="7000" data-target="6600"></td>
+                        </tr>
 
-                      <tr>
-                        <td class="readout amps Z1000006" data-scale="3"></td>
-                        <td colspan="2" class="microchart bullet-chart Z1000006" data-capacity="1" data-target="0.6"></td>
-                      </tr>
+                        <tr>
+                          <td class="readout amps Z1000007" data-scale="3"></td>
+                          <td colspan="2" class="microchart bullet-chart Z1000007" data-capacity="1" data-target="0.6"></td>
+                        </tr>
 
-                      <tr>
-                        <th>Hall Resolver</th>
-                        <td class="microchart sparkline-chart USLAB000050"></td>
-                        <td class="readout celsius USLAB000050" data-scale="1"></td>
-                      </tr>
+                        <tr>
+                          <th>Hall Resolver</th>
+                          <td class="microchart sparkline-chart USLAB000051"></td>
+                          <td class="readout celsius USLAB000051" data-scale="1"></td>
+                        </tr>
 
-                      <tr>
-                        <th>Spin Motor</th>
-                        <td class="microchart sparkline-chart USLAB000046"></td>
-                        <td class="readout celsius USLAB000046" data-scale="1"></td>
-                      </tr>
+                        <tr>
+                          <th>Spin Motor</th>
+                          <td class="microchart sparkline-chart USLAB000047"></td>
+                          <td class="readout celsius USLAB000047" data-scale="1"></td>
+                        </tr>
 
-                      <tr>
-                        <th>
-                          Vibration
-                          <span class="status Z1000002 off" data-max="0.2">
-                            <span class="status-symbol alarm"></span>
-                          </span>
-                        </th>
-                        <td class="microchart sparkline-chart Z1000002"></td>
-                        <td class="readout g-force Z1000002" data-scale="3"></td>
-                      </tr>
-                    </tbody>
-                  </table>
+                        <tr>
+                          <th>
+                            Vibration
+                            <span class="status Z1000003 off" data-max="0.2">
+                              <span class="status-symbol alarm"></span>
+                            </span>
+                          </th>
+                          <td class="microchart sparkline-chart Z1000003"></td>
+                          <td class="readout g-force Z1000003" data-scale="3"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div class="col-sm-3 status USLAB000003 cmg">
-              <h3><span class="status-symbol power"></span> Control Moment Gyroscope 3</h3>
+              <div class="col-sm-6 status USLAB000004 cmg">
+                <h3><span class="status-symbol power"></span> Control Moment Gyroscope 4</h3>
 
-              <div class="row">
-                <div class="col-sm-12">
-                  <table class="table">
-                    <colgroup>
-                      <col class="column-header">
-                      <col class="column-sparkline-chart">
-                      <col class="column-sparkline-value">
-                    </colgroup>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <table class="table">
+                      <colgroup>
+                        <col class="column-header">
+                        <col class="column-sparkline-chart">
+                        <col class="column-sparkline-value">
+                      </colgroup>
 
-                    <tbody>
-                      <tr>
-                        <td class="readout rotations-per-minute Z1000011" data-scale="0"></td>
-                        <td colspan="2" class="microchart bullet-chart Z1000011" data-capacity="7000" data-target="6600"></td>
-                      </tr>
+                      <tbody>
+                        <tr>
+                          <td class="readout rotations-per-minute Z1000012" data-scale="0"></td>
+                          <td colspan="2" class="microchart bullet-chart Z1000012" data-capacity="7000" data-target="6600"></td>
+                        </tr>
 
-                      <tr>
-                        <td class="readout amps Z1000007" data-scale="3"></td>
-                        <td colspan="2" class="microchart bullet-chart Z1000007" data-capacity="1" data-target="0.6"></td>
-                      </tr>
+                        <tr>
+                          <td class="readout amps Z1000008" data-scale="3"></td>
+                          <td colspan="2" class="microchart bullet-chart Z1000008" data-capacity="1" data-target="0.6"></td>
+                        </tr>
 
-                      <tr>
-                        <th>Hall Resolver</th>
-                        <td class="microchart sparkline-chart USLAB000051"></td>
-                        <td class="readout celsius USLAB000051" data-scale="1"></td>
-                      </tr>
+                        <tr>
+                          <th>Hall Resolver</th>
+                          <td class="microchart sparkline-chart USLAB000052"></td>
+                          <td class="readout celsius USLAB000052" data-scale="1"></td>
+                        </tr>
 
-                      <tr>
-                        <th>Spin Motor</th>
-                        <td class="microchart sparkline-chart USLAB000047"></td>
-                        <td class="readout celsius USLAB000047" data-scale="1"></td>
-                      </tr>
+                        <tr>
+                          <th>Spin Motor</th>
+                          <td class="microchart sparkline-chart USLAB000048"></td>
+                          <td class="readout celsius USLAB000048" data-scale="1"></td>
+                        </tr>
 
-                      <tr>
-                        <th>
-                          Vibration
-                          <span class="status Z1000003 off" data-max="0.2">
-                            <span class="status-symbol alarm"></span>
-                          </span>
-                        </th>
-                        <td class="microchart sparkline-chart Z1000003"></td>
-                        <td class="readout g-force Z1000003" data-scale="3"></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-sm-3 status USLAB000004 cmg">
-              <h3><span class="status-symbol power"></span> Control Moment Gyroscope 4</h3>
-
-              <div class="row">
-                <div class="col-sm-12">
-                  <table class="table">
-                    <colgroup>
-                      <col class="column-header">
-                      <col class="column-sparkline-chart">
-                      <col class="column-sparkline-value">
-                    </colgroup>
-
-                    <tbody>
-                      <tr>
-                        <td class="readout rotations-per-minute Z1000012" data-scale="0"></td>
-                        <td colspan="2" class="microchart bullet-chart Z1000012" data-capacity="7000" data-target="6600"></td>
-                      </tr>
-
-                      <tr>
-                        <td class="readout amps Z1000008" data-scale="3"></td>
-                        <td colspan="2" class="microchart bullet-chart Z1000008" data-capacity="1" data-target="0.6"></td>
-                      </tr>
-
-                      <tr>
-                        <th>Hall Resolver</th>
-                        <td class="microchart sparkline-chart USLAB000052"></td>
-                        <td class="readout celsius USLAB000052" data-scale="1"></td>
-                      </tr>
-
-                      <tr>
-                        <th>Spin Motor</th>
-                        <td class="microchart sparkline-chart USLAB000048"></td>
-                        <td class="readout celsius USLAB000048" data-scale="1"></td>
-                      </tr>
-
-                      <tr>
-                        <th>
-                          Vibration
-                          <span class="status Z1000004 off" data-max="0.2">
-                            <span class="status-symbol alarm"></span>
-                          </span>
-                        </th>
-                        <td class="microchart sparkline-chart Z1000004"></td>
-                        <td class="readout g-force Z1000004" data-scale="3"></td>
-                      </tr>
-                    </tbody>
-                  </table>
+                        <tr>
+                          <th>
+                            Vibration
+                            <span class="status Z1000004 off" data-max="0.2">
+                              <span class="status-symbol alarm"></span>
+                            </span>
+                          </th>
+                          <td class="microchart sparkline-chart Z1000004"></td>
+                          <td class="readout g-force Z1000004" data-scale="3"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
