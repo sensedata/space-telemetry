@@ -88,8 +88,8 @@ $(function() {
   var period = moment().subtract(frequency * 200, "seconds").unix();
 
   allKeys.forEach(function (key) {
-    socket.on(key, function (data) {
-      addTelemetry(key, data);
+    socket.on(keyIndex[key], function (data) {
+      addTelemetry(keyIndex[key], data);
 
       drawCharts(key);
       drawReadouts(key);
@@ -98,11 +98,11 @@ $(function() {
   });
 
   currentOnlyKeys.forEach(function (key) {
-    socket.emit(key, -1);
+    socket.emit(keyIndex[key], -1, 150);
   });
 
   historyKeys.forEach(function (key) {
-    socket.emit(key, period);
+    socket.emit(keyIndex[key], 5000, 150);
   });
 
   axes = {
@@ -118,13 +118,13 @@ $(function() {
   for (var type in axes) {
     for (var axis in axes[type]) {
       (function (type, axis) {
-        socket.on(axes[type][axis], function (data) {
+        socket.on(keyIndex[axes[type][axis]], function (data) {
           attitudes[type][axis] = extractLatest(axes[type][axis], data).v;
           drawAttitude(type);
         });
       })(type, axis);
 
-      socket.emit(axes[type][axis], -1);
+      socket.emit(keyIndex[axes[type][axis]], -1);
     }
   }
   /* jshint loopfunc: false, shadow: true */
