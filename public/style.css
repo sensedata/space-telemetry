@@ -340,6 +340,7 @@ td, th {
 
   .momentum .bullet-chart {
     padding-top: 0.5px;
+    margin: 0;
   }
 
   .momentum-readout-col {
@@ -440,10 +441,6 @@ td, th {
   .attitude-tables .col-md-6, .attitude-tables .col-sm-6, .attitude-tables .row {
     margin: 0;
     padding: 0;
-  }
-
-  .momentum .bullet-chart {
-    margin: 0;
   }
 }
 
