@@ -83,25 +83,26 @@ $(function() {
     "Z1000001", "Z1000002", "Z1000003", "Z1000004"
   ];
 
-  currentOnlyKeys.forEach(function (key) {
-    socket.on(key, function (data) {
-      drawCharts(key, data);
-      drawReadouts(key, data);
-      drawStatuses(key, data);
-    });
+  var allKeys = currentOnlyKeys.concat(historyKeys);
 
-    socket.emit(key, -1);
-  });
+  var period = moment().subtract(frequency * 200, "seconds").unix();
 
-  historyKeys.forEach(function (key) {
+  allKeys.forEach(function (key) {
     socket.on(key, function (data) {
       addTelemetry(key, data);
+
       drawCharts(key);
       drawReadouts(key);
       drawStatuses(key);
     });
+  });
 
-    socket.emit(key, moment().subtract(frequency * 200, "seconds").unix());
+  currentOnlyKeys.forEach(function (key) {
+    socket.emit(key, -1);
+  });
+
+  historyKeys.forEach(function (key) {
+    socket.emit(key, period);
   });
 
   axes = {
@@ -128,14 +129,17 @@ $(function() {
   }
   /* jshint loopfunc: false, shadow: true */
 
-  window.onresize = function () {
+  var redrawAll = function () {
     // Delay redrawing else jQuery won't always get new values for chart
     // container widths.
     setTimeout(function () {
-      historyKeys.forEach(function (k) {
-        drawCharts(k);
+      allKeys.forEach(function (key) {
+        drawCharts(key);
       });
-    }, 500
-  );
+    }, 500);
   };
+
+  ["orientationchange", "resize"].forEach(function (t) {
+    window.addEventListener(t, redrawAll, true);
+  });
 });
