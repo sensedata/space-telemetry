@@ -130,11 +130,6 @@ hr {
   }
 }
 
-.attitude .sparkline-chart {
-  height: 25px; width: 141px;
-}
-
-
 html {
   position: relative;
   min-height: 100%;
@@ -154,7 +149,7 @@ html {
 .touch .legal {
   font-size: 12px;
   line-height: 2.2;
-  margin-top: 15x;
+  margin-top: 15px;
 }
 
 @media (min-width: 768px) {
@@ -223,17 +218,8 @@ html {
   position: relative;
 }
 
-.attitude-tables>div:first-child th:first-child {
-  display: table-cell;
-}
-
 .attitude-tables>div {
   padding: 0;
-}
-
-
-.attitude-tables th:first-child {
-  display: none;
 }
 
 .off .status-symbol.alarm:before, .on .off .status-symbol.alarm:before {
@@ -343,6 +329,10 @@ td, th {
   text-align: center;
 }
 
+.momentum .bullet-chart {
+  margin: 25px 0 5px;
+}
+
 @media (min-width: 768px) {
   .momentum {
     text-align: left;
@@ -372,7 +362,7 @@ td, th {
   src: url('fonts/Unicode_IEC_symbol.eot?#iefix') format('embedded-opentype'),
        url('fonts/Unicode_IEC_symbol.woff') format('woff'),
        url('fonts/Unicode_IEC_symbol.ttf') format('truetype'),
-       url('fonts/Unicode_IEC_symbol.svg#iec_unicoderegular') format('svg');
+       url('fonts/Unicode_IEC_symbol.svg#iec_symbols_unicoderegular') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -384,7 +374,8 @@ td, th {
 }
 
 .attitude.table {
-  margin: 15px 0;
+  margin: 15px auto;
+  table-layout: fixed;
   width: 100%;
 }
 
@@ -393,16 +384,81 @@ td, th {
 }
 
 .attitude .column-header {
-  width: 70px;
+  width: 20%;
 }
 
 .attitude .column-euler {
-  width: 165px;
+  width: 40%;
+}
+
+.attitude .column-sparkline {
+  width: 55%;
 }
 
 .attitude .column-sparkline-value {
-  width: 165px;
+  width: 25%;
 }
+
+.readout {
+  text-align: right;
+  white-space: nowrap;
+}
+
+@media (min-width: 992px) {
+  .attitude.table:not(.first) .column-header {
+    width: 0;
+  }
+
+  .attitude.table {
+    margin: 15px 0;
+  }
+
+  .attitude.table.first {
+    position: relative; left: 4px;
+  }
+
+  .attitude.table.second {
+    position: relative; left: 1px;
+  }
+
+  .attitude.table.third {
+    position: relative; left: -1px;
+  }
+
+  .attitude.table.fourth {
+    position: relative; left: -4px;
+  }
+
+  .attitude .column-sparkline-value {
+    width: 40%;
+  }
+
+  .attitude.table:not(.first) th:first-child {
+    visibility: collapse;
+  }
+
+  .attitude-tables .col-md-6, .attitude-tables .col-sm-6, .attitude-tables .row {
+    margin: 0;
+    padding: 0;
+  }
+
+  .momentum .bullet-chart {
+    margin: 0;
+  }
+}
+
+
+@media (min-width: 1200px) {
+
+  .attitude.table.second {
+    position: relative; left: 2px;
+  }
+
+  .attitude.table.fourth {
+    position: relative; left: -3px;
+  }
+}
+
 
 .cmg {
   text-align: center;
