@@ -1,5 +1,9 @@
 /*jshint node:true*/
 
+var dd = require('./data_dictionary');
+
+console.log(dd.hash.AIRLOCK000049);
+console.log(dd.hash.NODE3000011);
 // connect to a local dev server
 var socket = require('socket.io-client')('http://0.0.0.0:6001');
 
@@ -8,12 +12,16 @@ socket.on('connect', function(){
   
   console.log('connect');
   
-  // socket.emit('AIRLOCK000021', Date.now()/1000|0 - 1000);
-  socket.emit('AIRLOCK000021', -1);
-  
-  // socket.emit('AIRLOCK000049', Date.now()/1000|0 - 1000);
-  
-  
+  // query for AIRLOCK000049 - 5000 seconds ago, 50 records max
+  socket.emit(dd.hash.AIRLOCK000049, 5000, 50);
+  // query for NODE3000011 - 5000 seconds ago, 50 records max
+  socket.emit(dd.hash.NODE3000011, 5000, 50);
+  // query for AIRLOCK000049 - most recent record (seconds ago param must be null)
+  socket.emit(dd.hash.AIRLOCK000049, null, -1);
+  // query for STATUS - 5000 seconds ago, 50 records max
+  socket.emit('STATUS', 5000, 50);
+  // query for STATUS -  most recent record (seconds ago param must be null)
+  socket.emit('STATUS', null, -1);
 });
 
 // listen for feed status
@@ -22,31 +30,16 @@ socket.on('STATUS', function(data){
   console.log("status: " + JSON.stringify(data));
 });
 
-// listen for AIRLOCK000021 updates
-socket.on('AIRLOCK000021', function(data){
-  
-  console.log("AIRLOCK000021: " + JSON.stringify(data));
-});
-
 // listen for AIRLOCK000049 updates
-socket.on('AIRLOCK000049', function(data){
-  console.log(data);
-  // data.forEach(function(record) {
-  //   console.log(JSON.stringify(record));
-  // });
-  // console.log("AIRLOCK000049: " + JSON.stringify(data));
-});
 
-
-// listen for when a connection is lost
-socket.on('disconnect', function() {
+socket.on(dd.hash.AIRLOCK000049, function(data){
   
-  console.log('disconnect');
+  console.log("AIRLOCK000049: " + JSON.stringify(data));
 });
 
-// query for the feed status every 5 seconds
-// setInterval(function () {
-//
-//   socket.emit('STATUS');
-//
-// }, 5000);
+// listen for NODE3000011 updates
+socket.on(dd.hash.NODE3000011, function(data){
+  
+  console.log("NODE3000011: " + JSON.stringify(data));
+});
+

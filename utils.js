@@ -9,3 +9,14 @@ exports.isBluemix = function () {
 exports.isHeroku = function () {
   return !!process.env.PORT;
 };
+
+// return pseudo UUID based on time
+exports.getTimeBasedId = function () {
+  return Date.now();
+};
+
+// return pseudo UUID based on time
+exports.calcStandardDeviationDistance = function (value, avg, stddev) {
+
+  return (value-avg)/stddev;
+};
