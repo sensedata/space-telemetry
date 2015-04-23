@@ -461,7 +461,7 @@ td, th {
   text-align: center;
 }
 .cmg .table {
-  width: 277px;
+  width: 100%;
   table-layout: fixed;
   margin-left: auto;
   margin-right: auto;

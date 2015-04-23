@@ -20,7 +20,7 @@ function drawAttitude(type) {
   }
 }
 
-function drawCharts(key, data) {
+function drawCharts(key) {
   $(".microchart." + key).each(function (i, c) {
     var chart;
     var drawCallback;
@@ -41,22 +41,17 @@ function drawCharts(key, data) {
       return;
     }
 
-    if (data) {
-      drawCallback(chart, clean(key, data));
+    // Number of data points the chart can handle readably.
+    maxPoints = Math.floor(chart.width() / PIXELS_PER_SAMPLE);
 
-    } else {
-      // Number of data points the chart can handle readably.
-      maxPoints = Math.floor(chart.width() / PIXELS_PER_SAMPLE);
+    // How far back in time the number of available points takes the data.
+    timeLimit = moment().subtract(maxPoints * frequency, "seconds").unix();
 
-      // How far back in time the number of available points takes the data.
-      timeLimit = moment().subtract(maxPoints * frequency, "seconds").unix();
-
-      getDataRange(key, timeLimit, maxPoints, chart, drawCallback);
-    }
+    getDataRange(key, timeLimit, maxPoints, chart, drawCallback);
   });
 }
 
-function drawReadouts(key, data) {
+function drawReadouts(key) {
 
   $(".readout." + key).each(function (i, r) {
     var latest;
@@ -65,7 +60,7 @@ function drawReadouts(key, data) {
     var values;
 
     readout = $(r);
-    latest = extractLatest(key, data);
+    latest = extractLatest(key);
 
     if (readout.hasClass("text")) {
       values = textValues[key];
@@ -91,10 +86,10 @@ function drawReadouts(key, data) {
   });
 }
 
-function drawStatuses(key, data) {
+function drawStatuses(key) {
   var status;
 
-  status = extractLatest(key, data);
+  status = extractLatest(key);
 
   $(".status." + key).each(function (i, t) {
     var target;
