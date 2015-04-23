@@ -6,7 +6,7 @@
 var port = (process.env.VCAP_APP_PORT || process.env.PORT || 6001),
     host = (process.env.VCAP_APP_HOST || '0.0.0.0');
 
-var ddlist = require('./data_dictionary').list;
+var dd = require('./data_dictionary');
 
 // This application uses express as it's web server
 // for more info, see: http://expressjs.com
@@ -33,9 +33,32 @@ var ls = require('./lightstreamer');
 
 var db = require('./db');
 
-var dataStream = ls.dataStream.fork().each(function(data) {
+var utils = require('./utils');
 
-  io.emit(data.n, [ {u: data.v, t: data.t} ]);
+var previousIdxTimeHash = {};
+
+var dataStream = ls.dataStream.fork().each(function(data) {
+  
+  db.selectStatsByIdx(data.i, function(err, res) {
+    var avg = 0,
+    stddev = 0,
+    previousTime = previousIdxTimeHash[data.i],
+    sdd = 0;
+    
+    if (err) { return; }
+    
+    if ((res.rows.length > 0) && previousTime) {
+      
+      avg = res.rows[0].a;
+      stddev = res.rows[0].sd;
+      sdd = utils.calcStandardDeviationDistance(data.t - previousTime, avg, stddev);
+    }
+    
+    previousIdxTimeHash[data.i] = data.t;
+    
+    io.emit(data.i, [ {v: data.v, t: data.t, s: data.s, ti_avg: avg, ti_sdd: sdd} ]);
+  });
+  
   // console.log(data);
 });
 
@@ -46,75 +69,95 @@ var statusStream = ls.statusStream.fork().each(function(status) {
   lastKnownStatus = status;
   
   io.emit('STATUS', status);
-  // console.log(status);
+  console.log(status);
 });
 
 
-// do some transformation of the data before emitting
-function emitRows(socket, type, rows) {
+function emitRows(socket, idx, rows) {
   
-  socket.emit(type, rows.map(function(v) { return {u: v.value.toString(), t: v.ts.getTime()/1000|0}; }));
+  var data = rows.map(function(v) { return {v: v.value, t: v.ts.getTime()/1000|0, s: v.status}; }),
+  dataLen = data.length;
+  
+  db.selectStatsByIdx(idx, function(err, res) {
+    var avg = 0,
+    stddev = 0,
+    sdd = 0;
+    
+    if (err) { return; }
+    
+    if ((res.rows.length > 0) && (dataLen > 1)) {
+      
+      avg = res.rows[0].a;
+      stddev = res.rows[0].sd;
+      sdd = utils.calcStandardDeviationDistance(data[dataLen-1].t - data[dataLen-2].t, avg, stddev);
+    }
+
+    data[dataLen-1].ti_avg = avg;
+    data[dataLen-1].ti_sdd = sdd;
+    
+    socket.emit(idx, data);    
+  });
 }
 
 io.on('connection', function (socket) {
   // broacast status to client upon connection
   if (lastKnownStatus) {
     
-    io.emit('STATUS', lastKnownStatus);
+    socket.emit('STATUS', lastKnownStatus);
   }
 
   // broadcast status when requested
-  socket.on('STATUS', function () {
+  socket.on('STATUS', function (intervalAgo, count) {
     
-    if (lastKnownStatus) {
+    db.selectStatusesByIntervalAgoCount(intervalAgo, count, function(err, res) {
       
-      io.emit('STATUS', lastKnownStatus);
-    }
+      if (err) { return; }
+
+      socket.emit('STATUS', res.rows.map(function(v) { return {c: v.connected, t: v.ts.getTime()/1000|0}; }));
+    });
   });
 
   // create a handler for each telemetry type
-  for(var i = 0, l = ddlist.length; i<l; i++) {
-
-    var type = ddlist[i];
+  for(var i = 0, l = dd.list.length; i<l; i++) {
 
     // creating functions within the loop is ok, in this case
-    (function (type) {
+    (function (idx) {
 
-      socket.on(type, function (unixtime) {
+      socket.on(idx, function (intervalAgo, count) {
         // unixtime of -1 indicates the client wants the latest record available
-        if(unixtime === -1) {
-          
-          db.selectMostRecentByType(type, function(err, res) {
-            
-            if (err) { return; }
-            
-            emitRows(socket, type, res.rows);
-          });
-          
-        } else {
-          // get a list of records later than unixtime of a type
-          db.selectByTypeUnixtime(type, unixtime, function(err, res) {
+        if(count === -1) {
+
+          db.selectMostRecentByIdx(idx, function(err, res) {
 
             if (err) { return; }
-            
+
+            emitRows(socket, idx, res.rows);
+          });
+
+        } else {
+          // get a list of records later than intervalAgo of a idx
+          db.selectMostRecentByIdxIntervalAgoCount(idx, intervalAgo, count, function(err, res) {
+
+            if (err) { return; }
+
             // if no records found, get the latest
             if (res.rows.length === 0) {
-              
-              db.selectMostRecentByType(type, function(err, res) {
-                  
+
+              db.selectMostRecentByIdx(idx, function(err, res) {
+
                 if (err) { return; }
-                  
-                emitRows(socket, type, res.rows);
+
+                emitRows(socket, idx, res.rows);
               });
 
             } else {
-                
-              emitRows(socket, type, res.rows);
+
+              emitRows(socket, idx, res.rows);
             }
           });
-        }
+        }        
       });
-    })(type);
+    })(i);
   }
 });
 
