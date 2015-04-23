@@ -1,3 +1,4 @@
+
 function addTelemetry(key, data) {
   telemetry.add(clean(key, data));
 }
@@ -58,18 +59,17 @@ function getDataRange(key, timeLimit, maxRecords, chart, callback) {
 }
 
 function clean(key, data) {
-  var cleaned;
-  var stripped;
+  // var stripped;
+  //
+  // stripped = data.filter(function (d) {
+  //   return d && typeof d.v !== "undefined" && !isNaN(parseFloat(d.v));
+  // });
 
-  stripped = data.filter(function (d) {
-    return d && typeof d.u !== "undefined" && !isNaN(parseFloat(d.u));
+  data.forEach(function (d) {
+    d.k = key;
   });
 
-  cleaned = stripped.map(function (d) {
-    return { k: keyIndex[key], d: 0, m: 0, s: 24, t: d.t, v: parseFloat(d.u) };
-  });
-
-  return cleaned;
+  return data;
 }
 
 function extractLatest(key, data) {
@@ -84,7 +84,7 @@ function extractLatest(key, data) {
       }
     });
 
-    mostRecent = clean(key, [mostRecent]);
+    mostRecent = clean(keyIndex[key], [mostRecent]);
 
   } else {
     resetDimensions();
