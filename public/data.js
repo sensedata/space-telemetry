@@ -36,7 +36,7 @@ function getDataRange(key, maxRecords, chart, callback) {
       throw "Removal in data reduction is not supported.";
     },
 
-    function () {
+    function initial() {
       return { k: key, i: 0, d: 0, m: 0, t: 0, v: 0 };
     }
   );
