@@ -56,7 +56,7 @@ var dataStream = ls.dataStream.fork().each(function(data) {
 
     previousIdxTimeHash[data.i] = data.t;
 
-    io.emit(data.i, [ {v: data.v, t: data.t, s: data.s, m: avg, d: sdd} ]);
+    io.emit(data.i, [ {k: data.i, v: data.v, t: data.t, s: data.s, m: avg, d: sdd} ]);
   });
 
   // console.log(data);
@@ -74,26 +74,35 @@ var statusStream = ls.statusStream.fork().each(function(status) {
 
 
 function emitRows(socket, idx, rows) {
+  var data;
+  var interval = null;
 
-  var data = rows.map(function(v) { return {v: v.value, t: v.ts.getTime()/1000|0, s: v.status}; }),
-  dataLen = data.length;
+  data = rows.map(function (r) {
+    return { k: idx, d: 0, m: 0, t: r.ts.getTime() / 1000 | 0, s: r.status, v: r.value };
+  });
+
+  if (data.length >= 2) {
+    interval = data[data.length - 1].t - data[data.length - 2].t;
+  }
 
   db.selectStatsByIdx(idx, function(err, res) {
-    var avg = 0,
-    stddev = 0,
-    sdd = 0;
+    var standardDeviation;
 
-    if (err) { return; }
-
-    if ((res.rows.length > 0) && (dataLen > 1)) {
-
-      avg = res.rows[0].a;
-      stddev = res.rows[0].sd;
-      sdd = utils.calcStandardDeviationDistance(data[dataLen-1].t - data[dataLen-2].t, avg, stddev);
+    if (err) {
+      // TODO shouldn't this be logged or something?
+      return;
     }
 
-    data[dataLen-1].m = avg;
-    data[dataLen-1].d = sdd;
+    if (interval !== null && res.rows.length > 0) {
+      standardDeviation = utils.calcStandardDeviationDistance(
+        interval, res.rows[0].a, res.rows[0].sd
+      );
+
+      data.forEach(function (d) {
+        d.d = standardDeviation;
+        d.m = res.rows[0].a;
+      });
+    }
 
     socket.emit(idx, data);
   });
