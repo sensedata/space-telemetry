@@ -12,6 +12,8 @@ var dd = require('./data_dictionary');
 // for more info, see: http://expressjs.com
 var express = require('express');
 
+var _ = require('highland');
+
 // create a new express server
 var app = exports.app = express();
 
@@ -35,116 +37,59 @@ var db = require('./db');
 
 var utils = require('./utils');
 
-var dataStream = ls.dataStream.fork().flatMap(db.addStats).each(function(data) {
+// Real-time data stream.  emit to all connected clients.
+var dataStream = ls.dataStream.fork().flatMap(db.addCurrentStats).each(function(data) {
 
-  io.emit([ data ]);
-  // console.log(data);
+  if (Array.isArray(data)) {
+    
+    data = data.map(function(v) {
+      delete v['cv'];
+      return v;
+    });
+    io.emit(data[0].k, data);
+  
+  } else {
+    
+    delete data['cv'];
+    io.emit(data.k, [data]);
+  }   
 });
 
-var lastKnownStatus;
-
+// Real-time status stream.  emit to all connected clients.
 var statusStream = ls.statusStream.fork().each(function(status) {
-
-  lastKnownStatus = status;
 
   io.emit('STATUS', status);
   console.log(status);
 });
 
-
-function emitRows(socket, idx, rows) {
-  var data;
-  var haveData;
-  var interval;
-
-  data = rows.map(function (r) {
-    return { k: idx, d: 0, m: 0, t: r.ts.getTime() / 1000 | 0, s: r.status, v: r.value };
-  });
-
-  haveData = data.length > 1;
-  interval = data[data.length - 1].t - data[data.length - 2].t;
-
-  db.selectStatsByIdx(idx, function(err, res) {
-    var standardDeviation;
-
-    if (err) {
-      // TODO shouldn't this be logged or something?
-      return;
-    }
-
-    if (haveData && res.rows.length > 0) {
-      standardDeviation = utils.calcStandardDeviationDistance(
-        interval, res.rows[0].a, res.rows[0].sd
-      );
-
-      data.forEach(function (d) {
-        d.d = standardDeviation;
-        d.m = res.rows[0].a;
-      });
-    }
-
-    socket.emit(idx, data);
-  });
+function bindDataHandler(socket, idx) {
+  
+  _(idx.toString(), socket, ['intervalAgo', 'count'])
+  .flatMap(db.getTelemetryData(idx))
+  .flatMap(db.addStats(idx)).each(
+    function (data) {
+      
+      socket.emit(idx, data);
+    });
 }
 
 io.on('connection', function (socket) {
-  // broacast status to client upon connection
-  if (lastKnownStatus) {
 
-    socket.emit('STATUS', lastKnownStatus);
-  }
-
-  // broadcast status when requested
-  socket.on('STATUS', function (intervalAgo, count) {
-
-    db.selectStatusesByIntervalAgoCount(intervalAgo, count, function(err, res) {
-
-      if (err) { return; }
-
-      socket.emit('STATUS', res.rows.map(function(v) { return {c: v.connected, t: v.ts.getTime()/1000|0}; }));
-    });
+  _('STATUS', socket, ['intervalAgo', 'count'])
+  .flatMap(db.getStatuses).each(
+    function (statuses) {
+      
+      socket.emit('STATUS',
+      
+        statuses.map(function(v) {
+        
+          return {c: v.connected, t: v.ts.getTime()/1000|0};
+      }));
   });
 
   // create a handler for each telemetry type
   for(var i = 0, l = dd.list.length; i<l; i++) {
 
-    // creating functions within the loop is ok, in this case
-    (function (idx) {
-
-      socket.on(idx, function (intervalAgo, count) {
-        // unixtime of -1 indicates the client wants the latest record available
-        if(count === -1) {
-
-          db.selectMostRecentByIdx(idx, function(err, res) {
-
-            if (err) { return; }
-
-            emitRows(socket, idx, res.rows);
-          });
-
-        } else {
-          // get a list of records later than intervalAgo of a idx
-          db.selectMostRecentByIdxIntervalAgoCount(idx, intervalAgo, count, function(err, res) {
-
-            if (err) { return; }
-
-            // if no records found, get the latest
-            if (res.rows.length === 0) {
-
-              db.selectMostRecentByIdx(idx, function(err, res) {
-
-                if (err) { return; }
-
-                emitRows(socket, idx, res.rows);
-              });
-
-            } else {
-
-              emitRows(socket, idx, res.rows);
-            }
-          });
-        }
-      });
-    })(i);
+    bindDataHandler(socket, i);
   }
 });
