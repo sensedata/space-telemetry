@@ -142,7 +142,7 @@ telemetrySub.addListener({
     }
     
     var data = {
-      i: idx,
+      k: idx,
       v: fValue,
       cv: update.getValue("CalibratedData"),
       t: fTimeStamp,
