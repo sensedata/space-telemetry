@@ -35,30 +35,9 @@ var db = require('./db');
 
 var utils = require('./utils');
 
-var previousIdxTimeHash = {};
+var dataStream = ls.dataStream.fork().flatMap(db.addStats).each(function(data) {
 
-var dataStream = ls.dataStream.fork().each(function(data) {
-
-  db.selectStatsByIdx(data.i, function(err, res) {
-    var avg = 0,
-    stddev = 0,
-    previousTime = previousIdxTimeHash[data.i],
-    sdd = 0;
-
-    if (err) { return; }
-
-    if ((res.rows.length > 0) && previousTime) {
-
-      avg = res.rows[0].a;
-      stddev = res.rows[0].sd;
-      sdd = utils.calcStandardDeviationDistance(data.t - previousTime, avg, stddev);
-    }
-
-    previousIdxTimeHash[data.i] = data.t;
-
-    io.emit(data.i, [ {k: data.i, v: data.v, t: data.t, s: data.s, m: avg, d: sdd} ]);
-  });
-
+  io.emit([ data ]);
   // console.log(data);
 });
 
