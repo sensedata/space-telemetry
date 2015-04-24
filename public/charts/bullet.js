@@ -281,7 +281,7 @@ function drawBulletD3(jChart, data) {
         .text(function(d) { return d.subtitle; });
 }
 
-function drawBulletjQuery(chart, data) {
+function drawBulletjQuery(chart, datum) {
   var capacity;
   var points;
   var target;
@@ -290,7 +290,7 @@ function drawBulletjQuery(chart, data) {
   target = parseFloat(chart.data("target")) || capacity * 0.95;
 
   points = [
-    target, parseFloat(data[0].v), capacity, capacity * 0.75, capacity * 0.5
+    target, parseFloat(datum.v), capacity, capacity * 0.75, capacity * 0.5
   ];
 
   chart.empty();

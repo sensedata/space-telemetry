@@ -1,52 +1,43 @@
 
-function addTelemetry(key, data) {
-  telemetry.add(clean(key, data));
+function addTelemetry(data) {
+  telemetry.add(data);
 }
 
-function getDataRange(key, timeLimit, maxRecords, chart, callback) {
+function getDataRange(key, maxRecords, chart, callback) {
   var data;
-  var reducer;
   var sampler;
 
   resetDimensions();
+  keyDimension.filterExact(key);
 
-  // Group the
   sampler = timeDimension.group(function (t) {
     return t;
   });
 
-  // Only the keyed records
-  keyDimension.filterExact(keyIndex[key]);
-
-  // In time window.
-  timeDimension.filter(function (t) {
-    return t >= timeLimit;
-  });
-
-  reducer = sampler.reduce(
+  sampler.reduce(
     function add(r, d) {
       r.i++;
+
       r.d = r.d + (d.d - r.d) / r.i;
       r.m = r.m + (d.m - r.m) / r.i;
-      r.s = d.s;
-      r.t = d.t;
       r.v = r.v + (d.v - r.v) / r.i;
+
+      // Reduction doesn't occur in order, so have to check before choosing
+      // newest values.
+      if (d.t > r.t) {
+        r.s = d.s;
+        r.t = d.t;
+      }
+
       return r;
     },
 
     function remove(r, d) {
-      // FIXME these are wrong. I think. Is late.
-      r.i--;
-      r.d = r.d - (d.d + r.d) / r.i;
-      r.m = r.m - (d.m + r.m) / r.i;
-      r.s = d.s;
-      r.t = d.t;
-      r.v = r.v - (d.v + r.v) / r.i;
-      return r;
+      throw "Removal in data reduction is not supported.";
     },
 
-    function initial() {
-      return { i: 0, d: 0, m: 0, v: 0 };
+    function () {
+      return { k: key, i: 0, d: 0, m: 0, t: 0, v: 0 };
     }
   );
 
@@ -55,21 +46,9 @@ function getDataRange(key, timeLimit, maxRecords, chart, callback) {
   data = sampler.top(maxRecords).map(function (d) { return d.value; });
   sampler.dispose();
 
+  data.reverse();
+
   callback(chart, data);
-}
-
-function clean(key, data) {
-  // var stripped;
-  //
-  // stripped = data.filter(function (d) {
-  //   return d && typeof d.v !== "undefined" && !isNaN(parseFloat(d.v));
-  // });
-
-  data.forEach(function (d) {
-    d.k = key;
-  });
-
-  return data;
 }
 
 function extractLatest(key, data) {
@@ -79,21 +58,19 @@ function extractLatest(key, data) {
     mostRecent = data[0];
 
     data.forEach(function (d) {
-      if (typeof mostRecent === "undefined" || d.t > mostRecent.t) {
+      if (typeof mostRecent === undefined || d.t > mostRecent.t) {
         mostRecent = d;
       }
     });
 
-    mostRecent = clean(keyIndex[key], [mostRecent]);
+    return mostRecent;
 
   } else {
     resetDimensions();
-    keyDimension.filterExact(keyIndex[key]);
+    keyDimension.filterExact(key);
 
-    mostRecent = timeDimension.top(1);
+    return timeDimension.top(1)[0];
   }
-
-  return mostRecent[0];
 }
 
 function radToDeg(rad) {

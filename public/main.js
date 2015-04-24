@@ -25,11 +25,10 @@ $(function() {
 
 
   // Special cases
-
-  socket.on("USLAB000038", function (data) {
-    $(".bullet-chart.USLAB000038").data("capacity", extractLatest("USLAB000038", data).v);
+  socket.on(keyIndex["USLAB000038"], function (data) {
+    $(".bullet-chart.USLAB000038").data("capacity", extractLatest(keyIndex["USLAB000038"], data).v);
   });
-  socket.emit("USLAB000038", -1);
+  socket.emit(keyIndex["USLAB000038"], -1);
 
 
   // General cases
@@ -85,11 +84,11 @@ $(function() {
 
   var allKeys = currentOnlyKeys.concat(historyKeys);
 
-  var period = moment().subtract(frequency * 200, "seconds").unix();
+  var period = moment().subtract(7, "days").unix();
 
   allKeys.forEach(function (key) {
     socket.on(keyIndex[key], function (data) {
-      addTelemetry(keyIndex[key], data);
+      addTelemetry(data);
 
       drawCharts(key);
       drawReadouts(key);
@@ -119,7 +118,7 @@ $(function() {
     for (var axis in axes[type]) {
       (function (type, axis) {
         socket.on(keyIndex[axes[type][axis]], function (data) {
-          attitudes[type][axis] = extractLatest(axes[type][axis], data).v;
+          attitudes[type][axis] = extractLatest(keyIndex[axes[type][axis]], data).v;
           drawAttitude(type);
         });
       })(type, axis);

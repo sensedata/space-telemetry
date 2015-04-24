@@ -29,9 +29,14 @@ function drawCharts(key) {
 
     chart = $(c);
     if (chart.hasClass("bullet-chart")) {
-      drawCallback = drawBulletChart;
+      drawBulletChart(chart, extractLatest(keyIndex[key]));
+      return;
+    }
 
-    } else if (chart.hasClass("sparkline-chart")) {
+    // Number of data points the chart can display readably.
+    maxPoints = Math.floor(chart.width() / PIXELS_PER_SAMPLE);
+
+    if (chart.hasClass("sparkline-chart")) {
       drawCallback = drawSparklineChart;
 
     } else if (chart.hasClass("tristate-chart")) {
@@ -41,13 +46,7 @@ function drawCharts(key) {
       return;
     }
 
-    // Number of data points the chart can handle readably.
-    maxPoints = Math.floor(chart.width() / PIXELS_PER_SAMPLE);
-
-    // How far back in time the number of available points takes the data.
-    timeLimit = moment().subtract(maxPoints * frequency, "seconds").unix();
-
-    getDataRange(key, timeLimit, maxPoints, chart, drawCallback);
+    getDataRange(keyIndex[key], maxPoints, chart, drawCallback);
   });
 }
 
@@ -60,7 +59,7 @@ function drawReadouts(key) {
     var values;
 
     readout = $(r);
-    latest = extractLatest(key);
+    latest = extractLatest(keyIndex[key]);
 
     if (readout.hasClass("text")) {
       values = textValues[key];
@@ -89,7 +88,7 @@ function drawReadouts(key) {
 function drawStatuses(key) {
   var status;
 
-  status = extractLatest(key);
+  status = extractLatest(keyIndex[key]);
 
   $(".status." + key).each(function (i, t) {
     var target;
