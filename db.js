@@ -1,6 +1,8 @@
 /*jshint node:true*/
 
 // Postgresql database connectivity
+var _ = require('highland');
+
 var pg = require('pg');
 
 var ls = require('./lightstreamer');
@@ -235,3 +237,40 @@ var statusStream = ls.statusStream.fork().each(function(status) {
   }
   // console.log(status);
 });
+
+var previousIdxTimeHash = {};
+
+exports.addStats = _.wrapCallback(function (data, next) {
+
+  exports.selectStatsByIdx(data.i, function(err, res) {
+    var avg = 0,
+    stddev = 0,
+    previousTime = previousIdxTimeHash[data.k],
+    sdd = 0;
+
+    if (err) {
+      // keep chugging along, even if there was an error
+      data.m = 0;
+      data.d = 0;
+      
+      next(null, data);
+      return;
+    }
+
+    if ((res.rows.length > 0) && previousTime) {
+
+      avg = res.rows[0].a;
+      stddev = res.rows[0].sd;
+      sdd = utils.calcStandardDeviationDistance(data.t - previousTime, avg, stddev);
+    }
+
+    previousIdxTimeHash[data.k] = data.t;
+    
+    data.m = avg;
+    data.d = sdd;
+    
+    next(null, data);
+  });
+});
+
+
