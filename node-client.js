@@ -22,6 +22,7 @@ socket.on('connect', function(){
   // socket.emit('STATUS', 5000, 50);
   // query for STATUS -  most recent record (seconds ago param must be null)
   // socket.emit('STATUS', null, -1);
+  socket.emit(dd.hash.TIME_000001, 123, 123);
 });
 
 // listen for feed status
@@ -41,5 +42,10 @@ socket.on(dd.hash.AIRLOCK000049, function(data){
 socket.on(dd.hash.NODE3000011, function(data){
   
   console.log("NODE3000011: " + JSON.stringify(data));
+});
+
+socket.on(dd.hash.TIME_000001, function(data){
+  
+  console.log("TIME_000001: " + JSON.stringify(data));
 });
 

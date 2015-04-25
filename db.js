@@ -256,9 +256,10 @@ exports.addCurrentStats = _.wrapCallback(function (data, next) {
 
     previousIdxTimeHash[data.k] = data.t;
     
-    data.m = avg;
-    data.d = sdd;
-    
+    data.m = avg || 0;
+    // check for Infinity (div by zero)
+    data.d = (sdd === Infinity) ? 0 : sdd;
+
     next(null, [ data ]);
   });
 });

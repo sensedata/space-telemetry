@@ -37,6 +37,8 @@ var db = require('./db');
 
 var utils = require('./utils');
 
+var previousTIME_000001Value = 0;
+
 // Real-time data stream.  emit to all connected clients.
 var dataStream = ls.dataStream.fork().flatMap(db.addCurrentStats).each(function(data) {
 
@@ -46,11 +48,23 @@ var dataStream = ls.dataStream.fork().flatMap(db.addCurrentStats).each(function(
       delete v['cv'];
       return v;
     });
+    
+    if (data[0].k === 296) {
+      
+      previousTIME_000001Value = data[0].v;
+    }
+    
     io.emit(data[0].k, data);
   
   } else {
     
     delete data['cv'];
+    
+    if (data[0].k === 296) {
+      
+      previousTIME_000001Value = data[0].v;
+    }
+    
     io.emit(data.k, [data]);
   }   
 });
@@ -73,6 +87,23 @@ function bindDataHandler(socket, idx) {
     });
 }
 
+function bindTIME_000001Handler(socket, idx) {
+  
+  socket.on(296, function (intervalAgo, count) {
+    
+    var data = {
+      k: 296,
+      v: previousTIME_000001Value,
+      t: previousTIME_000001Value,
+      s: 24,
+      m: 0,
+      d: 0
+    };
+    
+    socket.emit(296, data);
+  }); 
+}
+
 io.on('connection', function (socket) {
 
   _('STATUS', socket, ['intervalAgo', 'count'])
@@ -90,6 +121,13 @@ io.on('connection', function (socket) {
   // create a handler for each telemetry type
   for(var i = 0, l = dd.list.length; i<l; i++) {
 
-    bindDataHandler(socket, i);
+    // handle TIME_000001 differently
+    if (i === 296) {
+      
+      bindTIME_000001Handler(socket);
+    } else {
+      
+      bindDataHandler(socket, i);
+    }
   }
 });

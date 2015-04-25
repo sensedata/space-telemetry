@@ -141,6 +141,12 @@ telemetrySub.addListener({
       fTimeStamp = (((fTimeStamp-24) * 3600) + (year.getTime()/1000))|0;      
     }
     
+    // handle TIME_000001
+    if (idx === 296) {
+      // in this case utilze the timestamp for the value
+      fValue = fTimeStamp;
+    }
+    
     var data = {
       k: idx,
       v: fValue,
