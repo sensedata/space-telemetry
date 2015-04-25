@@ -43,30 +43,30 @@ var previousTIME_000001Value = 0;
 var dataStream = ls.dataStream.fork().flatMap(db.addCurrentStats).each(function(data) {
 
   if (Array.isArray(data)) {
-    
+
     data = data.map(function(v) {
       delete v['cv'];
       return v;
     });
-    
+
     if (data[0].k === 296) {
-      
+
       previousTIME_000001Value = data[0].v;
     }
-    
+
     io.emit(data[0].k, data);
-  
+
   } else {
-    
+
     delete data['cv'];
-    
+
     if (data[0].k === 296) {
-      
+
       previousTIME_000001Value = data[0].v;
     }
-    
+
     io.emit(data.k, [data]);
-  }   
+  }
 });
 
 // Real-time status stream.  emit to all connected clients.
@@ -77,20 +77,20 @@ var statusStream = ls.statusStream.fork().each(function(status) {
 });
 
 function bindDataHandler(socket, idx) {
-  
+
   _(idx.toString(), socket, ['intervalAgo', 'count'])
   .flatMap(db.getTelemetryData(idx))
   .flatMap(db.addStats(idx)).each(
     function (data) {
-      
+
       socket.emit(idx, data);
     });
 }
 
 function bindTIME_000001Handler(socket, idx) {
-  
+
   socket.on(296, function (intervalAgo, count) {
-    
+
     var data = {
       k: 296,
       v: previousTIME_000001Value,
@@ -99,9 +99,9 @@ function bindTIME_000001Handler(socket, idx) {
       m: 0,
       d: 0
     };
-    
-    socket.emit(296, data);
-  }); 
+
+    socket.emit(296, [data]);
+  });
 }
 
 io.on('connection', function (socket) {
@@ -109,11 +109,11 @@ io.on('connection', function (socket) {
   _('STATUS', socket, ['intervalAgo', 'count'])
   .flatMap(db.getStatuses).each(
     function (statuses) {
-      
+
       socket.emit('STATUS',
-      
+
         statuses.map(function(v) {
-        
+
           return {c: v.connected, t: v.ts.getTime()/1000|0};
       }));
   });
@@ -123,10 +123,10 @@ io.on('connection', function (socket) {
 
     // handle TIME_000001 differently
     if (i === 296) {
-      
+
       bindTIME_000001Handler(socket);
     } else {
-      
+
       bindDataHandler(socket, i);
     }
   }
