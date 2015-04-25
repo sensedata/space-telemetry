@@ -19,6 +19,10 @@ gpsValues = {
 };
 
 textValues = {
+  "STATUS": {
+    0: "Disconnected",
+    1: "Connected"
+  },
   "USLAB000012": {
     0: "Default",
     1: "Wait",
@@ -52,5 +56,14 @@ textValues = {
     2: "XPOP"
   },
   "USLAB000043": gpsValues,
-  "USLAB000044": gpsValues
+  "USLAB000044": gpsValues,
+  "USLAB000086": {
+    1: "Standard",
+    2: "Microgravity",
+    4: "Reboost",
+    8: "Proximity Ops",
+    16: "External Ops",
+    32: "Survival",
+    64: "Assured Safe Crew Return"
+  },
 };

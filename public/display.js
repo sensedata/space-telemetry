@@ -29,7 +29,7 @@ function drawCharts(key) {
 
     chart = $(c);
     if (chart.hasClass("bullet-chart")) {
-      drawBulletChart(chart, extractLatest(keyIndex[key]));
+      drawBulletChart(chart, getLatest(keyIndex[key]));
       return;
     }
 
@@ -46,8 +46,24 @@ function drawCharts(key) {
       return;
     }
 
-    getDataRange(keyIndex[key], maxPoints, chart, drawCallback);
+    getRange(keyIndex[key], maxPoints, chart, drawCallback);
   });
+}
+
+function drawDelay(unixTime, readout) {
+  var delta;
+  var formatted;
+  var now;
+  var rangeAlarm;
+  var time;
+
+  time = moment.unix(unixTime).utc();
+  now = moment().utc();
+  delta = now.diff(time, "milliseconds");
+  rangeAlarm = Math.abs(delta) > 30;
+  formatted = moment.duration(delta, "milliseconds").format("HH:mm:ss", { trim: false });
+
+  readout.text(formatted).toggleClass("time-alarm", rangeAlarm);
 }
 
 function drawReadouts(key) {
@@ -59,7 +75,7 @@ function drawReadouts(key) {
     var values;
 
     readout = $(r);
-    latest = extractLatest(keyIndex[key]);
+    latest = getLatest(keyIndex[key]);
 
     if (readout.hasClass("text")) {
       values = textValues[key];
@@ -71,6 +87,9 @@ function drawReadouts(key) {
       if (typeof value === "undefined") {
         value = "Unknown";
       }
+
+    } else if (readout.hasClass("timestamp")) {
+      drawTimestamp(latest.v, readout);
 
     } else {
       value = latest.v.toFixed(readout.data("scale"));
@@ -88,7 +107,7 @@ function drawReadouts(key) {
 function drawStatuses(key) {
   var status;
 
-  status = extractLatest(keyIndex[key]);
+  status = getLatest(keyIndex[key]);
 
   $(".status." + key).each(function (i, t) {
     var target;
@@ -116,4 +135,24 @@ function drawStatuses(key) {
 
     applyMeta(target, status);
   });
+}
+
+function drawTimestamp(unixTime, readout) {
+  var format;
+  var now;
+  var rangeAlarm;
+  var time;
+
+  if (unixTime < 99999) {
+    readout.text("-");
+    return;
+  }
+
+  time = moment.unix(unixTime).utc();
+  now = moment().utc();
+
+  format = "HH:mm:ss YYYY.MM.DD";
+  rangeAlarm = Math.abs(now.diff(time, "seconds")) > 30;
+
+  readout.text(time.format(format)).toggleClass("time-alarm", rangeAlarm);
 }

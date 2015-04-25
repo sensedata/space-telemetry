@@ -3,7 +3,36 @@ function addTelemetry(data) {
   telemetry.add(data);
 }
 
-function getDataRange(key, maxRecords, chart, callback) {
+function extractLatest(data) {
+  var mostRecent;
+
+  mostRecent = data[0];
+
+  data.forEach(function (d) {
+    if (typeof mostRecent === undefined || d.t > mostRecent.t) {
+      mostRecent = d;
+    }
+  });
+
+  return mostRecent;
+}
+
+function getLatestTimestamp() {
+  var latest;
+
+  resetDimensions();
+
+  keyDimension.filter(function (k) {
+    return k !== keyIndex["TIME_000001"];
+  });
+
+  latest = timeDimension.top(1)[0];
+
+  return latest ? latest.t : 0;
+}
+
+
+function getRange(key, maxRecords, chart, callback) {
   var data;
   var sampler;
 
@@ -51,26 +80,32 @@ function getDataRange(key, maxRecords, chart, callback) {
   callback(chart, data);
 }
 
-function extractLatest(key, data) {
-  var mostRecent;
+function getLatest(key) {
+  resetDimensions();
+  keyDimension.filterExact(key);
 
-  if (data) {
-    mostRecent = data[0];
+  return timeDimension.top(1)[0];
+}
 
-    data.forEach(function (d) {
-      if (typeof mostRecent === undefined || d.t > mostRecent.t) {
-        mostRecent = d;
-      }
-    });
+function pruneData() {
+  var limit;
 
-    return mostRecent;
+  var all = telemetry.groupAll();
+  all.dispose();
 
-  } else {
-    resetDimensions();
-    keyDimension.filterExact(key);
-
-    return timeDimension.top(1)[0];
+  latest = getLatestTimestamp();
+  if (latest === 0) {
+    return;
   }
+
+  limit = moment.unix(latest).subtract(10, "minutes").unix();
+  resetDimensions();
+
+  timeDimension.filter(function (t) {
+    return t < limit;
+  });
+
+  telemetry.remove();
 }
 
 function radToDeg(rad) {

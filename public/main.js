@@ -26,9 +26,23 @@ $(function() {
 
   // Special cases
   socket.on(keyIndex["USLAB000038"], function (data) {
-    $(".bullet-chart.USLAB000038").data("capacity", extractLatest(keyIndex["USLAB000038"], data).v);
+    $(".bullet-chart.USLAB000038").data("capacity", extractLatest(data).v);
   });
   socket.emit(keyIndex["USLAB000038"], -1);
+
+  socket.on("STATUS", function (data) {
+    if (!_.isArray(data)) {
+      data = [data];
+    }
+
+    data = data.map(function (d) { return { k: keyIndex["STATUS"], t: d.t, v: d.c  }; });
+
+    console.log("status", data);
+
+    addTelemetry(data);
+    drawReadouts("STATUS");
+  });
+  socket.emit("STATUS", -1);
 
 
   // General cases
@@ -54,6 +68,9 @@ $(function() {
 
     // GPS statuses
     "USLAB000043", "USLAB000044",
+
+    // Station status and clock
+    "USLAB000086", "TIME_000001",
 
     // CMG electrical current
     "Z1000005", "Z1000006", "Z1000007", "Z1000008",
@@ -88,6 +105,8 @@ $(function() {
 
   allKeys.forEach(function (key) {
     socket.on(keyIndex[key], function (data) {
+      var latest;
+
       addTelemetry(data);
 
       drawCharts(key);
@@ -118,7 +137,7 @@ $(function() {
     for (var axis in axes[type]) {
       (function (type, axis) {
         socket.on(keyIndex[axes[type][axis]], function (data) {
-          attitudes[type][axis] = extractLatest(keyIndex[axes[type][axis]], data).v;
+          attitudes[type][axis] = extractLatest(data).v;
           drawAttitude(type);
         });
       })(type, axis);
@@ -141,4 +160,16 @@ $(function() {
   ["orientationchange", "resize"].forEach(function (t) {
     window.addEventListener(t, redrawAll, true);
   });
+
+  setInterval(pruneData, moment.duration(1, "seconds").asMilliseconds());
+  setInterval(
+    function () {
+      var latest = getLatestTimestamp();
+      
+      drawTimestamp(latest, $("#telemetry-transmitted"));
+      drawDelay(latest, $("#telemetry-delay"));
+    },
+    moment.duration(2, "seconds").asMilliseconds()
+  );
+
 });
