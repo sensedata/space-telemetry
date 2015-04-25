@@ -5,6 +5,10 @@ exports.isBluemix = function () {
   return !!process.env.VCAP_APP_PORT;
 };
 
+exports.isReadOnly = function () {
+  return exports.isBluemix() || !!process.env.READ_ONLY;
+};
+
 // are we operating in Heroku env?
 exports.isHeroku = function () {
   return !!process.env.PORT;

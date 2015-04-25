@@ -13,9 +13,14 @@ var dataDictionary = require('./data_dictionary');
 // Postgres confg
 var psql;
 
-// operating in BlueMix or Heroku
-if (utils.isBluemix() || utils.isHeroku()) {
-  
+if (utils.isReadOnly()) {
+  console.log("Running in read-only mode.");
+
+} else {
+  console.log("Running in READ-WRITE mode.");
+}
+
+if (!!process.env.DATABASE_URL) {
   psql = process.env.DATABASE_URL;
 
 } else {
@@ -30,25 +35,27 @@ if (utils.isBluemix() || utils.isHeroku()) {
   };
 }
 
+console.log("Connecting to", psql);
+
 var selectMostRecentByIdx
 = exports.selectMostRecentByIdx
 = function (idx, cb) {
 
   pg.connect(psql, function(err, client, done) {
-    
+
     if (err) {
 
       console.error('Error requesting postgres client', err);
       return cb(err);
     }
-    
+
     client.query('select * from telemetry where idx = $1 order by ts desc limit 1',
       [idx],
       function(err, res) {
-        
+
         done();
         cb(err, res);
-    });    
+    });
   });
 };
 
@@ -57,34 +64,34 @@ var selectMostRecentByIdxIntervalAgoCount
 = function (idx, intervalAgo, count, cb) {
 
   pg.connect(psql, function(err, client, done) {
-    
+
     var now = Date.now()/1000|0;
     if (err) {
       console.error('Error requesting postgres client', err);
       return cb(err);
     }
-    
+
     count = count || 1;
     if (count < 1) {
-      
+
       count = 1;
       intervalAgo = now;
-      
+
     } else {
-      
+
       intervalAgo = intervalAgo || now;
       if (intervalAgo < 1) intervalAgo = now;
     }
-    
-    
-    
+
+
+
     client.query('with top_x as (select * from telemetry where idx = $1 and ts >= to_timestamp($2) order by ts desc limit $3) select * from top_x order by ts asc',
       [idx, now - intervalAgo, count],
       function(err, res) {
-        
+
         done();
         cb(err, res);
-    });    
+    });
   });
 };
 
@@ -93,35 +100,35 @@ var selectStatusesByIntervalAgoCount
 = function (intervalAgo, count, cb) {
 
   pg.connect(psql, function(err, client, done) {
-    
+
     var now = Date.now()/1000|0;
-    
+
     if (err) {
       console.error('Error requesting postgres client', err);
       return cb(err);
     }
-    
+
     count = count || 1;
     if (count < 1) {
-      
+
       count = 1;
       intervalAgo = now;
-      
+
     } else {
-      
+
       intervalAgo = intervalAgo || now;
       if (intervalAgo < 1) intervalAgo = now;
     }
-    
+
     client.query('with top_x as (select * from status \
       where ts >= to_timestamp($1) order by ts desc limit $2) \
       select * from top_x order by ts asc',
       [now - intervalAgo, count],
       function(err, res) {
-        
+
         done();
         cb(err, res);
-    });    
+    });
   });
 };
 
@@ -130,12 +137,12 @@ var selectStatsByIdx
 = function (idx, cb) {
 
   pg.connect(psql, function(err, client, done) {
-    
+
     if (err) {
       console.error('Error requesting postgres client', err);
       return cb(err);
     }
-    
+
     client.query('select avg(a) as a, avg(sd) as sd \
     from get_telemetry_time_interval_avg_stddev($1)',
     [idx],
@@ -143,7 +150,7 @@ var selectStatsByIdx
 
         done();
         cb(err, res);
-    });    
+    });
   });
 };
 
@@ -153,10 +160,10 @@ var dataStream = ls.dataStream.fork().each(function(data) {
 
   // do not add any values if in IBM Bluemix env
   // skip over TIME_000001 values
-  if((!utils.isBluemix()) && (data.k !== 296)) {
-    
+  if((!utils.isReadOnly()) && (data.k !== 296)) {
+
     pg.connect(psql, function(err, client, done) {
-      
+
       if (err) {
         return console.error('Error requesting postgres client', err);
       }
@@ -169,11 +176,11 @@ var dataStream = ls.dataStream.fork().each(function(data) {
         // this can happen during normal ops
         // this occurs during a lightstreamer re-connect typically
         if (err && (err.code !== '23505')) {
-          
+
           done();
           return console.error('Error inserting data', err);
         }
-        
+
         if (previousSessionId !== data.sid) {
 
           client.query('insert into session (session_id) values ($1)',
@@ -181,21 +188,21 @@ var dataStream = ls.dataStream.fork().each(function(data) {
 
           function(err, res) {
             done();
-            
+
             previousSessionId = data.sid;
-            
+
             if (err && (err.code !== '23505')) {
-          
+
               return console.error('Error inserting data', err);
             }
-            
+
           });
-          
+
         } else {
-          
+
           done();
         }
-        
+
       });
     });
   }
@@ -203,11 +210,11 @@ var dataStream = ls.dataStream.fork().each(function(data) {
 });
 
 ls.statusStream.fork().each(function(status) {
-  
-  if(!utils.isBluemix()) {
-    
+
+  if(!utils.isReadOnly()) {
+
     pg.connect(psql, function(err, client, done) {
-      
+
       if (err) {
         return console.error('Error requesting postgres client', err);
       }
@@ -217,9 +224,9 @@ ls.statusStream.fork().each(function(status) {
 
       function(err, res) {
         done();
-        
+
         if (err) {
-          
+
           return console.error('Error inserting data', err);
         }
       });
@@ -242,7 +249,7 @@ exports.addCurrentStats = _.wrapCallback(function (data, next) {
       // keep chugging along, even if there was an error
       data.m = 0;
       data.d = 0;
-      
+
       next(null, [ data ]);
       return;
     }
@@ -255,7 +262,7 @@ exports.addCurrentStats = _.wrapCallback(function (data, next) {
     }
 
     previousIdxTimeHash[data.k] = data.t;
-    
+
     data.m = avg || 0;
     // check for Infinity (div by zero)
     data.d = (sdd === Infinity) ? 0 : sdd;
@@ -267,9 +274,9 @@ exports.addCurrentStats = _.wrapCallback(function (data, next) {
 exports.getStatuses = _.wrapCallback(function (params, next) {
 
   selectStatusesByIntervalAgoCount(params.intervalAgo, params.count, function(err, res) {
-    
+
     if (err) {
-      
+
       next(err);
       return;
     }
@@ -281,14 +288,14 @@ exports.getStatuses = _.wrapCallback(function (params, next) {
 exports.getTelemetryData = function (idx) {
 
   return _.wrapCallback(function (params, next) {
-  
+
     // unixtime of -1 indicates the client wants the latest record available
     if(params.count === -1) {
 
       selectMostRecentByIdx(idx, function(err, res) {
 
         if (err) {
-      
+
           next(err);
           return;
         }
@@ -301,7 +308,7 @@ exports.getTelemetryData = function (idx) {
       selectMostRecentByIdxIntervalAgoCount(idx, params.intervalAgo, params.count, function(err, res) {
 
         if (err) {
-      
+
           next(err);
           return;
         }
@@ -312,7 +319,7 @@ exports.getTelemetryData = function (idx) {
           selectMostRecentByIdx(idx, function(err, res) {
 
             if (err) {
-      
+
               next(err);
               return;
             }
@@ -332,7 +339,7 @@ exports.getTelemetryData = function (idx) {
 exports.addStats = function (idx) {
 
   return _.wrapCallback(function (rows, next) {
-  
+
     var data;
     var interval = null;
 
@@ -341,7 +348,7 @@ exports.addStats = function (idx) {
     });
 
     if (data.length >= 2) {
-      
+
       interval = data[data.length - 1].t - data[data.length - 2].t;
     }
 
@@ -355,7 +362,7 @@ exports.addStats = function (idx) {
       }
 
       if (interval !== null && res.rows.length > 0) {
-        
+
         standardDeviation = utils.calcStandardDeviationDistance(
           interval, res.rows[0].a, res.rows[0].sd);
 
@@ -363,11 +370,10 @@ exports.addStats = function (idx) {
           d.d = standardDeviation;
           d.m = res.rows[0].a;
         });
-        
+
       }
-      
+
       next(null, data);
     });
   });
 };
-
