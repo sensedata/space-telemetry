@@ -32,7 +32,6 @@
     "beforeOpeningRoundBrace": true
   },
   "requireSpaceBetweenArguments": true,
-  "requireMultipleVarDecl": "onevar",
   "requireBlocksOnNewline": true,
   "disallowEmptyBlocks": true,
   "disallowSpacesInsideArrayBrackets": true,
@@ -51,7 +50,7 @@
     "with",
     "continue"
   ],
-  "validateIndentation": 4,
+  "validateIndentation": 2,
   "disallowMixedSpacesAndTabs": true,
   "disallowTrailingWhitespace": true,
   "disallowTrailingComma": true,
