@@ -1,3 +1,6 @@
 language: node_js
 node_js:
-  - "stable"
+- stable
+notifications:
+  slack:
+    secure: Mtbnl/g8vk4UaCTWGypCGFniWfcbLGl2uCsIUPrmBw+TcrqaSr0+2i3Y6I4VWa0AeNauSvP9+rI/h3UjPpNvHv7gbrlwYuJTcoSkfMtA7oT9Mt6cRfibreEeYJpXjwbhRZWptXMAiYUgzTKhRHM6HsUSKiwPN40Wrbatl/BubC4=
