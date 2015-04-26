@@ -23,7 +23,7 @@ function getLatestTimestamp() {
   resetDimensions();
 
   keyDimension.filter(function (k) {
-    return k !== keyIndex["TIME_000001"];
+    return k !== keyIndex.TIME_000001;
   });
 
   latest = timeDimension.top(1)[0];
@@ -70,9 +70,14 @@ function getRange(key, maxRecords, chart, callback) {
     }
   );
 
-  sampler.order(function (s) { return s.t; });
+  sampler.order(function (s) {
+    return s.t;
+  });
 
-  data = sampler.top(maxRecords).map(function (d) { return d.value; });
+  data = sampler.top(maxRecords).map(function (d) {
+    return d.value;
+  });
+  
   sampler.dispose();
 
   data.reverse();

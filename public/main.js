@@ -4,14 +4,19 @@ var keyDimension;
 var timeDimension;
 var attitudes;
 
-$(function() {
+$(function () {
   var axes;
   var socket;
 
   frequency = 1;
   telemetry = crossfilter();
-  timeDimension = telemetry.dimension(function (d) { return d.t; });
-  keyDimension = telemetry.dimension(function (d) { return d.k; });
+  timeDimension = telemetry.dimension(function (d) {
+    return d.t;
+  });
+
+  keyDimension = telemetry.dimension(function (d) {
+    return d.k;
+  });
 
   attitudes = {
     actual: new THREE.Quaternion(),
@@ -25,19 +30,19 @@ $(function() {
 
 
   // Special cases
-  socket.on(keyIndex["USLAB000038"], function (data) {
+  socket.on(keyIndex.USLAB000038, function (data) {
     $(".bullet-chart.USLAB000038").data("capacity", extractLatest(data).v);
   });
-  socket.emit(keyIndex["USLAB000038"], -1);
+  socket.emit(keyIndex.USLAB000038, -1);
 
   socket.on("STATUS", function (data) {
     if (!_.isArray(data)) {
       data = [data];
     }
 
-    data = data.map(function (d) { return { k: keyIndex["STATUS"], t: d.t, v: d.c  }; });
-
-    console.log("status", data);
+    data = data.map(function (d) {
+      return { k: keyIndex.STATUS, t: d.t, v: d.c  };
+    });
 
     addTelemetry(data);
     drawReadouts("STATUS");
@@ -165,7 +170,7 @@ $(function() {
   setInterval(
     function () {
       var latest = getLatestTimestamp();
-      
+
       drawTimestamp(latest, $("#telemetry-transmitted"));
       drawDelay(latest, $("#telemetry-delay"));
     },

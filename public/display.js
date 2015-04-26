@@ -25,7 +25,6 @@ function drawCharts(key) {
     var chart;
     var drawCallback;
     var maxPoints;
-    var timeLimit;
 
     chart = $(c);
     if (chart.hasClass("bullet-chart")) {

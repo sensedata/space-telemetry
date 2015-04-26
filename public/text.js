@@ -31,7 +31,7 @@ textValues = {
     4: "CMG attitude control",
     5: "CMG thruster assist",
     6: "User data generation",
-    7: "Free drift",
+    7: "Free drift"
   },
   "USLAB000013": {
     0: "None",
@@ -65,5 +65,5 @@ textValues = {
     16: "External Ops",
     32: "Survival",
     64: "Assured Safe Crew Return"
-  },
+  }
 };
