@@ -77,7 +77,7 @@ function getRange(key, maxRecords, chart, callback) {
   data = sampler.top(maxRecords).map(function (d) {
     return d.value;
   });
-  
+
   sampler.dispose();
 
   data.reverse();
@@ -93,10 +93,8 @@ function getLatest(key) {
 }
 
 function pruneData() {
+  var latest;
   var limit;
-
-  var all = telemetry.groupAll();
-  all.dispose();
 
   latest = getLatestTimestamp();
   if (latest === 0) {
