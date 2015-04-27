@@ -159,7 +159,7 @@ ls.dataStream.fork().each(function(data) {
 
   // do not add any values if in IBM Bluemix env
   // skip over TIME_000001 values
-  if(!utils.isReadOnly() && data.k !== 296) {
+  if(!utils.isReadOnly()) {
 
     pg.connect(psql, function(err, client, done) {
 
