@@ -32,7 +32,6 @@
     "beforeOpeningRoundBrace": true
   },
   "requireSpaceBetweenArguments": true,
-  "requireBlocksOnNewline": true,
   "disallowEmptyBlocks": true,
   "disallowSpacesInsideArrayBrackets": true,
   "disallowSpacesInsideParentheses": true,
@@ -62,5 +61,6 @@
   "requireDotNotation": true,
   "disallowNewlineBeforeBlockStatements": true,
   "disallowMultipleLineStrings": true,
-  "requireSpaceBeforeObjectValues": true
+  "requireSpaceBeforeObjectValues": true,
+  "esnext": true
 }
