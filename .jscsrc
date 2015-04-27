@@ -50,6 +50,7 @@
     "continue"
   ],
   "validateIndentation": 2,
+  "validateQuoteMarks": true,
   "disallowMixedSpacesAndTabs": true,
   "disallowTrailingWhitespace": true,
   "disallowTrailingComma": true,
