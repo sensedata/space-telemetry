@@ -1,5 +1,3 @@
-/*jshint node:true*/
-
 var _ = require('highland');
 
 var pg = require('pg');
@@ -7,8 +5,6 @@ var pg = require('pg');
 var ls = require('./lightstreamer');
 
 var utils = require('./utils');
-
-var dataDictionary = require('./data_dictionary');
 
 // Postgres confg
 var psql;
@@ -37,9 +33,7 @@ if (!!process.env.DATABASE_URL) {
 
 console.log("Connecting to", psql);
 
-var selectMostRecentByIdx
-= exports.selectMostRecentByIdx
-= function (idx, cb) {
+function selectMostRecentByIdx(idx, cb) {
 
   pg.connect(psql, function(err, client, done) {
 
@@ -51,22 +45,22 @@ var selectMostRecentByIdx
 
     client.query('select * from telemetry where idx = $1 order by ts desc limit 1',
       [idx],
-      function(err, res) {
+      function(err2, res) {
 
         done();
-        cb(err, res);
+        cb(err2, res);
     });
   });
-};
+}
 
-var selectMostRecentByIdxIntervalAgoCount
-= exports.selectMostRecentByIdxIntervalAgoCount
-= function (idx, intervalAgo, count, cb) {
+function selectMostRecentByIdxIntervalAgoCount(idx, intervalAgo, count, cb) {
 
   pg.connect(psql, function(err, client, done) {
 
     var now = Date.now()/1000|0;
+
     if (err) {
+
       console.error('Error requesting postgres client', err);
       return cb(err);
     }
@@ -80,24 +74,26 @@ var selectMostRecentByIdxIntervalAgoCount
     } else {
 
       intervalAgo = intervalAgo || now;
-      if (intervalAgo < 1) intervalAgo = now;
+
+      if (intervalAgo < 1) {
+
+        intervalAgo = now;
+      }
     }
 
-
-
-    client.query('with top_x as (select * from telemetry where idx = $1 and ts >= to_timestamp($2) order by ts desc limit $3) select * from top_x order by ts asc',
+    client.query('with top_x as (select * ' +
+      'from telemetry where idx = $1 and ts >= to_timestamp($2) ' +
+      'order by ts desc limit $3) select * from top_x order by ts asc',
       [idx, now - intervalAgo, count],
-      function(err, res) {
+      function(err2, res) {
 
         done();
-        cb(err, res);
+        cb(err2, res);
     });
   });
-};
+}
 
-var selectStatusesByIntervalAgoCount
-= exports.selectStatusesByIntervalAgoCount
-= function (intervalAgo, count, cb) {
+function selectStatusesByIntervalAgoCount(intervalAgo, count, cb) {
 
   pg.connect(psql, function(err, client, done) {
 
@@ -117,96 +113,102 @@ var selectStatusesByIntervalAgoCount
     } else {
 
       intervalAgo = intervalAgo || now;
-      if (intervalAgo < 1) intervalAgo = now;
+      if (intervalAgo < 1) {
+
+        intervalAgo = now;
+      }
     }
 
-    client.query('with top_x as (select * from status \
-      where ts >= to_timestamp($1) order by ts desc limit $2) \
-      select * from top_x order by ts asc',
+    client.query(
+      'with top_x as (select * from status ' +
+      'where ts >= to_timestamp($1) order by ts desc limit $2) ' +
+      'select * from top_x order by ts asc',
       [now - intervalAgo, count],
-      function(err, res) {
+      function(err2, res) {
 
         done();
-        cb(err, res);
+        cb(err2, res);
     });
   });
-};
+}
 
-var selectStatsByIdx
-= exports.selectStatsByIdx
-= function (idx, cb) {
+function selectStatsByIdx(idx, cb) {
 
   pg.connect(psql, function(err, client, done) {
 
     if (err) {
+
       console.error('Error requesting postgres client', err);
       return cb(err);
     }
 
-    client.query('select avg(a) as a, avg(sd) as sd \
-    from get_telemetry_time_interval_avg_stddev($1)',
-    [idx],
-      function(err, res) {
+    client.query('select avg(a) as a, avg(sd) as sd ' +
+      'from get_telemetry_time_interval_avg_stddev($1)',
+      [idx],
+      function(err2, res) {
 
         done();
-        cb(err, res);
+        cb(err2, res);
     });
   });
-};
+}
 
 var previousSessionId = 0;
 
-var dataStream = ls.dataStream.fork().each(function(data) {
+ls.dataStream.fork().each(function(data) {
 
   // do not add any values if in IBM Bluemix env
   // skip over TIME_000001 values
-  if((!utils.isReadOnly()) && (data.k !== 296)) {
+  if(!utils.isReadOnly() && data.k !== 296) {
 
     pg.connect(psql, function(err, client, done) {
 
       if (err) {
+
         return console.error('Error requesting postgres client', err);
       }
 
-      client.query('insert into telemetry (idx, value, value_calibrated, ts, status, session_id) values ($1, $2, $3, to_timestamp($4), $5, $6)',
-      [data.k, data.v, data.cv, data.t, data.s, data.sid],
+      client.query('insert into telemetry ' +
+        '(idx, value, value_calibrated, ts, status, session_id) ' +
+        'values ($1, $2, $3, to_timestamp($4), $5, $6)',
+        [data.k, data.v, data.cv, data.t, data.s, data.sid],
 
-      function(err, res) {
-        // suppress logging unique constraint violations
-        // this can happen during normal ops
-        // this occurs during a lightstreamer re-connect typically
-        if (err && (err.code !== '23505')) {
+        function(err2) {
+          // suppress logging unique constraint violations
+          // this can happen during normal ops
+          // this occurs during a lightstreamer re-connect typically
+          if (err2 && err2.code !== '23505') {
 
-          done();
-          return console.error('Error inserting data', err);
-        }
-
-        if (previousSessionId !== data.sid) {
-
-          client.query('insert into session (session_id) values ($1)',
-          [data.sid],
-
-          function(err, res) {
             done();
+            return console.error('Error inserting data', err2);
+          }
 
-            previousSessionId = data.sid;
+          if (previousSessionId !== data.sid) {
 
-            if (err && (err.code !== '23505')) {
+            client.query('insert into session (session_id) values ($1)',
+            [data.sid],
 
-              return console.error('Error inserting data', err);
-            }
+            function(err3) {
 
-          });
+              done();
 
-        } else {
+              previousSessionId = data.sid;
 
-          done();
-        }
+              if (err3 && err3.code !== '23505') {
+
+                return console.error('Error inserting data', err3);
+              }
+
+            });
+
+          } else {
+
+            done();
+          }
 
       });
     });
   }
-  // console.log(data);
 });
 
 ls.statusStream.fork().each(function(status) {
@@ -216,18 +218,20 @@ ls.statusStream.fork().each(function(status) {
     pg.connect(psql, function(err, client, done) {
 
       if (err) {
+
         return console.error('Error requesting postgres client', err);
       }
 
       client.query('insert into status (connected, ts) values ($1, to_timestamp($2))',
       [status.c, status.t],
 
-      function(err, res) {
+      function(err2) {
+
         done();
 
-        if (err) {
+        if (err2) {
 
-          return console.error('Error inserting data', err);
+          return console.error('Error inserting data', err2);
         }
       });
     });
@@ -254,7 +258,7 @@ exports.addCurrentStats = _.wrapCallback(function (data, next) {
       return;
     }
 
-    if ((res.rows.length > 0) && previousTime) {
+    if (res.rows.length > 0 && previousTime) {
 
       avg = res.rows[0].a;
       stddev = res.rows[0].sd;
@@ -265,7 +269,7 @@ exports.addCurrentStats = _.wrapCallback(function (data, next) {
 
     data.m = avg || 0;
     // check for Infinity (div by zero)
-    data.d = (sdd === Infinity) ? 0 : sdd;
+    data.d = sdd === Infinity ? 0 : sdd;
 
     next(null, [ data ]);
   });
@@ -316,15 +320,15 @@ exports.getTelemetryData = function (idx) {
         // if no records found, get the latest
         if (res.rows.length === 0) {
 
-          selectMostRecentByIdx(idx, function(err, res) {
+          selectMostRecentByIdx(idx, function(err2, res2) {
 
-            if (err) {
+            if (err2) {
 
-              next(err);
+              next(err2);
               return;
             }
 
-            next(null, res.rows);
+            next(null, res2.rows);
           });
 
         } else {

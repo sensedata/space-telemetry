@@ -1,10 +1,8 @@
-/*jshint node:true*/
-/*jshint loopfunc:true */
 
 // VCAP_* indicated IBM BlueMix
 // process.env.PORT indicates Heroku
-var port = (process.env.VCAP_APP_PORT || process.env.PORT || 6001),
-    host = (process.env.VCAP_APP_HOST || '0.0.0.0');
+var port = process.env.VCAP_APP_PORT || process.env.PORT || 6001;
+var host = process.env.VCAP_APP_HOST || '0.0.0.0';
 
 var dd = require('./data_dictionary');
 
@@ -23,29 +21,28 @@ var server = exports.server = require('http').createServer(app);
 var io = exports.io = require('socket.io')(server);
 
 // serve the files out of ./public as our main files
-app.use(express.static(__dirname + '/public'));
+app.use(express.static( __dirname + '/public'));
 
 // start server on the specified port and binding host
 server.listen(port, host, function() {
+
 	// print a message when the server starts listening
-  console.log("server starting on host: " + host + ", port: " + port);
+  console.log("server starting on host: ", host, ", port: ", port);
 });
 
 var ls = require('./lightstreamer');
 
 var db = require('./db');
 
-var utils = require('./utils');
-
 var previousTIME_000001Value = 0;
 
 // Real-time data stream.  emit to all connected clients.
-var dataStream = ls.dataStream.fork().flatMap(db.addCurrentStats).each(function(data) {
+ls.dataStream.fork().flatMap(db.addCurrentStats).each(function(data) {
 
   if (Array.isArray(data)) {
 
     data = data.map(function(v) {
-      delete v['cv'];
+      delete v.cv;
       return v;
     });
 
@@ -58,7 +55,7 @@ var dataStream = ls.dataStream.fork().flatMap(db.addCurrentStats).each(function(
 
   } else {
 
-    delete data['cv'];
+    delete data.cv;
 
     if (data[0].k === 296) {
 
@@ -70,7 +67,7 @@ var dataStream = ls.dataStream.fork().flatMap(db.addCurrentStats).each(function(
 });
 
 // Real-time status stream.  emit to all connected clients.
-var statusStream = ls.statusStream.fork().each(function(status) {
+ls.statusStream.fork().each(function(status) {
 
   io.emit('STATUS', status);
   console.log(status);

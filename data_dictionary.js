@@ -1,5 +1,3 @@
-/*jshint node:true*/
-
 // The list of data types available to us via LightStreamer
 
 // WARNING!  DO NOT CHANGE THE POSITIONS OF ANY LIST ENTRIES!
@@ -308,14 +306,14 @@ exports.list =
 // WARNING!  DO NOT CHANGE THE POSITIONS OF ANY LIST ENTRIES!
 // YOU MAY ADD ENTRIES TO THE END OF THE LIST IF NECESSARY!
 
-
+/*jshint singleGroups: false*/
 exports.hash = (function(){
   var ret = {};
-  
+
   for(var i = 0, l = exports.list.length; i<l; i++) {
     ret[exports.list[i]] = i;
   }
-  
+
   return ret;
-  
+
 })();

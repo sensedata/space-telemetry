@@ -1,4 +1,4 @@
-/*jshint node:true*/
+
 var _ = require('highland');
 
 var EventEmitter = require('events').EventEmitter;
@@ -32,12 +32,12 @@ var telemetrySessionId;
 function statusUpdate() {
 
   var cs = lsClient.getStatus(),
-  
+
   resolvedStatus = 0,
 
   isSubscribed = telemetrySub.isSubscribed();
 
-  if ((cs.indexOf("CONNECTED") > -1) && isSubscribed) {
+  if (cs.indexOf("CONNECTED") > -1 && isSubscribed) {
 
     resolvedStatus = 1;
 
@@ -45,7 +45,7 @@ function statusUpdate() {
 
     resolvedStatus = 0;
   }
-    
+
   emitter.emit('status', {
     c: resolvedStatus,
     t: Date.now()/1000|0
@@ -53,7 +53,7 @@ function statusUpdate() {
 }
 
 lsClient.addListener({
-  
+
   onStatusChange: function (status) {
 
     statusUpdate();
@@ -66,29 +66,29 @@ lsClient.connect();
 var unsubTimeout = null;
 
 timeSub.addListener({
-  
+
   onUnsubscription: function() {
 
     lsClient.unsubscribe(telemetrySub);
   },
-  
+
   onItemUpdate: function(update) {
-    
+
     var status = update.getValue("Status.Class"),
     subscribed = telemetrySub.isSubscribed();
-    
-    if ((status === '24') && unsubTimeout) {
-      
+
+    if (status === '24' && unsubTimeout) {
+
       clearTimeout(unsubTimeout);
       unsubTimeout = null;
     }
 
-    if ((status === '24') && !subscribed) {
-      
+    if (status === '24' && !subscribed) {
+
       lsClient.subscribe(telemetrySub);
-    
-    } else if ((status !== '24') && subscribed) {
-      
+
+    } else if (status !== '24' && subscribed) {
+
       // give 60 seconds to collect any outstanding data from lightstreamer
       unsubTimeout = setTimeout(function () { lsClient.unsubscribe(telemetrySub); }, 60000);
     }
@@ -99,7 +99,7 @@ timeSub.addListener({
 telemetrySub.addListener({
 
   onSubscription: function() {
-    
+
     telemetrySessionId = utils.getTimeBasedId();
     statusUpdate();
   },
@@ -110,15 +110,15 @@ telemetrySub.addListener({
   },
 
   onItemUpdate: function(update) {
-    
+
     var fValue = 0,
-    
+
     fTimeStamp = 0,
-    
+
     iStatus = 0,
-    
+
     idx = dd.hash[update.getItemName()];
-    
+
     try {
 
       fValue = parseFloat(update.getValue("Value"));
@@ -126,10 +126,10 @@ telemetrySub.addListener({
       iStatus = parseInt(update.getValue("Status.Class"), 10);
 
     } catch (ex) {
-      
+
       console.error(ex);
     }
-    
+
     if (fTimeStamp) {
       var now = new Date();
       var year = new Date(Date.UTC(now.getUTCFullYear(), 0)); // This year, jan 1, 00:00:00, utc
@@ -138,15 +138,15 @@ telemetrySub.addListener({
       // so we subtract 24 from fTimeStamp, convert to seconds
       // add to number of seconds as of THIS_YEAR-01-01T00:00:00 UTC
       // truncate the decimal places for a result in seconds, aka unixtime
-      fTimeStamp = (((fTimeStamp-24) * 3600) + (year.getTime()/1000))|0;      
+      fTimeStamp = (((fTimeStamp-24) * 3600) + (year.getTime()/1000))|0;
     }
-    
+
     // handle TIME_000001
     if (idx === 296) {
       // in this case utilze the timestamp for the value
       fValue = fTimeStamp;
     }
-    
+
     var data = {
       k: idx,
       v: fValue,
@@ -157,7 +157,7 @@ telemetrySub.addListener({
     };
 
     emitter.emit('data', data);
-    
+
     // if(update.getItemName() === 'USLAB000024') {
     //   console.log(update.getItemName());
     //   SCHEMA.forEach(function(key) { console.log(key + ': ' + update.getValue(key)); });
