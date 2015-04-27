@@ -119,12 +119,12 @@ io.on('connection', function (socket) {
   for(var i = 0, l = dd.list.length; i<l; i++) {
 
     // handle TIME_000001 differently
-    if (i === 296) {
+    // if (i === 296) {
 
-      bindTIME_000001Handler(socket);
-    } else {
+      // bindTIME_000001Handler(socket);
+      // } else {
 
       bindDataHandler(socket, i);
-    }
+      // }
   }
 });
