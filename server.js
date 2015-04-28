@@ -27,14 +27,12 @@ app.use(express.static(__dirname + '/public'));
 server.listen(port, host, function () {
 
   // print a message when the server starts listening
-  console.log("server starting on host: ", host, ", port: ", port);
+  console.log('server starting on host: ' + host + ', port: ' + port);
 });
 
 var ls = require('./lightstreamer');
 
 var db = require('./db');
-
-var previousTIME_000001Value = 0;
 
 // Real-time data stream.  emit to all connected clients.
 ls.dataStream.fork().flatMap(db.addCurrentStats).each(function (data) {
@@ -42,25 +40,16 @@ ls.dataStream.fork().flatMap(db.addCurrentStats).each(function (data) {
   if (Array.isArray(data)) {
 
     data = data.map(function (v) {
+
       delete v.cv;
       return v;
     });
-
-    if (data[0].k === 296) {
-
-      previousTIME_000001Value = data[0].v;
-    }
 
     io.emit(data[0].k, data);
 
   } else {
 
     delete data.cv;
-
-    if (data[0].k === 296) {
-
-      previousTIME_000001Value = data[0].v;
-    }
 
     io.emit(data.k, [data]);
   }
