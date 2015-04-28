@@ -307,10 +307,12 @@ exports.list =
 // YOU MAY ADD ENTRIES TO THE END OF THE LIST IF NECESSARY!
 
 /*jshint singleGroups: false*/
-exports.hash = (function(){
-  var ret = {};
+exports.hash = (function () {
+  var ret = {},
+  i = 0,
+  l = exports.list.length;
 
-  for(var i = 0, l = exports.list.length; i<l; i++) {
+  for (i = 0; i < l; i++) {
     ret[exports.list[i]] = i;
   }
 

@@ -15,7 +15,7 @@ var ls = require('lightstreamer-client');
 
 var dd = require('./data_dictionary');
 
-var SCHEMA = ["TimeStamp","Value","Status.Class","CalibratedData"];
+var SCHEMA = ["TimeStamp", "Value", "Status.Class", "CalibratedData"];
 
 // the data stream
 var lsClient = new ls.LightstreamerClient("http://push.lightstreamer.com", "ISSLIVE");
@@ -48,7 +48,7 @@ function statusUpdate() {
 
   emitter.emit('status', {
     c: resolvedStatus,
-    t: Date.now()/1000|0
+    t: Date.now() / 1000 | 0
   });
 }
 
@@ -67,12 +67,12 @@ var unsubTimeout = null;
 
 timeSub.addListener({
 
-  onUnsubscription: function() {
+  onUnsubscription: function () {
 
     lsClient.unsubscribe(telemetrySub);
   },
 
-  onItemUpdate: function(update) {
+  onItemUpdate: function (update) {
 
     var status = update.getValue("Status.Class"),
     subscribed = telemetrySub.isSubscribed();
@@ -98,18 +98,18 @@ timeSub.addListener({
 
 telemetrySub.addListener({
 
-  onSubscription: function() {
+  onSubscription: function () {
 
     telemetrySessionId = utils.getTimeBasedId();
     statusUpdate();
   },
 
-  onUnsubscription: function() {
+  onUnsubscription: function () {
 
     statusUpdate();
   },
 
-  onItemUpdate: function(update) {
+  onItemUpdate: function (update) {
 
     var fValue = 0,
 
@@ -138,7 +138,7 @@ telemetrySub.addListener({
       // so we subtract 24 from fTimeStamp, convert to seconds
       // add to number of seconds as of THIS_YEAR-01-01T00:00:00 UTC
       // truncate the decimal places for a result in seconds, aka unixtime
-      fTimeStamp = (((fTimeStamp-24) * 3600) + (year.getTime()/1000))|0;
+      fTimeStamp = (((fTimeStamp - 24) * 3600) + (year.getTime() / 1000)) | 0;
     }
 
     // handle TIME_000001

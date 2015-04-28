@@ -6,7 +6,7 @@ console.log(dd.hash.NODE3000011);
 var socket = require('socket.io-client')('http://0.0.0.0:6001');
 
 // listen for when a connection is established
-socket.on('connect', function(){
+socket.on('connect', function () {
 
   console.log('connect');
 
@@ -24,25 +24,25 @@ socket.on('connect', function(){
 });
 
 // listen for feed status
-socket.on('STATUS', function(data){
+socket.on('STATUS', function (data) {
 
   console.log("status: " + JSON.stringify(data));
 });
 
 // listen for AIRLOCK000049 updates
 
-socket.on(dd.hash.AIRLOCK000049, function(data){
+socket.on(dd.hash.AIRLOCK000049, function (data) {
 
   console.log("AIRLOCK000049: " + JSON.stringify(data));
 });
 
 // listen for NODE3000011 updates
-socket.on(dd.hash.NODE3000011, function(data){
+socket.on(dd.hash.NODE3000011, function (data) {
 
   console.log("NODE3000011: " + JSON.stringify(data));
 });
 
-socket.on(dd.hash.TIME_000001, function(data){
+socket.on(dd.hash.TIME_000001, function (data) {
 
   console.log("TIME_000001: " + JSON.stringify(data));
 });

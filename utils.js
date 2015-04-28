@@ -22,5 +22,5 @@ exports.getTimeBasedId = function () {
 // return pseudo UUID based on time
 exports.calcStandardDeviationDistance = function (value, avg, stddev) {
 
-  return (value-avg)/stddev;
+  return (value - avg) / stddev;
 };
