@@ -6,6 +6,8 @@ var host = process.env.VCAP_APP_HOST || '0.0.0.0';
 
 var dd = require('./data_dictionary');
 
+var utils = require('./utils');
+
 // This application uses express as it's web server
 // for more info, see: http://expressjs.com
 var express = require('express');
@@ -21,55 +23,49 @@ var server = exports.server = require('http').createServer(app);
 var io = exports.io = require('socket.io')(server);
 
 // serve the files out of ./public as our main files
-app.use(express.static( __dirname + '/public'));
+app.use(express.static(__dirname + '/public'));
 
 // start server on the specified port and binding host
-server.listen(port, host, function() {
+server.listen(port, host, function () {
 
-	// print a message when the server starts listening
-  console.log("server starting on host: ", host, ", port: ", port);
+  // print a message when the server starts listening
+  console.log('server starting on host: ' + host + ', port: ' + port);
 });
 
 var ls = require('./lightstreamer');
 
 var db = require('./db');
 
-var previousTIME_000001Value = 0;
-
 // Real-time data stream.  emit to all connected clients.
-ls.dataStream.fork().flatMap(db.addCurrentStats).each(function(data) {
+ls.dataStream.fork().flatMap(db.addCurrentStats).each(function (data) {
+  var temp;
 
   if (Array.isArray(data)) {
 
-    data = data.map(function(v) {
+    data = data.map(function (v) {
+      // prune unnecessary for client data
       delete v.cv;
+      delete v.sid;
       return v;
     });
-
-    if (data[0].k === 296) {
-
-      previousTIME_000001Value = data[0].v;
-    }
 
     io.emit(data[0].k, data);
 
   } else {
 
-    delete data.cv;
+    temp = utils.clone(data);
+    // prune unnecessary for client data
+    delete temp.cv;
+    delete temp.sid;
 
-    if (data[0].k === 296) {
-
-      previousTIME_000001Value = data[0].v;
-    }
-
-    io.emit(data.k, [data]);
+    io.emit(temp.k, [temp]);
   }
 });
 
 // Real-time status stream.  emit to all connected clients.
-ls.statusStream.fork().each(function(status) {
+ls.statusStream.fork().each(function (status) {
 
-  io.emit('STATUS', status);
+  io.emit('STATUS', [status]);
   console.log(status);
 });
 
@@ -92,14 +88,14 @@ io.on('connection', function (socket) {
 
       socket.emit('STATUS',
 
-        statuses.map(function(v) {
+        statuses.map(function (v) {
 
-          return {c: v.connected, t: v.ts.getTime()/1000|0};
-      }));
-  });
+          return {c: v.connected, t: v.ts.getTime() / 1000 | 0};
+        }));
+    });
 
   // create a handler for each telemetry type
-  for(var i = 0, l = dd.list.length; i<l; i++) {
+  for (var i = 0, l = dd.list.length; i < l; i++) {
 
     bindDataHandler(socket, i);
   }

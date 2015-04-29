@@ -15,16 +15,16 @@ var ls = require('lightstreamer-client');
 
 var dd = require('./data_dictionary');
 
-var SCHEMA = ["TimeStamp","Value","Status.Class","CalibratedData"];
+var SCHEMA = ['TimeStamp', 'Value', 'Status.Class', 'CalibratedData'];
 
 // the data stream
-var lsClient = new ls.LightstreamerClient("http://push.lightstreamer.com", "ISSLIVE");
+var lsClient = new ls.LightstreamerClient('http://push.lightstreamer.com', 'ISSLIVE');
 
 lsClient.connectionOptions.setSlowingEnabled(false);
 
 // MERGE indicates that we only want to receive data when the value(s) have changed
-var telemetrySub = new ls.Subscription("MERGE", dd.list, SCHEMA);
-var timeSub = new ls.Subscription("MERGE", 'TIME_000001', ["Status.Class"]);
+var telemetrySub = new ls.Subscription('MERGE', dd.list, SCHEMA);
+var timeSub = new ls.Subscription('MERGE', 'TIME_000001', ['Status.Class']);
 
 var telemetrySessionId;
 
@@ -37,7 +37,7 @@ function statusUpdate() {
 
   isSubscribed = telemetrySub.isSubscribed();
 
-  if (cs.indexOf("CONNECTED") > -1 && isSubscribed) {
+  if (cs.indexOf('CONNECTED') > -1 && isSubscribed) {
 
     resolvedStatus = 1;
 
@@ -48,7 +48,7 @@ function statusUpdate() {
 
   emitter.emit('status', {
     c: resolvedStatus,
-    t: Date.now()/1000|0
+    t: Date.now() / 1000 | 0
   });
 }
 
@@ -67,14 +67,14 @@ var unsubTimeout = null;
 
 timeSub.addListener({
 
-  onUnsubscription: function() {
+  onUnsubscription: function () {
 
     lsClient.unsubscribe(telemetrySub);
   },
 
-  onItemUpdate: function(update) {
+  onItemUpdate: function (update) {
 
-    var status = update.getValue("Status.Class"),
+    var status = update.getValue('Status.Class'),
     subscribed = telemetrySub.isSubscribed();
 
     if (status === '24' && unsubTimeout) {
@@ -98,18 +98,18 @@ timeSub.addListener({
 
 telemetrySub.addListener({
 
-  onSubscription: function() {
+  onSubscription: function () {
 
     telemetrySessionId = utils.getTimeBasedId();
     statusUpdate();
   },
 
-  onUnsubscription: function() {
+  onUnsubscription: function () {
 
     statusUpdate();
   },
 
-  onItemUpdate: function(update) {
+  onItemUpdate: function (update) {
 
     var fValue = 0,
 
@@ -121,9 +121,9 @@ telemetrySub.addListener({
 
     try {
 
-      fValue = parseFloat(update.getValue("Value"));
-      fTimeStamp = parseFloat(update.getValue("TimeStamp"));
-      iStatus = parseInt(update.getValue("Status.Class"), 10);
+      fValue = parseFloat(update.getValue('Value'));
+      fTimeStamp = parseFloat(update.getValue('TimeStamp'));
+      iStatus = parseInt(update.getValue('Status.Class'), 10);
 
     } catch (ex) {
 
@@ -138,7 +138,7 @@ telemetrySub.addListener({
       // so we subtract 24 from fTimeStamp, convert to seconds
       // add to number of seconds as of THIS_YEAR-01-01T00:00:00 UTC
       // truncate the decimal places for a result in seconds, aka unixtime
-      fTimeStamp = (((fTimeStamp-24) * 3600) + (year.getTime()/1000))|0;
+      fTimeStamp = (((fTimeStamp - 24) * 3600) + (year.getTime() / 1000)) | 0;
     }
 
     // handle TIME_000001
@@ -150,7 +150,7 @@ telemetrySub.addListener({
     var data = {
       k: idx,
       v: fValue,
-      cv: update.getValue("CalibratedData"),
+      cv: update.getValue('CalibratedData'),
       t: fTimeStamp,
       s: iStatus,
       sid: telemetrySessionId
