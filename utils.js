@@ -24,3 +24,12 @@ exports.calcStandardDeviationDistance = function (value, avg, stddev) {
 
   return (value - avg) / stddev;
 };
+
+// return a clone/copy
+exports.clone = function (obj) {
+  var ret = {};
+  for (var key in obj) {
+    ret[key] = obj[key];
+  }
+  return ret;
+};

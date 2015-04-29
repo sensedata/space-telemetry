@@ -10,10 +10,10 @@ var utils = require('./utils');
 var psql;
 
 if (utils.isReadOnly()) {
-  console.log("Running in read-only mode.");
+  console.log('Running in read-only mode.');
 
 } else {
-  console.log("Running in READ-WRITE mode.");
+  console.log('Running in READ-WRITE mode.');
 }
 
 if (!!process.env.DATABASE_URL) {
@@ -22,16 +22,16 @@ if (!!process.env.DATABASE_URL) {
 } else {
   // or locally
   psql = {
-    database: "iss_telemetry",
-    host: "0.0.0.0",
+    database: 'iss_telemetry',
+    host: '0.0.0.0',
     port: 5432,
-    user: "",
-    password: "",
+    user: '',
+    password: '',
     ssl: false
   };
 }
 
-console.log("Connecting to", psql);
+console.log('Connecting to', psql);
 
 function selectMostRecentByIdx(idx, cb) {
 
@@ -353,7 +353,9 @@ exports.addStats = function (idx) {
         k: idx,
         v: r.value,
         t: r.ts.getTime() / 1000 | 0,
-        s: r.status, m: 0, d: 0
+        s: r.status,
+        m: 0,
+        d: 0
       };
     });
 

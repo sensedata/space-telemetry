@@ -6,6 +6,8 @@ var host = process.env.VCAP_APP_HOST || '0.0.0.0';
 
 var dd = require('./data_dictionary');
 
+var utils = require('./utils');
+
 // This application uses express as it's web server
 // for more info, see: http://expressjs.com
 var express = require('express');
@@ -36,12 +38,14 @@ var db = require('./db');
 
 // Real-time data stream.  emit to all connected clients.
 ls.dataStream.fork().flatMap(db.addCurrentStats).each(function (data) {
+  var temp;
 
   if (Array.isArray(data)) {
 
     data = data.map(function (v) {
-
+      // prune unnecessary for client data
       delete v.cv;
+      delete v.sid;
       return v;
     });
 
@@ -49,16 +53,19 @@ ls.dataStream.fork().flatMap(db.addCurrentStats).each(function (data) {
 
   } else {
 
-    delete data.cv;
+    temp = utils.clone(data);
+    // prune unnecessary for client data
+    delete temp.cv;
+    delete temp.sid;
 
-    io.emit(data.k, [data]);
+    io.emit(temp.k, [temp]);
   }
 });
 
 // Real-time status stream.  emit to all connected clients.
 ls.statusStream.fork().each(function (status) {
 
-  io.emit('STATUS', status);
+  io.emit('STATUS', [status]);
   console.log(status);
 });
 
