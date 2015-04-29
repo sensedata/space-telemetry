@@ -389,3 +389,5 @@ exports.addStats = function (idx) {
     });
   });
 };
+
+exports.selectStatsByIdx = selectStatsByIdx;
