@@ -1,15 +1,4 @@
 {
-  "predef": [
-    "keyDimension",
-    "keyIndex",
-    "telemetry",
-    "timeDimension",
-
-    "io",
-    "moment",
-    "THREE"
-  ],
-
   "bitwise": false,
   "curly": true,
   "eqeqeq": true,
@@ -35,7 +24,5 @@
   "undef": true,
   "unused": "vars",
 
-  "browser": true,
-  "browserify": true,
-  "jquery": true
+  "browser": true
 }

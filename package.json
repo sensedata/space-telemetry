@@ -16,7 +16,9 @@
     "test": "./node_modules/.bin/mocha --reporter spec"
   },
   "dependencies": {
+    "babel-runtime": "^5.1.13",
     "express": "4.12.x",
+    "flux": "^2.0.3",
     "highland": "^2.4.0",
     "lightstreamer-client": "^6.2.5",
     "pg": "^4.3.0",
@@ -29,7 +31,10 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "babel-core": "^5.1.13",
+    "babel-loader": "^5.0.0",
     "chai": "^2.2.0",
-    "mocha": "^2.2.4"
+    "mocha": "^2.2.4",
+    "webpack": "^1.8.11"
   }
 }

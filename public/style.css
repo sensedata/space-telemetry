@@ -537,21 +537,25 @@ table.attitude tbody th {
   text-align: right;
 }
 
+td, th {
+  height: 29px !important;
+}
+
 .row {
   margin-right: -5px;
   margin-left: -5px;
 }
 
-.sparkline {
-  display: block;
+svg.sparkline {
+}
+
+.sparkline path {
   fill: none;
   stroke: #333;
   stroke-width: 0.5px;
-  vertical-align: middle;
-  height: 20px;
 }
 
-.sparkcircle {
+.sparkline circle {
   fill: #f00;
   stroke: none;
 }
