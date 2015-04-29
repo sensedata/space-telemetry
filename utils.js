@@ -1,5 +1,3 @@
-/*jshint node:true*/
-
 // are we operating in the IBM BlueMix env?
 exports.isBluemix = function () {
   return !!process.env.VCAP_APP_PORT;
@@ -19,7 +17,7 @@ exports.getTimeBasedId = function () {
   return Date.now();
 };
 
-// return pseudo UUID based on time
+// return standard deviation 'distance'
 exports.calcStandardDeviationDistance = function (value, avg, stddev) {
 
   return (value - avg) / stddev;
