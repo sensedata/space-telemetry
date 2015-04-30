@@ -1,4 +1,4 @@
-const keyData = [
+const telemetryIds = [
   "AIRLOCK000001",
   "AIRLOCK000002",
   "AIRLOCK000003",
@@ -299,19 +299,18 @@ const keyData = [
   "STATUS"
 ];
 
-var keyIndex = {};
-
-keyData.forEach(function (k, i) {
-  keyIndex[k] = i;
+const telemetryNumbers = {};
+telemetryIds.forEach(function (k, i) {
+  telemetryNumbers[k] = i;
 });
 
 class TelemetryIndex {
-  num(telemetryKey) {
-    return keyIndex[telemetryKey];
+  static id(number) {
+    return telemetryIds[number];
   }
 
-  symbol(telemetryKey) {
-    return Symbol.for(telemetryKey);
+  static number(id) {
+    return telemetryNumbers[id];
   }
 }
 

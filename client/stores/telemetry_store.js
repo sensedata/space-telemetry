@@ -25,7 +25,7 @@ class TelemetryStore extends EventEmitter {
   }
 
   dispatch(payload) {
-    if (payload.telemetrySymbol === this.props.telemetrySymbol && payload.actionType === "new-data") {
+    if (payload.telemetryNum === this.props.telemetryNum && payload.actionType === "new-data") {
       // this.props.dispatcher.waitFor([this.dispatchToken]);
       this.add(payload.data);
     }
