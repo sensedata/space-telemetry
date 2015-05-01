@@ -156,6 +156,7 @@ telemetrySub.addListener({
       sid: telemetrySessionId
     };
 
+
     emitter.emit('data', data);
 
     // if(update.getItemName() === 'USLAB000024') {

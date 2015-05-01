@@ -43,10 +43,12 @@ ls.dataStream.fork().flatMap(db.addCurrentStats).each(function (data) {
   if (Array.isArray(data)) {
 
     data = data.map(function (v) {
+
+      var cpy = utils.clone(v);
       // prune unnecessary for client data
-      delete v.cv;
-      delete v.sid;
-      return v;
+      delete cpy.cv;
+      delete cpy.sid;
+      return cpy;
     });
 
     io.emit(data[0].k, data);
