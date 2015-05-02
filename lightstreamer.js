@@ -102,12 +102,12 @@ timeSub.addListener({
 
     } else if (status !== '24' && subscribed) {
 
-      // give 10 seconds to collect any outstanding data from lightstreamer
+      // give 20 seconds to collect any outstanding data from lightstreamer
       unsubTimeout = setTimeout(function () {
 
         lsClient.unsubscribe(telemetrySub);
 
-      }, 10000);
+      }, 20000);
     }
   }
 });
