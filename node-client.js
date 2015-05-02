@@ -6,7 +6,7 @@ var socket = require('socket.io-client')('http://0.0.0.0:6001');
 // listen for when a connection is established
 socket.on('connect', function () {
 
-  console.log('connect');
+  console.log('connected');
 
   // query for AIRLOCK000049 - 5000 seconds ago, 50 records max
   // socket.emit(dd.hash.AIRLOCK000049, 5000, 5);
@@ -15,14 +15,14 @@ socket.on('connect', function () {
   // query for AIRLOCK000049 - most recent record (seconds ago param must be null)
   // socket.emit(dd.hash.AIRLOCK000049, null, -1);
   // query for STATUS - 5000 seconds ago, 50 records max
-  // socket.emit('STATUS', 5000, 50);
+  // socket.emit(dd.hash.STATUS, 5000, 50);
   // query for STATUS -  most recent record (seconds ago param must be null)
-  // socket.emit('STATUS', null, -1);
-  socket.emit(dd.hash.TIME_000001, 9999, 100);
+  // socket.emit(dd.hash.STATUS, null, -1);
+  // socket.emit(dd.hash.TIME_000001, 9999, 100);
 });
 
 // listen for feed status
-socket.on('STATUS', function (data) {
+socket.on(dd.hash.STATUS, function (data) {
 
   console.log('status: ' + JSON.stringify(data));
 });

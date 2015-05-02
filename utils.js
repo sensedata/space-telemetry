@@ -20,6 +20,11 @@ exports.getTimeBasedId = function () {
 // return standard deviation 'distance'
 exports.calcStandardDeviationDistance = function (value, avg, stddev) {
 
+  if (stddev === 0) {
+    // avoid NaN
+    return 0;
+  }
+
   return (value - avg) / stddev;
 };
 

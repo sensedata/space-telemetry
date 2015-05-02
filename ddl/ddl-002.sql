@@ -5,7 +5,7 @@ create table if not exists status(connected smallint not null, ts timestamp with
 
 -- create session table
 create table if not exists session(session_id bigint not null);
-  
+
 -- create unique session constraint
 alter table session add unique (session_id);
 
@@ -19,7 +19,7 @@ alter table telemetry add unique (idx, value, ts, status);
 create index idx_telemetry_idx_ts on telemetry (idx, ts);
 create index idx_telemetry_idx_status_session_id on telemetry (idx, status, session_id);
 
--- create telemetry stats function  
+-- create telemetry stats function
 create or replace function get_telemetry_time_interval_avg_stddev(_idx int)
   returns table(a double precision, sd double precision) AS
   $func$

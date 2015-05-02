@@ -36,8 +36,15 @@ var ls = require('./lightstreamer');
 
 var db = require('./db');
 
+// 'stopper' function to prevent stats calcs if no clients connected
+function ioHasClients(data) {
+
+  return io.engine.clientsCount > 0;
+}
 // Real-time data stream.  emit to all connected clients.
-ls.dataStream.fork().flatMap(db.addCurrentStats).each(function (data) {
+//
+ls.dataStream.fork().filter(ioHasClients).flatMap(db.addCurrentStats).each(function (data) {
+
   var temp;
 
   if (Array.isArray(data)) {
@@ -64,13 +71,6 @@ ls.dataStream.fork().flatMap(db.addCurrentStats).each(function (data) {
   }
 });
 
-// Real-time status stream.  emit to all connected clients.
-ls.statusStream.fork().each(function (status) {
-
-  io.emit('STATUS', [status]);
-  console.log(status);
-});
-
 function bindDataHandler(socket, idx) {
 
   _(idx.toString(), socket, ['intervalAgo', 'count'])
@@ -83,19 +83,6 @@ function bindDataHandler(socket, idx) {
 }
 
 io.on('connection', function (socket) {
-
-  _('STATUS', socket, ['intervalAgo', 'count'])
-  .flatMap(db.getStatuses).each(
-    function (statuses) {
-
-      socket.emit('STATUS',
-
-        statuses.map(function (v) {
-
-          return {c: v.connected, t: v.ts.getTime() / 1000 | 0};
-        }));
-    });
-
   // create a handler for each telemetry type
   for (var i = 0, l = dd.list.length; i < l; i++) {
 
