@@ -7,6 +7,14 @@ import StatusIndex from "../stores/status_index.js";
 
 class Readout extends BasicView {
 
+  availablePoints() {
+    return 1;
+  }
+
+  earliestAcceptable() {
+    return 0;
+  }
+  
   formatDecimal(raw) {
     let formatted = raw.toFixed(this.props.target.dataset.scale);
     if (this.props.target.dataset.zeroPad === "true") {
@@ -16,10 +24,9 @@ class Readout extends BasicView {
   }
 
   formatText(textKey) {
-    const values = StatusIndex.get(this.props.telemetryNum);
+    const values = StatusIndex.get(this.props.telemetryNumber);
     let value;
     if (values) {value = values[textKey];}
-
     return typeof value === "undefined" ? "Unknown" : value;
   }
 
@@ -28,18 +35,30 @@ class Readout extends BasicView {
   }
 
   renderWithState() {
-    const datum = this.state.data[0];
+    const current = this.state.data[0];
+
+    let datum;
+    if (typeof this.props.target.dataset.quaternionId !== "undefined") {
+      datum = current[this.props.target.dataset.eulerAxis];
+
+    } else {
+      datum = current.v;
+    }
 
     let value;
-    if (this.props.target.classList.contains("text")) {
-      value = this.formatText(datum.v);
+    if (this.props.target.classList.contains("decimal")) {
+      value = this.formatDecimal(datum);
+
+    } else if (this.props.target.classList.contains("integer")) {
+      value = Math.round(datum);
+
+    } else if (this.props.target.classList.contains("text")) {
+      value = this.formatText(datum);
 
     } else if (this.props.target.classList.contains("timestamp")) {
-      value = this.formatTimestamp(datum.v);
-
-    } else if (this.props.target.classList.contains("decimal")) {
-      value = this.formatDecimal(datum.v);
+      value = this.formatTimestamp(datum);
     }
+
 
     return <span>{value}</span>;
   }

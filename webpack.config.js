@@ -10,7 +10,8 @@ module.exports = {
     "jquery": "jQuery",
     "lodash": "_",
     "moment": "moment",
-    "react": "React"
+    "react": "React",
+    "three": "THREE"
   },
 
   module: {

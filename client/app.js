@@ -25,14 +25,25 @@ class App {
 
     _.forEach(views, (view, className) => {
       _.forEach(document.getElementsByClassName(className), e => {
-        const telemetryId = e.dataset.telemetryId;
-        if (!telemetryId) {return;}
-
-        const telemetryNumber = TelemetryIndex.number(telemetryId);
         const props = {
-          store: this.telemetry.getStore(telemetryNumber),
           target: e
         };
+
+        if (typeof e.dataset.quaternionId !== "undefined") {
+          props.store = this.telemetry.getQStore(
+            e.dataset.quaternionId,
+            {
+              x: TelemetryIndex.number(e.dataset.telemetryIdX),
+              y: TelemetryIndex.number(e.dataset.telemetryIdY),
+              z: TelemetryIndex.number(e.dataset.telemetryIdZ),
+              w: TelemetryIndex.number(e.dataset.telemetryIdW)
+            }
+          );
+
+        } else {
+          props.telemetryNumber = TelemetryIndex.number(e.dataset.telemetryId);
+          props.store = this.telemetry.getStore(props.telemetryNumber);
+        }
 
         React.render(React.createFactory(view)(props), e);
       });

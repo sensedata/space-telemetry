@@ -1,11 +1,31 @@
 import App from "../app.js";
+import QuaternionStore from "./quaternion_store.js";
+import TelemetryIndex from "./telemetry_index.js";
 import TelemetryStore from "./telemetry_store.js";
 
 class Telemetry {
   constructor(props) {
     this.props = props;
-    this.stores = [];
+
     this.listeners = [];
+    this.stores = [];
+    this.qStores = {};
+  }
+
+  createQStore(quaternionId, telemetryByAxis) {
+    const storesByAxis = {};
+    Object.keys(telemetryByAxis).forEach(
+      a => {storesByAxis[a] = this.getStore(telemetryByAxis[a]);}
+    );
+
+    const qStore = new QuaternionStore({
+      dispatcher: this.props.dispatcher,
+      storesByAxis: storesByAxis,
+      telemetryByAxis: telemetryByAxis
+    });
+
+    this.qStores[quaternionId] = qStore;
+    return qStore;
   }
 
   createStore(telemetryNumber) {
@@ -41,6 +61,19 @@ class Telemetry {
 
     return store;
   }
+
+  getQStore(quaternionId, telemetryByAxis) {
+    let qStore;
+
+    qStore = this.qStores[quaternionId];
+    if (typeof qStore === "undefined") {
+      qStore = this.createQStore(quaternionId, telemetryByAxis);
+    }
+
+    return qStore;
+  }
 }
+
+Telemetry.CHANGE_EVENT_KEY = Symbol("Telemetry.CHANGE_EVENT_KEY");
 
 export {Telemetry as default};
