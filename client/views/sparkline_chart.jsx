@@ -3,9 +3,9 @@ import D3 from "d3";
 import Moment from "moment";
 import React from "react";
 
-import BasicView from "./basic_view.js";
+import ListeningView from "./listening_view.js";
 
-class SparklineChart extends BasicView {
+class SparklineChart extends ListeningView {
   constructor(props) {
     super(props);
 
@@ -22,11 +22,17 @@ class SparklineChart extends BasicView {
     return Moment().subtract(this.availablePoints() * 2, "seconds").unix();
   }
 
+  storeChanged() {
+    this.setState({
+      data: this.props.store.get(this.availablePoints(), this.earliestAcceptable())
+    });
+  }
+
   renderWithState() {
     if (this.state.data.length <= 0) {
       return false;
     }
-    
+
     const leftToRight = this.state.data.reverse();
 
     const line = D3.svg.line();

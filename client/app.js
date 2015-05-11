@@ -6,10 +6,18 @@ import React from "react";
 import TelemetryIndex from "./telemetry_index.js";
 
 // import BulletChart from "./views/bullet_chart";
-import Readout from "./views/readout.jsx";
 import SparklineChart from "./views/sparkline_chart.jsx";
 
+import DecimalReadout from "./views/readouts/decimal_readout.jsx";
+import IntegerReadout from "./views/readouts/integer_readout.jsx";
+import TextReadout from "./views/readouts/text_readout.jsx";
+import TimestampReadout from "./views/readouts/timestamp_readout.jsx";
+
+import TransmittedAt from "./views/transmitted_at.jsx";
+import TransmissionDelay from "./views/transmission_delay.jsx";
+
 import QuaternionStore from "./stores/quaternion_store.js";
+import SimpleStore from "./stores/simple_store.js";
 import TelemetryStore from "./stores/telemetry_store.js";
 
 class App {
@@ -86,11 +94,14 @@ class App {
   render() {
     const views = {
       // "bullet-chart": BulletChart,
-      "readout": Readout,
-      "sparkline-chart": SparklineChart
+      "readout decimal": React.createFactory(DecimalReadout),
+      "readout integer": React.createFactory(IntegerReadout),
+      "readout text": React.createFactory(TextReadout),
+      "readout timestamp": React.createFactory(TimestampReadout),
+      "sparkline-chart": React.createFactory(SparklineChart)
     };
 
-    _.forEach(views, (view, className) => {
+    _.forEach(views, (viewFactory, className) => {
       _.forEach(document.getElementsByClassName(className), e => {
         const props = {
           target: e
@@ -112,9 +123,25 @@ class App {
           props.store = this.getStore(props.telemetryNumber);
         }
 
-        React.render(React.createFactory(view)(props), e);
+        React.render(viewFactory(props), e);
       });
+
     });
+
+    const latestProps = {
+      store: new SimpleStore({dispatcher: this.dispatcher})
+    };
+
+    React.render(
+      React.createFactory(TransmittedAt)(latestProps),
+      document.getElementById("telemetry-transmitted")
+    );
+
+    React.render(
+      React.createFactory(TransmissionDelay)(latestProps),
+      document.getElementById("telemetry-delay")
+    );
+
   }
 }
 

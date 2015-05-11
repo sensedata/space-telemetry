@@ -2,7 +2,7 @@ import React from "react";
 
 import App from "../app.js";
 
-class BasicView extends React.Component {
+class ListeningView extends React.Component {
   componentDidMount() {
     this.props.store.addListener(
       App.TELEMETRY_EVENT, this.storeChanged.bind(this)
@@ -17,7 +17,7 @@ class BasicView extends React.Component {
 
   storeChanged() {
     this.setState({
-      data: this.props.store.get(this.availablePoints(), this.earliestAcceptable())
+      data: this.props.store.get()
     });
   }
 
@@ -25,7 +25,6 @@ class BasicView extends React.Component {
     if (!this.state) {return false;}
     return this.renderWithState();
   }
-
 }
 
-export {BasicView as default};
+export {ListeningView as default};

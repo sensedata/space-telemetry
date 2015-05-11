@@ -38,7 +38,7 @@ class TelemetryStore extends EventEmitter {
     if (typeof earliestTime !== "undefined") {
       this.timeDimension.filter(t => {return t >= earliestTime;});
     }
-    const top = this.timeDimension.top(maxPoints);
+    const top = this.timeDimension.top(maxPoints || 1);
 
     this.timeDimension.filterAll();
     return top;
