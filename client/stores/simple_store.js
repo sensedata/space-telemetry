@@ -11,8 +11,11 @@ class SimpleStore extends EventEmitter {
   }
 
   update(data) {
-    this.datum = data.sort((a, b) => {return b.t - a.t;})[0];
-    this.emit(App.TELEMETRY_EVENT);
+    const newData = data.sort((a, b) => {return b.t - a.t;})[0];
+    if (!this.datum || newData.t > this.datum.t) {
+      this.datum = newData;
+      this.emit(App.TELEMETRY_EVENT);
+    }
   }
 
   dispatch(payload) {
