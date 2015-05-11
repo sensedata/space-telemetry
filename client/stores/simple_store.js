@@ -1,3 +1,4 @@
+import _ from "lodash";
 import EventEmitter from "events";
 
 import App from "../app.js";
@@ -11,7 +12,7 @@ class SimpleStore extends EventEmitter {
   }
 
   update(data) {
-    const newData = data.sort((a, b) => {return b.t - a.t;})[0];
+    const newData = _.max(data, d => {return d.t;});
     if (!this.datum || newData.t > this.datum.t) {
       this.datum = newData;
       this.emit(App.TELEMETRY_EVENT);

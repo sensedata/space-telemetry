@@ -52,6 +52,9 @@ class App {
 
   listenToServer(telemetryNumber) {
     this.listeners[telemetryNumber] = this.socket.on(telemetryNumber, data => {
+      const newest = _.max(data, d => {return d.t;});
+      // Uncomment to watch telemetry delay bug in action
+      // console.log("now, latest record, difference", moment().unix(), newest.t, moment().unix() - newest.t);
       this.dispatcher.dispatch({
         actionType: "new-data",
         telemetryNumber: telemetryNumber,
@@ -137,11 +140,12 @@ class App {
       document.getElementById("telemetry-transmitted")
     );
 
-    React.render(
+    const delayView = React.render(
       React.createFactory(TransmissionDelay)(latestProps),
       document.getElementById("telemetry-delay")
     );
 
+    window.setInterval(() => {delayView.forceUpdate();}, 1000);
   }
 }
 
