@@ -627,7 +627,7 @@
 	  value: true
 	});
 	
-	var _THREE = __webpack_require__(20);
+	var _THREE = __webpack_require__(19);
 	
 	var _THREE2 = _interopRequireDefault(_THREE);
 	
@@ -719,7 +719,7 @@
 	  value: true
 	});
 	
-	var _Crossfilter = __webpack_require__(19);
+	var _Crossfilter = __webpack_require__(20);
 	
 	var _Crossfilter2 = _interopRequireDefault(_Crossfilter);
 	
@@ -855,13 +855,13 @@
 /* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = crossfilter;
+	module.exports = THREE;
 
 /***/ },
 /* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = THREE;
+	module.exports = crossfilter;
 
 /***/ },
 /* 21 */
@@ -1694,13 +1694,13 @@
 /* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(34), __esModule: true };
+	module.exports = { "default": __webpack_require__(35), __esModule: true };
 
 /***/ },
 /* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(35), __esModule: true };
+	module.exports = { "default": __webpack_require__(34), __esModule: true };
 
 /***/ },
 /* 30 */
@@ -1789,8 +1789,9 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(36);
-	module.exports = function create(P, D){
-	  return $.create(P, D);
+	__webpack_require__(39);
+	module.exports = function getOwnPropertyDescriptor(it, key){
+	  return $.getDesc(it, key);
 	};
 
 /***/ },
@@ -1798,9 +1799,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(36);
-	__webpack_require__(39);
-	module.exports = function getOwnPropertyDescriptor(it, key){
-	  return $.getDesc(it, key);
+	module.exports = function create(P, D){
+	  return $.create(P, D);
 	};
 
 /***/ },
