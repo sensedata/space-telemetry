@@ -9,7 +9,7 @@ var emitter = new EventEmitter();
 
 exports.dataStream = _('data', emitter);
 
-exports.statusStream = _('status', emitter);
+// exports.statusStream = _('status', emitter);
 
 var ls = require('lightstreamer-client');
 
@@ -26,7 +26,9 @@ lsClient.connectionOptions.setSlowingEnabled(false);
 var telemetrySub = new ls.Subscription('MERGE', dd.list, SCHEMA);
 var timeSub = new ls.Subscription('MERGE', 'TIME_000001', ['Status.Class']);
 
+var statusIdx = dd.hash.STATUS;
 var telemetrySessionId;
+var previousStatus = {c: -1, t: -1};
 
 // interpret status based on our connection health with lightstreamer
 function statusUpdate() {
@@ -35,7 +37,11 @@ function statusUpdate() {
 
   resolvedStatus = 0,
 
-  isSubscribed = telemetrySub.isSubscribed();
+  isSubscribed = telemetrySub.isSubscribed(),
+
+  now = Date.now() / 1000 | 0,
+
+  data;
 
   if (cs.indexOf('CONNECTED') > -1 && isSubscribed) {
 
@@ -46,10 +52,17 @@ function statusUpdate() {
     resolvedStatus = 0;
   }
 
-  emitter.emit('status', {
-    c: resolvedStatus,
-    t: Date.now() / 1000 | 0
-  });
+  data = {
+    k: statusIdx,
+    v: resolvedStatus,
+    t: now,
+    s: resolvedStatus === 1 ? 24 : 2,  // 24 and 2 are values from telemetry
+    sid: now
+  };
+
+  console.log(data);
+
+  emitter.emit('data', data);
 }
 
 lsClient.addListener({
@@ -89,8 +102,12 @@ timeSub.addListener({
 
     } else if (status !== '24' && subscribed) {
 
-      // give 60 seconds to collect any outstanding data from lightstreamer
-      unsubTimeout = setTimeout(function () { lsClient.unsubscribe(telemetrySub); }, 60000);
+      // give 20 seconds to collect any outstanding data from lightstreamer
+      unsubTimeout = setTimeout(function () {
+
+        lsClient.unsubscribe(telemetrySub);
+
+      }, 20000);
     }
   }
 });

@@ -93,45 +93,6 @@ function selectMostRecentByIdxIntervalAgoCount(idx, intervalAgo, count, cb) {
   });
 }
 
-function selectStatusesByIntervalAgoCount(intervalAgo, count, cb) {
-
-  pg.connect(psql, function (err, client, done) {
-
-    var now = Date.now() / 1000 | 0;
-
-    if (err) {
-      console.error('Error requesting postgres client', err);
-      return cb(err);
-    }
-
-    count = count || 1;
-    if (count < 1) {
-
-      count = 1;
-      intervalAgo = now;
-
-    } else {
-
-      intervalAgo = intervalAgo || now;
-      if (intervalAgo < 1) {
-
-        intervalAgo = now;
-      }
-    }
-
-    client.query(
-      'with top_x as (select * from status ' +
-      'where ts >= to_timestamp($1) order by ts desc limit $2) ' +
-      'select * from top_x order by ts asc',
-      [now - intervalAgo, count],
-      function (err2, res) {
-
-        done();
-        cb(err2, res);
-      });
-  });
-}
-
 function selectStatsByIdx(idx, cb) {
 
   pg.connect(psql, function (err, client, done) {
@@ -211,34 +172,6 @@ ls.dataStream.fork().each(function (data) {
   }
 });
 
-ls.statusStream.fork().each(function (status) {
-
-  if (!utils.isReadOnly()) {
-
-    pg.connect(psql, function (err, client, done) {
-
-      if (err) {
-
-        return console.error('Error requesting postgres client', err);
-      }
-
-      client.query('insert into status (connected, ts) values ($1, to_timestamp($2))',
-      [status.c, status.t],
-
-      function (err2) {
-
-        done();
-
-        if (err2) {
-
-          return console.error('Error inserting data', err2);
-        }
-      });
-    });
-  }
-  // console.log(status);
-});
-
 var previousIdxTimeHash = {};
 
 exports.addCurrentStats = _.wrapCallback(function (data, next) {
@@ -272,20 +205,6 @@ exports.addCurrentStats = _.wrapCallback(function (data, next) {
     data.d = sdd === Infinity ? 0 : sdd;
 
     next(null, [data]);
-  });
-});
-
-exports.getStatuses = _.wrapCallback(function (params, next) {
-
-  selectStatusesByIntervalAgoCount(params.intervalAgo, params.count, function (err, res) {
-
-    if (err) {
-
-      next(err);
-      return;
-    }
-
-    next(null, res.rows);
   });
 });
 

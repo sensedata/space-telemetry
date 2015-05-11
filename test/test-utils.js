@@ -92,7 +92,7 @@ describe('Standard Deviation', function () {
 
     var sdd = utils.calcStandardDeviationDistance(1, 1, 0);
 
-    assert(isNaN(sdd), 'should be equal to NaN');
+    assert(sdd === 0, 'should be equal to 0');
   });
 
 });
