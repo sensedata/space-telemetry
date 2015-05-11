@@ -52,7 +52,7 @@
 	
 	var _App2 = _interopRequireDefault(_App);
 	
-	_App2["default"].render();
+	new _App2["default"]().render();
 
 /***/ },
 /* 1 */
@@ -64,7 +64,9 @@
 	
 	var _classCallCheck = __webpack_require__(7)["default"];
 	
-	var _Object$defineProperty = __webpack_require__(12)["default"];
+	var _Object$defineProperty = __webpack_require__(8)["default"];
+	
+	var _Symbol = __webpack_require__(9)["default"];
 	
 	var _interopRequireDefault = __webpack_require__(2)["default"];
 	
@@ -76,7 +78,7 @@
 	
 	var _import2 = _interopRequireDefault(_import);
 	
-	var _Flux = __webpack_require__(13);
+	var _Flux = __webpack_require__(15);
 	
 	var _Flux2 = _interopRequireDefault(_Flux);
 	
@@ -88,23 +90,27 @@
 	
 	var _React2 = _interopRequireDefault(_React);
 	
-	// import BulletChart from "./views/bullet_chart.jsx";
+	var _TelemetryIndex = __webpack_require__(10);
 	
-	var _Readout = __webpack_require__(8);
+	var _TelemetryIndex2 = _interopRequireDefault(_TelemetryIndex);
+	
+	// import BulletChart from "./views/bullet_chart";
+	
+	var _Readout = __webpack_require__(11);
 	
 	var _Readout2 = _interopRequireDefault(_Readout);
 	
-	var _SparklineChart = __webpack_require__(9);
+	var _SparklineChart = __webpack_require__(12);
 	
 	var _SparklineChart2 = _interopRequireDefault(_SparklineChart);
 	
-	var _Telemetry = __webpack_require__(10);
+	var _QuaternionStore = __webpack_require__(13);
 	
-	var _Telemetry2 = _interopRequireDefault(_Telemetry);
+	var _QuaternionStore2 = _interopRequireDefault(_QuaternionStore);
 	
-	var _TelemetryIndex = __webpack_require__(11);
+	var _TelemetryStore = __webpack_require__(14);
 	
-	var _TelemetryIndex2 = _interopRequireDefault(_TelemetryIndex);
+	var _TelemetryStore2 = _interopRequireDefault(_TelemetryStore);
 	
 	var App = (function () {
 	  function App() {
@@ -112,13 +118,84 @@
 	
 	    this.dispatcher = new _Flux2["default"].Dispatcher();
 	    this.socket = _IO2["default"]();
-	    this.telemetry = new _Telemetry2["default"]({ dispatcher: this.dispatcher });
+	
+	    this.listeners = [];
+	    this.stores = [];
+	    this.qStores = {};
 	  }
 	
 	  _createClass(App, [{
+	    key: "createQStore",
+	    value: function createQStore(quaternionId, axialNumbers) {
+	      var qStore = new _QuaternionStore2["default"]({
+	        dispatcher: this.dispatcher,
+	        axialNumbers: axialNumbers
+	      });
+	
+	      this.qStores[quaternionId] = qStore;
+	      return qStore;
+	    }
+	  }, {
+	    key: "createStore",
+	    value: function createStore(telemetryNumber) {
+	      var store = new _TelemetryStore2["default"]({
+	        telemetryNumber: telemetryNumber,
+	        dispatcher: this.dispatcher
+	      });
+	
+	      this.stores[telemetryNumber] = store;
+	      return store;
+	    }
+	  }, {
+	    key: "listenToServer",
+	    value: function listenToServer(telemetryNumber) {
+	      var _this = this;
+	
+	      this.listeners[telemetryNumber] = this.socket.on(telemetryNumber, function (data) {
+	        _this.dispatcher.dispatch({
+	          actionType: "new-data",
+	          telemetryNumber: telemetryNumber,
+	          data: data
+	        });
+	      });
+	      this.socket.emit(telemetryNumber, 1000000000, 100);
+	    }
+	  }, {
+	    key: "getStore",
+	    value: function getStore(telemetryNumber) {
+	      var store = this.stores[telemetryNumber];
+	      if (typeof store === "undefined") {
+	        store = this.createStore(telemetryNumber);
+	      }
+	
+	      if (!this.listeners[telemetryNumber]) {
+	        this.listenToServer(telemetryNumber);
+	      }
+	
+	      return store;
+	    }
+	  }, {
+	    key: "getQStore",
+	    value: function getQStore(quaternionId, axialNumbers) {
+	      var qStore = undefined;
+	
+	      qStore = this.qStores[quaternionId];
+	      if (typeof qStore === "undefined") {
+	        qStore = this.createQStore(quaternionId, axialNumbers);
+	      }
+	
+	      for (var a in axialNumbers) {
+	        if (!this.listeners[axialNumbers[a]]) {
+	          this.listenToServer(axialNumbers[a]);
+	        }
+	      }
+	
+	      return qStore;
+	    }
+	  }, {
 	    key: "render",
 	    value: function render() {
-	      var _this = this;
+	      var _this2 = this;
 	
 	      var views = {
 	        // "bullet-chart": BulletChart,
@@ -133,7 +210,7 @@
 	          };
 	
 	          if (typeof e.dataset.quaternionId !== "undefined") {
-	            props.store = _this.telemetry.getQStore(e.dataset.quaternionId, {
+	            props.store = _this2.getQStore(e.dataset.quaternionId, {
 	              x: _TelemetryIndex2["default"].number(e.dataset.telemetryIdX),
 	              y: _TelemetryIndex2["default"].number(e.dataset.telemetryIdY),
 	              z: _TelemetryIndex2["default"].number(e.dataset.telemetryIdZ),
@@ -141,7 +218,7 @@
 	            });
 	          } else {
 	            props.telemetryNumber = _TelemetryIndex2["default"].number(e.dataset.telemetryId);
-	            props.store = _this.telemetry.getStore(props.telemetryNumber);
+	            props.store = _this2.getStore(props.telemetryNumber);
 	          }
 	
 	          _React2["default"].render(_React2["default"].createFactory(view)(props), e);
@@ -153,7 +230,9 @@
 	  return App;
 	})();
 	
-	exports["default"] = new App();
+	App.TELEMETRY_EVENT = _Symbol("App.TELEMETRY_EVENT");
+	
+	exports["default"] = App;
 	module.exports = exports["default"];
 
 /***/ },
@@ -194,7 +273,7 @@
 
 	"use strict";
 	
-	var _Object$defineProperty = __webpack_require__(12)["default"];
+	var _Object$defineProperty = __webpack_require__(8)["default"];
 	
 	exports["default"] = (function () {
 	  function defineProperties(target, props) {
@@ -235,15 +314,73 @@
 /* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
+	module.exports = { "default": __webpack_require__(30), __esModule: true };
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(31), __esModule: true };
+
+/***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
 	"use strict";
-	
-	var _inherits = __webpack_require__(17)["default"];
 	
 	var _createClass = __webpack_require__(6)["default"];
 	
 	var _classCallCheck = __webpack_require__(7)["default"];
 	
-	var _Object$defineProperty = __webpack_require__(12)["default"];
+	var _Object$defineProperty = __webpack_require__(8)["default"];
+	
+	_Object$defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var telemetryIds = ["AIRLOCK000001", "AIRLOCK000002", "AIRLOCK000003", "AIRLOCK000004", "AIRLOCK000005", "AIRLOCK000006", "AIRLOCK000007", "AIRLOCK000008", "AIRLOCK000009", "AIRLOCK000010", "AIRLOCK000011", "AIRLOCK000012", "AIRLOCK000013", "AIRLOCK000014", "AIRLOCK000015", "AIRLOCK000016", "AIRLOCK000017", "AIRLOCK000018", "AIRLOCK000019", "AIRLOCK000020", "AIRLOCK000021", "AIRLOCK000022", "AIRLOCK000023", "AIRLOCK000024", "AIRLOCK000025", "AIRLOCK000026", "AIRLOCK000027", "AIRLOCK000028", "AIRLOCK000029", "AIRLOCK000030", "AIRLOCK000031", "AIRLOCK000032", "AIRLOCK000033", "AIRLOCK000034", "AIRLOCK000035", "AIRLOCK000036", "AIRLOCK000037", "AIRLOCK000038", "AIRLOCK000039", "AIRLOCK000040", "AIRLOCK000041", "AIRLOCK000042", "AIRLOCK000043", "AIRLOCK000044", "AIRLOCK000045", "AIRLOCK000046", "AIRLOCK000047", "AIRLOCK000048", "AIRLOCK000049", "AIRLOCK000050", "AIRLOCK000051", "AIRLOCK000052", "AIRLOCK000053", "AIRLOCK000054", "AIRLOCK000055", "AIRLOCK000056", "AIRLOCK000057", "AIRLOCK000058", "NODE1000001", "NODE1000002", "NODE2000001", "NODE2000002", "NODE2000003", "NODE2000004", "NODE2000005", "NODE2000006", "NODE2000007", "NODE3000001", "NODE3000002", "NODE3000003", "NODE3000004", "NODE3000005", "NODE3000006", "NODE3000007", "NODE3000008", "NODE3000009", "NODE3000010", "NODE3000011", "NODE3000012", "NODE3000013", "NODE3000014", "NODE3000015", "NODE3000016", "NODE3000017", "NODE3000018", "NODE3000019", "NODE3000020", "P1000001", "P1000002", "P1000003", "P1000004", "P1000005", "P1000006", "P1000007", "P1000008", "P1000009", "P3000001", "P3000002", "P4000001", "P4000002", "P4000003", "P4000004", "P4000005", "P4000006", "P4000007", "P4000008", "P6000001", "P6000002", "P6000003", "P6000004", "P6000005", "P6000006", "P6000007", "P6000008", "RUSSEG000001", "RUSSEG000002", "RUSSEG000003", "RUSSEG000004", "RUSSEG000005", "RUSSEG000006", "RUSSEG000007", "RUSSEG000008", "RUSSEG000009", "RUSSEG000010", "RUSSEG000011", "RUSSEG000012", "RUSSEG000013", "RUSSEG000014", "RUSSEG000015", "RUSSEG000016", "RUSSEG000017", "RUSSEG000018", "RUSSEG000019", "RUSSEG000020", "RUSSEG000021", "RUSSEG000022", "RUSSEG000023", "RUSSEG000024", "RUSSEG000025", "S0000001", "S0000002", "S0000003", "S0000004", "S0000005", "S0000006", "S0000007", "S0000008", "S0000009", "S0000010", "S0000011", "S0000012", "S0000013", "S1000001", "S1000002", "S1000003", "S1000004", "S1000005", "S1000006", "S1000007", "S1000008", "S1000009", "S3000001", "S3000002", "S4000001", "S4000002", "S4000003", "S4000004", "S4000005", "S4000006", "S4000007", "S4000008", "S6000001", "S6000002", "S6000003", "S6000004", "S6000005", "S6000006", "S6000007", "S6000008", "USLAB000001", "USLAB000002", "USLAB000003", "USLAB000004", "USLAB000005", "USLAB000006", "USLAB000007", "USLAB000008", "USLAB000009", "USLAB000010", "USLAB000011", "USLAB000012", "USLAB000013", "USLAB000014", "USLAB000015", "USLAB000016", "USLAB000017", "USLAB000018", "USLAB000019", "USLAB000020", "USLAB000021", "USLAB000022", "USLAB000023", "USLAB000024", "USLAB000025", "USLAB000026", "USLAB000027", "USLAB000028", "USLAB000029", "USLAB000030", "USLAB000031", "USLAB000032", "USLAB000033", "USLAB000034", "USLAB000035", "USLAB000036", "USLAB000037", "USLAB000038", "USLAB000039", "USLAB000040", "USLAB000041", "USLAB000042", "USLAB000043", "USLAB000044", "USLAB000045", "USLAB000046", "USLAB000047", "USLAB000048", "USLAB000049", "USLAB000050", "USLAB000051", "USLAB000052", "USLAB000053", "USLAB000054", "USLAB000055", "USLAB000056", "USLAB000057", "USLAB000058", "USLAB000059", "USLAB000060", "USLAB000061", "USLAB000062", "USLAB000063", "USLAB000064", "USLAB000065", "USLAB000066", "USLAB000067", "USLAB000068", "USLAB000069", "USLAB000070", "USLAB000071", "USLAB000072", "USLAB000073", "USLAB000074", "USLAB000075", "USLAB000076", "USLAB000077", "USLAB000078", "USLAB000079", "USLAB000080", "USLAB000081", "USLAB000082", "USLAB000083", "USLAB000084", "USLAB000085", "USLAB000086", "USLAB000087", "USLAB000088", "USLAB000089", "USLAB000090", "USLAB000091", "USLAB000092", "USLAB000093", "USLAB000094", "USLAB000095", "USLAB000096", "USLAB000097", "USLAB000098", "USLAB000099", "USLAB000100", "USLAB000101", "USLAB000102", "Z1000001", "Z1000002", "Z1000003", "Z1000004", "Z1000005", "Z1000006", "Z1000007", "Z1000008", "Z1000009", "Z1000010", "Z1000011", "Z1000012", "Z1000013", "Z1000014", "Z1000015", "TIME_000001", "STATUS"];
+	
+	var telemetryNumbers = {};
+	telemetryIds.forEach(function (k, i) {
+	  telemetryNumbers[k] = i;
+	});
+	
+	var TelemetryIndex = (function () {
+	  function TelemetryIndex() {
+	    _classCallCheck(this, TelemetryIndex);
+	  }
+	
+	  _createClass(TelemetryIndex, null, [{
+	    key: "id",
+	    value: function id(number) {
+	      return telemetryIds[number];
+	    }
+	  }, {
+	    key: "number",
+	    value: function number(id) {
+	      return telemetryNumbers[id];
+	    }
+	  }]);
+	
+	  return TelemetryIndex;
+	})();
+	
+	exports["default"] = TelemetryIndex;
+	module.exports = exports["default"];
+
+/***/ },
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _inherits = __webpack_require__(21)["default"];
+	
+	var _createClass = __webpack_require__(6)["default"];
+	
+	var _classCallCheck = __webpack_require__(7)["default"];
+	
+	var _Object$defineProperty = __webpack_require__(8)["default"];
 	
 	var _interopRequireDefault = __webpack_require__(2)["default"];
 	
@@ -255,7 +392,7 @@
 	
 	var _import2 = _interopRequireDefault(_import);
 	
-	var _Moment = __webpack_require__(14);
+	var _Moment = __webpack_require__(16);
 	
 	var _Moment2 = _interopRequireDefault(_Moment);
 	
@@ -263,13 +400,13 @@
 	
 	var _React2 = _interopRequireDefault(_React);
 	
-	var _BasicView2 = __webpack_require__(23);
+	var _BasicView2 = __webpack_require__(24);
 	
 	var _BasicView3 = _interopRequireDefault(_BasicView2);
 	
-	var _StatusIndex = __webpack_require__(24);
+	var _StatusDictionary = __webpack_require__(25);
 	
-	var _StatusIndex2 = _interopRequireDefault(_StatusIndex);
+	var _StatusDictionary2 = _interopRequireDefault(_StatusDictionary);
 	
 	var Readout = (function (_BasicView) {
 	  function Readout() {
@@ -304,7 +441,7 @@
 	  }, {
 	    key: "formatText",
 	    value: function formatText(textKey) {
-	      var values = _StatusIndex2["default"].get(this.props.telemetryNumber);
+	      var values = _StatusDictionary2["default"].get(this.props.telemetryNumber);
 	      var value = undefined;
 	      if (values) {
 	        value = values[textKey];
@@ -354,20 +491,20 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 9 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
-	var _inherits = __webpack_require__(17)["default"];
+	var _inherits = __webpack_require__(21)["default"];
 	
-	var _get = __webpack_require__(18)["default"];
+	var _get = __webpack_require__(22)["default"];
 	
 	var _createClass = __webpack_require__(6)["default"];
 	
 	var _classCallCheck = __webpack_require__(7)["default"];
 	
-	var _Object$defineProperty = __webpack_require__(12)["default"];
+	var _Object$defineProperty = __webpack_require__(8)["default"];
 	
 	var _interopRequireDefault = __webpack_require__(2)["default"];
 	
@@ -375,15 +512,15 @@
 	  value: true
 	});
 	
-	var _$ = __webpack_require__(15);
+	var _$ = __webpack_require__(17);
 	
 	var _$2 = _interopRequireDefault(_$);
 	
-	var _D3 = __webpack_require__(16);
+	var _D3 = __webpack_require__(18);
 	
 	var _D32 = _interopRequireDefault(_D3);
 	
-	var _Moment = __webpack_require__(14);
+	var _Moment = __webpack_require__(16);
 	
 	var _Moment2 = _interopRequireDefault(_Moment);
 	
@@ -391,7 +528,7 @@
 	
 	var _React2 = _interopRequireDefault(_React);
 	
-	var _BasicView2 = __webpack_require__(23);
+	var _BasicView2 = __webpack_require__(24);
 	
 	var _BasicView3 = _interopRequireDefault(_BasicView2);
 	
@@ -469,20 +606,20 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 10 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	
+	var _inherits = __webpack_require__(21)["default"];
+	
+	var _get = __webpack_require__(22)["default"];
 	
 	var _createClass = __webpack_require__(6)["default"];
 	
 	var _classCallCheck = __webpack_require__(7)["default"];
 	
-	var _Object$defineProperty = __webpack_require__(12)["default"];
-	
-	var _Object$keys = __webpack_require__(19)["default"];
-	
-	var _Symbol = __webpack_require__(20)["default"];
+	var _Object$defineProperty = __webpack_require__(8)["default"];
 	
 	var _interopRequireDefault = __webpack_require__(2)["default"];
 	
@@ -490,165 +627,198 @@
 	  value: true
 	});
 	
+	var _THREE = __webpack_require__(20);
+	
+	var _THREE2 = _interopRequireDefault(_THREE);
+	
+	var _EventEmitter2 = __webpack_require__(27);
+	
+	var _EventEmitter3 = _interopRequireDefault(_EventEmitter2);
+	
 	var _App = __webpack_require__(1);
 	
 	var _App2 = _interopRequireDefault(_App);
 	
-	var _QuaternionStore = __webpack_require__(21);
+	var QuaternionStore = (function (_EventEmitter) {
+	  function QuaternionStore(props) {
+	    _classCallCheck(this, QuaternionStore);
 	
-	var _QuaternionStore2 = _interopRequireDefault(_QuaternionStore);
-	
-	var _TelemetryIndex = __webpack_require__(11);
-	
-	var _TelemetryIndex2 = _interopRequireDefault(_TelemetryIndex);
-	
-	var _TelemetryStore = __webpack_require__(22);
-	
-	var _TelemetryStore2 = _interopRequireDefault(_TelemetryStore);
-	
-	var Telemetry = (function () {
-	  function Telemetry(props) {
-	    _classCallCheck(this, Telemetry);
+	    _get(Object.getPrototypeOf(QuaternionStore.prototype), "constructor", this).call(this, props);
 	
 	    this.props = props;
+	    this.quaternion = new _THREE2["default"].Quaternion();
+	    this.euler = [new _THREE2["default"].Euler()];
 	
-	    this.listeners = [];
-	    this.stores = [];
-	    this.qStores = {};
+	    this.dispatchToken = props.dispatcher.register(this.dispatch.bind(this));
 	  }
 	
-	  _createClass(Telemetry, [{
-	    key: "createQStore",
-	    value: function createQStore(quaternionId, telemetryByAxis) {
-	      var _this = this;
+	  _inherits(QuaternionStore, _EventEmitter);
 	
-	      var storesByAxis = {};
-	      _Object$keys(telemetryByAxis).forEach(function (a) {
-	        storesByAxis[a] = _this.getStore(telemetryByAxis[a]);
-	      });
+	  _createClass(QuaternionStore, [{
+	    key: "update",
+	    value: function update(axis, data) {
+	      this.quaternion[axis] = data.sort(function (a, b) {
+	        return b.t - a.t;
+	      })[0].v;
+	      this.euler[0].setFromQuaternion(this.quaternion);
 	
-	      var qStore = new _QuaternionStore2["default"]({
-	        dispatcher: this.props.dispatcher,
-	        storesByAxis: storesByAxis,
-	        telemetryByAxis: telemetryByAxis
-	      });
-	
-	      this.qStores[quaternionId] = qStore;
-	      return qStore;
+	      this.emit(_App2["default"].TELEMETRY_EVENT);
 	    }
 	  }, {
-	    key: "createStore",
-	    value: function createStore(telemetryNumber) {
-	      var store = new _TelemetryStore2["default"]({
-	        telemetryNumber: telemetryNumber,
-	        dispatcher: this.props.dispatcher
-	      });
+	    key: "dispatch",
+	    value: function dispatch(payload) {
+	      if (payload.actionType === "new-data") {
+	        // this.props.dispatcher.waitFor([this.dispatchToken]);
 	
-	      this.stores[telemetryNumber] = store;
-	      return store;
-	    }
-	  }, {
-	    key: "listenToServer",
-	    value: function listenToServer(telemetryNumber) {
-	      this.listeners[telemetryNumber] = _App2["default"].socket.on(telemetryNumber, function (data) {
-	        _App2["default"].dispatcher.dispatch({
-	          actionType: "new-data",
-	          telemetryNumber: telemetryNumber,
-	          data: data
-	        });
-	      });
-	      _App2["default"].socket.emit(telemetryNumber, 1000000000, 100);
-	    }
-	  }, {
-	    key: "getStore",
-	    value: function getStore(telemetryNumber) {
-	      var store = this.stores[telemetryNumber];
-	      if (typeof store === "undefined") {
-	        store = this.createStore(telemetryNumber);
+	        switch (payload.telemetryNumber) {
+	          case this.props.axialNumbers.x:
+	            this.update("x", payload.data);break;
+	          case this.props.axialNumbers.y:
+	            this.update("y", payload.data);break;
+	          case this.props.axialNumbers.z:
+	            this.update("z", payload.data);break;
+	          case this.props.axialNumbers.w:
+	            this.update("w", payload.data);break;
+	        }
 	      }
-	
-	      if (!this.listeners[telemetryNumber]) {
-	        this.listenToServer(telemetryNumber);
-	      }
-	
-	      return store;
 	    }
 	  }, {
-	    key: "getQStore",
-	    value: function getQStore(quaternionId, telemetryByAxis) {
-	      var qStore = undefined;
-	
-	      qStore = this.qStores[quaternionId];
-	      if (typeof qStore === "undefined") {
-	        qStore = this.createQStore(quaternionId, telemetryByAxis);
-	      }
-	
-	      return qStore;
+	    key: "get",
+	    value: function get() {
+	      return this.euler;
 	    }
 	  }]);
 	
-	  return Telemetry;
-	})();
+	  return QuaternionStore;
+	})(_EventEmitter3["default"]);
 	
-	Telemetry.CHANGE_EVENT_KEY = _Symbol("Telemetry.CHANGE_EVENT_KEY");
-	
-	exports["default"] = Telemetry;
+	exports["default"] = QuaternionStore;
 	module.exports = exports["default"];
 
 /***/ },
-/* 11 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
+	
+	var _inherits = __webpack_require__(21)["default"];
+	
+	var _get = __webpack_require__(22)["default"];
 	
 	var _createClass = __webpack_require__(6)["default"];
 	
 	var _classCallCheck = __webpack_require__(7)["default"];
 	
-	var _Object$defineProperty = __webpack_require__(12)["default"];
+	var _Object$defineProperty = __webpack_require__(8)["default"];
+	
+	var _Object$assign = __webpack_require__(23)["default"];
+	
+	var _interopRequireDefault = __webpack_require__(2)["default"];
 	
 	_Object$defineProperty(exports, "__esModule", {
 	  value: true
 	});
 	
-	var telemetryIds = ["AIRLOCK000001", "AIRLOCK000002", "AIRLOCK000003", "AIRLOCK000004", "AIRLOCK000005", "AIRLOCK000006", "AIRLOCK000007", "AIRLOCK000008", "AIRLOCK000009", "AIRLOCK000010", "AIRLOCK000011", "AIRLOCK000012", "AIRLOCK000013", "AIRLOCK000014", "AIRLOCK000015", "AIRLOCK000016", "AIRLOCK000017", "AIRLOCK000018", "AIRLOCK000019", "AIRLOCK000020", "AIRLOCK000021", "AIRLOCK000022", "AIRLOCK000023", "AIRLOCK000024", "AIRLOCK000025", "AIRLOCK000026", "AIRLOCK000027", "AIRLOCK000028", "AIRLOCK000029", "AIRLOCK000030", "AIRLOCK000031", "AIRLOCK000032", "AIRLOCK000033", "AIRLOCK000034", "AIRLOCK000035", "AIRLOCK000036", "AIRLOCK000037", "AIRLOCK000038", "AIRLOCK000039", "AIRLOCK000040", "AIRLOCK000041", "AIRLOCK000042", "AIRLOCK000043", "AIRLOCK000044", "AIRLOCK000045", "AIRLOCK000046", "AIRLOCK000047", "AIRLOCK000048", "AIRLOCK000049", "AIRLOCK000050", "AIRLOCK000051", "AIRLOCK000052", "AIRLOCK000053", "AIRLOCK000054", "AIRLOCK000055", "AIRLOCK000056", "AIRLOCK000057", "AIRLOCK000058", "NODE1000001", "NODE1000002", "NODE2000001", "NODE2000002", "NODE2000003", "NODE2000004", "NODE2000005", "NODE2000006", "NODE2000007", "NODE3000001", "NODE3000002", "NODE3000003", "NODE3000004", "NODE3000005", "NODE3000006", "NODE3000007", "NODE3000008", "NODE3000009", "NODE3000010", "NODE3000011", "NODE3000012", "NODE3000013", "NODE3000014", "NODE3000015", "NODE3000016", "NODE3000017", "NODE3000018", "NODE3000019", "NODE3000020", "P1000001", "P1000002", "P1000003", "P1000004", "P1000005", "P1000006", "P1000007", "P1000008", "P1000009", "P3000001", "P3000002", "P4000001", "P4000002", "P4000003", "P4000004", "P4000005", "P4000006", "P4000007", "P4000008", "P6000001", "P6000002", "P6000003", "P6000004", "P6000005", "P6000006", "P6000007", "P6000008", "RUSSEG000001", "RUSSEG000002", "RUSSEG000003", "RUSSEG000004", "RUSSEG000005", "RUSSEG000006", "RUSSEG000007", "RUSSEG000008", "RUSSEG000009", "RUSSEG000010", "RUSSEG000011", "RUSSEG000012", "RUSSEG000013", "RUSSEG000014", "RUSSEG000015", "RUSSEG000016", "RUSSEG000017", "RUSSEG000018", "RUSSEG000019", "RUSSEG000020", "RUSSEG000021", "RUSSEG000022", "RUSSEG000023", "RUSSEG000024", "RUSSEG000025", "S0000001", "S0000002", "S0000003", "S0000004", "S0000005", "S0000006", "S0000007", "S0000008", "S0000009", "S0000010", "S0000011", "S0000012", "S0000013", "S1000001", "S1000002", "S1000003", "S1000004", "S1000005", "S1000006", "S1000007", "S1000008", "S1000009", "S3000001", "S3000002", "S4000001", "S4000002", "S4000003", "S4000004", "S4000005", "S4000006", "S4000007", "S4000008", "S6000001", "S6000002", "S6000003", "S6000004", "S6000005", "S6000006", "S6000007", "S6000008", "USLAB000001", "USLAB000002", "USLAB000003", "USLAB000004", "USLAB000005", "USLAB000006", "USLAB000007", "USLAB000008", "USLAB000009", "USLAB000010", "USLAB000011", "USLAB000012", "USLAB000013", "USLAB000014", "USLAB000015", "USLAB000016", "USLAB000017", "USLAB000018", "USLAB000019", "USLAB000020", "USLAB000021", "USLAB000022", "USLAB000023", "USLAB000024", "USLAB000025", "USLAB000026", "USLAB000027", "USLAB000028", "USLAB000029", "USLAB000030", "USLAB000031", "USLAB000032", "USLAB000033", "USLAB000034", "USLAB000035", "USLAB000036", "USLAB000037", "USLAB000038", "USLAB000039", "USLAB000040", "USLAB000041", "USLAB000042", "USLAB000043", "USLAB000044", "USLAB000045", "USLAB000046", "USLAB000047", "USLAB000048", "USLAB000049", "USLAB000050", "USLAB000051", "USLAB000052", "USLAB000053", "USLAB000054", "USLAB000055", "USLAB000056", "USLAB000057", "USLAB000058", "USLAB000059", "USLAB000060", "USLAB000061", "USLAB000062", "USLAB000063", "USLAB000064", "USLAB000065", "USLAB000066", "USLAB000067", "USLAB000068", "USLAB000069", "USLAB000070", "USLAB000071", "USLAB000072", "USLAB000073", "USLAB000074", "USLAB000075", "USLAB000076", "USLAB000077", "USLAB000078", "USLAB000079", "USLAB000080", "USLAB000081", "USLAB000082", "USLAB000083", "USLAB000084", "USLAB000085", "USLAB000086", "USLAB000087", "USLAB000088", "USLAB000089", "USLAB000090", "USLAB000091", "USLAB000092", "USLAB000093", "USLAB000094", "USLAB000095", "USLAB000096", "USLAB000097", "USLAB000098", "USLAB000099", "USLAB000100", "USLAB000101", "USLAB000102", "Z1000001", "Z1000002", "Z1000003", "Z1000004", "Z1000005", "Z1000006", "Z1000007", "Z1000008", "Z1000009", "Z1000010", "Z1000011", "Z1000012", "Z1000013", "Z1000014", "Z1000015", "TIME_000001", "STATUS"];
+	var _Crossfilter = __webpack_require__(19);
 	
-	var telemetryNumbers = {};
-	telemetryIds.forEach(function (k, i) {
-	  telemetryNumbers[k] = i;
-	});
+	var _Crossfilter2 = _interopRequireDefault(_Crossfilter);
 	
-	var TelemetryIndex = (function () {
-	  function TelemetryIndex() {
-	    _classCallCheck(this, TelemetryIndex);
+	var _EventEmitter2 = __webpack_require__(27);
+	
+	var _EventEmitter3 = _interopRequireDefault(_EventEmitter2);
+	
+	var _App = __webpack_require__(1);
+	
+	var _App2 = _interopRequireDefault(_App);
+	
+	var TelemetryStore = (function (_EventEmitter) {
+	  function TelemetryStore(props) {
+	    _classCallCheck(this, TelemetryStore);
+	
+	    _get(Object.getPrototypeOf(TelemetryStore.prototype), "constructor", this).call(this, props);
+	
+	    this.props = props;
+	    this.size = 0;
+	
+	    this.telemetry = _Crossfilter2["default"]();
+	    this.indexDimension = this.telemetry.dimension(function (d) {
+	      return d.i;
+	    });
+	    this.timeDimension = this.telemetry.dimension(function (d) {
+	      return d.t;
+	    });
+	
+	    this.dispatchToken = props.dispatcher.register(this.dispatch.bind(this));
 	  }
 	
-	  _createClass(TelemetryIndex, null, [{
-	    key: "id",
-	    value: function id(number) {
-	      return telemetryIds[number];
+	  _inherits(TelemetryStore, _EventEmitter);
+	
+	  _createClass(TelemetryStore, [{
+	    key: "add",
+	    value: function add(data) {
+	      var _this = this;
+	
+	      var emit = arguments[1] === undefined ? true : arguments[1];
+	
+	      var indexed = data.map(function (d) {
+	        return _Object$assign({ i: _this.size++ }, d);
+	      });
+	      this.telemetry.add(indexed);
+	      // FIXME Pruning the wrong stuff.
+	      // this.prune(false);
+	
+	      if (emit) {
+	        this.emit(_App2["default"].TELEMETRY_EVENT);
+	      }
 	    }
 	  }, {
-	    key: "number",
-	    value: function number(id) {
-	      return telemetryNumbers[id];
+	    key: "dispatch",
+	    value: function dispatch(payload) {
+	      if (payload.telemetryNumber === this.props.telemetryNumber && payload.actionType === "new-data") {
+	        // this.props.dispatcher.waitFor([this.dispatchToken]);
+	        this.add(payload.data);
+	      }
+	    }
+	  }, {
+	    key: "get",
+	    value: function get(maxPoints, earliestTime) {
+	      if (typeof earliestTime !== "undefined") {
+	        this.timeDimension.filter(function (t) {
+	          return t >= earliestTime;
+	        });
+	      }
+	      var top = this.timeDimension.top(maxPoints);
+	
+	      this.timeDimension.filterAll();
+	      return top;
+	    }
+	  }, {
+	    key: "prune",
+	    value: function prune() {
+	      var _this2 = this;
+	
+	      var emit = arguments[0] === undefined ? true : arguments[0];
+	
+	      this.indexDimension.filter(function (i) {
+	        return i < _this2.size - _this2.props.maxSize;
+	      });
+	      this.indexDimension.remove();
+	      this.indexDimension.filterAll();
+	
+	      if (emit) {
+	        this.emit(_App2["default"].TELEMETRY_EVENT);
+	      }
 	    }
 	  }]);
 	
-	  return TelemetryIndex;
-	})();
+	  return TelemetryStore;
+	})(_EventEmitter3["default"]);
 	
-	exports["default"] = TelemetryIndex;
+	exports["default"] = TelemetryStore;
 	module.exports = exports["default"];
 
 /***/ },
-/* 12 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = { "default": __webpack_require__(31), __esModule: true };
-
-/***/ },
-/* 13 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -660,29 +830,41 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 */
 	
-	module.exports.Dispatcher = __webpack_require__(25)
+	module.exports.Dispatcher = __webpack_require__(26)
 
-
-/***/ },
-/* 14 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = moment;
-
-/***/ },
-/* 15 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = jQuery;
 
 /***/ },
 /* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = d3;
+	module.exports = moment;
 
 /***/ },
 /* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = jQuery;
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = d3;
+
+/***/ },
+/* 19 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = crossfilter;
+
+/***/ },
+/* 20 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = THREE;
+
+/***/ },
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -708,7 +890,7 @@
 	exports.__esModule = true;
 
 /***/ },
-/* 18 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -756,230 +938,24 @@
 	exports.__esModule = true;
 
 /***/ },
-/* 19 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = { "default": __webpack_require__(32), __esModule: true };
 
 /***/ },
-/* 20 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = { "default": __webpack_require__(33), __esModule: true };
-
-/***/ },
-/* 21 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
-	var _inherits = __webpack_require__(17)["default"];
-	
-	var _get = __webpack_require__(18)["default"];
+	var _inherits = __webpack_require__(21)["default"];
 	
 	var _createClass = __webpack_require__(6)["default"];
 	
 	var _classCallCheck = __webpack_require__(7)["default"];
 	
-	var _Object$defineProperty = __webpack_require__(12)["default"];
-	
-	var _Object$keys = __webpack_require__(19)["default"];
-	
-	var _interopRequireDefault = __webpack_require__(2)["default"];
-	
-	_Object$defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _THREE = __webpack_require__(26);
-	
-	var _THREE2 = _interopRequireDefault(_THREE);
-	
-	var _EventEmitter2 = __webpack_require__(35);
-	
-	var _EventEmitter3 = _interopRequireDefault(_EventEmitter2);
-	
-	var _Telemetry = __webpack_require__(10);
-	
-	var _Telemetry2 = _interopRequireDefault(_Telemetry);
-	
-	var QuaternionStore = (function (_EventEmitter) {
-	  function QuaternionStore(props) {
-	    var _this = this;
-	
-	    _classCallCheck(this, QuaternionStore);
-	
-	    _get(Object.getPrototypeOf(QuaternionStore.prototype), "constructor", this).call(this, props);
-	
-	    this.props = props;
-	    this.quaternion = new _THREE2["default"].Quaternion();
-	    this.euler = new _THREE2["default"].Euler();
-	
-	    _Object$keys(this.props.storesByAxis).forEach(function (a) {
-	      _this.props.storesByAxis[a].addListener(_Telemetry2["default"].CHANGE_EVENT_KEY, function () {
-	        _this.update(a);
-	      });
-	    });
-	  }
-	
-	  _inherits(QuaternionStore, _EventEmitter);
-	
-	  _createClass(QuaternionStore, [{
-	    key: "update",
-	    value: function update(axis) {
-	      this.quaternion[axis] = this.props.storesByAxis[axis].get(1, 0)[0].v;
-	      this.euler.setFromQuaternion(this.quaternion);
-	
-	      this.emit(_Telemetry2["default"].CHANGE_EVENT_KEY);
-	    }
-	  }, {
-	    key: "get",
-	    value: function get() {
-	      return [this.euler];
-	    }
-	  }]);
-	
-	  return QuaternionStore;
-	})(_EventEmitter3["default"]);
-	
-	exports["default"] = QuaternionStore;
-	module.exports = exports["default"];
-
-/***/ },
-/* 22 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var _inherits = __webpack_require__(17)["default"];
-	
-	var _get = __webpack_require__(18)["default"];
-	
-	var _createClass = __webpack_require__(6)["default"];
-	
-	var _classCallCheck = __webpack_require__(7)["default"];
-	
-	var _Object$defineProperty = __webpack_require__(12)["default"];
-	
-	var _Object$assign = __webpack_require__(30)["default"];
-	
-	var _interopRequireDefault = __webpack_require__(2)["default"];
-	
-	_Object$defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _Crossfilter = __webpack_require__(27);
-	
-	var _Crossfilter2 = _interopRequireDefault(_Crossfilter);
-	
-	var _EventEmitter2 = __webpack_require__(35);
-	
-	var _EventEmitter3 = _interopRequireDefault(_EventEmitter2);
-	
-	var _Telemetry = __webpack_require__(10);
-	
-	var _Telemetry2 = _interopRequireDefault(_Telemetry);
-	
-	var TelemetryStore = (function (_EventEmitter) {
-	  function TelemetryStore(props) {
-	    _classCallCheck(this, TelemetryStore);
-	
-	    _get(Object.getPrototypeOf(TelemetryStore.prototype), "constructor", this).call(this, props);
-	
-	    this.props = props;
-	    this.size = 0;
-	
-	    this.telemetry = _Crossfilter2["default"]();
-	    this.indexDimension = this.telemetry.dimension(function (d) {
-	      return d.i;
-	    });
-	    this.timeDimension = this.telemetry.dimension(function (d) {
-	      return d.t;
-	    });
-	
-	    this.dispatchToken = props.dispatcher.register(this.dispatch.bind(this));
-	  }
-	
-	  _inherits(TelemetryStore, _EventEmitter);
-	
-	  _createClass(TelemetryStore, [{
-	    key: "add",
-	    value: function add(data) {
-	      var _this = this;
-	
-	      var emit = arguments[1] === undefined ? true : arguments[1];
-	
-	      var indexed = data.map(function (d) {
-	        return _Object$assign({ i: _this.size++ }, d);
-	      });
-	      this.telemetry.add(indexed);
-	      // FIXME Pruning the wrong stuff.
-	      // this.prune(false);
-	
-	      if (emit) {
-	        this.emit(_Telemetry2["default"].CHANGE_EVENT_KEY);
-	      }
-	    }
-	  }, {
-	    key: "dispatch",
-	    value: function dispatch(payload) {
-	      if (payload.telemetryNumber === this.props.telemetryNumber && payload.actionType === "new-data") {
-	        // this.props.dispatcher.waitFor([this.dispatchToken]);
-	        this.add(payload.data);
-	      }
-	    }
-	  }, {
-	    key: "get",
-	    value: function get(maxPoints, earliestTime) {
-	      if (typeof earliestTime !== "undefined") {
-	        this.timeDimension.filter(function (t) {
-	          return t >= earliestTime;
-	        });
-	      }
-	      var top = this.timeDimension.top(maxPoints);
-	
-	      this.timeDimension.filterAll();
-	      return top;
-	    }
-	  }, {
-	    key: "prune",
-	    value: function prune() {
-	      var _this2 = this;
-	
-	      var emit = arguments[0] === undefined ? true : arguments[0];
-	
-	      this.indexDimension.filter(function (i) {
-	        return i < _this2.size - _this2.props.maxSize;
-	      });
-	      this.indexDimension.remove();
-	      this.indexDimension.filterAll();
-	
-	      if (emit) {
-	        this.emit(_Telemetry2["default"].CHANGE_EVENT_KEY);
-	      }
-	    }
-	  }]);
-	
-	  return TelemetryStore;
-	})(_EventEmitter3["default"]);
-	
-	exports["default"] = TelemetryStore;
-	module.exports = exports["default"];
-
-/***/ },
-/* 23 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	var _inherits = __webpack_require__(17)["default"];
-	
-	var _createClass = __webpack_require__(6)["default"];
-	
-	var _classCallCheck = __webpack_require__(7)["default"];
-	
-	var _Object$defineProperty = __webpack_require__(12)["default"];
+	var _Object$defineProperty = __webpack_require__(8)["default"];
 	
 	var _interopRequireDefault = __webpack_require__(2)["default"];
 	
@@ -991,9 +967,9 @@
 	
 	var _React2 = _interopRequireDefault(_React);
 	
-	var _Telemetry = __webpack_require__(10);
+	var _App = __webpack_require__(1);
 	
-	var _Telemetry2 = _interopRequireDefault(_Telemetry);
+	var _App2 = _interopRequireDefault(_App);
 	
 	var BasicView = (function (_React$Component) {
 	  function BasicView() {
@@ -1009,12 +985,12 @@
 	  _createClass(BasicView, [{
 	    key: "componentDidMount",
 	    value: function componentDidMount() {
-	      this.props.store.addListener(_Telemetry2["default"].CHANGE_EVENT_KEY, this.storeChanged.bind(this));
+	      this.props.store.addListener(_App2["default"].TELEMETRY_EVENT, this.storeChanged.bind(this));
 	    }
 	  }, {
 	    key: "componentWillUnmount",
 	    value: function componentWillUnmount() {
-	      this.props.store.removeListener(_Telemetry2["default"].CHANGE_EVENT_KEY, this.storeChanged.bind(this));
+	      this.props.store.removeListener(_App2["default"].TELEMETRY_EVENT, this.storeChanged.bind(this));
 	    }
 	  }, {
 	    key: "storeChanged",
@@ -1040,7 +1016,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1049,7 +1025,7 @@
 	
 	var _classCallCheck = __webpack_require__(7)["default"];
 	
-	var _Object$defineProperty = __webpack_require__(12)["default"];
+	var _Object$defineProperty = __webpack_require__(8)["default"];
 	
 	var _interopRequireDefault = __webpack_require__(2)["default"];
 	
@@ -1057,7 +1033,7 @@
 	  value: true
 	});
 	
-	var _TelemetryIndex = __webpack_require__(11);
+	var _TelemetryIndex = __webpack_require__(10);
 	
 	var _TelemetryIndex2 = _interopRequireDefault(_TelemetryIndex);
 	
@@ -1133,26 +1109,26 @@
 	  statuses[_TelemetryIndex2["default"].number(id)] = statusById[id];
 	}
 	
-	var StatusIndex = (function () {
-	  function StatusIndex() {
-	    _classCallCheck(this, StatusIndex);
+	var StatusDictionary = (function () {
+	  function StatusDictionary() {
+	    _classCallCheck(this, StatusDictionary);
 	  }
 	
-	  _createClass(StatusIndex, null, [{
+	  _createClass(StatusDictionary, null, [{
 	    key: "get",
 	    value: function get(telemetryNumber) {
 	      return statuses[telemetryNumber];
 	    }
 	  }]);
 	
-	  return StatusIndex;
+	  return StatusDictionary;
 	})();
 	
-	exports["default"] = StatusIndex;
+	exports["default"] = StatusDictionary;
 	module.exports = exports["default"];
 
 /***/ },
-/* 25 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -1169,7 +1145,7 @@
 	
 	"use strict";
 	
-	var invariant = __webpack_require__(34);
+	var invariant = __webpack_require__(33);
 	
 	var _lastID = 1;
 	var _prefix = 'ID_';
@@ -1408,119 +1384,7 @@
 
 
 /***/ },
-/* 26 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = THREE;
-
-/***/ },
 /* 27 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = crossfilter;
-
-/***/ },
-/* 28 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = { "default": __webpack_require__(37), __esModule: true };
-
-/***/ },
-/* 29 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = { "default": __webpack_require__(36), __esModule: true };
-
-/***/ },
-/* 30 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = { "default": __webpack_require__(38), __esModule: true };
-
-/***/ },
-/* 31 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var $ = __webpack_require__(39);
-	module.exports = function defineProperty(it, key, desc){
-	  return $.setDesc(it, key, desc);
-	};
-
-/***/ },
-/* 32 */
-/***/ function(module, exports, __webpack_require__) {
-
-	__webpack_require__(41);
-	module.exports = __webpack_require__(39).core.Object.keys;
-
-/***/ },
-/* 33 */
-/***/ function(module, exports, __webpack_require__) {
-
-	__webpack_require__(40);
-	module.exports = __webpack_require__(39).core.Symbol;
-
-/***/ },
-/* 34 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright (c) 2014, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule invariant
-	 */
-	
-	"use strict";
-	
-	/**
-	 * Use invariant() to assert state which your program assumes to be true.
-	 *
-	 * Provide sprintf-style format (only %s is supported) and arguments
-	 * to provide information about what broke and what you were
-	 * expecting.
-	 *
-	 * The invariant message will be stripped in production, but the invariant
-	 * will remain to ensure logic does not differ in production.
-	 */
-	
-	var invariant = function(condition, format, a, b, c, d, e, f) {
-	  if (false) {
-	    if (format === undefined) {
-	      throw new Error('invariant requires an error message argument');
-	    }
-	  }
-	
-	  if (!condition) {
-	    var error;
-	    if (format === undefined) {
-	      error = new Error(
-	        'Minified exception occurred; use the non-minified dev environment ' +
-	        'for the full error message and additional helpful warnings.'
-	      );
-	    } else {
-	      var args = [a, b, c, d, e, f];
-	      var argIndex = 0;
-	      error = new Error(
-	        'Invariant Violation: ' +
-	        format.replace(/%s/g, function() { return args[argIndex++]; })
-	      );
-	    }
-	
-	    error.framesToPop = 1; // we don't care about invariant's own frame
-	    throw error;
-	  }
-	};
-	
-	module.exports = invariant;
-
-
-/***/ },
-/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -1827,33 +1691,120 @@
 
 
 /***/ },
-/* 36 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $ = __webpack_require__(39);
-	__webpack_require__(41);
-	module.exports = function getOwnPropertyDescriptor(it, key){
-	  return $.getDesc(it, key);
+	module.exports = { "default": __webpack_require__(34), __esModule: true };
+
+/***/ },
+/* 29 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(35), __esModule: true };
+
+/***/ },
+/* 30 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var $ = __webpack_require__(36);
+	module.exports = function defineProperty(it, key, desc){
+	  return $.setDesc(it, key, desc);
 	};
 
 /***/ },
-/* 37 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $ = __webpack_require__(39);
+	__webpack_require__(37);
+	module.exports = __webpack_require__(36).core.Symbol;
+
+/***/ },
+/* 32 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(38);
+	module.exports = __webpack_require__(36).core.Object.assign;
+
+/***/ },
+/* 33 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright (c) 2014, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule invariant
+	 */
+	
+	"use strict";
+	
+	/**
+	 * Use invariant() to assert state which your program assumes to be true.
+	 *
+	 * Provide sprintf-style format (only %s is supported) and arguments
+	 * to provide information about what broke and what you were
+	 * expecting.
+	 *
+	 * The invariant message will be stripped in production, but the invariant
+	 * will remain to ensure logic does not differ in production.
+	 */
+	
+	var invariant = function(condition, format, a, b, c, d, e, f) {
+	  if (false) {
+	    if (format === undefined) {
+	      throw new Error('invariant requires an error message argument');
+	    }
+	  }
+	
+	  if (!condition) {
+	    var error;
+	    if (format === undefined) {
+	      error = new Error(
+	        'Minified exception occurred; use the non-minified dev environment ' +
+	        'for the full error message and additional helpful warnings.'
+	      );
+	    } else {
+	      var args = [a, b, c, d, e, f];
+	      var argIndex = 0;
+	      error = new Error(
+	        'Invariant Violation: ' +
+	        format.replace(/%s/g, function() { return args[argIndex++]; })
+	      );
+	    }
+	
+	    error.framesToPop = 1; // we don't care about invariant's own frame
+	    throw error;
+	  }
+	};
+	
+	module.exports = invariant;
+
+
+/***/ },
+/* 34 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var $ = __webpack_require__(36);
 	module.exports = function create(P, D){
 	  return $.create(P, D);
 	};
 
 /***/ },
-/* 38 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(42);
-	module.exports = __webpack_require__(39).core.Object.assign;
+	var $ = __webpack_require__(36);
+	__webpack_require__(39);
+	module.exports = function getOwnPropertyDescriptor(it, key){
+	  return $.getDesc(it, key);
+	};
 
 /***/ },
-/* 39 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1905,7 +1856,7 @@
 	  return it;
 	}
 	
-	var $ = module.exports = __webpack_require__(43)({
+	var $ = module.exports = __webpack_require__(40)({
 	  g: global,
 	  core: core,
 	  html: global.document && document.documentElement,
@@ -1961,18 +1912,18 @@
 	if(typeof __g != 'undefined')__g = global;
 
 /***/ },
-/* 40 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	// ECMAScript 6 symbols shim
-	var $        = __webpack_require__(39)
-	  , setTag   = __webpack_require__(44).set
-	  , uid      = __webpack_require__(45)
-	  , $def     = __webpack_require__(46)
-	  , keyOf    = __webpack_require__(47)
-	  , enumKeys = __webpack_require__(48)
-	  , assertObject = __webpack_require__(49).obj
+	var $        = __webpack_require__(36)
+	  , setTag   = __webpack_require__(41).set
+	  , uid      = __webpack_require__(42)
+	  , $def     = __webpack_require__(43)
+	  , keyOf    = __webpack_require__(44)
+	  , enumKeys = __webpack_require__(45)
+	  , assertObject = __webpack_require__(46).obj
 	  , has      = $.has
 	  , $create  = $.create
 	  , getDesc  = $.getDesc
@@ -2092,7 +2043,7 @@
 	    'hasInstance,isConcatSpreadable,iterator,match,replace,search,' +
 	    'species,split,toPrimitive,toStringTag,unscopables'
 	  ).split(','), function(it){
-	    var sym = __webpack_require__(50)(it);
+	    var sym = __webpack_require__(47)(it);
 	    symbolStatics[it] = useNative ? sym : wrap(sym);
 	  }
 	);
@@ -2126,11 +2077,19 @@
 	setTag($.g.JSON, 'JSON', true);
 
 /***/ },
-/* 41 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $        = __webpack_require__(39)
-	  , $def     = __webpack_require__(46)
+	// 19.1.3.1 Object.assign(target, source)
+	var $def = __webpack_require__(43);
+	$def($def.S, 'Object', {assign: __webpack_require__(48)});
+
+/***/ },
+/* 39 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var $        = __webpack_require__(36)
+	  , $def     = __webpack_require__(43)
 	  , isObject = $.isObject
 	  , toObject = $.toObject;
 	function wrapObjectMethod(METHOD, MODE){
@@ -2169,15 +2128,7 @@
 	wrapObjectMethod('getOwnPropertyNames');
 
 /***/ },
-/* 42 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// 19.1.3.1 Object.assign(target, source)
-	var $def = __webpack_require__(46);
-	$def($def.S, 'Object', {assign: __webpack_require__(51)});
-
-/***/ },
-/* 43 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function($){
@@ -2187,11 +2138,11 @@
 	};
 
 /***/ },
-/* 44 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $        = __webpack_require__(39)
-	  , TAG      = __webpack_require__(50)('toStringTag')
+	var $        = __webpack_require__(36)
+	  , TAG      = __webpack_require__(47)('toStringTag')
 	  , toString = {}.toString;
 	function cof(it){
 	  return toString.call(it).slice(8, -1);
@@ -2207,21 +2158,21 @@
 	module.exports = cof;
 
 /***/ },
-/* 45 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var sid = 0;
 	function uid(key){
 	  return 'Symbol(' + key + ')_' + (++sid + Math.random()).toString(36);
 	}
-	uid.safe = __webpack_require__(39).g.Symbol || uid;
+	uid.safe = __webpack_require__(36).g.Symbol || uid;
 	module.exports = uid;
 
 /***/ },
-/* 46 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $          = __webpack_require__(39)
+	var $          = __webpack_require__(36)
 	  , global     = $.g
 	  , core       = $.core
 	  , isFunction = $.isFunction;
@@ -2269,10 +2220,10 @@
 	module.exports = $def;
 
 /***/ },
-/* 47 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $ = __webpack_require__(39);
+	var $ = __webpack_require__(36);
 	module.exports = function(object, el){
 	  var O      = $.toObject(object)
 	    , keys   = $.getKeys(O)
@@ -2283,10 +2234,10 @@
 	};
 
 /***/ },
-/* 48 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $ = __webpack_require__(39);
+	var $ = __webpack_require__(36);
 	module.exports = function(it){
 	  var keys       = $.getKeys(it)
 	    , getDesc    = $.getDesc
@@ -2298,10 +2249,10 @@
 	};
 
 /***/ },
-/* 49 */
+/* 46 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $ = __webpack_require__(39);
+	var $ = __webpack_require__(36);
 	function assert(condition, msg1, msg2){
 	  if(!condition)throw TypeError(msg2 ? msg1 + msg2 : msg1);
 	}
@@ -2321,22 +2272,22 @@
 	module.exports = assert;
 
 /***/ },
-/* 50 */
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var global = __webpack_require__(39).g
+	var global = __webpack_require__(36).g
 	  , store  = {};
 	module.exports = function(name){
 	  return store[name] || (store[name] =
-	    global.Symbol && global.Symbol[name] || __webpack_require__(45).safe('Symbol.' + name));
+	    global.Symbol && global.Symbol[name] || __webpack_require__(42).safe('Symbol.' + name));
 	};
 
 /***/ },
-/* 51 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $        = __webpack_require__(39)
-	  , enumKeys = __webpack_require__(48);
+	var $        = __webpack_require__(36)
+	  , enumKeys = __webpack_require__(45);
 	// 19.1.2.1 Object.assign(target, source, ...)
 	/* eslint-disable no-unused-vars */
 	module.exports = Object.assign || function assign(target, source){

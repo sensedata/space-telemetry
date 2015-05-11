@@ -3,7 +3,7 @@ import Moment from "moment";
 import React from "react";
 
 import BasicView from "./basic_view.js";
-import StatusIndex from "../stores/status_index.js";
+import StatusDictionary from "./status_dictionary.js";
 
 class Readout extends BasicView {
 
@@ -14,7 +14,7 @@ class Readout extends BasicView {
   earliestAcceptable() {
     return 0;
   }
-  
+
   formatDecimal(raw) {
     let formatted = raw.toFixed(this.props.target.dataset.scale);
     if (this.props.target.dataset.zeroPad === "true") {
@@ -24,7 +24,7 @@ class Readout extends BasicView {
   }
 
   formatText(textKey) {
-    const values = StatusIndex.get(this.props.telemetryNumber);
+    const values = StatusDictionary.get(this.props.telemetryNumber);
     let value;
     if (values) {value = values[textKey];}
     return typeof value === "undefined" ? "Unknown" : value;

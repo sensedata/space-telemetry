@@ -1,7 +1,7 @@
 import Crossfilter from "crossfilter";
 import EventEmitter from "events";
 
-import Telemetry from "./telemetry.js";
+import App from "../app.js";
 
 class TelemetryStore extends EventEmitter {
 
@@ -24,7 +24,7 @@ class TelemetryStore extends EventEmitter {
     // FIXME Pruning the wrong stuff.
     // this.prune(false);
 
-    if (emit) {this.emit(Telemetry.CHANGE_EVENT_KEY);}
+    if (emit) {this.emit(App.TELEMETRY_EVENT);}
   }
 
   dispatch(payload) {
@@ -49,7 +49,7 @@ class TelemetryStore extends EventEmitter {
     this.indexDimension.remove();
     this.indexDimension.filterAll();
 
-    if (emit) {this.emit(Telemetry.CHANGE_EVENT_KEY);}
+    if (emit) {this.emit(App.TELEMETRY_EVENT);}
   }
 }
 

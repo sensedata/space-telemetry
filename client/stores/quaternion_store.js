@@ -1,7 +1,7 @@
 import THREE from "three";
 import EventEmitter from "events";
 
-import Telemetry from "./telemetry.js";
+import App from "../app.js";
 
 class QuaternionStore extends EventEmitter {
 
@@ -10,24 +10,33 @@ class QuaternionStore extends EventEmitter {
 
     this.props = props;
     this.quaternion = new THREE.Quaternion();
-    this.euler = new THREE.Euler();
+    this.euler = [new THREE.Euler()];
 
-    Object.keys(this.props.storesByAxis).forEach(a => {
-      this.props.storesByAxis[a].addListener(
-        Telemetry.CHANGE_EVENT_KEY, () => {this.update(a);}
-      );
-    });
+    this.dispatchToken = props.dispatcher.register(this.dispatch.bind(this));
   }
 
-  update(axis) {
-    this.quaternion[axis] = this.props.storesByAxis[axis].get(1, 0)[0].v;
-    this.euler.setFromQuaternion(this.quaternion);
+  update(axis, data) {
+    this.quaternion[axis] = data.sort((a, b) => {return b.t - a.t;})[0].v;
+    this.euler[0].setFromQuaternion(this.quaternion);
 
-    this.emit(Telemetry.CHANGE_EVENT_KEY);
+    this.emit(App.TELEMETRY_EVENT);
+  }
+
+  dispatch(payload) {
+    if (payload.actionType === "new-data") {
+      // this.props.dispatcher.waitFor([this.dispatchToken]);
+
+      switch (payload.telemetryNumber) {
+        case this.props.axialNumbers.x: this.update("x", payload.data); break;
+        case this.props.axialNumbers.y: this.update("y", payload.data); break;
+        case this.props.axialNumbers.z: this.update("z", payload.data); break;
+        case this.props.axialNumbers.w: this.update("w", payload.data); break;
+      }
+    }
   }
 
   get() {
-    return [this.euler];
+    return this.euler;
   }
 }
 

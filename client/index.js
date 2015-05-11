@@ -1,3 +1,3 @@
 import App from "./app.js";
 
-App.render();
+new App().render();

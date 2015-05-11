@@ -1,4 +1,4 @@
-import TelemetryIndex from "./telemetry_index";
+import TelemetryIndex from "../telemetry_index";
 
 const gpsStatuses = {
   0: "Doing position fixes",
@@ -72,10 +72,10 @@ for (let id in statusById) {
   statuses[TelemetryIndex.number(id)] = statusById[id];
 }
 
-class StatusIndex {
+class StatusDictionary {
   static get(telemetryNumber) {
     return statuses[telemetryNumber];
   }
 }
 
-export {StatusIndex as default};
+export {StatusDictionary as default};
