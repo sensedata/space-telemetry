@@ -475,6 +475,9 @@ td, th {
 }
 
 
+.cmg.off > .row {
+  display: none;
+}
 .cmg {
   text-align: center;
 }
