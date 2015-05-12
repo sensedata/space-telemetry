@@ -7,7 +7,6 @@ module.exports = {
     "crossfilter": "crossfilter",
     "d3": "d3",
     "io": "io",
-    "jquery": "jQuery",
     "lodash": "_",
     "moment": "moment",
     "react": "React",
