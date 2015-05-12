@@ -175,19 +175,19 @@
 	    value: function listenToServer(telemetryNumber) {
 	      var _this = this;
 	
-	      this.listeners[telemetryNumber] = this.socket.on(telemetryNumber, function (data) {
-	        var newest = _import2["default"].max(data, function (d) {
-	          return d.t;
+	      if (typeof this.listeners[telemetryNumber] === "undefined") {
+	        this.listeners[telemetryNumber] = this.socket.on(telemetryNumber, function (data) {
+	          // Uncomment to watch telemetry delay bug in action
+	          // const newest = _.max(data, d => {return d.t;});
+	          // console.log("now, latest record, difference", moment().unix(), newest.t, moment().unix() - newest.t);
+	          _this.dispatcher.dispatch({
+	            actionType: "new-data",
+	            telemetryNumber: telemetryNumber,
+	            data: data
+	          });
 	        });
-	        // Uncomment to watch telemetry delay bug in action
-	        // console.log("now, latest record, difference", moment().unix(), newest.t, moment().unix() - newest.t);
-	        _this.dispatcher.dispatch({
-	          actionType: "new-data",
-	          telemetryNumber: telemetryNumber,
-	          data: data
-	        });
-	      });
-	      this.socket.emit(telemetryNumber, 1000000000, 100);
+	        this.socket.emit(telemetryNumber, 1000000000, 100);
+	      }
 	    }
 	  }, {
 	    key: "getStore",
@@ -255,6 +255,24 @@
 	
 	          _React2["default"].render(viewFactory(props), e);
 	        });
+	      });
+	
+	      _import2["default"].forEach(document.getElementsByClassName("status"), function (e) {
+	        var telemetryNumber = _TelemetryIndex2["default"].number(e.dataset.telemetryId);
+	        _this2.socket.on(telemetryNumber, function (data) {
+	          var latest = _import2["default"].max(data, function (d) {
+	            return d.t;
+	          });
+	          // No shipping version of IE correctly implements toggle.
+	          if (latest.v === parseFloat(e.dataset.statusOnValue)) {
+	            e.classList.add("on");
+	            e.classList.remove("off");
+	          } else {
+	            e.classList.remove("on");
+	            e.classList.add("off");
+	          }
+	        });
+	        _this2.socket.emit(telemetryNumber, -1, 1);
 	      });
 	
 	      var latestProps = {
@@ -2593,13 +2611,13 @@
 /* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(42), __esModule: true };
+	module.exports = { "default": __webpack_require__(41), __esModule: true };
 
 /***/ },
 /* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(41), __esModule: true };
+	module.exports = { "default": __webpack_require__(42), __esModule: true };
 
 /***/ },
 /* 37 */
@@ -2688,9 +2706,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(43);
-	__webpack_require__(46);
-	module.exports = function getOwnPropertyDescriptor(it, key){
-	  return $.getDesc(it, key);
+	module.exports = function create(P, D){
+	  return $.create(P, D);
 	};
 
 /***/ },
@@ -2698,8 +2715,9 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(43);
-	module.exports = function create(P, D){
-	  return $.create(P, D);
+	__webpack_require__(46);
+	module.exports = function getOwnPropertyDescriptor(it, key){
+	  return $.getDesc(it, key);
 	};
 
 /***/ },

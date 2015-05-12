@@ -51,17 +51,19 @@ class App {
   }
 
   listenToServer(telemetryNumber) {
-    this.listeners[telemetryNumber] = this.socket.on(telemetryNumber, data => {
-      const newest = _.max(data, d => {return d.t;});
-      // Uncomment to watch telemetry delay bug in action
-      // console.log("now, latest record, difference", moment().unix(), newest.t, moment().unix() - newest.t);
-      this.dispatcher.dispatch({
-        actionType: "new-data",
-        telemetryNumber: telemetryNumber,
-        data: data
+    if (typeof this.listeners[telemetryNumber] === "undefined") {
+      this.listeners[telemetryNumber] = this.socket.on(telemetryNumber, data => {
+        // Uncomment to watch telemetry delay bug in action
+        // const newest = _.max(data, d => {return d.t;});
+        // console.log("now, latest record, difference", moment().unix(), newest.t, moment().unix() - newest.t);
+        this.dispatcher.dispatch({
+          actionType: "new-data",
+          telemetryNumber: telemetryNumber,
+          data: data
+        });
       });
-    });
-    this.socket.emit(telemetryNumber, 1000000000, 100);
+      this.socket.emit(telemetryNumber, 1000000000, 100);
+    }
   }
 
   getStore(telemetryNumber) {
@@ -129,6 +131,22 @@ class App {
         React.render(viewFactory(props), e);
       });
 
+    });
+
+    _.forEach(document.getElementsByClassName("status"), e => {
+      const telemetryNumber = TelemetryIndex.number(e.dataset.telemetryId);
+      this.socket.on(telemetryNumber, data => {
+        const latest = _.max(data, d => {return d.t;});
+        // No shipping version of IE correctly implements toggle.
+        if (latest.v === parseFloat(e.dataset.statusOnValue)) {
+          e.classList.add("on");
+          e.classList.remove("off");
+        } else {
+          e.classList.remove("on");
+          e.classList.add("off");
+        }
+      });
+      this.socket.emit(telemetryNumber, -1, 1);
     });
 
     const latestProps = {
