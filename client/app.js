@@ -106,7 +106,7 @@ class App {
       "sparkline-chart": React.createFactory(SparklineChart)
     };
 
-    _.forEach(views, (viewFactory, className) => {
+    _.forEach(viewFactories, (viewFactory, className) => {
       _.forEach(document.getElementsByClassName(className), e => {
         const props = {
           target: e
@@ -123,12 +123,14 @@ class App {
             }
           );
 
-        } else {
+        } else if (typeof e.dataset.telemetryId !== "undefined") {
           props.telemetryNumber = TelemetryIndex.number(e.dataset.telemetryId);
           props.store = this.getStore(props.telemetryNumber);
         }
 
-        React.render(viewFactory(props), e);
+        if (typeof props.store !== "undefined") {
+          React.render(viewFactory(props), e);
+        }
       });
 
     });

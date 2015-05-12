@@ -78,7 +78,7 @@
 	
 	var _import2 = _interopRequireDefault(_import);
 	
-	var _Flux = __webpack_require__(21);
+	var _Flux = __webpack_require__(22);
 	
 	var _Flux2 = _interopRequireDefault(_Flux);
 	
@@ -94,45 +94,47 @@
 	
 	var _TelemetryIndex2 = _interopRequireDefault(_TelemetryIndex);
 	
-	// import BulletChart from "./views/bullet_chart";
+	var _BulletChart = __webpack_require__(11);
 	
-	var _SparklineChart = __webpack_require__(11);
+	var _BulletChart2 = _interopRequireDefault(_BulletChart);
+	
+	var _SparklineChart = __webpack_require__(12);
 	
 	var _SparklineChart2 = _interopRequireDefault(_SparklineChart);
 	
-	var _DecimalReadout = __webpack_require__(12);
+	var _DecimalReadout = __webpack_require__(13);
 	
 	var _DecimalReadout2 = _interopRequireDefault(_DecimalReadout);
 	
-	var _IntegerReadout = __webpack_require__(13);
+	var _IntegerReadout = __webpack_require__(14);
 	
 	var _IntegerReadout2 = _interopRequireDefault(_IntegerReadout);
 	
-	var _TextReadout = __webpack_require__(14);
+	var _TextReadout = __webpack_require__(15);
 	
 	var _TextReadout2 = _interopRequireDefault(_TextReadout);
 	
-	var _TimestampReadout = __webpack_require__(15);
+	var _TimestampReadout = __webpack_require__(16);
 	
 	var _TimestampReadout2 = _interopRequireDefault(_TimestampReadout);
 	
-	var _TransmittedAt = __webpack_require__(16);
+	var _TransmittedAt = __webpack_require__(17);
 	
 	var _TransmittedAt2 = _interopRequireDefault(_TransmittedAt);
 	
-	var _TransmissionDelay = __webpack_require__(17);
+	var _TransmissionDelay = __webpack_require__(18);
 	
 	var _TransmissionDelay2 = _interopRequireDefault(_TransmissionDelay);
 	
-	var _QuaternionStore = __webpack_require__(18);
+	var _QuaternionStore = __webpack_require__(19);
 	
 	var _QuaternionStore2 = _interopRequireDefault(_QuaternionStore);
 	
-	var _SimpleStore = __webpack_require__(19);
+	var _SimpleStore = __webpack_require__(20);
 	
 	var _SimpleStore2 = _interopRequireDefault(_SimpleStore);
 	
-	var _TelemetryStore = __webpack_require__(20);
+	var _TelemetryStore = __webpack_require__(21);
 	
 	var _TelemetryStore2 = _interopRequireDefault(_TelemetryStore);
 	
@@ -226,8 +228,8 @@
 	    value: function render() {
 	      var _this2 = this;
 	
-	      var views = {
-	        // "bullet-chart": BulletChart,
+	      var viewFactories = {
+	        "bullet-chart": _React2["default"].createFactory(_BulletChart2["default"]),
 	        "readout decimal": _React2["default"].createFactory(_DecimalReadout2["default"]),
 	        "readout integer": _React2["default"].createFactory(_IntegerReadout2["default"]),
 	        "readout text": _React2["default"].createFactory(_TextReadout2["default"]),
@@ -235,7 +237,7 @@
 	        "sparkline-chart": _React2["default"].createFactory(_SparklineChart2["default"])
 	      };
 	
-	      _import2["default"].forEach(views, function (viewFactory, className) {
+	      _import2["default"].forEach(viewFactories, function (viewFactory, className) {
 	        _import2["default"].forEach(document.getElementsByClassName(className), function (e) {
 	          var props = {
 	            target: e
@@ -248,12 +250,14 @@
 	              z: _TelemetryIndex2["default"].number(e.dataset.telemetryIdZ),
 	              w: _TelemetryIndex2["default"].number(e.dataset.telemetryIdW)
 	            });
-	          } else {
+	          } else if (typeof e.dataset.telemetryId !== "undefined") {
 	            props.telemetryNumber = _TelemetryIndex2["default"].number(e.dataset.telemetryId);
 	            props.store = _this2.getStore(props.telemetryNumber);
 	          }
 	
-	          _React2["default"].render(viewFactory(props), e);
+	          if (typeof props.store !== "undefined") {
+	            _React2["default"].render(viewFactory(props), e);
+	          }
 	        });
 	      });
 	
@@ -376,13 +380,13 @@
 /* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(37), __esModule: true };
+	module.exports = { "default": __webpack_require__(38), __esModule: true };
 
 /***/ },
 /* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(38), __esModule: true };
+	module.exports = { "default": __webpack_require__(39), __esModule: true };
 
 /***/ },
 /* 10 */
@@ -436,9 +440,7 @@
 
 	"use strict";
 	
-	var _inherits = __webpack_require__(27)["default"];
-	
-	var _get = __webpack_require__(28)["default"];
+	var _inherits = __webpack_require__(28)["default"];
 	
 	var _createClass = __webpack_require__(6)["default"];
 	
@@ -452,7 +454,84 @@
 	  value: true
 	});
 	
-	var _$ = __webpack_require__(22);
+	var _D3 = __webpack_require__(23);
+	
+	var _D32 = _interopRequireDefault(_D3);
+	
+	var _React = __webpack_require__(5);
+	
+	var _React2 = _interopRequireDefault(_React);
+	
+	var _ListeningView2 = __webpack_require__(31);
+	
+	var _ListeningView3 = _interopRequireDefault(_ListeningView2);
+	
+	var BulletChart = (function (_ListeningView) {
+	  function BulletChart() {
+	    _classCallCheck(this, BulletChart);
+	
+	    if (_ListeningView != null) {
+	      _ListeningView.apply(this, arguments);
+	    }
+	  }
+	
+	  _inherits(BulletChart, _ListeningView);
+	
+	  _createClass(BulletChart, [{
+	    key: "renderWithState",
+	    value: function renderWithState() {
+	      var maxRange = this.state.ranges[this.state.ranges.length - 1];
+	      var scale = _D32["default"].scale.linear().domain([0, maxRange]).range([0, maxRange]);
+	      var ranges = this.props.target.dataset.ranges;
+	
+	      var width = this.props.target;
+	      var height = this.props.target;
+	
+	      return _React2["default"].createElement(
+	        "svg",
+	        { "class": "bullet", width: width, height: height },
+	        _React2["default"].createElement(
+	          "g",
+	          { transform: "translate(120,5)" },
+	          this.state.ranges.map(function (r, i) {
+	            return _React2["default"].createElement("rect", { "class": "range range-{i}", width: r, height: "24", x: "0" });
+	          }),
+	          _React2["default"].createElement("rect", { "class": "measure", width: "720", height: "8", x: "0", y: "8" }),
+	          _React2["default"].createElement("line", { "class": "marker", x1: this.state.marker, x2: this.state.marker, y1: "4", y2: "20" })
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return BulletChart;
+	})(_ListeningView3["default"]);
+	
+	exports["default"] = BulletChart;
+	module.exports = exports["default"];
+
+/***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	var _inherits = __webpack_require__(28)["default"];
+	
+	var _get = __webpack_require__(29)["default"];
+	
+	var _createClass = __webpack_require__(6)["default"];
+	
+	var _classCallCheck = __webpack_require__(7)["default"];
+	
+	var _Object$defineProperty = __webpack_require__(8)["default"];
+	
+	var _interopRequireDefault = __webpack_require__(2)["default"];
+	
+	_Object$defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _$ = __webpack_require__(24);
 	
 	var _$2 = _interopRequireDefault(_$);
 	
@@ -460,7 +539,7 @@
 	
 	var _D32 = _interopRequireDefault(_D3);
 	
-	var _Moment = __webpack_require__(24);
+	var _Moment = __webpack_require__(25);
 	
 	var _Moment2 = _interopRequireDefault(_Moment);
 	
@@ -468,7 +547,7 @@
 	
 	var _React2 = _interopRequireDefault(_React);
 	
-	var _ListeningView2 = __webpack_require__(30);
+	var _ListeningView2 = __webpack_require__(31);
 	
 	var _ListeningView3 = _interopRequireDefault(_ListeningView2);
 	
@@ -553,12 +632,12 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
-	var _inherits = __webpack_require__(27)["default"];
+	var _inherits = __webpack_require__(28)["default"];
 	
 	var _createClass = __webpack_require__(6)["default"];
 	
@@ -580,7 +659,7 @@
 	
 	var _React2 = _interopRequireDefault(_React);
 	
-	var _ListeningView2 = __webpack_require__(30);
+	var _ListeningView2 = __webpack_require__(31);
 	
 	var _ListeningView3 = _interopRequireDefault(_ListeningView2);
 	
@@ -633,12 +712,12 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
-	var _inherits = __webpack_require__(27)["default"];
+	var _inherits = __webpack_require__(28)["default"];
 	
 	var _createClass = __webpack_require__(6)["default"];
 	
@@ -656,7 +735,7 @@
 	
 	var _React2 = _interopRequireDefault(_React);
 	
-	var _ListeningView2 = __webpack_require__(30);
+	var _ListeningView2 = __webpack_require__(31);
 	
 	var _ListeningView3 = _interopRequireDefault(_ListeningView2);
 	
@@ -697,12 +776,12 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
-	var _inherits = __webpack_require__(27)["default"];
+	var _inherits = __webpack_require__(28)["default"];
 	
 	var _createClass = __webpack_require__(6)["default"];
 	
@@ -720,11 +799,11 @@
 	
 	var _React2 = _interopRequireDefault(_React);
 	
-	var _ListeningView2 = __webpack_require__(30);
+	var _ListeningView2 = __webpack_require__(31);
 	
 	var _ListeningView3 = _interopRequireDefault(_ListeningView2);
 	
-	var _StatusDictionary = __webpack_require__(31);
+	var _StatusDictionary = __webpack_require__(32);
 	
 	var _StatusDictionary2 = _interopRequireDefault(_StatusDictionary);
 	
@@ -763,12 +842,12 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
-	var _inherits = __webpack_require__(27)["default"];
+	var _inherits = __webpack_require__(28)["default"];
 	
 	var _createClass = __webpack_require__(6)["default"];
 	
@@ -782,7 +861,7 @@
 	  value: true
 	});
 	
-	var _Moment = __webpack_require__(24);
+	var _Moment = __webpack_require__(25);
 	
 	var _Moment2 = _interopRequireDefault(_Moment);
 	
@@ -790,7 +869,7 @@
 	
 	var _React2 = _interopRequireDefault(_React);
 	
-	var _ListeningView2 = __webpack_require__(30);
+	var _ListeningView2 = __webpack_require__(31);
 	
 	var _ListeningView3 = _interopRequireDefault(_ListeningView2);
 	
@@ -826,12 +905,12 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
-	var _inherits = __webpack_require__(27)["default"];
+	var _inherits = __webpack_require__(28)["default"];
 	
 	var _createClass = __webpack_require__(6)["default"];
 	
@@ -845,7 +924,7 @@
 	  value: true
 	});
 	
-	var _Moment = __webpack_require__(24);
+	var _Moment = __webpack_require__(25);
 	
 	var _Moment2 = _interopRequireDefault(_Moment);
 	
@@ -853,7 +932,7 @@
 	
 	var _React2 = _interopRequireDefault(_React);
 	
-	var _ListeningView2 = __webpack_require__(30);
+	var _ListeningView2 = __webpack_require__(31);
 	
 	var _ListeningView3 = _interopRequireDefault(_ListeningView2);
 	
@@ -889,12 +968,12 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
-	var _inherits = __webpack_require__(27)["default"];
+	var _inherits = __webpack_require__(28)["default"];
 	
 	var _createClass = __webpack_require__(6)["default"];
 	
@@ -908,17 +987,17 @@
 	  value: true
 	});
 	
-	var _Moment = __webpack_require__(24);
+	var _Moment = __webpack_require__(25);
 	
 	var _Moment2 = _interopRequireDefault(_Moment);
 	
-	__webpack_require__(34);
+	__webpack_require__(35);
 	
 	var _React = __webpack_require__(5);
 	
 	var _React2 = _interopRequireDefault(_React);
 	
-	var _ListeningView2 = __webpack_require__(30);
+	var _ListeningView2 = __webpack_require__(31);
 	
 	var _ListeningView3 = _interopRequireDefault(_ListeningView2);
 	
@@ -958,14 +1037,14 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
-	var _inherits = __webpack_require__(27)["default"];
+	var _inherits = __webpack_require__(28)["default"];
 	
-	var _get = __webpack_require__(28)["default"];
+	var _get = __webpack_require__(29)["default"];
 	
 	var _createClass = __webpack_require__(6)["default"];
 	
@@ -979,7 +1058,7 @@
 	  value: true
 	});
 	
-	var _THREE = __webpack_require__(25);
+	var _THREE = __webpack_require__(26);
 	
 	var _THREE2 = _interopRequireDefault(_THREE);
 	
@@ -1048,14 +1127,14 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 19 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
-	var _inherits = __webpack_require__(27)["default"];
+	var _inherits = __webpack_require__(28)["default"];
 	
-	var _get = __webpack_require__(28)["default"];
+	var _get = __webpack_require__(29)["default"];
 	
 	var _createClass = __webpack_require__(6)["default"];
 	
@@ -1125,14 +1204,14 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 20 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
-	var _inherits = __webpack_require__(27)["default"];
+	var _inherits = __webpack_require__(28)["default"];
 	
-	var _get = __webpack_require__(28)["default"];
+	var _get = __webpack_require__(29)["default"];
 	
 	var _createClass = __webpack_require__(6)["default"];
 	
@@ -1140,7 +1219,7 @@
 	
 	var _Object$defineProperty = __webpack_require__(8)["default"];
 	
-	var _Object$assign = __webpack_require__(29)["default"];
+	var _Object$assign = __webpack_require__(30)["default"];
 	
 	var _interopRequireDefault = __webpack_require__(2)["default"];
 	
@@ -1148,7 +1227,7 @@
 	  value: true
 	});
 	
-	var _Crossfilter = __webpack_require__(26);
+	var _Crossfilter = __webpack_require__(27);
 	
 	var _Crossfilter2 = _interopRequireDefault(_Crossfilter);
 	
@@ -1247,7 +1326,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 21 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -1259,14 +1338,8 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 */
 	
-	module.exports.Dispatcher = __webpack_require__(32)
+	module.exports.Dispatcher = __webpack_require__(34)
 
-
-/***/ },
-/* 22 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = jQuery;
 
 /***/ },
 /* 23 */
@@ -1278,27 +1351,33 @@
 /* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = moment;
+	module.exports = jQuery;
 
 /***/ },
 /* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = THREE;
+	module.exports = moment;
 
 /***/ },
 /* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = crossfilter;
+	module.exports = THREE;
 
 /***/ },
 /* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
+	module.exports = crossfilter;
+
+/***/ },
+/* 28 */
+/***/ function(module, exports, __webpack_require__) {
+
 	"use strict";
 	
-	var _Object$create = __webpack_require__(35)["default"];
+	var _Object$create = __webpack_require__(37)["default"];
 	
 	exports["default"] = function (subClass, superClass) {
 	  if (typeof superClass !== "function" && superClass !== null) {
@@ -1319,7 +1398,7 @@
 	exports.__esModule = true;
 
 /***/ },
-/* 28 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1367,18 +1446,18 @@
 	exports.__esModule = true;
 
 /***/ },
-/* 29 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(39), __esModule: true };
+	module.exports = { "default": __webpack_require__(40), __esModule: true };
 
 /***/ },
-/* 30 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
-	var _inherits = __webpack_require__(27)["default"];
+	var _inherits = __webpack_require__(28)["default"];
 	
 	var _createClass = __webpack_require__(6)["default"];
 	
@@ -1445,7 +1524,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 31 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1555,262 +1634,6 @@
 	
 	exports["default"] = StatusDictionary;
 	module.exports = exports["default"];
-
-/***/ },
-/* 32 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/*
-	 * Copyright (c) 2014, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule Dispatcher
-	 * @typechecks
-	 */
-	
-	"use strict";
-	
-	var invariant = __webpack_require__(40);
-	
-	var _lastID = 1;
-	var _prefix = 'ID_';
-	
-	/**
-	 * Dispatcher is used to broadcast payloads to registered callbacks. This is
-	 * different from generic pub-sub systems in two ways:
-	 *
-	 *   1) Callbacks are not subscribed to particular events. Every payload is
-	 *      dispatched to every registered callback.
-	 *   2) Callbacks can be deferred in whole or part until other callbacks have
-	 *      been executed.
-	 *
-	 * For example, consider this hypothetical flight destination form, which
-	 * selects a default city when a country is selected:
-	 *
-	 *   var flightDispatcher = new Dispatcher();
-	 *
-	 *   // Keeps track of which country is selected
-	 *   var CountryStore = {country: null};
-	 *
-	 *   // Keeps track of which city is selected
-	 *   var CityStore = {city: null};
-	 *
-	 *   // Keeps track of the base flight price of the selected city
-	 *   var FlightPriceStore = {price: null}
-	 *
-	 * When a user changes the selected city, we dispatch the payload:
-	 *
-	 *   flightDispatcher.dispatch({
-	 *     actionType: 'city-update',
-	 *     selectedCity: 'paris'
-	 *   });
-	 *
-	 * This payload is digested by `CityStore`:
-	 *
-	 *   flightDispatcher.register(function(payload) {
-	 *     if (payload.actionType === 'city-update') {
-	 *       CityStore.city = payload.selectedCity;
-	 *     }
-	 *   });
-	 *
-	 * When the user selects a country, we dispatch the payload:
-	 *
-	 *   flightDispatcher.dispatch({
-	 *     actionType: 'country-update',
-	 *     selectedCountry: 'australia'
-	 *   });
-	 *
-	 * This payload is digested by both stores:
-	 *
-	 *    CountryStore.dispatchToken = flightDispatcher.register(function(payload) {
-	 *     if (payload.actionType === 'country-update') {
-	 *       CountryStore.country = payload.selectedCountry;
-	 *     }
-	 *   });
-	 *
-	 * When the callback to update `CountryStore` is registered, we save a reference
-	 * to the returned token. Using this token with `waitFor()`, we can guarantee
-	 * that `CountryStore` is updated before the callback that updates `CityStore`
-	 * needs to query its data.
-	 *
-	 *   CityStore.dispatchToken = flightDispatcher.register(function(payload) {
-	 *     if (payload.actionType === 'country-update') {
-	 *       // `CountryStore.country` may not be updated.
-	 *       flightDispatcher.waitFor([CountryStore.dispatchToken]);
-	 *       // `CountryStore.country` is now guaranteed to be updated.
-	 *
-	 *       // Select the default city for the new country
-	 *       CityStore.city = getDefaultCityForCountry(CountryStore.country);
-	 *     }
-	 *   });
-	 *
-	 * The usage of `waitFor()` can be chained, for example:
-	 *
-	 *   FlightPriceStore.dispatchToken =
-	 *     flightDispatcher.register(function(payload) {
-	 *       switch (payload.actionType) {
-	 *         case 'country-update':
-	 *           flightDispatcher.waitFor([CityStore.dispatchToken]);
-	 *           FlightPriceStore.price =
-	 *             getFlightPriceStore(CountryStore.country, CityStore.city);
-	 *           break;
-	 *
-	 *         case 'city-update':
-	 *           FlightPriceStore.price =
-	 *             FlightPriceStore(CountryStore.country, CityStore.city);
-	 *           break;
-	 *     }
-	 *   });
-	 *
-	 * The `country-update` payload will be guaranteed to invoke the stores'
-	 * registered callbacks in order: `CountryStore`, `CityStore`, then
-	 * `FlightPriceStore`.
-	 */
-	
-	  function Dispatcher() {
-	    this.$Dispatcher_callbacks = {};
-	    this.$Dispatcher_isPending = {};
-	    this.$Dispatcher_isHandled = {};
-	    this.$Dispatcher_isDispatching = false;
-	    this.$Dispatcher_pendingPayload = null;
-	  }
-	
-	  /**
-	   * Registers a callback to be invoked with every dispatched payload. Returns
-	   * a token that can be used with `waitFor()`.
-	   *
-	   * @param {function} callback
-	   * @return {string}
-	   */
-	  Dispatcher.prototype.register=function(callback) {
-	    var id = _prefix + _lastID++;
-	    this.$Dispatcher_callbacks[id] = callback;
-	    return id;
-	  };
-	
-	  /**
-	   * Removes a callback based on its token.
-	   *
-	   * @param {string} id
-	   */
-	  Dispatcher.prototype.unregister=function(id) {
-	    invariant(
-	      this.$Dispatcher_callbacks[id],
-	      'Dispatcher.unregister(...): `%s` does not map to a registered callback.',
-	      id
-	    );
-	    delete this.$Dispatcher_callbacks[id];
-	  };
-	
-	  /**
-	   * Waits for the callbacks specified to be invoked before continuing execution
-	   * of the current callback. This method should only be used by a callback in
-	   * response to a dispatched payload.
-	   *
-	   * @param {array<string>} ids
-	   */
-	  Dispatcher.prototype.waitFor=function(ids) {
-	    invariant(
-	      this.$Dispatcher_isDispatching,
-	      'Dispatcher.waitFor(...): Must be invoked while dispatching.'
-	    );
-	    for (var ii = 0; ii < ids.length; ii++) {
-	      var id = ids[ii];
-	      if (this.$Dispatcher_isPending[id]) {
-	        invariant(
-	          this.$Dispatcher_isHandled[id],
-	          'Dispatcher.waitFor(...): Circular dependency detected while ' +
-	          'waiting for `%s`.',
-	          id
-	        );
-	        continue;
-	      }
-	      invariant(
-	        this.$Dispatcher_callbacks[id],
-	        'Dispatcher.waitFor(...): `%s` does not map to a registered callback.',
-	        id
-	      );
-	      this.$Dispatcher_invokeCallback(id);
-	    }
-	  };
-	
-	  /**
-	   * Dispatches a payload to all registered callbacks.
-	   *
-	   * @param {object} payload
-	   */
-	  Dispatcher.prototype.dispatch=function(payload) {
-	    invariant(
-	      !this.$Dispatcher_isDispatching,
-	      'Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch.'
-	    );
-	    this.$Dispatcher_startDispatching(payload);
-	    try {
-	      for (var id in this.$Dispatcher_callbacks) {
-	        if (this.$Dispatcher_isPending[id]) {
-	          continue;
-	        }
-	        this.$Dispatcher_invokeCallback(id);
-	      }
-	    } finally {
-	      this.$Dispatcher_stopDispatching();
-	    }
-	  };
-	
-	  /**
-	   * Is this Dispatcher currently dispatching.
-	   *
-	   * @return {boolean}
-	   */
-	  Dispatcher.prototype.isDispatching=function() {
-	    return this.$Dispatcher_isDispatching;
-	  };
-	
-	  /**
-	   * Call the callback stored with the given id. Also do some internal
-	   * bookkeeping.
-	   *
-	   * @param {string} id
-	   * @internal
-	   */
-	  Dispatcher.prototype.$Dispatcher_invokeCallback=function(id) {
-	    this.$Dispatcher_isPending[id] = true;
-	    this.$Dispatcher_callbacks[id](this.$Dispatcher_pendingPayload);
-	    this.$Dispatcher_isHandled[id] = true;
-	  };
-	
-	  /**
-	   * Set up bookkeeping needed when dispatching.
-	   *
-	   * @param {object} payload
-	   * @internal
-	   */
-	  Dispatcher.prototype.$Dispatcher_startDispatching=function(payload) {
-	    for (var id in this.$Dispatcher_callbacks) {
-	      this.$Dispatcher_isPending[id] = false;
-	      this.$Dispatcher_isHandled[id] = false;
-	    }
-	    this.$Dispatcher_pendingPayload = payload;
-	    this.$Dispatcher_isDispatching = true;
-	  };
-	
-	  /**
-	   * Clear bookkeeping used for dispatching.
-	   *
-	   * @internal
-	   */
-	  Dispatcher.prototype.$Dispatcher_stopDispatching=function() {
-	    this.$Dispatcher_pendingPayload = null;
-	    this.$Dispatcher_isDispatching = false;
-	  };
-	
-	
-	module.exports = Dispatcher;
-
 
 /***/ },
 /* 33 */
@@ -2123,6 +1946,262 @@
 /* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
+	/*
+	 * Copyright (c) 2014, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule Dispatcher
+	 * @typechecks
+	 */
+	
+	"use strict";
+	
+	var invariant = __webpack_require__(41);
+	
+	var _lastID = 1;
+	var _prefix = 'ID_';
+	
+	/**
+	 * Dispatcher is used to broadcast payloads to registered callbacks. This is
+	 * different from generic pub-sub systems in two ways:
+	 *
+	 *   1) Callbacks are not subscribed to particular events. Every payload is
+	 *      dispatched to every registered callback.
+	 *   2) Callbacks can be deferred in whole or part until other callbacks have
+	 *      been executed.
+	 *
+	 * For example, consider this hypothetical flight destination form, which
+	 * selects a default city when a country is selected:
+	 *
+	 *   var flightDispatcher = new Dispatcher();
+	 *
+	 *   // Keeps track of which country is selected
+	 *   var CountryStore = {country: null};
+	 *
+	 *   // Keeps track of which city is selected
+	 *   var CityStore = {city: null};
+	 *
+	 *   // Keeps track of the base flight price of the selected city
+	 *   var FlightPriceStore = {price: null}
+	 *
+	 * When a user changes the selected city, we dispatch the payload:
+	 *
+	 *   flightDispatcher.dispatch({
+	 *     actionType: 'city-update',
+	 *     selectedCity: 'paris'
+	 *   });
+	 *
+	 * This payload is digested by `CityStore`:
+	 *
+	 *   flightDispatcher.register(function(payload) {
+	 *     if (payload.actionType === 'city-update') {
+	 *       CityStore.city = payload.selectedCity;
+	 *     }
+	 *   });
+	 *
+	 * When the user selects a country, we dispatch the payload:
+	 *
+	 *   flightDispatcher.dispatch({
+	 *     actionType: 'country-update',
+	 *     selectedCountry: 'australia'
+	 *   });
+	 *
+	 * This payload is digested by both stores:
+	 *
+	 *    CountryStore.dispatchToken = flightDispatcher.register(function(payload) {
+	 *     if (payload.actionType === 'country-update') {
+	 *       CountryStore.country = payload.selectedCountry;
+	 *     }
+	 *   });
+	 *
+	 * When the callback to update `CountryStore` is registered, we save a reference
+	 * to the returned token. Using this token with `waitFor()`, we can guarantee
+	 * that `CountryStore` is updated before the callback that updates `CityStore`
+	 * needs to query its data.
+	 *
+	 *   CityStore.dispatchToken = flightDispatcher.register(function(payload) {
+	 *     if (payload.actionType === 'country-update') {
+	 *       // `CountryStore.country` may not be updated.
+	 *       flightDispatcher.waitFor([CountryStore.dispatchToken]);
+	 *       // `CountryStore.country` is now guaranteed to be updated.
+	 *
+	 *       // Select the default city for the new country
+	 *       CityStore.city = getDefaultCityForCountry(CountryStore.country);
+	 *     }
+	 *   });
+	 *
+	 * The usage of `waitFor()` can be chained, for example:
+	 *
+	 *   FlightPriceStore.dispatchToken =
+	 *     flightDispatcher.register(function(payload) {
+	 *       switch (payload.actionType) {
+	 *         case 'country-update':
+	 *           flightDispatcher.waitFor([CityStore.dispatchToken]);
+	 *           FlightPriceStore.price =
+	 *             getFlightPriceStore(CountryStore.country, CityStore.city);
+	 *           break;
+	 *
+	 *         case 'city-update':
+	 *           FlightPriceStore.price =
+	 *             FlightPriceStore(CountryStore.country, CityStore.city);
+	 *           break;
+	 *     }
+	 *   });
+	 *
+	 * The `country-update` payload will be guaranteed to invoke the stores'
+	 * registered callbacks in order: `CountryStore`, `CityStore`, then
+	 * `FlightPriceStore`.
+	 */
+	
+	  function Dispatcher() {
+	    this.$Dispatcher_callbacks = {};
+	    this.$Dispatcher_isPending = {};
+	    this.$Dispatcher_isHandled = {};
+	    this.$Dispatcher_isDispatching = false;
+	    this.$Dispatcher_pendingPayload = null;
+	  }
+	
+	  /**
+	   * Registers a callback to be invoked with every dispatched payload. Returns
+	   * a token that can be used with `waitFor()`.
+	   *
+	   * @param {function} callback
+	   * @return {string}
+	   */
+	  Dispatcher.prototype.register=function(callback) {
+	    var id = _prefix + _lastID++;
+	    this.$Dispatcher_callbacks[id] = callback;
+	    return id;
+	  };
+	
+	  /**
+	   * Removes a callback based on its token.
+	   *
+	   * @param {string} id
+	   */
+	  Dispatcher.prototype.unregister=function(id) {
+	    invariant(
+	      this.$Dispatcher_callbacks[id],
+	      'Dispatcher.unregister(...): `%s` does not map to a registered callback.',
+	      id
+	    );
+	    delete this.$Dispatcher_callbacks[id];
+	  };
+	
+	  /**
+	   * Waits for the callbacks specified to be invoked before continuing execution
+	   * of the current callback. This method should only be used by a callback in
+	   * response to a dispatched payload.
+	   *
+	   * @param {array<string>} ids
+	   */
+	  Dispatcher.prototype.waitFor=function(ids) {
+	    invariant(
+	      this.$Dispatcher_isDispatching,
+	      'Dispatcher.waitFor(...): Must be invoked while dispatching.'
+	    );
+	    for (var ii = 0; ii < ids.length; ii++) {
+	      var id = ids[ii];
+	      if (this.$Dispatcher_isPending[id]) {
+	        invariant(
+	          this.$Dispatcher_isHandled[id],
+	          'Dispatcher.waitFor(...): Circular dependency detected while ' +
+	          'waiting for `%s`.',
+	          id
+	        );
+	        continue;
+	      }
+	      invariant(
+	        this.$Dispatcher_callbacks[id],
+	        'Dispatcher.waitFor(...): `%s` does not map to a registered callback.',
+	        id
+	      );
+	      this.$Dispatcher_invokeCallback(id);
+	    }
+	  };
+	
+	  /**
+	   * Dispatches a payload to all registered callbacks.
+	   *
+	   * @param {object} payload
+	   */
+	  Dispatcher.prototype.dispatch=function(payload) {
+	    invariant(
+	      !this.$Dispatcher_isDispatching,
+	      'Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch.'
+	    );
+	    this.$Dispatcher_startDispatching(payload);
+	    try {
+	      for (var id in this.$Dispatcher_callbacks) {
+	        if (this.$Dispatcher_isPending[id]) {
+	          continue;
+	        }
+	        this.$Dispatcher_invokeCallback(id);
+	      }
+	    } finally {
+	      this.$Dispatcher_stopDispatching();
+	    }
+	  };
+	
+	  /**
+	   * Is this Dispatcher currently dispatching.
+	   *
+	   * @return {boolean}
+	   */
+	  Dispatcher.prototype.isDispatching=function() {
+	    return this.$Dispatcher_isDispatching;
+	  };
+	
+	  /**
+	   * Call the callback stored with the given id. Also do some internal
+	   * bookkeeping.
+	   *
+	   * @param {string} id
+	   * @internal
+	   */
+	  Dispatcher.prototype.$Dispatcher_invokeCallback=function(id) {
+	    this.$Dispatcher_isPending[id] = true;
+	    this.$Dispatcher_callbacks[id](this.$Dispatcher_pendingPayload);
+	    this.$Dispatcher_isHandled[id] = true;
+	  };
+	
+	  /**
+	   * Set up bookkeeping needed when dispatching.
+	   *
+	   * @param {object} payload
+	   * @internal
+	   */
+	  Dispatcher.prototype.$Dispatcher_startDispatching=function(payload) {
+	    for (var id in this.$Dispatcher_callbacks) {
+	      this.$Dispatcher_isPending[id] = false;
+	      this.$Dispatcher_isHandled[id] = false;
+	    }
+	    this.$Dispatcher_pendingPayload = payload;
+	    this.$Dispatcher_isDispatching = true;
+	  };
+	
+	  /**
+	   * Clear bookkeeping used for dispatching.
+	   *
+	   * @internal
+	   */
+	  Dispatcher.prototype.$Dispatcher_stopDispatching=function() {
+	    this.$Dispatcher_pendingPayload = null;
+	    this.$Dispatcher_isDispatching = false;
+	  };
+	
+	
+	module.exports = Dispatcher;
+
+
+/***/ },
+/* 35 */
+/***/ function(module, exports, __webpack_require__) {
+
 	/*! Moment Duration Format v1.3.0
 	 *  https://github.com/jsmreese/moment-duration-format 
 	 *  Date: 2014-07-15
@@ -2311,7 +2390,7 @@
 		var moment;
 	
 		if (true) {
-			try { moment = __webpack_require__(24); } 
+			try { moment = __webpack_require__(25); } 
 			catch (e) {}
 		} 
 		
@@ -2608,12 +2687,6 @@
 
 
 /***/ },
-/* 35 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = { "default": __webpack_require__(41), __esModule: true };
-
-/***/ },
 /* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -2623,27 +2696,33 @@
 /* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $ = __webpack_require__(43);
-	module.exports = function defineProperty(it, key, desc){
-	  return $.setDesc(it, key, desc);
-	};
+	module.exports = { "default": __webpack_require__(43), __esModule: true };
 
 /***/ },
 /* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(44);
-	module.exports = __webpack_require__(43).core.Symbol;
+	var $ = __webpack_require__(44);
+	module.exports = function defineProperty(it, key, desc){
+	  return $.setDesc(it, key, desc);
+	};
 
 /***/ },
 /* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(45);
-	module.exports = __webpack_require__(43).core.Object.assign;
+	module.exports = __webpack_require__(44).core.Symbol;
 
 /***/ },
 /* 40 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(46);
+	module.exports = __webpack_require__(44).core.Object.assign;
+
+/***/ },
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -2702,26 +2781,26 @@
 
 
 /***/ },
-/* 41 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var $ = __webpack_require__(43);
-	module.exports = function create(P, D){
-	  return $.create(P, D);
-	};
-
-/***/ },
 /* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $ = __webpack_require__(43);
-	__webpack_require__(46);
+	var $ = __webpack_require__(44);
+	__webpack_require__(47);
 	module.exports = function getOwnPropertyDescriptor(it, key){
 	  return $.getDesc(it, key);
 	};
 
 /***/ },
 /* 43 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var $ = __webpack_require__(44);
+	module.exports = function create(P, D){
+	  return $.create(P, D);
+	};
+
+/***/ },
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2773,7 +2852,7 @@
 	  return it;
 	}
 	
-	var $ = module.exports = __webpack_require__(47)({
+	var $ = module.exports = __webpack_require__(48)({
 	  g: global,
 	  core: core,
 	  html: global.document && document.documentElement,
@@ -2829,18 +2908,18 @@
 	if(typeof __g != 'undefined')__g = global;
 
 /***/ },
-/* 44 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	// ECMAScript 6 symbols shim
-	var $        = __webpack_require__(43)
-	  , setTag   = __webpack_require__(48).set
-	  , uid      = __webpack_require__(49)
-	  , $def     = __webpack_require__(50)
-	  , keyOf    = __webpack_require__(51)
-	  , enumKeys = __webpack_require__(52)
-	  , assertObject = __webpack_require__(53).obj
+	var $        = __webpack_require__(44)
+	  , setTag   = __webpack_require__(49).set
+	  , uid      = __webpack_require__(50)
+	  , $def     = __webpack_require__(51)
+	  , keyOf    = __webpack_require__(52)
+	  , enumKeys = __webpack_require__(53)
+	  , assertObject = __webpack_require__(54).obj
 	  , has      = $.has
 	  , $create  = $.create
 	  , getDesc  = $.getDesc
@@ -2960,7 +3039,7 @@
 	    'hasInstance,isConcatSpreadable,iterator,match,replace,search,' +
 	    'species,split,toPrimitive,toStringTag,unscopables'
 	  ).split(','), function(it){
-	    var sym = __webpack_require__(54)(it);
+	    var sym = __webpack_require__(55)(it);
 	    symbolStatics[it] = useNative ? sym : wrap(sym);
 	  }
 	);
@@ -2994,19 +3073,19 @@
 	setTag($.g.JSON, 'JSON', true);
 
 /***/ },
-/* 45 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// 19.1.3.1 Object.assign(target, source)
-	var $def = __webpack_require__(50);
-	$def($def.S, 'Object', {assign: __webpack_require__(55)});
-
-/***/ },
 /* 46 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $        = __webpack_require__(43)
-	  , $def     = __webpack_require__(50)
+	// 19.1.3.1 Object.assign(target, source)
+	var $def = __webpack_require__(51);
+	$def($def.S, 'Object', {assign: __webpack_require__(56)});
+
+/***/ },
+/* 47 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var $        = __webpack_require__(44)
+	  , $def     = __webpack_require__(51)
 	  , isObject = $.isObject
 	  , toObject = $.toObject;
 	function wrapObjectMethod(METHOD, MODE){
@@ -3045,7 +3124,7 @@
 	wrapObjectMethod('getOwnPropertyNames');
 
 /***/ },
-/* 47 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function($){
@@ -3055,11 +3134,11 @@
 	};
 
 /***/ },
-/* 48 */
+/* 49 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $        = __webpack_require__(43)
-	  , TAG      = __webpack_require__(54)('toStringTag')
+	var $        = __webpack_require__(44)
+	  , TAG      = __webpack_require__(55)('toStringTag')
 	  , toString = {}.toString;
 	function cof(it){
 	  return toString.call(it).slice(8, -1);
@@ -3075,21 +3154,21 @@
 	module.exports = cof;
 
 /***/ },
-/* 49 */
+/* 50 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var sid = 0;
 	function uid(key){
 	  return 'Symbol(' + key + ')_' + (++sid + Math.random()).toString(36);
 	}
-	uid.safe = __webpack_require__(43).g.Symbol || uid;
+	uid.safe = __webpack_require__(44).g.Symbol || uid;
 	module.exports = uid;
 
 /***/ },
-/* 50 */
+/* 51 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $          = __webpack_require__(43)
+	var $          = __webpack_require__(44)
 	  , global     = $.g
 	  , core       = $.core
 	  , isFunction = $.isFunction;
@@ -3137,10 +3216,10 @@
 	module.exports = $def;
 
 /***/ },
-/* 51 */
+/* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $ = __webpack_require__(43);
+	var $ = __webpack_require__(44);
 	module.exports = function(object, el){
 	  var O      = $.toObject(object)
 	    , keys   = $.getKeys(O)
@@ -3151,10 +3230,10 @@
 	};
 
 /***/ },
-/* 52 */
+/* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $ = __webpack_require__(43);
+	var $ = __webpack_require__(44);
 	module.exports = function(it){
 	  var keys       = $.getKeys(it)
 	    , getDesc    = $.getDesc
@@ -3166,10 +3245,10 @@
 	};
 
 /***/ },
-/* 53 */
+/* 54 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $ = __webpack_require__(43);
+	var $ = __webpack_require__(44);
 	function assert(condition, msg1, msg2){
 	  if(!condition)throw TypeError(msg2 ? msg1 + msg2 : msg1);
 	}
@@ -3189,22 +3268,22 @@
 	module.exports = assert;
 
 /***/ },
-/* 54 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var global = __webpack_require__(43).g
-	  , store  = {};
-	module.exports = function(name){
-	  return store[name] || (store[name] =
-	    global.Symbol && global.Symbol[name] || __webpack_require__(49).safe('Symbol.' + name));
-	};
-
-/***/ },
 /* 55 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $        = __webpack_require__(43)
-	  , enumKeys = __webpack_require__(52);
+	var global = __webpack_require__(44).g
+	  , store  = {};
+	module.exports = function(name){
+	  return store[name] || (store[name] =
+	    global.Symbol && global.Symbol[name] || __webpack_require__(50).safe('Symbol.' + name));
+	};
+
+/***/ },
+/* 56 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var $        = __webpack_require__(44)
+	  , enumKeys = __webpack_require__(53);
 	// 19.1.2.1 Object.assign(target, source, ...)
 	/* eslint-disable no-unused-vars */
 	module.exports = Object.assign || function assign(target, source){
