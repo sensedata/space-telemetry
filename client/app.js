@@ -98,8 +98,8 @@ class App {
   }
 
   render() {
-    const views = {
       // "bullet-chart": BulletChart,
+    const viewFactories = {
       "readout decimal": React.createFactory(DecimalReadout),
       "readout integer": React.createFactory(IntegerReadout),
       "readout text": React.createFactory(TextReadout),
