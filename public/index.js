@@ -188,7 +188,7 @@
 	            data: data
 	          });
 	        });
-	        this.socket.emit(telemetryNumber, 1000000000, 100);
+	        this.socket.emit(telemetryNumber, 1000000000, 200);
 	      }
 	    }
 	  }, {
@@ -237,6 +237,8 @@
 	        "sparkline-chart": _React2["default"].createFactory(_SparklineChart2["default"])
 	      };
 	
+	      var sparkLineCharts = [];
+	
 	      _import2["default"].forEach(viewFactories, function (viewFactory, className) {
 	        _import2["default"].forEach(document.getElementsByClassName(className), function (e) {
 	          var props = {
@@ -256,7 +258,10 @@
 	          }
 	
 	          if (typeof props.store !== "undefined") {
-	            _React2["default"].render(viewFactory(props), e);
+	            var view = _React2["default"].render(viewFactory(props), e);
+	            if (e.classList.contains("sparkline-chart")) {
+	              sparkLineCharts.push(view);
+	            }
 	          }
 	        });
 	      });
@@ -288,7 +293,14 @@
 	      var delayView = _React2["default"].render(_React2["default"].createFactory(_TransmissionDelay2["default"])(latestProps), document.getElementById("telemetry-delay"));
 	
 	      window.setInterval(function () {
+	        var now = Moment().unix();
+	
 	        delayView.forceUpdate();
+	        sparkLineCharts.forEach(function (c) {
+	          if (now - c.lastUpdate > 1) {
+	            c.forceUpdate();
+	          }
+	        });
 	      }, 1000);
 	    }
 	  }]);
@@ -560,6 +572,7 @@
 	    var jTarget = _$2["default"](props.target);
 	    this.height = jTarget.height();
 	    this.width = jTarget.width();
+	    this.lastUpdate = 0;
 	  }
 	
 	  _inherits(SparklineChart, _ListeningView);
@@ -567,28 +580,32 @@
 	  _createClass(SparklineChart, [{
 	    key: "availablePoints",
 	    value: function availablePoints() {
-	      return Math.floor(this.width / 2);
+	      return Math.floor(this.width / 3);
 	    }
 	  }, {
 	    key: "earliestAcceptable",
 	    value: function earliestAcceptable() {
-	      return _Moment2["default"]().subtract(this.availablePoints() * 2, "seconds").unix();
+	      return _Moment2["default"]().subtract(this.availablePoints() * 3, "seconds").unix();
 	    }
 	  }, {
 	    key: "storeChanged",
 	    value: function storeChanged() {
 	      this.setState({
-	        data: this.props.store.get(this.availablePoints(), this.earliestAcceptable())
+	        data: this.props.store.get(999999, this.earliestAcceptable()).slice().reverse()
 	      });
 	    }
 	  }, {
 	    key: "renderWithState",
 	    value: function renderWithState() {
-	      if (this.state.data.length <= 0) {
+	      if (this.state.data.length <= 1) {
 	        return false;
 	      }
 	
-	      var leftToRight = this.state.data.reverse();
+	      var newest = this.state.data[this.state.data.length - 1];
+	
+	      if (newest.t < this.earliestAcceptable()) {
+	        return false;
+	      }
 	
 	      var line = _D32["default"].svg.line();
 	      line.x(function (d) {
@@ -597,21 +614,21 @@
 	      line.y(function (d) {
 	        return y(d.v);
 	      });
+	      line.interpolate("basis");
+	
+	      var now = _Moment2["default"]().unix();
 	
 	      var x = _D32["default"].scale.linear().range([0, this.width - 2]);
-	      x.domain(_D32["default"].extent(leftToRight, function (d) {
-	        return d.t;
-	      }));
+	      x.domain([this.earliestAcceptable(), now - 1]);
 	
 	      // FIXME Why the heck does this need to have 10 subtracted to not overrun
 	      // the top and bottom of the draw-area?
 	      var y = _D32["default"].scale.linear().range([0, this.height - 10]);
-	      y.domain(_D32["default"].extent(leftToRight, function (d) {
+	      y.domain(_D32["default"].extent(this.state.data, function (d) {
 	        return d.v;
 	      }));
 	
-	      var last = leftToRight[leftToRight.length - 1];
-	
+	      this.lastUpdate = now;
 	      return _React2["default"].createElement(
 	        "svg",
 	        { className: "sparkline", height: this.height - 6, width: this.width },
@@ -619,7 +636,7 @@
 	          "g",
 	          { transform: "translate(0, 2)" },
 	          _React2["default"].createElement("path", { d: line(this.state.data) }),
-	          _React2["default"].createElement("circle", { cx: x(last.t), cy: y(last.v), r: "1.5" })
+	          _React2["default"].createElement("circle", { cx: x(newest.t), cy: y(newest.v), r: "1.5" })
 	        )
 	      );
 	    }

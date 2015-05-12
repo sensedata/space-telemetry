@@ -62,7 +62,7 @@ class App {
           data: data
         });
       });
-      this.socket.emit(telemetryNumber, 1000000000, 100);
+      this.socket.emit(telemetryNumber, 1000000000, 200);
     }
   }
 
@@ -106,6 +106,8 @@ class App {
       "sparkline-chart": React.createFactory(SparklineChart)
     };
 
+    const sparkLineCharts = [];
+
     _.forEach(viewFactories, (viewFactory, className) => {
       _.forEach(document.getElementsByClassName(className), e => {
         const props = {
@@ -129,7 +131,10 @@ class App {
         }
 
         if (typeof props.store !== "undefined") {
-          React.render(viewFactory(props), e);
+          const view = React.render(viewFactory(props), e);
+          if (e.classList.contains("sparkline-chart")) {
+            sparkLineCharts.push(view);
+          }
         }
       });
 
@@ -165,7 +170,16 @@ class App {
       document.getElementById("telemetry-delay")
     );
 
-    window.setInterval(() => {delayView.forceUpdate();}, 1000);
+    window.setInterval(() => {
+      const now = Moment().unix();
+
+      delayView.forceUpdate();
+      sparkLineCharts.forEach(c => {
+        if (now - c.lastUpdate > 1) {
+          c.forceUpdate();
+        }
+      });
+    }, 1000);
   }
 }
 
