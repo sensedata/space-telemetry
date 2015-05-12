@@ -86,6 +86,10 @@
 	
 	var _IO2 = _interopRequireDefault(_IO);
 	
+	var _Moment = __webpack_require__(25);
+	
+	var _Moment2 = _interopRequireDefault(_Moment);
+	
 	var _React = __webpack_require__(5);
 	
 	var _React2 = _interopRequireDefault(_React);
@@ -293,7 +297,7 @@
 	      var delayView = _React2["default"].render(_React2["default"].createFactory(_TransmissionDelay2["default"])(latestProps), document.getElementById("telemetry-delay"));
 	
 	      window.setInterval(function () {
-	        var now = Moment().unix();
+	        var now = _Moment2["default"]().unix();
 	
 	        delayView.forceUpdate();
 	        sparkLineCharts.forEach(function (c) {

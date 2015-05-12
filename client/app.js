@@ -1,6 +1,7 @@
 import _ from "lodash";
 import Flux from "flux";
 import IO from "io";
+import Moment from "moment";
 import React from "react";
 
 import TelemetryIndex from "./telemetry_index.js";
