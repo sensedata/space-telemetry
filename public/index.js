@@ -261,6 +261,10 @@
 	            props.store = _this2.getStore(props.telemetryNumber);
 	          }
 	
+	          if (typeof e.dataset.capacityId !== "undefined") {
+	            props.capacityStore = _this2.getStore(_TelemetryIndex2["default"].number(e.dataset.capacityId));
+	          }
+	
 	          if (typeof props.store !== "undefined") {
 	            var view = _React2["default"].render(viewFactory(props), e);
 	            if (e.classList.contains("sparkline-chart")) {
@@ -402,13 +406,13 @@
 /* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(38), __esModule: true };
+	module.exports = { "default": __webpack_require__(39), __esModule: true };
 
 /***/ },
 /* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(39), __esModule: true };
+	module.exports = { "default": __webpack_require__(38), __esModule: true };
 
 /***/ },
 /* 11 */
@@ -464,6 +468,8 @@
 	
 	var _inherits = __webpack_require__(27)["default"];
 	
+	var _get = __webpack_require__(28)["default"];
+	
 	var _createClass = __webpack_require__(7)["default"];
 	
 	var _classCallCheck = __webpack_require__(8)["default"];
@@ -476,6 +482,10 @@
 	  value: true
 	});
 	
+	var _$ = __webpack_require__(34);
+	
+	var _$2 = _interopRequireDefault(_$);
+	
 	var _D3 = __webpack_require__(24);
 	
 	var _D32 = _interopRequireDefault(_D3);
@@ -484,7 +494,11 @@
 	
 	var _React2 = _interopRequireDefault(_React);
 	
-	var _ListeningView2 = __webpack_require__(29);
+	var _App = __webpack_require__(1);
+	
+	var _App2 = _interopRequireDefault(_App);
+	
+	var _ListeningView2 = __webpack_require__(30);
 	
 	var _ListeningView3 = _interopRequireDefault(_ListeningView2);
 	
@@ -500,27 +514,82 @@
 	  _inherits(BulletChart, _ListeningView);
 	
 	  _createClass(BulletChart, [{
+	    key: "componentDidMount",
+	    value: function componentDidMount() {
+	      _get(Object.getPrototypeOf(BulletChart.prototype), "componentDidMount", this).call(this);
+	
+	      if (typeof this.props.capacityStore !== "undefined") {
+	        this.props.capacityStore.addListener(_App2["default"].TELEMETRY_EVENT, this.storeChanged.bind(this));
+	      }
+	    }
+	  }, {
+	    key: "componentWillUnmount",
+	    value: function componentWillUnmount() {
+	      _get(Object.getPrototypeOf(BulletChart.prototype), "componentWillUnmount", this).call(this);
+	
+	      if (typeof this.props.capacityStore !== "undefined") {
+	        this.props.capacityStore.removeListener(_App2["default"].TELEMETRY_EVENT, this.storeChanged.bind(this));
+	      }
+	    }
+	  }, {
+	    key: "storeChanged",
+	    value: function storeChanged() {
+	      var measureData = this.props.store.get(1, -1);
+	
+	      var newState = {
+	        measure: measureData[0] ? measureData[0].v : undefined
+	      };
+	
+	      if (this.props.capacityStore) {
+	        var capacityData = this.props.capacityStore.get(1, -1);
+	        newState.capacity = capacityData[0] ? capacityData[0].v : undefined;
+	      }
+	
+	      this.setState(newState);
+	    }
+	  }, {
 	    key: "renderWithState",
 	    value: function renderWithState() {
-	      var maxRange = this.state.ranges[this.state.ranges.length - 1];
-	      var scale = _D32["default"].scale.linear().domain([0, maxRange]).range([0, maxRange]);
-	      var ranges = this.props.target.dataset.ranges;
+	      var capacity = this.state.capacity || parseFloat(this.props.target.dataset.capacity);
 	
-	      var width = this.props.target;
-	      var height = this.props.target;
+	      if (isNaN(capacity)) {
+	        return false;
+	      }
+	
+	      if (typeof this.state.measure === "undefined") {
+	        return false;
+	      }
+	
+	      // TODO Replace with standard deviation sizes once available
+	      var ranges = [0.25, 0.5, 0.75, 1].map(function (p) {
+	        return p * capacity;
+	      });
+	
+	      var jTarget = _$2["default"](this.props.target);
+	      var width = jTarget.width();
+	      var height = jTarget.height() - 5;
+	
+	      // TODO Replace with mean value once available
+	      var marker = undefined;
+	      if (typeof this.props.target.dataset.marker !== "undefined") {
+	        marker = parseFloat(this.props.target.dataset.marker);
+	      } else {
+	        marker = 0.9 * capacity;
+	      }
+	
+	      var scale = _D32["default"].scale.linear();
+	      scale.range([0, width]);
+	      scale.domain([0, capacity]);
 	
 	      return _React2["default"].createElement(
 	        "svg",
-	        { "class": "bullet", width: width, height: height },
-	        _React2["default"].createElement(
-	          "g",
-	          { transform: "translate(120,5)" },
-	          this.state.ranges.map(function (r, i) {
-	            return _React2["default"].createElement("rect", { "class": "range range-{i}", width: r, height: "24", x: "0" });
-	          }),
-	          _React2["default"].createElement("rect", { "class": "measure", width: "720", height: "8", x: "0", y: "8" }),
-	          _React2["default"].createElement("line", { "class": "marker", x1: this.state.marker, x2: this.state.marker, y1: "4", y2: "20" })
-	        )
+	        { className: "bullet", width: width, height: height },
+	        _React2["default"].createElement("rect", { className: "range-3", x: "0", y: "0", width: scale(ranges[3]), height: height }),
+	        _React2["default"].createElement("rect", { className: "range-2", x: "0", y: "0", width: scale(ranges[2]), height: height }),
+	        _React2["default"].createElement("rect", { className: "range-1", x: "0", y: "0", width: scale(ranges[1]), height: height }),
+	        _React2["default"].createElement("rect", { className: "range-0", x: "0", y: "0", width: scale(ranges[0]), height: height }),
+	        _React2["default"].createElement("line", { className: "measure", x1: "0", x2: scale(this.state.measure), y1: height * 0.5, y2: height * 0.5 }),
+	        _React2["default"].createElement("line", { className: "marker", x1: scale(marker), x2: scale(marker), y1: height * 0.15, y2: height * 0.85 })
 	      );
 	    }
 	  }]);
@@ -553,9 +622,13 @@
 	  value: true
 	});
 	
-	var _$ = __webpack_require__(35);
+	var _$ = __webpack_require__(34);
 	
 	var _$2 = _interopRequireDefault(_$);
+	
+	var _import = __webpack_require__(2);
+	
+	var _import2 = _interopRequireDefault(_import);
 	
 	var _D3 = __webpack_require__(24);
 	
@@ -569,7 +642,7 @@
 	
 	var _React2 = _interopRequireDefault(_React);
 	
-	var _ListeningView2 = __webpack_require__(29);
+	var _ListeningView2 = __webpack_require__(30);
 	
 	var _ListeningView3 = _interopRequireDefault(_ListeningView2);
 	
@@ -579,6 +652,7 @@
 	
 	    _get(Object.getPrototypeOf(SparklineChart.prototype), "constructor", this).call(this, props);
 	
+	    // TODO Remove use of jQuery
 	    var jTarget = _$2["default"](props.target);
 	    this.height = jTarget.height();
 	    this.width = jTarget.width();
@@ -611,7 +685,7 @@
 	        return false;
 	      }
 	
-	      var newest = this.state.data[this.state.data.length - 1];
+	      var newest = _import2["default"].last(this.state.data);
 	
 	      if (newest.t < this.earliestAcceptable()) {
 	        return false;
@@ -628,12 +702,14 @@
 	
 	      var now = _Moment2["default"]().unix();
 	
-	      var x = _D32["default"].scale.linear().range([0, this.width - 2]);
+	      var x = _D32["default"].scale.linear();
+	      x.range([0, this.width - 2]);
 	      x.domain([this.earliestAcceptable(), now - 1]);
 	
 	      // FIXME Why the heck does this need to have 10 subtracted to not overrun
 	      // the top and bottom of the draw-area?
-	      var y = _D32["default"].scale.linear().range([0, this.height - 10]);
+	      var y = _D32["default"].scale.linear();
+	      y.range([0, this.height - 10]);
 	      y.domain(_D32["default"].extent(this.state.data, function (d) {
 	        return d.v;
 	      }));
@@ -642,12 +718,8 @@
 	      return _React2["default"].createElement(
 	        "svg",
 	        { className: "sparkline", height: this.height - 6, width: this.width },
-	        _React2["default"].createElement(
-	          "g",
-	          { transform: "translate(0, 2)" },
-	          _React2["default"].createElement("path", { d: line(this.state.data) }),
-	          _React2["default"].createElement("circle", { cx: x(newest.t), cy: y(newest.v), r: "1.5" })
-	        )
+	        _React2["default"].createElement("path", { d: line(this.state.data) }),
+	        _React2["default"].createElement("circle", { cx: x(newest.t), cy: y(newest.v), r: "1.5" })
 	      );
 	    }
 	  }]);
@@ -686,7 +758,7 @@
 	
 	var _React2 = _interopRequireDefault(_React);
 	
-	var _ListeningView2 = __webpack_require__(29);
+	var _ListeningView2 = __webpack_require__(30);
 	
 	var _ListeningView3 = _interopRequireDefault(_ListeningView2);
 	
@@ -762,7 +834,7 @@
 	
 	var _React2 = _interopRequireDefault(_React);
 	
-	var _ListeningView2 = __webpack_require__(29);
+	var _ListeningView2 = __webpack_require__(30);
 	
 	var _ListeningView3 = _interopRequireDefault(_ListeningView2);
 	
@@ -826,11 +898,11 @@
 	
 	var _React2 = _interopRequireDefault(_React);
 	
-	var _ListeningView2 = __webpack_require__(29);
+	var _ListeningView2 = __webpack_require__(30);
 	
 	var _ListeningView3 = _interopRequireDefault(_ListeningView2);
 	
-	var _StatusDictionary = __webpack_require__(30);
+	var _StatusDictionary = __webpack_require__(31);
 	
 	var _StatusDictionary2 = _interopRequireDefault(_StatusDictionary);
 	
@@ -896,7 +968,7 @@
 	
 	var _React2 = _interopRequireDefault(_React);
 	
-	var _ListeningView2 = __webpack_require__(29);
+	var _ListeningView2 = __webpack_require__(30);
 	
 	var _ListeningView3 = _interopRequireDefault(_ListeningView2);
 	
@@ -959,7 +1031,7 @@
 	
 	var _React2 = _interopRequireDefault(_React);
 	
-	var _ListeningView2 = __webpack_require__(29);
+	var _ListeningView2 = __webpack_require__(30);
 	
 	var _ListeningView3 = _interopRequireDefault(_ListeningView2);
 	
@@ -1018,13 +1090,13 @@
 	
 	var _Moment2 = _interopRequireDefault(_Moment);
 	
-	__webpack_require__(34);
+	__webpack_require__(35);
 	
 	var _React = __webpack_require__(5);
 	
 	var _React2 = _interopRequireDefault(_React);
 	
-	var _ListeningView2 = __webpack_require__(29);
+	var _ListeningView2 = __webpack_require__(30);
 	
 	var _ListeningView3 = _interopRequireDefault(_ListeningView2);
 	
@@ -1089,7 +1161,7 @@
 	
 	var _THREE2 = _interopRequireDefault(_THREE);
 	
-	var _EventEmitter2 = __webpack_require__(33);
+	var _EventEmitter2 = __webpack_require__(32);
 	
 	var _EventEmitter3 = _interopRequireDefault(_EventEmitter2);
 	
@@ -1179,7 +1251,7 @@
 	
 	var _import2 = _interopRequireDefault(_import);
 	
-	var _EventEmitter2 = __webpack_require__(33);
+	var _EventEmitter2 = __webpack_require__(32);
 	
 	var _EventEmitter3 = _interopRequireDefault(_EventEmitter2);
 	
@@ -1246,7 +1318,7 @@
 	
 	var _Object$defineProperty = __webpack_require__(9)["default"];
 	
-	var _Object$assign = __webpack_require__(31)["default"];
+	var _Object$assign = __webpack_require__(29)["default"];
 	
 	var _interopRequireDefault = __webpack_require__(6)["default"];
 	
@@ -1258,7 +1330,7 @@
 	
 	var _Crossfilter2 = _interopRequireDefault(_Crossfilter);
 	
-	var _EventEmitter2 = __webpack_require__(33);
+	var _EventEmitter2 = __webpack_require__(32);
 	
 	var _EventEmitter3 = _interopRequireDefault(_EventEmitter2);
 	
@@ -1365,7 +1437,7 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 */
 	
-	module.exports.Dispatcher = __webpack_require__(32)
+	module.exports.Dispatcher = __webpack_require__(33)
 
 
 /***/ },
@@ -1464,6 +1536,12 @@
 /* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
+	module.exports = { "default": __webpack_require__(40), __esModule: true };
+
+/***/ },
+/* 30 */
+/***/ function(module, exports, __webpack_require__) {
+
 	"use strict";
 	
 	var _inherits = __webpack_require__(27)["default"];
@@ -1519,6 +1597,9 @@
 	  }, {
 	    key: "render",
 	    value: function render() {
+	      if (this.props.target && this.props.target.offsetParent === null) {
+	        return false;
+	      }
 	      if (!this.state) {
 	        return false;
 	      }
@@ -1533,7 +1614,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 30 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1645,269 +1726,7 @@
 	module.exports = exports["default"];
 
 /***/ },
-/* 31 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = { "default": __webpack_require__(40), __esModule: true };
-
-/***/ },
 /* 32 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/*
-	 * Copyright (c) 2014, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule Dispatcher
-	 * @typechecks
-	 */
-	
-	"use strict";
-	
-	var invariant = __webpack_require__(41);
-	
-	var _lastID = 1;
-	var _prefix = 'ID_';
-	
-	/**
-	 * Dispatcher is used to broadcast payloads to registered callbacks. This is
-	 * different from generic pub-sub systems in two ways:
-	 *
-	 *   1) Callbacks are not subscribed to particular events. Every payload is
-	 *      dispatched to every registered callback.
-	 *   2) Callbacks can be deferred in whole or part until other callbacks have
-	 *      been executed.
-	 *
-	 * For example, consider this hypothetical flight destination form, which
-	 * selects a default city when a country is selected:
-	 *
-	 *   var flightDispatcher = new Dispatcher();
-	 *
-	 *   // Keeps track of which country is selected
-	 *   var CountryStore = {country: null};
-	 *
-	 *   // Keeps track of which city is selected
-	 *   var CityStore = {city: null};
-	 *
-	 *   // Keeps track of the base flight price of the selected city
-	 *   var FlightPriceStore = {price: null}
-	 *
-	 * When a user changes the selected city, we dispatch the payload:
-	 *
-	 *   flightDispatcher.dispatch({
-	 *     actionType: 'city-update',
-	 *     selectedCity: 'paris'
-	 *   });
-	 *
-	 * This payload is digested by `CityStore`:
-	 *
-	 *   flightDispatcher.register(function(payload) {
-	 *     if (payload.actionType === 'city-update') {
-	 *       CityStore.city = payload.selectedCity;
-	 *     }
-	 *   });
-	 *
-	 * When the user selects a country, we dispatch the payload:
-	 *
-	 *   flightDispatcher.dispatch({
-	 *     actionType: 'country-update',
-	 *     selectedCountry: 'australia'
-	 *   });
-	 *
-	 * This payload is digested by both stores:
-	 *
-	 *    CountryStore.dispatchToken = flightDispatcher.register(function(payload) {
-	 *     if (payload.actionType === 'country-update') {
-	 *       CountryStore.country = payload.selectedCountry;
-	 *     }
-	 *   });
-	 *
-	 * When the callback to update `CountryStore` is registered, we save a reference
-	 * to the returned token. Using this token with `waitFor()`, we can guarantee
-	 * that `CountryStore` is updated before the callback that updates `CityStore`
-	 * needs to query its data.
-	 *
-	 *   CityStore.dispatchToken = flightDispatcher.register(function(payload) {
-	 *     if (payload.actionType === 'country-update') {
-	 *       // `CountryStore.country` may not be updated.
-	 *       flightDispatcher.waitFor([CountryStore.dispatchToken]);
-	 *       // `CountryStore.country` is now guaranteed to be updated.
-	 *
-	 *       // Select the default city for the new country
-	 *       CityStore.city = getDefaultCityForCountry(CountryStore.country);
-	 *     }
-	 *   });
-	 *
-	 * The usage of `waitFor()` can be chained, for example:
-	 *
-	 *   FlightPriceStore.dispatchToken =
-	 *     flightDispatcher.register(function(payload) {
-	 *       switch (payload.actionType) {
-	 *         case 'country-update':
-	 *           flightDispatcher.waitFor([CityStore.dispatchToken]);
-	 *           FlightPriceStore.price =
-	 *             getFlightPriceStore(CountryStore.country, CityStore.city);
-	 *           break;
-	 *
-	 *         case 'city-update':
-	 *           FlightPriceStore.price =
-	 *             FlightPriceStore(CountryStore.country, CityStore.city);
-	 *           break;
-	 *     }
-	 *   });
-	 *
-	 * The `country-update` payload will be guaranteed to invoke the stores'
-	 * registered callbacks in order: `CountryStore`, `CityStore`, then
-	 * `FlightPriceStore`.
-	 */
-	
-	  function Dispatcher() {
-	    this.$Dispatcher_callbacks = {};
-	    this.$Dispatcher_isPending = {};
-	    this.$Dispatcher_isHandled = {};
-	    this.$Dispatcher_isDispatching = false;
-	    this.$Dispatcher_pendingPayload = null;
-	  }
-	
-	  /**
-	   * Registers a callback to be invoked with every dispatched payload. Returns
-	   * a token that can be used with `waitFor()`.
-	   *
-	   * @param {function} callback
-	   * @return {string}
-	   */
-	  Dispatcher.prototype.register=function(callback) {
-	    var id = _prefix + _lastID++;
-	    this.$Dispatcher_callbacks[id] = callback;
-	    return id;
-	  };
-	
-	  /**
-	   * Removes a callback based on its token.
-	   *
-	   * @param {string} id
-	   */
-	  Dispatcher.prototype.unregister=function(id) {
-	    invariant(
-	      this.$Dispatcher_callbacks[id],
-	      'Dispatcher.unregister(...): `%s` does not map to a registered callback.',
-	      id
-	    );
-	    delete this.$Dispatcher_callbacks[id];
-	  };
-	
-	  /**
-	   * Waits for the callbacks specified to be invoked before continuing execution
-	   * of the current callback. This method should only be used by a callback in
-	   * response to a dispatched payload.
-	   *
-	   * @param {array<string>} ids
-	   */
-	  Dispatcher.prototype.waitFor=function(ids) {
-	    invariant(
-	      this.$Dispatcher_isDispatching,
-	      'Dispatcher.waitFor(...): Must be invoked while dispatching.'
-	    );
-	    for (var ii = 0; ii < ids.length; ii++) {
-	      var id = ids[ii];
-	      if (this.$Dispatcher_isPending[id]) {
-	        invariant(
-	          this.$Dispatcher_isHandled[id],
-	          'Dispatcher.waitFor(...): Circular dependency detected while ' +
-	          'waiting for `%s`.',
-	          id
-	        );
-	        continue;
-	      }
-	      invariant(
-	        this.$Dispatcher_callbacks[id],
-	        'Dispatcher.waitFor(...): `%s` does not map to a registered callback.',
-	        id
-	      );
-	      this.$Dispatcher_invokeCallback(id);
-	    }
-	  };
-	
-	  /**
-	   * Dispatches a payload to all registered callbacks.
-	   *
-	   * @param {object} payload
-	   */
-	  Dispatcher.prototype.dispatch=function(payload) {
-	    invariant(
-	      !this.$Dispatcher_isDispatching,
-	      'Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch.'
-	    );
-	    this.$Dispatcher_startDispatching(payload);
-	    try {
-	      for (var id in this.$Dispatcher_callbacks) {
-	        if (this.$Dispatcher_isPending[id]) {
-	          continue;
-	        }
-	        this.$Dispatcher_invokeCallback(id);
-	      }
-	    } finally {
-	      this.$Dispatcher_stopDispatching();
-	    }
-	  };
-	
-	  /**
-	   * Is this Dispatcher currently dispatching.
-	   *
-	   * @return {boolean}
-	   */
-	  Dispatcher.prototype.isDispatching=function() {
-	    return this.$Dispatcher_isDispatching;
-	  };
-	
-	  /**
-	   * Call the callback stored with the given id. Also do some internal
-	   * bookkeeping.
-	   *
-	   * @param {string} id
-	   * @internal
-	   */
-	  Dispatcher.prototype.$Dispatcher_invokeCallback=function(id) {
-	    this.$Dispatcher_isPending[id] = true;
-	    this.$Dispatcher_callbacks[id](this.$Dispatcher_pendingPayload);
-	    this.$Dispatcher_isHandled[id] = true;
-	  };
-	
-	  /**
-	   * Set up bookkeeping needed when dispatching.
-	   *
-	   * @param {object} payload
-	   * @internal
-	   */
-	  Dispatcher.prototype.$Dispatcher_startDispatching=function(payload) {
-	    for (var id in this.$Dispatcher_callbacks) {
-	      this.$Dispatcher_isPending[id] = false;
-	      this.$Dispatcher_isHandled[id] = false;
-	    }
-	    this.$Dispatcher_pendingPayload = payload;
-	    this.$Dispatcher_isDispatching = true;
-	  };
-	
-	  /**
-	   * Clear bookkeeping used for dispatching.
-	   *
-	   * @internal
-	   */
-	  Dispatcher.prototype.$Dispatcher_stopDispatching=function() {
-	    this.$Dispatcher_pendingPayload = null;
-	    this.$Dispatcher_isDispatching = false;
-	  };
-	
-	
-	module.exports = Dispatcher;
-
-
-/***/ },
-/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -2214,495 +2033,263 @@
 
 
 /***/ },
-/* 34 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/*! Moment Duration Format v1.3.0
-	 *  https://github.com/jsmreese/moment-duration-format 
-	 *  Date: 2014-07-15
+	/*
+	 * Copyright (c) 2014, Facebook, Inc.
+	 * All rights reserved.
 	 *
-	 *  Duration format plugin function for the Moment.js library
-	 *  http://momentjs.com/
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
 	 *
-	 *  Copyright 2014 John Madhavan-Reese
-	 *  Released under the MIT license
+	 * @providesModule Dispatcher
+	 * @typechecks
 	 */
 	
-	(function (root, undefined) {
+	"use strict";
 	
-		// repeatZero(qty)
-		// returns "0" repeated qty times
-		function repeatZero(qty) {
-			var result = "";
-			
-			// exit early
-			// if qty is 0 or a negative number
-			// or doesn't coerce to an integer
-			qty = parseInt(qty, 10);
-			if (!qty || qty < 1) { return result; }
-			
-			while (qty) {
-				result += "0";
-				qty -= 1;
-			}
-			
-			return result;
-		}
-		
-		// padZero(str, len [, isRight])
-		// pads a string with zeros up to a specified length
-		// will not pad a string if its length is aready
-		// greater than or equal to the specified length
-		// default output pads with zeros on the left
-		// set isRight to `true` to pad with zeros on the right
-		function padZero(str, len, isRight) {
-			if (str == null) { str = ""; }
-			str = "" + str;
-			
-			return (isRight ? str : "") + repeatZero(len - str.length) + (isRight ? "" : str);
-		}
-		
-		// isArray
-		function isArray(array) {
-			return Object.prototype.toString.call(array) === "[object Array]";
-		}
-		
-		// isObject
-		function isObject(obj) {
-			return Object.prototype.toString.call(obj) === "[object Object]";
-		}
-		
-		// findLast
-		function findLast(array, callback) {
-			var index = array.length;
+	var invariant = __webpack_require__(41);
 	
-			while (index -= 1) {
-				if (callback(array[index])) { return array[index]; }
-			}
-		}
+	var _lastID = 1;
+	var _prefix = 'ID_';
 	
-		// find
-		function find(array, callback) {
-			var index = 0,
-				max = array.length,
-				match;
-				
-			if (typeof callback !== "function") {
-				match = callback;
-				callback = function (item) {
-					return item === match;
-				};
-			}
+	/**
+	 * Dispatcher is used to broadcast payloads to registered callbacks. This is
+	 * different from generic pub-sub systems in two ways:
+	 *
+	 *   1) Callbacks are not subscribed to particular events. Every payload is
+	 *      dispatched to every registered callback.
+	 *   2) Callbacks can be deferred in whole or part until other callbacks have
+	 *      been executed.
+	 *
+	 * For example, consider this hypothetical flight destination form, which
+	 * selects a default city when a country is selected:
+	 *
+	 *   var flightDispatcher = new Dispatcher();
+	 *
+	 *   // Keeps track of which country is selected
+	 *   var CountryStore = {country: null};
+	 *
+	 *   // Keeps track of which city is selected
+	 *   var CityStore = {city: null};
+	 *
+	 *   // Keeps track of the base flight price of the selected city
+	 *   var FlightPriceStore = {price: null}
+	 *
+	 * When a user changes the selected city, we dispatch the payload:
+	 *
+	 *   flightDispatcher.dispatch({
+	 *     actionType: 'city-update',
+	 *     selectedCity: 'paris'
+	 *   });
+	 *
+	 * This payload is digested by `CityStore`:
+	 *
+	 *   flightDispatcher.register(function(payload) {
+	 *     if (payload.actionType === 'city-update') {
+	 *       CityStore.city = payload.selectedCity;
+	 *     }
+	 *   });
+	 *
+	 * When the user selects a country, we dispatch the payload:
+	 *
+	 *   flightDispatcher.dispatch({
+	 *     actionType: 'country-update',
+	 *     selectedCountry: 'australia'
+	 *   });
+	 *
+	 * This payload is digested by both stores:
+	 *
+	 *    CountryStore.dispatchToken = flightDispatcher.register(function(payload) {
+	 *     if (payload.actionType === 'country-update') {
+	 *       CountryStore.country = payload.selectedCountry;
+	 *     }
+	 *   });
+	 *
+	 * When the callback to update `CountryStore` is registered, we save a reference
+	 * to the returned token. Using this token with `waitFor()`, we can guarantee
+	 * that `CountryStore` is updated before the callback that updates `CityStore`
+	 * needs to query its data.
+	 *
+	 *   CityStore.dispatchToken = flightDispatcher.register(function(payload) {
+	 *     if (payload.actionType === 'country-update') {
+	 *       // `CountryStore.country` may not be updated.
+	 *       flightDispatcher.waitFor([CountryStore.dispatchToken]);
+	 *       // `CountryStore.country` is now guaranteed to be updated.
+	 *
+	 *       // Select the default city for the new country
+	 *       CityStore.city = getDefaultCityForCountry(CountryStore.country);
+	 *     }
+	 *   });
+	 *
+	 * The usage of `waitFor()` can be chained, for example:
+	 *
+	 *   FlightPriceStore.dispatchToken =
+	 *     flightDispatcher.register(function(payload) {
+	 *       switch (payload.actionType) {
+	 *         case 'country-update':
+	 *           flightDispatcher.waitFor([CityStore.dispatchToken]);
+	 *           FlightPriceStore.price =
+	 *             getFlightPriceStore(CountryStore.country, CityStore.city);
+	 *           break;
+	 *
+	 *         case 'city-update':
+	 *           FlightPriceStore.price =
+	 *             FlightPriceStore(CountryStore.country, CityStore.city);
+	 *           break;
+	 *     }
+	 *   });
+	 *
+	 * The `country-update` payload will be guaranteed to invoke the stores'
+	 * registered callbacks in order: `CountryStore`, `CityStore`, then
+	 * `FlightPriceStore`.
+	 */
 	
-			while (index < max) {
-				if (callback(array[index])) { return array[index]; }
-				index += 1;
-			}
-		}
-		
-		// each
-		function each(array, callback) {
-			var index = 0,
-				max = array.length;
-				
-			if (!array || !max) { return; }
+	  function Dispatcher() {
+	    this.$Dispatcher_callbacks = {};
+	    this.$Dispatcher_isPending = {};
+	    this.$Dispatcher_isHandled = {};
+	    this.$Dispatcher_isDispatching = false;
+	    this.$Dispatcher_pendingPayload = null;
+	  }
 	
-			while (index < max) {
-				if (callback(array[index], index) === false) { return; }
-				index += 1;
-			}
-		}
-		
-		// map
-		function map(array, callback) {
-			var index = 0,
-				max = array.length,
-				ret = [];
+	  /**
+	   * Registers a callback to be invoked with every dispatched payload. Returns
+	   * a token that can be used with `waitFor()`.
+	   *
+	   * @param {function} callback
+	   * @return {string}
+	   */
+	  Dispatcher.prototype.register=function(callback) {
+	    var id = _prefix + _lastID++;
+	    this.$Dispatcher_callbacks[id] = callback;
+	    return id;
+	  };
 	
-			if (!array || !max) { return ret; }
-					
-			while (index < max) {
-				ret[index] = callback(array[index], index);
-				index += 1;
-			}
-			
-			return ret;
-		}
-		
-		// pluck
-		function pluck(array, prop) {
-			return map(array, function (item) {
-				return item[prop];
-			});
-		}
-		
-		// compact
-		function compact(array) {
-			var ret = [];
-			
-			each(array, function (item) {
-				if (item) { ret.push(item); }
-			});
-			
-			return ret;
-		}
-		
-		// unique
-		function unique(array) {
-			var ret = [];
-			
-			each(array, function (_a) {
-				if (!find(ret, _a)) { ret.push(_a); }
-			});
-			
-			return ret;
-		}
-		
-		// intersection
-		function intersection(a, b) {
-			var ret = [];
-			
-			each(a, function (_a) {
-				each(b, function (_b) {
-					if (_a === _b) { ret.push(_a); }
-				});
-			});
-			
-			return unique(ret);
-		}
-		
-		// rest
-		function rest(array, callback) {
-			var ret = [];
-			
-			each(array, function (item, index) {
-				if (!callback(item)) {
-					ret = array.slice(index);
-					return false;
-				}
-			});
-			
-			return ret;
-		}
+	  /**
+	   * Removes a callback based on its token.
+	   *
+	   * @param {string} id
+	   */
+	  Dispatcher.prototype.unregister=function(id) {
+	    invariant(
+	      this.$Dispatcher_callbacks[id],
+	      'Dispatcher.unregister(...): `%s` does not map to a registered callback.',
+	      id
+	    );
+	    delete this.$Dispatcher_callbacks[id];
+	  };
 	
-		// initial
-		function initial(array, callback) {
-			var reversed = array.slice().reverse();
-			
-			return rest(reversed, callback).reverse();
-		}
-		
-		// extend
-		function extend(a, b) {
-			for (var key in b) {
-				if (b.hasOwnProperty(key)) { a[key] = b[key]; }
-			}
-			
-			return a;
-		}
-				
-		// define internal moment reference
-		var moment;
+	  /**
+	   * Waits for the callbacks specified to be invoked before continuing execution
+	   * of the current callback. This method should only be used by a callback in
+	   * response to a dispatched payload.
+	   *
+	   * @param {array<string>} ids
+	   */
+	  Dispatcher.prototype.waitFor=function(ids) {
+	    invariant(
+	      this.$Dispatcher_isDispatching,
+	      'Dispatcher.waitFor(...): Must be invoked while dispatching.'
+	    );
+	    for (var ii = 0; ii < ids.length; ii++) {
+	      var id = ids[ii];
+	      if (this.$Dispatcher_isPending[id]) {
+	        invariant(
+	          this.$Dispatcher_isHandled[id],
+	          'Dispatcher.waitFor(...): Circular dependency detected while ' +
+	          'waiting for `%s`.',
+	          id
+	        );
+	        continue;
+	      }
+	      invariant(
+	        this.$Dispatcher_callbacks[id],
+	        'Dispatcher.waitFor(...): `%s` does not map to a registered callback.',
+	        id
+	      );
+	      this.$Dispatcher_invokeCallback(id);
+	    }
+	  };
 	
-		if (true) {
-			try { moment = __webpack_require__(4); } 
-			catch (e) {}
-		} 
-		
-		if (!moment && root.moment) {
-			moment = root.moment;
-		}
-		
-		if (!moment) {
-			throw "Moment Duration Format cannot find Moment.js";
-		}
-		
-		// moment.duration.format([template] [, precision] [, settings])
-		moment.duration.fn.format = function () {
+	  /**
+	   * Dispatches a payload to all registered callbacks.
+	   *
+	   * @param {object} payload
+	   */
+	  Dispatcher.prototype.dispatch=function(payload) {
+	    invariant(
+	      !this.$Dispatcher_isDispatching,
+	      'Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch.'
+	    );
+	    this.$Dispatcher_startDispatching(payload);
+	    try {
+	      for (var id in this.$Dispatcher_callbacks) {
+	        if (this.$Dispatcher_isPending[id]) {
+	          continue;
+	        }
+	        this.$Dispatcher_invokeCallback(id);
+	      }
+	    } finally {
+	      this.$Dispatcher_stopDispatching();
+	    }
+	  };
 	
-			var tokenizer, tokens, types, typeMap, momentTypes, foundFirst, trimIndex,
-				args = [].slice.call(arguments),
-				settings = extend({}, this.format.defaults),
-				// keep a shadow copy of this moment for calculating remainders
-				remainder = moment.duration(this);
+	  /**
+	   * Is this Dispatcher currently dispatching.
+	   *
+	   * @return {boolean}
+	   */
+	  Dispatcher.prototype.isDispatching=function() {
+	    return this.$Dispatcher_isDispatching;
+	  };
 	
-			// add a reference to this duration object to the settings for use
-			// in a template function
-			settings.duration = this;
+	  /**
+	   * Call the callback stored with the given id. Also do some internal
+	   * bookkeeping.
+	   *
+	   * @param {string} id
+	   * @internal
+	   */
+	  Dispatcher.prototype.$Dispatcher_invokeCallback=function(id) {
+	    this.$Dispatcher_isPending[id] = true;
+	    this.$Dispatcher_callbacks[id](this.$Dispatcher_pendingPayload);
+	    this.$Dispatcher_isHandled[id] = true;
+	  };
 	
-			// parse arguments
-			each(args, function (arg) {
-				if (typeof arg === "string" || typeof arg === "function") {
-					settings.template = arg;
-					return;
-				}
+	  /**
+	   * Set up bookkeeping needed when dispatching.
+	   *
+	   * @param {object} payload
+	   * @internal
+	   */
+	  Dispatcher.prototype.$Dispatcher_startDispatching=function(payload) {
+	    for (var id in this.$Dispatcher_callbacks) {
+	      this.$Dispatcher_isPending[id] = false;
+	      this.$Dispatcher_isHandled[id] = false;
+	    }
+	    this.$Dispatcher_pendingPayload = payload;
+	    this.$Dispatcher_isDispatching = true;
+	  };
 	
-				if (typeof arg === "number") {
-					settings.precision = arg;
-					return;
-				}
+	  /**
+	   * Clear bookkeeping used for dispatching.
+	   *
+	   * @internal
+	   */
+	  Dispatcher.prototype.$Dispatcher_stopDispatching=function() {
+	    this.$Dispatcher_pendingPayload = null;
+	    this.$Dispatcher_isDispatching = false;
+	  };
 	
-				if (isObject(arg)) {
-					extend(settings, arg);
-				}
-			});
 	
-			// types
-			types = settings.types = (isArray(settings.types) ? settings.types : settings.types.split(" "));
-	
-			// template
-			if (typeof settings.template === "function") {
-				settings.template = settings.template.apply(settings);
-			}
-	
-			// tokenizer regexp
-			tokenizer = new RegExp(map(types, function (type) {
-				return settings[type].source;
-			}).join("|"), "g");
-	
-			// token type map function
-			typeMap = function (token) {
-				return find(types, function (type) {
-					return settings[type].test(token);
-				});
-			};
-	
-			// tokens array
-			tokens = map(settings.template.match(tokenizer), function (token, index) {
-				var type = typeMap(token),
-					length = token.length;
-	
-				return {
-					index: index,
-					length: length,
-	
-					// replace escaped tokens with the non-escaped token text
-					token: (type === "escape" ? token.replace(settings.escape, "$1") : token),
-	
-					// ignore type on non-moment tokens
-					type: ((type === "escape" || type === "general") ? null : type)
-	
-					// calculate base value for all moment tokens
-					//baseValue: ((type === "escape" || type === "general") ? null : this.as(type))
-				};
-			}, this);
-	
-			// unique moment token types in the template (in order of descending magnitude)
-			momentTypes = intersection(types, unique(compact(pluck(tokens, "type"))));
-	
-			// exit early if there are no momentTypes
-			if (!momentTypes.length) {
-				return pluck(tokens, "token").join("");
-			}
-	
-			// calculate values for each token type in the template
-			each(momentTypes, function (momentType, index) {
-				var value, wholeValue, decimalValue, isLeast, isMost;
-	
-				// calculate integer and decimal value portions
-				value = remainder.as(momentType);
-				wholeValue = (value > 0 ? Math.floor(value) : Math.ceil(value));
-				decimalValue = value - wholeValue;
-	
-				// is this the least-significant moment token found?
-				isLeast = ((index + 1) === momentTypes.length);
-	
-				// is this the most-significant moment token found?
-				isMost = (!index);
-	
-				// update tokens array
-				// using this algorithm to not assume anything about
-				// the order or frequency of any tokens
-				each(tokens, function (token) {
-					if (token.type === momentType) {
-						extend(token, {
-							value: value,
-							wholeValue: wholeValue,
-							decimalValue: decimalValue,
-							isLeast: isLeast,
-							isMost: isMost
-						});
-	
-						if (isMost) {
-							// note the length of the most-significant moment token:
-							// if it is greater than one and forceLength is not set, default forceLength to `true`
-							if (settings.forceLength == null && token.length > 1) {
-								settings.forceLength = true;
-							}
-	
-							// rationale is this:
-							// if the template is "h:mm:ss" and the moment value is 5 minutes, the user-friendly output is "5:00", not "05:00"
-							// shouldn't pad the `minutes` token even though it has length of two
-							// if the template is "hh:mm:ss", the user clearly wanted everything padded so we should output "05:00"
-							// if the user wanted the full padded output, they can set `{ trim: false }` to get "00:05:00"
-						}
-					}
-				});
-	
-				// update remainder
-				remainder.subtract(wholeValue, momentType);
-			});
-		
-			// trim tokens array
-			if (settings.trim) {
-				tokens = (settings.trim === "left" ? rest : initial)(tokens, function (token) {
-					// return `true` if:
-					// the token is not the least moment token (don't trim the least moment token)
-					// the token is a moment token that does not have a value (don't trim moment tokens that have a whole value)
-					return !(token.isLeast || (token.type != null && token.wholeValue));
-				});
-			}
-			
-			
-			// build output
-	
-			// the first moment token can have special handling
-			foundFirst = false;
-	
-			// run the map in reverse order if trimming from the right
-			if (settings.trim === "right") {
-				tokens.reverse();
-			}
-	
-			tokens = map(tokens, function (token) {
-				var val,
-					decVal;
-	
-				if (!token.type) {
-					// if it is not a moment token, use the token as its own value
-					return token.token;
-				}
-	
-				// apply negative precision formatting to the least-significant moment token
-				if (token.isLeast && (settings.precision < 0)) {
-					val = (Math.floor(token.wholeValue * Math.pow(10, settings.precision)) * Math.pow(10, -settings.precision)).toString();
-				} else {
-					val = token.wholeValue.toString();
-				}
-				
-				// remove negative sign from the beginning
-				val = val.replace(/^\-/, "");
-	
-				// apply token length formatting
-				// special handling for the first moment token that is not the most significant in a trimmed template
-				if (token.length > 1 && (foundFirst || token.isMost || settings.forceLength)) {
-					val = padZero(val, token.length);
-				}
-	
-				// add decimal value if precision > 0
-				if (token.isLeast && (settings.precision > 0)) {
-					decVal = token.decimalValue.toString().replace(/^\-/, "").split(/\.|e\-/);
-					switch (decVal.length) {
-						case 1:
-							val += "." + padZero(decVal[0], settings.precision, true).slice(0, settings.precision);
-							break;
-							
-						case 2:
-							val += "." + padZero(decVal[1], settings.precision, true).slice(0, settings.precision);		
-							break;
-							
-						case 3:
-							val += "." + padZero(repeatZero((+decVal[2]) - 1) + (decVal[0] || "0") + decVal[1], settings.precision, true).slice(0, settings.precision);		
-							break;
-						
-						default:
-							throw "Moment Duration Format: unable to parse token decimal value.";
-					}
-				}
-				
-				// add a negative sign if the value is negative and token is most significant
-				if (token.isMost && token.value < 0) {
-					val = "-" + val;
-				}
-	
-				foundFirst = true;
-	
-				return val;
-			});
-	
-			// undo the reverse if trimming from the right
-			if (settings.trim === "right") {
-				tokens.reverse();
-			}
-	
-			return tokens.join("");
-		};
-	
-		moment.duration.fn.format.defaults = {
-			// token definitions
-			escape: /\[(.+?)\]/,
-			years: /[Yy]+/,
-			months: /M+/,
-			weeks: /[Ww]+/,
-			days: /[Dd]+/,
-			hours: /[Hh]+/,
-			minutes: /m+/,
-			seconds: /s+/,
-			milliseconds: /S+/,
-			general: /.+?/,
-	
-			// token type names
-			// in order of descending magnitude
-			// can be a space-separated token name list or an array of token names
-			types: "escape years months weeks days hours minutes seconds milliseconds general",
-	
-			// format options
-	
-			// trim
-			// "left" - template tokens are trimmed from the left until the first moment token that has a value >= 1
-			// "right" - template tokens are trimmed from the right until the first moment token that has a value >= 1
-			// (the final moment token is not trimmed, regardless of value)
-			// `false` - template tokens are not trimmed
-			trim: "left",
-	
-			// precision
-			// number of decimal digits to include after (to the right of) the decimal point (positive integer)
-			// or the number of digits to truncate to 0 before (to the left of) the decimal point (negative integer)
-			precision: 0,
-	
-			// force first moment token with a value to render at full length even when template is trimmed and first moment token has length of 1
-			forceLength: null,
-	
-			// template used to format duration
-			// may be a function or a string
-			// template functions are executed with the `this` binding of the settings object
-			// so that template strings may be dynamically generated based on the duration object
-			// (accessible via `this.duration`)
-			// or any of the other settings
-			template: function () {
-				var types = this.types,
-					dur = this.duration,
-					lastType = findLast(types, function (type) {
-						return dur._data[type];
-					});
-	
-				// default template strings for each duration dimension type
-				switch (lastType) {
-					case "seconds":
-						return "h:mm:ss";
-					case "minutes":
-						return "d[d] h:mm";
-					case "hours":
-						return "d[d] h[h]";
-					case "days":
-						return "M[m] d[d]";
-					case "weeks":
-						return "y[y] w[w]";
-					case "months":
-						return "y[y] M[m]";
-					case "years":
-						return "y[y]";
-					default:
-						return "y[y] M[m] d[d] h:mm:ss";
-				}
-			}
-		};
-	
-	})(this);
+	module.exports = Dispatcher;
 
 
 /***/ },
-/* 35 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -11898,6 +11485,494 @@
 
 
 /***/ },
+/* 35 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/*! Moment Duration Format v1.3.0
+	 *  https://github.com/jsmreese/moment-duration-format 
+	 *  Date: 2014-07-15
+	 *
+	 *  Duration format plugin function for the Moment.js library
+	 *  http://momentjs.com/
+	 *
+	 *  Copyright 2014 John Madhavan-Reese
+	 *  Released under the MIT license
+	 */
+	
+	(function (root, undefined) {
+	
+		// repeatZero(qty)
+		// returns "0" repeated qty times
+		function repeatZero(qty) {
+			var result = "";
+			
+			// exit early
+			// if qty is 0 or a negative number
+			// or doesn't coerce to an integer
+			qty = parseInt(qty, 10);
+			if (!qty || qty < 1) { return result; }
+			
+			while (qty) {
+				result += "0";
+				qty -= 1;
+			}
+			
+			return result;
+		}
+		
+		// padZero(str, len [, isRight])
+		// pads a string with zeros up to a specified length
+		// will not pad a string if its length is aready
+		// greater than or equal to the specified length
+		// default output pads with zeros on the left
+		// set isRight to `true` to pad with zeros on the right
+		function padZero(str, len, isRight) {
+			if (str == null) { str = ""; }
+			str = "" + str;
+			
+			return (isRight ? str : "") + repeatZero(len - str.length) + (isRight ? "" : str);
+		}
+		
+		// isArray
+		function isArray(array) {
+			return Object.prototype.toString.call(array) === "[object Array]";
+		}
+		
+		// isObject
+		function isObject(obj) {
+			return Object.prototype.toString.call(obj) === "[object Object]";
+		}
+		
+		// findLast
+		function findLast(array, callback) {
+			var index = array.length;
+	
+			while (index -= 1) {
+				if (callback(array[index])) { return array[index]; }
+			}
+		}
+	
+		// find
+		function find(array, callback) {
+			var index = 0,
+				max = array.length,
+				match;
+				
+			if (typeof callback !== "function") {
+				match = callback;
+				callback = function (item) {
+					return item === match;
+				};
+			}
+	
+			while (index < max) {
+				if (callback(array[index])) { return array[index]; }
+				index += 1;
+			}
+		}
+		
+		// each
+		function each(array, callback) {
+			var index = 0,
+				max = array.length;
+				
+			if (!array || !max) { return; }
+	
+			while (index < max) {
+				if (callback(array[index], index) === false) { return; }
+				index += 1;
+			}
+		}
+		
+		// map
+		function map(array, callback) {
+			var index = 0,
+				max = array.length,
+				ret = [];
+	
+			if (!array || !max) { return ret; }
+					
+			while (index < max) {
+				ret[index] = callback(array[index], index);
+				index += 1;
+			}
+			
+			return ret;
+		}
+		
+		// pluck
+		function pluck(array, prop) {
+			return map(array, function (item) {
+				return item[prop];
+			});
+		}
+		
+		// compact
+		function compact(array) {
+			var ret = [];
+			
+			each(array, function (item) {
+				if (item) { ret.push(item); }
+			});
+			
+			return ret;
+		}
+		
+		// unique
+		function unique(array) {
+			var ret = [];
+			
+			each(array, function (_a) {
+				if (!find(ret, _a)) { ret.push(_a); }
+			});
+			
+			return ret;
+		}
+		
+		// intersection
+		function intersection(a, b) {
+			var ret = [];
+			
+			each(a, function (_a) {
+				each(b, function (_b) {
+					if (_a === _b) { ret.push(_a); }
+				});
+			});
+			
+			return unique(ret);
+		}
+		
+		// rest
+		function rest(array, callback) {
+			var ret = [];
+			
+			each(array, function (item, index) {
+				if (!callback(item)) {
+					ret = array.slice(index);
+					return false;
+				}
+			});
+			
+			return ret;
+		}
+	
+		// initial
+		function initial(array, callback) {
+			var reversed = array.slice().reverse();
+			
+			return rest(reversed, callback).reverse();
+		}
+		
+		// extend
+		function extend(a, b) {
+			for (var key in b) {
+				if (b.hasOwnProperty(key)) { a[key] = b[key]; }
+			}
+			
+			return a;
+		}
+				
+		// define internal moment reference
+		var moment;
+	
+		if (true) {
+			try { moment = __webpack_require__(4); } 
+			catch (e) {}
+		} 
+		
+		if (!moment && root.moment) {
+			moment = root.moment;
+		}
+		
+		if (!moment) {
+			throw "Moment Duration Format cannot find Moment.js";
+		}
+		
+		// moment.duration.format([template] [, precision] [, settings])
+		moment.duration.fn.format = function () {
+	
+			var tokenizer, tokens, types, typeMap, momentTypes, foundFirst, trimIndex,
+				args = [].slice.call(arguments),
+				settings = extend({}, this.format.defaults),
+				// keep a shadow copy of this moment for calculating remainders
+				remainder = moment.duration(this);
+	
+			// add a reference to this duration object to the settings for use
+			// in a template function
+			settings.duration = this;
+	
+			// parse arguments
+			each(args, function (arg) {
+				if (typeof arg === "string" || typeof arg === "function") {
+					settings.template = arg;
+					return;
+				}
+	
+				if (typeof arg === "number") {
+					settings.precision = arg;
+					return;
+				}
+	
+				if (isObject(arg)) {
+					extend(settings, arg);
+				}
+			});
+	
+			// types
+			types = settings.types = (isArray(settings.types) ? settings.types : settings.types.split(" "));
+	
+			// template
+			if (typeof settings.template === "function") {
+				settings.template = settings.template.apply(settings);
+			}
+	
+			// tokenizer regexp
+			tokenizer = new RegExp(map(types, function (type) {
+				return settings[type].source;
+			}).join("|"), "g");
+	
+			// token type map function
+			typeMap = function (token) {
+				return find(types, function (type) {
+					return settings[type].test(token);
+				});
+			};
+	
+			// tokens array
+			tokens = map(settings.template.match(tokenizer), function (token, index) {
+				var type = typeMap(token),
+					length = token.length;
+	
+				return {
+					index: index,
+					length: length,
+	
+					// replace escaped tokens with the non-escaped token text
+					token: (type === "escape" ? token.replace(settings.escape, "$1") : token),
+	
+					// ignore type on non-moment tokens
+					type: ((type === "escape" || type === "general") ? null : type)
+	
+					// calculate base value for all moment tokens
+					//baseValue: ((type === "escape" || type === "general") ? null : this.as(type))
+				};
+			}, this);
+	
+			// unique moment token types in the template (in order of descending magnitude)
+			momentTypes = intersection(types, unique(compact(pluck(tokens, "type"))));
+	
+			// exit early if there are no momentTypes
+			if (!momentTypes.length) {
+				return pluck(tokens, "token").join("");
+			}
+	
+			// calculate values for each token type in the template
+			each(momentTypes, function (momentType, index) {
+				var value, wholeValue, decimalValue, isLeast, isMost;
+	
+				// calculate integer and decimal value portions
+				value = remainder.as(momentType);
+				wholeValue = (value > 0 ? Math.floor(value) : Math.ceil(value));
+				decimalValue = value - wholeValue;
+	
+				// is this the least-significant moment token found?
+				isLeast = ((index + 1) === momentTypes.length);
+	
+				// is this the most-significant moment token found?
+				isMost = (!index);
+	
+				// update tokens array
+				// using this algorithm to not assume anything about
+				// the order or frequency of any tokens
+				each(tokens, function (token) {
+					if (token.type === momentType) {
+						extend(token, {
+							value: value,
+							wholeValue: wholeValue,
+							decimalValue: decimalValue,
+							isLeast: isLeast,
+							isMost: isMost
+						});
+	
+						if (isMost) {
+							// note the length of the most-significant moment token:
+							// if it is greater than one and forceLength is not set, default forceLength to `true`
+							if (settings.forceLength == null && token.length > 1) {
+								settings.forceLength = true;
+							}
+	
+							// rationale is this:
+							// if the template is "h:mm:ss" and the moment value is 5 minutes, the user-friendly output is "5:00", not "05:00"
+							// shouldn't pad the `minutes` token even though it has length of two
+							// if the template is "hh:mm:ss", the user clearly wanted everything padded so we should output "05:00"
+							// if the user wanted the full padded output, they can set `{ trim: false }` to get "00:05:00"
+						}
+					}
+				});
+	
+				// update remainder
+				remainder.subtract(wholeValue, momentType);
+			});
+		
+			// trim tokens array
+			if (settings.trim) {
+				tokens = (settings.trim === "left" ? rest : initial)(tokens, function (token) {
+					// return `true` if:
+					// the token is not the least moment token (don't trim the least moment token)
+					// the token is a moment token that does not have a value (don't trim moment tokens that have a whole value)
+					return !(token.isLeast || (token.type != null && token.wholeValue));
+				});
+			}
+			
+			
+			// build output
+	
+			// the first moment token can have special handling
+			foundFirst = false;
+	
+			// run the map in reverse order if trimming from the right
+			if (settings.trim === "right") {
+				tokens.reverse();
+			}
+	
+			tokens = map(tokens, function (token) {
+				var val,
+					decVal;
+	
+				if (!token.type) {
+					// if it is not a moment token, use the token as its own value
+					return token.token;
+				}
+	
+				// apply negative precision formatting to the least-significant moment token
+				if (token.isLeast && (settings.precision < 0)) {
+					val = (Math.floor(token.wholeValue * Math.pow(10, settings.precision)) * Math.pow(10, -settings.precision)).toString();
+				} else {
+					val = token.wholeValue.toString();
+				}
+				
+				// remove negative sign from the beginning
+				val = val.replace(/^\-/, "");
+	
+				// apply token length formatting
+				// special handling for the first moment token that is not the most significant in a trimmed template
+				if (token.length > 1 && (foundFirst || token.isMost || settings.forceLength)) {
+					val = padZero(val, token.length);
+				}
+	
+				// add decimal value if precision > 0
+				if (token.isLeast && (settings.precision > 0)) {
+					decVal = token.decimalValue.toString().replace(/^\-/, "").split(/\.|e\-/);
+					switch (decVal.length) {
+						case 1:
+							val += "." + padZero(decVal[0], settings.precision, true).slice(0, settings.precision);
+							break;
+							
+						case 2:
+							val += "." + padZero(decVal[1], settings.precision, true).slice(0, settings.precision);		
+							break;
+							
+						case 3:
+							val += "." + padZero(repeatZero((+decVal[2]) - 1) + (decVal[0] || "0") + decVal[1], settings.precision, true).slice(0, settings.precision);		
+							break;
+						
+						default:
+							throw "Moment Duration Format: unable to parse token decimal value.";
+					}
+				}
+				
+				// add a negative sign if the value is negative and token is most significant
+				if (token.isMost && token.value < 0) {
+					val = "-" + val;
+				}
+	
+				foundFirst = true;
+	
+				return val;
+			});
+	
+			// undo the reverse if trimming from the right
+			if (settings.trim === "right") {
+				tokens.reverse();
+			}
+	
+			return tokens.join("");
+		};
+	
+		moment.duration.fn.format.defaults = {
+			// token definitions
+			escape: /\[(.+?)\]/,
+			years: /[Yy]+/,
+			months: /M+/,
+			weeks: /[Ww]+/,
+			days: /[Dd]+/,
+			hours: /[Hh]+/,
+			minutes: /m+/,
+			seconds: /s+/,
+			milliseconds: /S+/,
+			general: /.+?/,
+	
+			// token type names
+			// in order of descending magnitude
+			// can be a space-separated token name list or an array of token names
+			types: "escape years months weeks days hours minutes seconds milliseconds general",
+	
+			// format options
+	
+			// trim
+			// "left" - template tokens are trimmed from the left until the first moment token that has a value >= 1
+			// "right" - template tokens are trimmed from the right until the first moment token that has a value >= 1
+			// (the final moment token is not trimmed, regardless of value)
+			// `false` - template tokens are not trimmed
+			trim: "left",
+	
+			// precision
+			// number of decimal digits to include after (to the right of) the decimal point (positive integer)
+			// or the number of digits to truncate to 0 before (to the left of) the decimal point (negative integer)
+			precision: 0,
+	
+			// force first moment token with a value to render at full length even when template is trimmed and first moment token has length of 1
+			forceLength: null,
+	
+			// template used to format duration
+			// may be a function or a string
+			// template functions are executed with the `this` binding of the settings object
+			// so that template strings may be dynamically generated based on the duration object
+			// (accessible via `this.duration`)
+			// or any of the other settings
+			template: function () {
+				var types = this.types,
+					dur = this.duration,
+					lastType = findLast(types, function (type) {
+						return dur._data[type];
+					});
+	
+				// default template strings for each duration dimension type
+				switch (lastType) {
+					case "seconds":
+						return "h:mm:ss";
+					case "minutes":
+						return "d[d] h:mm";
+					case "hours":
+						return "d[d] h[h]";
+					case "days":
+						return "M[m] d[d]";
+					case "weeks":
+						return "y[y] w[w]";
+					case "months":
+						return "y[y] M[m]";
+					case "years":
+						return "y[y]";
+					default:
+						return "y[y] M[m] d[d] h:mm:ss";
+				}
+			}
+		};
+	
+	})(this);
+
+
+/***/ },
 /* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -11913,24 +11988,24 @@
 /* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $ = __webpack_require__(44);
-	module.exports = function defineProperty(it, key, desc){
-	  return $.setDesc(it, key, desc);
-	};
+	__webpack_require__(44);
+	module.exports = __webpack_require__(45).core.Symbol;
 
 /***/ },
 /* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(45);
-	module.exports = __webpack_require__(44).core.Symbol;
+	var $ = __webpack_require__(45);
+	module.exports = function defineProperty(it, key, desc){
+	  return $.setDesc(it, key, desc);
+	};
 
 /***/ },
 /* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(46);
-	module.exports = __webpack_require__(44).core.Object.assign;
+	module.exports = __webpack_require__(45).core.Object.assign;
 
 /***/ },
 /* 41 */
@@ -11995,7 +12070,7 @@
 /* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $ = __webpack_require__(44);
+	var $ = __webpack_require__(45);
 	module.exports = function create(P, D){
 	  return $.create(P, D);
 	};
@@ -12004,8 +12079,8 @@
 /* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $ = __webpack_require__(44);
-	__webpack_require__(48);
+	var $ = __webpack_require__(45);
+	__webpack_require__(47);
 	module.exports = function getOwnPropertyDescriptor(it, key){
 	  return $.getDesc(it, key);
 	};
@@ -12015,122 +12090,14 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	var global = typeof self != 'undefined' ? self : Function('return this')()
-	  , core   = {}
-	  , defineProperty = Object.defineProperty
-	  , hasOwnProperty = {}.hasOwnProperty
-	  , ceil  = Math.ceil
-	  , floor = Math.floor
-	  , max   = Math.max
-	  , min   = Math.min;
-	// The engine works fine with descriptors? Thank's IE8 for his funny defineProperty.
-	var DESC = !!function(){
-	  try {
-	    return defineProperty({}, 'a', {get: function(){ return 2; }}).a == 2;
-	  } catch(e){ /* empty */ }
-	}();
-	var hide = createDefiner(1);
-	// 7.1.4 ToInteger
-	function toInteger(it){
-	  return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
-	}
-	function desc(bitmap, value){
-	  return {
-	    enumerable  : !(bitmap & 1),
-	    configurable: !(bitmap & 2),
-	    writable    : !(bitmap & 4),
-	    value       : value
-	  };
-	}
-	function simpleSet(object, key, value){
-	  object[key] = value;
-	  return object;
-	}
-	function createDefiner(bitmap){
-	  return DESC ? function(object, key, value){
-	    return $.setDesc(object, key, desc(bitmap, value));
-	  } : simpleSet;
-	}
-	
-	function isObject(it){
-	  return it !== null && (typeof it == 'object' || typeof it == 'function');
-	}
-	function isFunction(it){
-	  return typeof it == 'function';
-	}
-	function assertDefined(it){
-	  if(it == undefined)throw TypeError("Can't call method on  " + it);
-	  return it;
-	}
-	
-	var $ = module.exports = __webpack_require__(47)({
-	  g: global,
-	  core: core,
-	  html: global.document && document.documentElement,
-	  // http://jsperf.com/core-js-isobject
-	  isObject:   isObject,
-	  isFunction: isFunction,
-	  it: function(it){
-	    return it;
-	  },
-	  that: function(){
-	    return this;
-	  },
-	  // 7.1.4 ToInteger
-	  toInteger: toInteger,
-	  // 7.1.15 ToLength
-	  toLength: function(it){
-	    return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
-	  },
-	  toIndex: function(index, length){
-	    index = toInteger(index);
-	    return index < 0 ? max(index + length, 0) : min(index, length);
-	  },
-	  has: function(it, key){
-	    return hasOwnProperty.call(it, key);
-	  },
-	  create:     Object.create,
-	  getProto:   Object.getPrototypeOf,
-	  DESC:       DESC,
-	  desc:       desc,
-	  getDesc:    Object.getOwnPropertyDescriptor,
-	  setDesc:    defineProperty,
-	  setDescs:   Object.defineProperties,
-	  getKeys:    Object.keys,
-	  getNames:   Object.getOwnPropertyNames,
-	  getSymbols: Object.getOwnPropertySymbols,
-	  assertDefined: assertDefined,
-	  // Dummy, fix for not array-like ES3 string in es5 module
-	  ES5Object: Object,
-	  toObject: function(it){
-	    return $.ES5Object(assertDefined(it));
-	  },
-	  hide: hide,
-	  def: createDefiner(0),
-	  set: global.Symbol ? simpleSet : hide,
-	  mix: function(target, src){
-	    for(var key in src)hide(target, key, src[key]);
-	    return target;
-	  },
-	  each: [].forEach
-	});
-	/* eslint-disable no-undef */
-	if(typeof __e != 'undefined')__e = core;
-	if(typeof __g != 'undefined')__g = global;
-
-/***/ },
-/* 45 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
 	// ECMAScript 6 symbols shim
-	var $        = __webpack_require__(44)
-	  , setTag   = __webpack_require__(49).set
-	  , uid      = __webpack_require__(50)
-	  , $def     = __webpack_require__(51)
-	  , keyOf    = __webpack_require__(52)
-	  , enumKeys = __webpack_require__(53)
-	  , assertObject = __webpack_require__(54).obj
+	var $        = __webpack_require__(45)
+	  , setTag   = __webpack_require__(51).set
+	  , uid      = __webpack_require__(52)
+	  , $def     = __webpack_require__(49)
+	  , keyOf    = __webpack_require__(53)
+	  , enumKeys = __webpack_require__(54)
+	  , assertObject = __webpack_require__(55).obj
 	  , has      = $.has
 	  , $create  = $.create
 	  , getDesc  = $.getDesc
@@ -12250,7 +12217,7 @@
 	    'hasInstance,isConcatSpreadable,iterator,match,replace,search,' +
 	    'species,split,toPrimitive,toStringTag,unscopables'
 	  ).split(','), function(it){
-	    var sym = __webpack_require__(55)(it);
+	    var sym = __webpack_require__(56)(it);
 	    symbolStatics[it] = useNative ? sym : wrap(sym);
 	  }
 	);
@@ -12284,29 +12251,127 @@
 	setTag($.g.JSON, 'JSON', true);
 
 /***/ },
+/* 45 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	var global = typeof self != 'undefined' ? self : Function('return this')()
+	  , core   = {}
+	  , defineProperty = Object.defineProperty
+	  , hasOwnProperty = {}.hasOwnProperty
+	  , ceil  = Math.ceil
+	  , floor = Math.floor
+	  , max   = Math.max
+	  , min   = Math.min;
+	// The engine works fine with descriptors? Thank's IE8 for his funny defineProperty.
+	var DESC = !!function(){
+	  try {
+	    return defineProperty({}, 'a', {get: function(){ return 2; }}).a == 2;
+	  } catch(e){ /* empty */ }
+	}();
+	var hide = createDefiner(1);
+	// 7.1.4 ToInteger
+	function toInteger(it){
+	  return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
+	}
+	function desc(bitmap, value){
+	  return {
+	    enumerable  : !(bitmap & 1),
+	    configurable: !(bitmap & 2),
+	    writable    : !(bitmap & 4),
+	    value       : value
+	  };
+	}
+	function simpleSet(object, key, value){
+	  object[key] = value;
+	  return object;
+	}
+	function createDefiner(bitmap){
+	  return DESC ? function(object, key, value){
+	    return $.setDesc(object, key, desc(bitmap, value));
+	  } : simpleSet;
+	}
+	
+	function isObject(it){
+	  return it !== null && (typeof it == 'object' || typeof it == 'function');
+	}
+	function isFunction(it){
+	  return typeof it == 'function';
+	}
+	function assertDefined(it){
+	  if(it == undefined)throw TypeError("Can't call method on  " + it);
+	  return it;
+	}
+	
+	var $ = module.exports = __webpack_require__(48)({
+	  g: global,
+	  core: core,
+	  html: global.document && document.documentElement,
+	  // http://jsperf.com/core-js-isobject
+	  isObject:   isObject,
+	  isFunction: isFunction,
+	  it: function(it){
+	    return it;
+	  },
+	  that: function(){
+	    return this;
+	  },
+	  // 7.1.4 ToInteger
+	  toInteger: toInteger,
+	  // 7.1.15 ToLength
+	  toLength: function(it){
+	    return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
+	  },
+	  toIndex: function(index, length){
+	    index = toInteger(index);
+	    return index < 0 ? max(index + length, 0) : min(index, length);
+	  },
+	  has: function(it, key){
+	    return hasOwnProperty.call(it, key);
+	  },
+	  create:     Object.create,
+	  getProto:   Object.getPrototypeOf,
+	  DESC:       DESC,
+	  desc:       desc,
+	  getDesc:    Object.getOwnPropertyDescriptor,
+	  setDesc:    defineProperty,
+	  setDescs:   Object.defineProperties,
+	  getKeys:    Object.keys,
+	  getNames:   Object.getOwnPropertyNames,
+	  getSymbols: Object.getOwnPropertySymbols,
+	  assertDefined: assertDefined,
+	  // Dummy, fix for not array-like ES3 string in es5 module
+	  ES5Object: Object,
+	  toObject: function(it){
+	    return $.ES5Object(assertDefined(it));
+	  },
+	  hide: hide,
+	  def: createDefiner(0),
+	  set: global.Symbol ? simpleSet : hide,
+	  mix: function(target, src){
+	    for(var key in src)hide(target, key, src[key]);
+	    return target;
+	  },
+	  each: [].forEach
+	});
+	/* eslint-disable no-undef */
+	if(typeof __e != 'undefined')__e = core;
+	if(typeof __g != 'undefined')__g = global;
+
+/***/ },
 /* 46 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 19.1.3.1 Object.assign(target, source)
-	var $def = __webpack_require__(51);
-	$def($def.S, 'Object', {assign: __webpack_require__(56)});
+	var $def = __webpack_require__(49);
+	$def($def.S, 'Object', {assign: __webpack_require__(50)});
 
 /***/ },
 /* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = function($){
-	  $.FW   = false;
-	  $.path = $.core;
-	  return $;
-	};
-
-/***/ },
-/* 48 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var $        = __webpack_require__(44)
-	  , $def     = __webpack_require__(51)
+	var $        = __webpack_require__(45)
+	  , $def     = __webpack_require__(49)
 	  , isObject = $.isObject
 	  , toObject = $.toObject;
 	function wrapObjectMethod(METHOD, MODE){
@@ -12345,41 +12410,20 @@
 	wrapObjectMethod('getOwnPropertyNames');
 
 /***/ },
+/* 48 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function($){
+	  $.FW   = false;
+	  $.path = $.core;
+	  return $;
+	};
+
+/***/ },
 /* 49 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $        = __webpack_require__(44)
-	  , TAG      = __webpack_require__(55)('toStringTag')
-	  , toString = {}.toString;
-	function cof(it){
-	  return toString.call(it).slice(8, -1);
-	}
-	cof.classof = function(it){
-	  var O, T;
-	  return it == undefined ? it === undefined ? 'Undefined' : 'Null'
-	    : typeof (T = (O = Object(it))[TAG]) == 'string' ? T : cof(O);
-	};
-	cof.set = function(it, tag, stat){
-	  if(it && !$.has(it = stat ? it : it.prototype, TAG))$.hide(it, TAG, tag);
-	};
-	module.exports = cof;
-
-/***/ },
-/* 50 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var sid = 0;
-	function uid(key){
-	  return 'Symbol(' + key + ')_' + (++sid + Math.random()).toString(36);
-	}
-	uid.safe = __webpack_require__(44).g.Symbol || uid;
-	module.exports = uid;
-
-/***/ },
-/* 51 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var $          = __webpack_require__(44)
+	var $          = __webpack_require__(45)
 	  , global     = $.g
 	  , core       = $.core
 	  , isFunction = $.isFunction;
@@ -12427,10 +12471,65 @@
 	module.exports = $def;
 
 /***/ },
+/* 50 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var $        = __webpack_require__(45)
+	  , enumKeys = __webpack_require__(54);
+	// 19.1.2.1 Object.assign(target, source, ...)
+	/* eslint-disable no-unused-vars */
+	module.exports = Object.assign || function assign(target, source){
+	/* eslint-enable no-unused-vars */
+	  var T = Object($.assertDefined(target))
+	    , l = arguments.length
+	    , i = 1;
+	  while(l > i){
+	    var S      = $.ES5Object(arguments[i++])
+	      , keys   = enumKeys(S)
+	      , length = keys.length
+	      , j      = 0
+	      , key;
+	    while(length > j)T[key = keys[j++]] = S[key];
+	  }
+	  return T;
+	};
+
+/***/ },
+/* 51 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var $        = __webpack_require__(45)
+	  , TAG      = __webpack_require__(56)('toStringTag')
+	  , toString = {}.toString;
+	function cof(it){
+	  return toString.call(it).slice(8, -1);
+	}
+	cof.classof = function(it){
+	  var O, T;
+	  return it == undefined ? it === undefined ? 'Undefined' : 'Null'
+	    : typeof (T = (O = Object(it))[TAG]) == 'string' ? T : cof(O);
+	};
+	cof.set = function(it, tag, stat){
+	  if(it && !$.has(it = stat ? it : it.prototype, TAG))$.hide(it, TAG, tag);
+	};
+	module.exports = cof;
+
+/***/ },
 /* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $ = __webpack_require__(44);
+	var sid = 0;
+	function uid(key){
+	  return 'Symbol(' + key + ')_' + (++sid + Math.random()).toString(36);
+	}
+	uid.safe = __webpack_require__(45).g.Symbol || uid;
+	module.exports = uid;
+
+/***/ },
+/* 53 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var $ = __webpack_require__(45);
 	module.exports = function(object, el){
 	  var O      = $.toObject(object)
 	    , keys   = $.getKeys(O)
@@ -12441,10 +12540,10 @@
 	};
 
 /***/ },
-/* 53 */
+/* 54 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $ = __webpack_require__(44);
+	var $ = __webpack_require__(45);
 	module.exports = function(it){
 	  var keys       = $.getKeys(it)
 	    , getDesc    = $.getDesc
@@ -12456,10 +12555,10 @@
 	};
 
 /***/ },
-/* 54 */
+/* 55 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $ = __webpack_require__(44);
+	var $ = __webpack_require__(45);
 	function assert(condition, msg1, msg2){
 	  if(!condition)throw TypeError(msg2 ? msg1 + msg2 : msg1);
 	}
@@ -12479,38 +12578,14 @@
 	module.exports = assert;
 
 /***/ },
-/* 55 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var global = __webpack_require__(44).g
-	  , store  = {};
-	module.exports = function(name){
-	  return store[name] || (store[name] =
-	    global.Symbol && global.Symbol[name] || __webpack_require__(50).safe('Symbol.' + name));
-	};
-
-/***/ },
 /* 56 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $        = __webpack_require__(44)
-	  , enumKeys = __webpack_require__(53);
-	// 19.1.2.1 Object.assign(target, source, ...)
-	/* eslint-disable no-unused-vars */
-	module.exports = Object.assign || function assign(target, source){
-	/* eslint-enable no-unused-vars */
-	  var T = Object($.assertDefined(target))
-	    , l = arguments.length
-	    , i = 1;
-	  while(l > i){
-	    var S      = $.ES5Object(arguments[i++])
-	      , keys   = enumKeys(S)
-	      , length = keys.length
-	      , j      = 0
-	      , key;
-	    while(length > j)T[key = keys[j++]] = S[key];
-	  }
-	  return T;
+	var global = __webpack_require__(45).g
+	  , store  = {};
+	module.exports = function(name){
+	  return store[name] || (store[name] =
+	    global.Symbol && global.Symbol[name] || __webpack_require__(52).safe('Symbol.' + name));
 	};
 
 /***/ }

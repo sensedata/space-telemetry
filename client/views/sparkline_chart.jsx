@@ -1,4 +1,5 @@
 import $ from "jquery";
+import _ from "lodash";
 import D3 from "d3";
 import Moment from "moment";
 import React from "react";
@@ -9,6 +10,7 @@ class SparklineChart extends ListeningView {
   constructor(props) {
     super(props);
 
+    // TODO Remove use of jQuery
     const jTarget = $(props.target);
     this.height = jTarget.height();
     this.width = jTarget.width();
@@ -34,7 +36,7 @@ class SparklineChart extends ListeningView {
       return false;
     }
 
-    const newest = this.state.data[this.state.data.length - 1];
+    const newest = _.last(this.state.data);
 
     if (newest.t < this.earliestAcceptable()) {
       return false;
@@ -47,21 +49,21 @@ class SparklineChart extends ListeningView {
 
     const now = Moment().unix();
 
-    const x = D3.scale.linear().range([0, this.width - 2]);
+    const x = D3.scale.linear();
+    x.range([0, this.width - 2]);
     x.domain([this.earliestAcceptable(), now - 1]);
 
     // FIXME Why the heck does this need to have 10 subtracted to not overrun
     // the top and bottom of the draw-area?
-    const y = D3.scale.linear().range([0, this.height - 10]);
+    const y = D3.scale.linear();
+    y.range([0, this.height - 10]);
     y.domain(D3.extent(this.state.data, d => {return d.v;}));
 
     this.lastUpdate = now;
     return (
       <svg className="sparkline" height={this.height - 6} width={this.width}>
-        <g transform="translate(0, 2)">
-          <path d={line(this.state.data)}></path>
-          <circle cx={x(newest.t)} cy={y(newest.v)} r="1.5"></circle>
-        </g>
+        <path d={line(this.state.data)}></path>
+        <circle cx={x(newest.t)} cy={y(newest.v)} r="1.5"></circle>
       </svg>
     );
   }

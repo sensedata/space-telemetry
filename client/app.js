@@ -6,7 +6,7 @@ import React from "react";
 
 import TelemetryIndex from "./telemetry_index.js";
 
-// import BulletChart from "./views/bullet_chart";
+import BulletChart from "./views/bullet_chart.jsx";
 import SparklineChart from "./views/sparkline_chart.jsx";
 
 import DecimalReadout from "./views/readouts/decimal_readout.jsx";
@@ -98,8 +98,8 @@ class App {
   }
 
   render() {
-      // "bullet-chart": BulletChart,
     const viewFactories = {
+      "bullet-chart":  React.createFactory(BulletChart),
       "readout decimal": React.createFactory(DecimalReadout),
       "readout integer": React.createFactory(IntegerReadout),
       "readout text": React.createFactory(TextReadout),
@@ -129,6 +129,12 @@ class App {
         } else if (typeof e.dataset.telemetryId !== "undefined") {
           props.telemetryNumber = TelemetryIndex.number(e.dataset.telemetryId);
           props.store = this.getStore(props.telemetryNumber);
+        }
+
+        if (typeof e.dataset.capacityId !== "undefined") {
+          props.capacityStore = this.getStore(
+            TelemetryIndex.number(e.dataset.capacityId)
+          );
         }
 
         if (typeof props.store !== "undefined") {

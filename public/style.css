@@ -347,6 +347,36 @@ td, th {
   text-align: center;
 }
 
+.bullet-chart {
+  height: 25px;
+}
+
+.bullet-chart .range-0 {
+  fill: #eee;
+}
+
+.bullet-chart .range-1 {
+  fill: #ddd;
+}
+
+.bullet-chart .range-2 {
+  fill: #ccc;
+}
+
+.bullet-chart .range-3 {
+  fill: #bbb;
+}
+
+.bullet-chart .measure {
+  stroke: #000;
+  stroke-width: 6px;
+}
+
+.bullet-chart .marker {
+  stroke: #333;
+  stroke-width: 1.5px;
+}
+
 .momentum .bullet-chart {
   margin: 25px 0 5px;
 }
@@ -500,6 +530,18 @@ td, th {
   margin: 0 10px 0 6px;
   width: 150px;
 }*/
+
+.cmg .bullet-chart {
+  height: 23px !important;
+}
+
+.cmg .bullet-chart .bullet {
+  position: relative; top: 2.5px;
+}
+
+.cmg .bullet-chart .measure {
+  stroke-width: 5px;
+}
 
 .cmg .column-header {
   width: 80px;

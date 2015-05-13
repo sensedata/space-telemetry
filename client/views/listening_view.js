@@ -22,6 +22,7 @@ class ListeningView extends React.Component {
   }
 
   render() {
+    if (this.props.target && this.props.target.offsetParent === null) {return false;}
     if (!this.state) {return false;}
     return this.renderWithState();
   }
