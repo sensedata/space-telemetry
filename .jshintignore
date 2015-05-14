@@ -1,2 +1,2 @@
-client/vendor/**
+node_modules/**
 public/**
