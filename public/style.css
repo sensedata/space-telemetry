@@ -591,9 +591,6 @@ td, th {
   margin-left: -5px;
 }
 
-svg.sparkline {
-}
-
 .sparkline path {
   fill: none;
   stroke: #333;
@@ -603,6 +600,14 @@ svg.sparkline {
 .sparkline circle {
   fill: #f00;
   stroke: none;
+}
+
+.sparkline .qualitative {
+  fill: #eee;
+}
+
+.now-marker {
+  fill: red;
 }
 
 

@@ -60,8 +60,11 @@ class SparklineChart extends ListeningView {
     y.domain(D3.extent(this.state.data, d => {return d.v;}));
 
     this.lastUpdate = now;
+
+    // TODO Use standard deviation size for qualitative band
     return (
       <svg className="sparkline" height={this.height - 6} width={this.width}>
+        <rect className="qualitative" x="0" y={(this.height - 6) * 0.3} width={this.width - 1.5} height={(this.height - 6) * 0.4}></rect>
         <path d={line(this.state.data)}></path>
         <circle cx={x(newest.t)} cy={y(newest.v)} r="1.5"></circle>
       </svg>
