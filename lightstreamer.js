@@ -28,7 +28,6 @@ var timeSub = new ls.Subscription('MERGE', 'TIME_000001', ['Status.Class']);
 
 var statusIdx = dd.hash.STATUS;
 var telemetrySessionId;
-var previousStatus = {c: -1, t: -1};
 
 // interpret status based on our connection health with lightstreamer
 function statusUpdate() {
@@ -172,11 +171,6 @@ telemetrySub.addListener({
       s: iStatus,
       sid: telemetrySessionId
     };
-
-    if(data.k === 296) {
-      var now1 = Date.now()/1000|0;
-      console.log("now, latest record, difference", now1, data.t, now1 - data.t);
-    }
 
     emitter.emit('data', data);
 

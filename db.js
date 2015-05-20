@@ -182,6 +182,11 @@ exports.addCurrentStats = _.wrapCallback(function (data, next) {
     previousTime = previousIdxTimeHash[data.k],
     sdd = 0;
 
+    if(data.k === 296) {
+      var now1 = Date.now()/1000|0;
+      console.log("now, latest record, difference", now1, data.t, now1 - data.t);
+    }
+
     if (err) {
       // keep chugging along, even if there was an error
       data.m = 0;
