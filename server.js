@@ -58,6 +58,12 @@ ls.dataStream.fork().filter(ioHasClients).flatMap(db.addCurrentStats).each(funct
       return cpy;
     });
 
+    if(data[0].k === 296) {
+      var now = Date.now()/1000|0;
+      console.log("now, latest record, difference", now, data[0].t, now - data[0].t);
+    }
+
+
     io.emit(data[0].k, data);
 
   } else {
