@@ -160,7 +160,7 @@ telemetrySub.addListener({
 
     // handle TIME_000001
     if (idx === 296) {
-      // in this case utilze the timestamp for the value
+      // in this case utilize the timestamp for the value
       fValue = fTimeStamp;
     }
 
@@ -172,6 +172,11 @@ telemetrySub.addListener({
       s: iStatus,
       sid: telemetrySessionId
     };
+
+    if(data.k === 296) {
+      var now1 = Date.now()/1000|0;
+      console.log("now, latest record, difference", now1, data.t, now1 - data.t);
+    }
 
     emitter.emit('data', data);
 
