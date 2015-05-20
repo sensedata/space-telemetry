@@ -55,8 +55,8 @@ class App {
     if (typeof this.listeners[telemetryNumber] === "undefined") {
       this.listeners[telemetryNumber] = this.socket.on(telemetryNumber, data => {
         // Uncomment to watch telemetry delay bug in action
-        // const newest = _.max(data, d => {return d.t;});
-        // console.log("now, latest record, difference", moment().unix(), newest.t, moment().unix() - newest.t);
+        const newest = _.max(data, d => {return d.t;});
+        console.log("now, latest record, difference", moment().unix(), newest.t, moment().unix() - newest.t);
         this.dispatcher.dispatch({
           actionType: "new-data",
           telemetryNumber: telemetryNumber,
