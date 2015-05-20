@@ -13,7 +13,8 @@
   },
   "scripts": {
     "start": "node server.js",
-    "test": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha test"
+    "test": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha test",
+    "webpack": "./node_modules/webpack/bin/webpack.js"
   },
   "dependencies": {
     "babel-runtime": "^5.1.13",
@@ -37,6 +38,7 @@
     "chai": "^2.2.0",
     "codeclimate-test-reporter": "0.0.4",
     "istanbul": "^0.3.13",
+    "jquery": "^2.1.4",
     "mocha": "^2.2.4",
     "webpack": "^1.8.11"
   }
