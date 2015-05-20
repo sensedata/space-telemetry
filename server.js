@@ -43,32 +43,35 @@ function ioHasClients(data) {
 }
 // Real-time data stream.  emit to all connected clients.
 //
-ls.dataStream.fork().filter(ioHasClients).flatMap(db.addCurrentStats).each(function (data) {
+ls.dataStream.fork().filter(ioHasClients).each(function (data) {
 
   var temp;
 
-  if (Array.isArray(data)) {
+  db.addCurrentStats(data, function (err, data1) {
 
-    data = data.map(function (v) {
+    if (Array.isArray(data1)) {
 
-      var cpy = utils.clone(v);
+      data1 = data1.map(function (v) {
+
+        var cpy = utils.clone(v);
+        // prune unnecessary for client data
+        delete cpy.cv;
+        delete cpy.sid;
+        return cpy;
+      });
+
+      io.emit(data1[0].k, data1);
+
+    } else {
+
+      temp = utils.clone(data1);
       // prune unnecessary for client data
-      delete cpy.cv;
-      delete cpy.sid;
-      return cpy;
-    });
+      delete temp.cv;
+      delete temp.sid;
 
-    io.emit(data[0].k, data);
-
-  } else {
-
-    temp = utils.clone(data);
-    // prune unnecessary for client data
-    delete temp.cv;
-    delete temp.sid;
-
-    io.emit(temp.k, [temp]);
-  }
+      io.emit(temp.k, [temp]);
+    }
+  });
 });
 
 function bindDataHandler(socket, idx) {
