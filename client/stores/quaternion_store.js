@@ -1,42 +1,38 @@
+import _ from "lodash";
 import THREE from "three";
-import EventEmitter from "events";
+import {Store} from "flummox";
 
-import App from "../app.js";
-
-class QuaternionStore extends EventEmitter {
+class QuaternionStore extends Store {
 
   constructor(props) {
-    super(props);
+    super();
 
     this.props = props;
-    this.quaternion = new THREE.Quaternion();
-    this.euler = [new THREE.Euler()];
+    this.euler = new THREE.Euler();
+    this.quaternion=  new THREE.Quaternion();
 
-    this.dispatchToken = props.dispatcher.register(this.dispatch.bind(this));
+    _.keys(this.props.axialActions).forEach(a => {
+      this.register(this.props.axialActions[a], d => {
+        this.update(a, d);
+      });
+    });
+  }
+
+  latest(data) {
+    return _.max(data, d => {return d.t;});
   }
 
   update(axis, data) {
-    this.quaternion[axis] = data.sort((a, b) => {return b.t - a.t;})[0].v;
-    this.euler[0].setFromQuaternion(this.quaternion);
+    const latest = this.latest(data);
 
-    this.emit(App.TELEMETRY_EVENT);
-  }
+    this.quaternion[axis] = latest.v;
+    this.eauler.setFromQuaternion(this.quaternion);
 
-  dispatch(payload) {
-    if (payload.actionType === "new-data") {
-      // this.props.dispatcher.waitFor([this.dispatchToken]);
-
-      switch (payload.telemetryNumber) {
-        case this.props.axialNumbers.x: this.update("x", payload.data); break;
-        case this.props.axialNumbers.y: this.update("y", payload.data); break;
-        case this.props.axialNumbers.z: this.update("z", payload.data); break;
-        case this.props.axialNumbers.w: this.update("w", payload.data); break;
-      }
-    }
+    this.setState({latest: latest});
   }
 
   get() {
-    return this.euler;
+    return [this.euler];
   }
 }
 

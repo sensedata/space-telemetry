@@ -11,10 +11,10 @@
   "futurehostile": true,
   "iterator": false,
   "latedef": "nofunc",
-  "maxcomplexity": 6,
-  "maxdepth": 4,
-  "maxparams": 4,
-  "maxstatements": 16,
+  "maxcomplexity": 4,
+  "maxdepth": false,
+  "maxparams": false,
+  "maxstatements": 20,
   "noarg": true,
   "nocomma": true,
   "nonbsp": true,
@@ -24,5 +24,7 @@
   "undef": true,
   "unused": "vars",
 
-  "browser": true
+  "browser": true,
+  "mocha": true,
+  "node": true
 }
