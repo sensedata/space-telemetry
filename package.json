@@ -9,7 +9,7 @@
   "description": "A view of telementry from space vehicles; so far only the International Space Station.",
   "main": "server.js",
   "engines": {
-    "node": "0.10.x"
+    "iojs": "2.0.x"
   },
   "scripts": {
     "start": "node server.js",
