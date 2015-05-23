@@ -1,13 +1,12 @@
+import _ from "lodash";
 import Chai from "chai";
-import jsdom from "jsdom";
-
 import Flummox from "flummox";
+import jsdom from "jsdom";
 
 import HistoricalStore from "../../../../client/stores/historical_store";
 import TelemetryActions from "../../../../client/actions/telemetry_actions";
 
 const assert = Chai.assert;
-
 
 describe("IntegerReadout", () => {
   let React;
@@ -20,8 +19,8 @@ describe("IntegerReadout", () => {
 
   beforeEach((done) => {
     jsdom.env("<!doctype html><html><body></body></html>", (e, window) => {
-      Object.assign(global, window);
-
+      Object.assign(global, _.pick(window, "document", "navigator"));
+      global.window = window;
       window.console = global.console;
 
       // React does DOM interaction while it's being loaded, so it and
@@ -43,25 +42,34 @@ describe("IntegerReadout", () => {
     });
   });
 
+  const wrapped = (value) => {
+    return new RegExp(`<span[^>]*>${value}</span>`);
+  };
+
   it("renders data received before mounting", () => {
     action.relay(payload);
     React.render(factory, document.body);
 
-    assert.include(document.body.innerHTML, payload[0].v);
+    assert.match(document.body.innerHTML, wrapped(payload[0].v));
   });
 
   it("renders data received after mounting", () => {
     React.render(factory, document.body);
     action.relay(payload);
 
-    assert.include(document.body.innerHTML, payload[0].v);
+    assert.match(document.body.innerHTML, wrapped(payload[0].v));
   });
 
   it("rounds decimals", () => {
     React.render(factory, document.body);
     action.relay([{t: 0, v: 10.6}]);
 
-    assert.include(document.body.innerHTML, ">11<");
+    assert.match(document.body.innerHTML, wrapped(11));
+  });
+
+  it("renders a dash when it doesn't have data", () => {
+    React.render(factory, document.body);
+    assert.match(document.body.innerHTML, wrapped("-"));
   });
 
 });
