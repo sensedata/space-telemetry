@@ -7,11 +7,19 @@ class TextReadout extends ListeningView {
   renderWithState() {
     const values = StatusDictionary.get(this.props.telemetryNumber);
     let value;
-    if (values && this.state.data.length > 0) {
+
+    if (this.state.data.length <= 0) {
+      value = "-";
+
+    } else if (values) {
       value = values[this.state.data[0].v];
     }
 
-    return <span>{typeof value === "undefined" ? "Unknown" : value}</span>;
+    if (typeof value === "undefined") {
+      value = "Unknown";
+    }
+
+    return <span>{value}</span>;
   }
 }
 

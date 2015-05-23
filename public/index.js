@@ -132,6 +132,7 @@
 	      });
 	    } else if (typeof e.dataset.telemetryId !== "undefined") {
 	      props.store = app.getHistoricalStore(e.dataset.telemetryId);
+	      props.telemetryNumber = _TelemetryIndex2["default"].number(e.dataset.telemetryId);
 	    }
 	
 	    if (typeof e.dataset.capacityId !== "undefined") {
@@ -962,14 +963,21 @@
 	    value: function renderWithState() {
 	      var values = _StatusDictionary2["default"].get(this.props.telemetryNumber);
 	      var value = undefined;
-	      if (values && this.state.data.length > 0) {
+	
+	      if (this.state.data.length <= 0) {
+	        value = "-";
+	      } else if (values) {
 	        value = values[this.state.data[0].v];
+	      }
+	
+	      if (typeof value === "undefined") {
+	        value = "Unknown";
 	      }
 	
 	      return _React2["default"].createElement(
 	        "span",
 	        null,
-	        typeof value === "undefined" ? "Unknown" : value
+	        value
 	      );
 	    }
 	  }]);
