@@ -50,6 +50,7 @@ _.forEach(viewFactories, (viewFactory, className) => {
 
     } else if (typeof e.dataset.telemetryId !== "undefined") {
       props.store = app.getHistoricalStore(e.dataset.telemetryId);
+      props.telemetryNumber = TelemetryIndex.number(e.dataset.telemetryId);
     }
 
     if (typeof e.dataset.capacityId !== "undefined") {
