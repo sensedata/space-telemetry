@@ -1,33 +1,28 @@
 import _ from "lodash";
-import EventEmitter from "events";
+import {Store} from "flummox";
 
-import App from "../app.js";
 
-class SimpleStore extends EventEmitter {
+class SimpleStore extends Store {
 
-  constructor(props) {
-    super(props);
+  constructor(action, props) {
+    super();
+
     this.props = props;
-    this.dispatchToken = props.dispatcher.register(this.dispatch.bind(this));
+    this.state = {};
+
+    // TODO Ignore TIME records.
+    this.register(action, this.update);
   }
 
   update(data) {
-    const newData = _.max(data, d => {return d.t;});
-    if (!this.datum || newData.t > this.datum.t) {
-      this.datum = newData;
-      this.emit(App.TELEMETRY_EVENT);
-    }
-  }
-
-  dispatch(payload) {
-    if (payload.actionType === "new-data") {
-      // this.props.dispatcher.waitFor([this.dispatchToken]);
-      this.update(payload.data);
+    const latest = _.max(data, d => {return d.t;});
+    if (!this.datum || latest.t > this.datum.t) {
+      this.state = latest;
     }
   }
 
   get() {
-    return this.datum;
+    return [this.state];
   }
 }
 

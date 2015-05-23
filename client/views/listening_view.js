@@ -1,17 +1,23 @@
 import React from "react";
 
-import App from "../app.js";
+import Telemetry from "../telemetry.js";
 
 class ListeningView extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {data: props.store.get()};
+  }
+
   componentDidMount() {
     this.props.store.addListener(
-      App.TELEMETRY_EVENT, this.storeChanged.bind(this)
+      "change", this.storeChanged.bind(this)
     );
   }
 
   componentWillUnmount() {
     this.props.store.removeListener(
-      App.TELEMETRY_EVENT, this.storeChanged.bind(this)
+      "change", this.storeChanged.bind(this)
     );
   }
 

@@ -60,7 +60,7 @@ function statusUpdate() {
     sid: now
   };
 
-  console.log(data);
+  // console.log(data);
 
   emitter.emit('data', data);
 }

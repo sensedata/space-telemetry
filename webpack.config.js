@@ -3,16 +3,6 @@ module.exports = {
 
   entry: "./client/index.js",
 
-  externals: {
-    "crossfilter": "crossfilter",
-    "d3": "d3",
-    "io": "io",
-    "lodash": "_",
-    "moment": "moment",
-    "react": "React",
-    "three": "THREE"
-  },
-
   module: {
     loaders: [{
       test: /\.jsx?$/,

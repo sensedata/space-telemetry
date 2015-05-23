@@ -2,7 +2,7 @@ import $ from "jquery";
 import D3 from "d3";
 import React from "react";
 
-import App from "../app.js";
+import Telemetry from "../telemetry.js";
 import ListeningView from "./listening_view.js";
 
 class BulletChart extends ListeningView {
@@ -12,7 +12,7 @@ class BulletChart extends ListeningView {
 
     if (typeof this.props.capacityStore !== "undefined") {
       this.props.capacityStore.addListener(
-        App.TELEMETRY_EVENT, this.storeChanged.bind(this)
+        Telemetry.NEW, this.storeChanged.bind(this)
       );
     }
   }
@@ -22,7 +22,7 @@ class BulletChart extends ListeningView {
 
     if (typeof this.props.capacityStore !== "undefined") {
       this.props.capacityStore.removeListener(
-        App.TELEMETRY_EVENT, this.storeChanged.bind(this)
+        Telemetry.NEW, this.storeChanged.bind(this)
       );
     }
   }

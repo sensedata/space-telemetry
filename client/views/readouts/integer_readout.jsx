@@ -5,7 +5,7 @@ import ListeningView from "../listening_view.js";
 class IntegerReadout extends ListeningView {
   renderWithState() {
     let formatted;
-    
+
     if (this.state.data.length <= 0) {
       formatted = "-";
 
