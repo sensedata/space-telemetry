@@ -28,7 +28,6 @@ var timeSub = new ls.Subscription('MERGE', 'TIME_000001', ['Status.Class']);
 
 var statusIdx = dd.hash.STATUS;
 var telemetrySessionId;
-var previousStatus = {c: -1, t: -1};
 
 // interpret status based on our connection health with lightstreamer
 function statusUpdate() {
@@ -160,7 +159,7 @@ telemetrySub.addListener({
 
     // handle TIME_000001
     if (idx === 296) {
-      // in this case utilze the timestamp for the value
+      // in this case utilize the timestamp for the value
       fValue = fTimeStamp;
     }
 
