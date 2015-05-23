@@ -174,7 +174,7 @@ ls.dataStream.fork().each(function (data) {
 
 var previousIdxTimeHash = {};
 
-exports.addCurrentStats = _.wrapCallback(function (data, next) {
+exports.addCurrentStats = function (data, next) {
 
   selectStatsByIdx(data.k, function (err, res) {
     var avg = 0,
@@ -206,7 +206,7 @@ exports.addCurrentStats = _.wrapCallback(function (data, next) {
 
     next(null, [data]);
   });
-});
+};
 
 exports.getTelemetryData = function (idx) {
 

@@ -13,7 +13,8 @@
   },
   "scripts": {
     "start": "iojs server.js",
-    "test": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- --compilers js:babel/register test --recursive"
+    "test": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- --compilers js:babel/register test --recursive",
+    "webpack": "./node_modules/webpack/bin/webpack.js"
   },
   "dependencies": {
     "babel-runtime": "5.3.x",
