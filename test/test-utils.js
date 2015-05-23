@@ -117,4 +117,3 @@ describe('Object Hash Clone', function () {
     expect(obj1).to.not.deep.equal(obj2);
   });
 });
-
