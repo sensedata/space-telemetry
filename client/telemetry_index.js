@@ -305,10 +305,6 @@ telemetryIds.forEach(function (k, i) {
 });
 
 class TelemetryIndex {
-  static id(number) {
-    return telemetryIds[number];
-  }
-
   static number(id) {
     return telemetryNumbers[id];
   }

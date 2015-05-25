@@ -8,6 +8,11 @@ beforeEach("setup DOM", (done) => {
     window.console = global.console;
     document.body.dataset = {};
 
+    document.innerWidth = window.innerWidth;
+    document.outerWidth = window.outerWidth;
+    document.body.innerWidth = document.innerWidth;
+    document.body.outerWidth = document.outerWidth;
+
     done();
   });
 });

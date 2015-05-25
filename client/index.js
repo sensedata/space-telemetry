@@ -34,8 +34,12 @@ const sparkLineCharts = [];
 _.forEach(viewFactories, (viewFactory, className) => {
   _.forEach(document.getElementsByClassName(className), e => {
     const props = {
-      target: e
+      height: e.offsetHeight,
+      target: e,
+      width: e.offsetWidth
     };
+
+    Object.assign(props, e.dataset);
 
     if (typeof e.dataset.quaternionId !== "undefined") {
       props.store = app.getQuaternionStore(

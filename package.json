@@ -13,7 +13,7 @@
   },
   "scripts": {
     "start": "iojs server.js",
-    "test": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- --compilers js:babel/register test --recursive",
+    "test": "./node_modules/.bin/babel-node ./node_modules/.bin/isparta cover ./node_modules/.bin/_mocha -- --compilers js:babel/register test --recursive",
     "webpack": "./node_modules/webpack/bin/webpack.js"
   },
   "dependencies": {
@@ -46,11 +46,11 @@
     "babel": "5.3.x",
     "chai": "2.3.x",
     "codeclimate-test-reporter": "0.0.x",
+    "isparta": "3.0.x",
     "istanbul": "0.3.x",
     "jsdom": "5.4.x",
     "mocha": "2.2.x",
     "mocha-loader": "0.7.x",
-    "react-test-utils": "0.0.x",
     "webpack": "1.9.x"
   }
 }

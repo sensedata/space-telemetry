@@ -9,7 +9,9 @@ class TestHelper {
     // React does DOM interaction while it's being loaded, so it and
     // anything that depends on it can't be imported until after the DOM
     // is available, i.e., it is incompatible with ES6 import outside
-    // the browser.
+    // the browser. And, it saves document state after loading, so if document
+    // changes, pretty much the whole require cache must be invalidated and reloaded.
+    for (var i in require.cache) {delete require.cache[i];}
     const React = require("react");
     const View = require("../../client/views/" + file);
 
@@ -19,8 +21,11 @@ class TestHelper {
     const viewProps = Object.assign({store: store, target: document.body}, props);
     return {
       action: action,
+      app: app,
       React: React,
-      view: React.createFactory(View)(viewProps)
+      props: viewProps,
+      view: React.createFactory(View)(viewProps),
+      viewClass: View
     };
   }
 
