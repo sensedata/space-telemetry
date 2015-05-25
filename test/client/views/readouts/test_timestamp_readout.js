@@ -7,7 +7,7 @@ import TestHelper from "../../test_helper.js";
 const assert = Chai.assert;
 
 
-describe("TextReadout", () => {
+describe("TimestampReadout", () => {
   const timestamp = "13:16:30 2015.05.24";
   const unixTime = Moment.utc(timestamp, "HH:mm:ss YYYY.MM.DD").unix();
 
