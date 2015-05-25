@@ -1,6 +1,5 @@
 import React from "react";
 
-import Telemetry from "../telemetry.js";
 
 class ListeningView extends React.Component {
   constructor(props) {
