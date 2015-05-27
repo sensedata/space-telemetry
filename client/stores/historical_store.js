@@ -21,7 +21,7 @@ class HistoricalStore extends Store {
     this.crossfilter.add(
       data.map(d => {return Object.assign({i: newSize++}, d);})
     );
-    // this.prune();
+    this.prune();
 
     this.setState({size: this.crossfilter.size()});
   }
@@ -37,8 +37,9 @@ class HistoricalStore extends Store {
   }
 
   prune() {
-    // FIXME Pruning the wrong stuff.
-    this.indexDimension.filter(i => {return i < this.crossfilter.size() - this.props.maxSize;});
+    this.indexDimension.filter(i => {
+      return i < this.crossfilter.size() - this.props.maxSize;
+    });
     this.indexDimension.remove();
     this.indexDimension.filterAll();
   }

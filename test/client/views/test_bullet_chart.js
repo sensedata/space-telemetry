@@ -26,7 +26,9 @@ describe("BulletChart", () => {
   const renderBullet = function (props) {
     const ui = bulletUI(props);
     const capacityAction = ui.app.createActions("testcap", TelemetryActions);
-    ui.props.capacityStore = ui.app.createStore("testcap", HistoricalStore, capacityAction.relay);
+    ui.props.capacityStore = ui.app.createStore(
+      "testcap", HistoricalStore, capacityAction.relay, {maxSize: 200}
+    );
     ui.view = ui.React.createFactory(ui.viewClass)(ui.props);
     ui.React.render(ui.view, document.body);
 

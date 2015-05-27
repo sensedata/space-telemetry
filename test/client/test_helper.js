@@ -17,7 +17,7 @@ class TestHelper {
 
     const app = new Flummox();
     const action = app.createActions("test", TelemetryActions);
-    const store = app.createStore("test", HistoricalStore, action.relay);
+    const store = app.createStore("test", HistoricalStore, action.relay, {maxSize: 200});
     const viewProps = Object.assign({store: store, target: document.body}, props);
     return {
       action: action,
