@@ -54,15 +54,15 @@
 	
 	var _import2 = _interopRequireDefault(_import);
 	
-	var _$ = __webpack_require__(15);
+	var _$ = __webpack_require__(17);
 	
 	var _$2 = _interopRequireDefault(_$);
 	
-	var _Moment = __webpack_require__(16);
+	var _Moment = __webpack_require__(15);
 	
 	var _Moment2 = _interopRequireDefault(_Moment);
 	
-	var _React = __webpack_require__(17);
+	var _React = __webpack_require__(16);
 	
 	var _React2 = _interopRequireDefault(_React);
 	
@@ -315,11 +315,11 @@
 	  value: true
 	});
 	
-	var _D3 = __webpack_require__(33);
+	var _D3 = __webpack_require__(32);
 	
 	var _D32 = _interopRequireDefault(_D3);
 	
-	var _React = __webpack_require__(17);
+	var _React = __webpack_require__(16);
 	
 	var _React2 = _interopRequireDefault(_React);
 	
@@ -432,15 +432,15 @@
 	
 	var _import2 = _interopRequireDefault(_import);
 	
-	var _D3 = __webpack_require__(33);
+	var _D3 = __webpack_require__(32);
 	
 	var _D32 = _interopRequireDefault(_D3);
 	
-	var _Moment = __webpack_require__(16);
+	var _Moment = __webpack_require__(15);
 	
 	var _Moment2 = _interopRequireDefault(_Moment);
 	
-	var _React = __webpack_require__(17);
+	var _React = __webpack_require__(16);
 	
 	var _React2 = _interopRequireDefault(_React);
 	
@@ -562,7 +562,7 @@
 	
 	var _import2 = _interopRequireDefault(_import);
 	
-	var _React = __webpack_require__(17);
+	var _React = __webpack_require__(16);
 	
 	var _React2 = _interopRequireDefault(_React);
 	
@@ -644,7 +644,7 @@
 	  value: true
 	});
 	
-	var _React = __webpack_require__(17);
+	var _React = __webpack_require__(16);
 	
 	var _React2 = _interopRequireDefault(_React);
 	
@@ -708,11 +708,11 @@
 	  value: true
 	});
 	
-	var _Moment = __webpack_require__(16);
+	var _Moment = __webpack_require__(15);
 	
 	var _Moment2 = _interopRequireDefault(_Moment);
 	
-	var _React = __webpack_require__(17);
+	var _React = __webpack_require__(16);
 	
 	var _React2 = _interopRequireDefault(_React);
 	
@@ -777,7 +777,7 @@
 	  value: true
 	});
 	
-	var _React = __webpack_require__(17);
+	var _React = __webpack_require__(16);
 	
 	var _React2 = _interopRequireDefault(_React);
 	
@@ -850,11 +850,11 @@
 	  value: true
 	});
 	
-	var _Moment = __webpack_require__(16);
+	var _Moment = __webpack_require__(15);
 	
 	var _Moment2 = _interopRequireDefault(_Moment);
 	
-	var _React = __webpack_require__(17);
+	var _React = __webpack_require__(16);
 	
 	var _React2 = _interopRequireDefault(_React);
 	
@@ -913,11 +913,11 @@
 	  value: true
 	});
 	
-	var _Moment = __webpack_require__(16);
+	var _Moment = __webpack_require__(15);
 	
 	var _Moment2 = _interopRequireDefault(_Moment);
 	
-	var _React = __webpack_require__(17);
+	var _React = __webpack_require__(16);
 	
 	var _React2 = _interopRequireDefault(_React);
 	
@@ -964,6 +964,8 @@
 	
 	var _inherits = __webpack_require__(18)["default"];
 	
+	var _get = __webpack_require__(19)["default"];
+	
 	var _createClass = __webpack_require__(20)["default"];
 	
 	var _classCallCheck = __webpack_require__(21)["default"];
@@ -976,13 +978,13 @@
 	  value: true
 	});
 	
-	var _Moment = __webpack_require__(16);
+	var _Moment = __webpack_require__(15);
 	
 	var _Moment2 = _interopRequireDefault(_Moment);
 	
-	__webpack_require__(34);
+	__webpack_require__(346);
 	
-	var _React = __webpack_require__(17);
+	var _React = __webpack_require__(16);
 	
 	var _React2 = _interopRequireDefault(_React);
 	
@@ -1002,6 +1004,17 @@
 	  _inherits(TransmissionDelay, _ListeningView);
 	
 	  _createClass(TransmissionDelay, [{
+	    key: "componentDidMount",
+	    value: function componentDidMount() {
+	      var _this = this;
+	
+	      _get(Object.getPrototypeOf(TransmissionDelay.prototype), "componentDidMount", this).call(this);
+	
+	      window.setInterval(function () {
+	        _this.forceUpdate();
+	      }, 1000);
+	    }
+	  }, {
 	    key: "render",
 	    value: function render() {
 	      var unixTime = this.state.data.length > 0 ? this.state.data[0].t : 0;
@@ -13232,7 +13245,7 @@
 	  }
 	}.call(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(35)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(34)(module), (function() { return this; }())))
 
 /***/ },
 /* 13 */
@@ -13252,10 +13265,3134 @@
 /* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(147), __esModule: true };
+	module.exports = { "default": __webpack_require__(144), __esModule: true };
 
 /***/ },
 /* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(module) {//! moment.js
+	//! version : 2.10.3
+	//! authors : Tim Wood, Iskren Chernev, Moment.js contributors
+	//! license : MIT
+	//! momentjs.com
+	
+	(function (global, factory) {
+	    true ? module.exports = factory() :
+	    typeof define === 'function' && define.amd ? define(factory) :
+	    global.moment = factory()
+	}(this, function () { 'use strict';
+	
+	    var hookCallback;
+	
+	    function utils_hooks__hooks () {
+	        return hookCallback.apply(null, arguments);
+	    }
+	
+	    // This is done to register the method called with moment()
+	    // without creating circular dependencies.
+	    function setHookCallback (callback) {
+	        hookCallback = callback;
+	    }
+	
+	    function isArray(input) {
+	        return Object.prototype.toString.call(input) === '[object Array]';
+	    }
+	
+	    function isDate(input) {
+	        return input instanceof Date || Object.prototype.toString.call(input) === '[object Date]';
+	    }
+	
+	    function map(arr, fn) {
+	        var res = [], i;
+	        for (i = 0; i < arr.length; ++i) {
+	            res.push(fn(arr[i], i));
+	        }
+	        return res;
+	    }
+	
+	    function hasOwnProp(a, b) {
+	        return Object.prototype.hasOwnProperty.call(a, b);
+	    }
+	
+	    function extend(a, b) {
+	        for (var i in b) {
+	            if (hasOwnProp(b, i)) {
+	                a[i] = b[i];
+	            }
+	        }
+	
+	        if (hasOwnProp(b, 'toString')) {
+	            a.toString = b.toString;
+	        }
+	
+	        if (hasOwnProp(b, 'valueOf')) {
+	            a.valueOf = b.valueOf;
+	        }
+	
+	        return a;
+	    }
+	
+	    function create_utc__createUTC (input, format, locale, strict) {
+	        return createLocalOrUTC(input, format, locale, strict, true).utc();
+	    }
+	
+	    function defaultParsingFlags() {
+	        // We need to deep clone this object.
+	        return {
+	            empty           : false,
+	            unusedTokens    : [],
+	            unusedInput     : [],
+	            overflow        : -2,
+	            charsLeftOver   : 0,
+	            nullInput       : false,
+	            invalidMonth    : null,
+	            invalidFormat   : false,
+	            userInvalidated : false,
+	            iso             : false
+	        };
+	    }
+	
+	    function getParsingFlags(m) {
+	        if (m._pf == null) {
+	            m._pf = defaultParsingFlags();
+	        }
+	        return m._pf;
+	    }
+	
+	    function valid__isValid(m) {
+	        if (m._isValid == null) {
+	            var flags = getParsingFlags(m);
+	            m._isValid = !isNaN(m._d.getTime()) &&
+	                flags.overflow < 0 &&
+	                !flags.empty &&
+	                !flags.invalidMonth &&
+	                !flags.nullInput &&
+	                !flags.invalidFormat &&
+	                !flags.userInvalidated;
+	
+	            if (m._strict) {
+	                m._isValid = m._isValid &&
+	                    flags.charsLeftOver === 0 &&
+	                    flags.unusedTokens.length === 0 &&
+	                    flags.bigHour === undefined;
+	            }
+	        }
+	        return m._isValid;
+	    }
+	
+	    function valid__createInvalid (flags) {
+	        var m = create_utc__createUTC(NaN);
+	        if (flags != null) {
+	            extend(getParsingFlags(m), flags);
+	        }
+	        else {
+	            getParsingFlags(m).userInvalidated = true;
+	        }
+	
+	        return m;
+	    }
+	
+	    var momentProperties = utils_hooks__hooks.momentProperties = [];
+	
+	    function copyConfig(to, from) {
+	        var i, prop, val;
+	
+	        if (typeof from._isAMomentObject !== 'undefined') {
+	            to._isAMomentObject = from._isAMomentObject;
+	        }
+	        if (typeof from._i !== 'undefined') {
+	            to._i = from._i;
+	        }
+	        if (typeof from._f !== 'undefined') {
+	            to._f = from._f;
+	        }
+	        if (typeof from._l !== 'undefined') {
+	            to._l = from._l;
+	        }
+	        if (typeof from._strict !== 'undefined') {
+	            to._strict = from._strict;
+	        }
+	        if (typeof from._tzm !== 'undefined') {
+	            to._tzm = from._tzm;
+	        }
+	        if (typeof from._isUTC !== 'undefined') {
+	            to._isUTC = from._isUTC;
+	        }
+	        if (typeof from._offset !== 'undefined') {
+	            to._offset = from._offset;
+	        }
+	        if (typeof from._pf !== 'undefined') {
+	            to._pf = getParsingFlags(from);
+	        }
+	        if (typeof from._locale !== 'undefined') {
+	            to._locale = from._locale;
+	        }
+	
+	        if (momentProperties.length > 0) {
+	            for (i in momentProperties) {
+	                prop = momentProperties[i];
+	                val = from[prop];
+	                if (typeof val !== 'undefined') {
+	                    to[prop] = val;
+	                }
+	            }
+	        }
+	
+	        return to;
+	    }
+	
+	    var updateInProgress = false;
+	
+	    // Moment prototype object
+	    function Moment(config) {
+	        copyConfig(this, config);
+	        this._d = new Date(+config._d);
+	        // Prevent infinite loop in case updateOffset creates new moment
+	        // objects.
+	        if (updateInProgress === false) {
+	            updateInProgress = true;
+	            utils_hooks__hooks.updateOffset(this);
+	            updateInProgress = false;
+	        }
+	    }
+	
+	    function isMoment (obj) {
+	        return obj instanceof Moment || (obj != null && obj._isAMomentObject != null);
+	    }
+	
+	    function toInt(argumentForCoercion) {
+	        var coercedNumber = +argumentForCoercion,
+	            value = 0;
+	
+	        if (coercedNumber !== 0 && isFinite(coercedNumber)) {
+	            if (coercedNumber >= 0) {
+	                value = Math.floor(coercedNumber);
+	            } else {
+	                value = Math.ceil(coercedNumber);
+	            }
+	        }
+	
+	        return value;
+	    }
+	
+	    function compareArrays(array1, array2, dontConvert) {
+	        var len = Math.min(array1.length, array2.length),
+	            lengthDiff = Math.abs(array1.length - array2.length),
+	            diffs = 0,
+	            i;
+	        for (i = 0; i < len; i++) {
+	            if ((dontConvert && array1[i] !== array2[i]) ||
+	                (!dontConvert && toInt(array1[i]) !== toInt(array2[i]))) {
+	                diffs++;
+	            }
+	        }
+	        return diffs + lengthDiff;
+	    }
+	
+	    function Locale() {
+	    }
+	
+	    var locales = {};
+	    var globalLocale;
+	
+	    function normalizeLocale(key) {
+	        return key ? key.toLowerCase().replace('_', '-') : key;
+	    }
+	
+	    // pick the locale from the array
+	    // try ['en-au', 'en-gb'] as 'en-au', 'en-gb', 'en', as in move through the list trying each
+	    // substring from most specific to least, but move to the next array item if it's a more specific variant than the current root
+	    function chooseLocale(names) {
+	        var i = 0, j, next, locale, split;
+	
+	        while (i < names.length) {
+	            split = normalizeLocale(names[i]).split('-');
+	            j = split.length;
+	            next = normalizeLocale(names[i + 1]);
+	            next = next ? next.split('-') : null;
+	            while (j > 0) {
+	                locale = loadLocale(split.slice(0, j).join('-'));
+	                if (locale) {
+	                    return locale;
+	                }
+	                if (next && next.length >= j && compareArrays(split, next, true) >= j - 1) {
+	                    //the next array item is better than a shallower substring of this one
+	                    break;
+	                }
+	                j--;
+	            }
+	            i++;
+	        }
+	        return null;
+	    }
+	
+	    function loadLocale(name) {
+	        var oldLocale = null;
+	        // TODO: Find a better way to register and load all the locales in Node
+	        if (!locales[name] && typeof module !== 'undefined' &&
+	                module && module.exports) {
+	            try {
+	                oldLocale = globalLocale._abbr;
+	                __webpack_require__(31)("./" + name);
+	                // because defineLocale currently also sets the global locale, we
+	                // want to undo that for lazy loaded locales
+	                locale_locales__getSetGlobalLocale(oldLocale);
+	            } catch (e) { }
+	        }
+	        return locales[name];
+	    }
+	
+	    // This function will load locale and then set the global locale.  If
+	    // no arguments are passed in, it will simply return the current global
+	    // locale key.
+	    function locale_locales__getSetGlobalLocale (key, values) {
+	        var data;
+	        if (key) {
+	            if (typeof values === 'undefined') {
+	                data = locale_locales__getLocale(key);
+	            }
+	            else {
+	                data = defineLocale(key, values);
+	            }
+	
+	            if (data) {
+	                // moment.duration._locale = moment._locale = data;
+	                globalLocale = data;
+	            }
+	        }
+	
+	        return globalLocale._abbr;
+	    }
+	
+	    function defineLocale (name, values) {
+	        if (values !== null) {
+	            values.abbr = name;
+	            if (!locales[name]) {
+	                locales[name] = new Locale();
+	            }
+	            locales[name].set(values);
+	
+	            // backwards compat for now: also set the locale
+	            locale_locales__getSetGlobalLocale(name);
+	
+	            return locales[name];
+	        } else {
+	            // useful for testing
+	            delete locales[name];
+	            return null;
+	        }
+	    }
+	
+	    // returns locale data
+	    function locale_locales__getLocale (key) {
+	        var locale;
+	
+	        if (key && key._locale && key._locale._abbr) {
+	            key = key._locale._abbr;
+	        }
+	
+	        if (!key) {
+	            return globalLocale;
+	        }
+	
+	        if (!isArray(key)) {
+	            //short-circuit everything else
+	            locale = loadLocale(key);
+	            if (locale) {
+	                return locale;
+	            }
+	            key = [key];
+	        }
+	
+	        return chooseLocale(key);
+	    }
+	
+	    var aliases = {};
+	
+	    function addUnitAlias (unit, shorthand) {
+	        var lowerCase = unit.toLowerCase();
+	        aliases[lowerCase] = aliases[lowerCase + 's'] = aliases[shorthand] = unit;
+	    }
+	
+	    function normalizeUnits(units) {
+	        return typeof units === 'string' ? aliases[units] || aliases[units.toLowerCase()] : undefined;
+	    }
+	
+	    function normalizeObjectUnits(inputObject) {
+	        var normalizedInput = {},
+	            normalizedProp,
+	            prop;
+	
+	        for (prop in inputObject) {
+	            if (hasOwnProp(inputObject, prop)) {
+	                normalizedProp = normalizeUnits(prop);
+	                if (normalizedProp) {
+	                    normalizedInput[normalizedProp] = inputObject[prop];
+	                }
+	            }
+	        }
+	
+	        return normalizedInput;
+	    }
+	
+	    function makeGetSet (unit, keepTime) {
+	        return function (value) {
+	            if (value != null) {
+	                get_set__set(this, unit, value);
+	                utils_hooks__hooks.updateOffset(this, keepTime);
+	                return this;
+	            } else {
+	                return get_set__get(this, unit);
+	            }
+	        };
+	    }
+	
+	    function get_set__get (mom, unit) {
+	        return mom._d['get' + (mom._isUTC ? 'UTC' : '') + unit]();
+	    }
+	
+	    function get_set__set (mom, unit, value) {
+	        return mom._d['set' + (mom._isUTC ? 'UTC' : '') + unit](value);
+	    }
+	
+	    // MOMENTS
+	
+	    function getSet (units, value) {
+	        var unit;
+	        if (typeof units === 'object') {
+	            for (unit in units) {
+	                this.set(unit, units[unit]);
+	            }
+	        } else {
+	            units = normalizeUnits(units);
+	            if (typeof this[units] === 'function') {
+	                return this[units](value);
+	            }
+	        }
+	        return this;
+	    }
+	
+	    function zeroFill(number, targetLength, forceSign) {
+	        var output = '' + Math.abs(number),
+	            sign = number >= 0;
+	
+	        while (output.length < targetLength) {
+	            output = '0' + output;
+	        }
+	        return (sign ? (forceSign ? '+' : '') : '-') + output;
+	    }
+	
+	    var formattingTokens = /(\[[^\[]*\])|(\\)?(Mo|MM?M?M?|Do|DDDo|DD?D?D?|ddd?d?|do?|w[o|w]?|W[o|W]?|Q|YYYYYY|YYYYY|YYYY|YY|gg(ggg?)?|GG(GGG?)?|e|E|a|A|hh?|HH?|mm?|ss?|S{1,4}|x|X|zz?|ZZ?|.)/g;
+	
+	    var localFormattingTokens = /(\[[^\[]*\])|(\\)?(LTS|LT|LL?L?L?|l{1,4})/g;
+	
+	    var formatFunctions = {};
+	
+	    var formatTokenFunctions = {};
+	
+	    // token:    'M'
+	    // padded:   ['MM', 2]
+	    // ordinal:  'Mo'
+	    // callback: function () { this.month() + 1 }
+	    function addFormatToken (token, padded, ordinal, callback) {
+	        var func = callback;
+	        if (typeof callback === 'string') {
+	            func = function () {
+	                return this[callback]();
+	            };
+	        }
+	        if (token) {
+	            formatTokenFunctions[token] = func;
+	        }
+	        if (padded) {
+	            formatTokenFunctions[padded[0]] = function () {
+	                return zeroFill(func.apply(this, arguments), padded[1], padded[2]);
+	            };
+	        }
+	        if (ordinal) {
+	            formatTokenFunctions[ordinal] = function () {
+	                return this.localeData().ordinal(func.apply(this, arguments), token);
+	            };
+	        }
+	    }
+	
+	    function removeFormattingTokens(input) {
+	        if (input.match(/\[[\s\S]/)) {
+	            return input.replace(/^\[|\]$/g, '');
+	        }
+	        return input.replace(/\\/g, '');
+	    }
+	
+	    function makeFormatFunction(format) {
+	        var array = format.match(formattingTokens), i, length;
+	
+	        for (i = 0, length = array.length; i < length; i++) {
+	            if (formatTokenFunctions[array[i]]) {
+	                array[i] = formatTokenFunctions[array[i]];
+	            } else {
+	                array[i] = removeFormattingTokens(array[i]);
+	            }
+	        }
+	
+	        return function (mom) {
+	            var output = '';
+	            for (i = 0; i < length; i++) {
+	                output += array[i] instanceof Function ? array[i].call(mom, format) : array[i];
+	            }
+	            return output;
+	        };
+	    }
+	
+	    // format date using native date object
+	    function formatMoment(m, format) {
+	        if (!m.isValid()) {
+	            return m.localeData().invalidDate();
+	        }
+	
+	        format = expandFormat(format, m.localeData());
+	
+	        if (!formatFunctions[format]) {
+	            formatFunctions[format] = makeFormatFunction(format);
+	        }
+	
+	        return formatFunctions[format](m);
+	    }
+	
+	    function expandFormat(format, locale) {
+	        var i = 5;
+	
+	        function replaceLongDateFormatTokens(input) {
+	            return locale.longDateFormat(input) || input;
+	        }
+	
+	        localFormattingTokens.lastIndex = 0;
+	        while (i >= 0 && localFormattingTokens.test(format)) {
+	            format = format.replace(localFormattingTokens, replaceLongDateFormatTokens);
+	            localFormattingTokens.lastIndex = 0;
+	            i -= 1;
+	        }
+	
+	        return format;
+	    }
+	
+	    var match1         = /\d/;            //       0 - 9
+	    var match2         = /\d\d/;          //      00 - 99
+	    var match3         = /\d{3}/;         //     000 - 999
+	    var match4         = /\d{4}/;         //    0000 - 9999
+	    var match6         = /[+-]?\d{6}/;    // -999999 - 999999
+	    var match1to2      = /\d\d?/;         //       0 - 99
+	    var match1to3      = /\d{1,3}/;       //       0 - 999
+	    var match1to4      = /\d{1,4}/;       //       0 - 9999
+	    var match1to6      = /[+-]?\d{1,6}/;  // -999999 - 999999
+	
+	    var matchUnsigned  = /\d+/;           //       0 - inf
+	    var matchSigned    = /[+-]?\d+/;      //    -inf - inf
+	
+	    var matchOffset    = /Z|[+-]\d\d:?\d\d/gi; // +00:00 -00:00 +0000 -0000 or Z
+	
+	    var matchTimestamp = /[+-]?\d+(\.\d{1,3})?/; // 123456789 123456789.123
+	
+	    // any word (or two) characters or numbers including two/three word month in arabic.
+	    var matchWord = /[0-9]*['a-z\u00A0-\u05FF\u0700-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+|[\u0600-\u06FF\/]+(\s*?[\u0600-\u06FF]+){1,2}/i;
+	
+	    var regexes = {};
+	
+	    function addRegexToken (token, regex, strictRegex) {
+	        regexes[token] = typeof regex === 'function' ? regex : function (isStrict) {
+	            return (isStrict && strictRegex) ? strictRegex : regex;
+	        };
+	    }
+	
+	    function getParseRegexForToken (token, config) {
+	        if (!hasOwnProp(regexes, token)) {
+	            return new RegExp(unescapeFormat(token));
+	        }
+	
+	        return regexes[token](config._strict, config._locale);
+	    }
+	
+	    // Code from http://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript
+	    function unescapeFormat(s) {
+	        return s.replace('\\', '').replace(/\\(\[)|\\(\])|\[([^\]\[]*)\]|\\(.)/g, function (matched, p1, p2, p3, p4) {
+	            return p1 || p2 || p3 || p4;
+	        }).replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+	    }
+	
+	    var tokens = {};
+	
+	    function addParseToken (token, callback) {
+	        var i, func = callback;
+	        if (typeof token === 'string') {
+	            token = [token];
+	        }
+	        if (typeof callback === 'number') {
+	            func = function (input, array) {
+	                array[callback] = toInt(input);
+	            };
+	        }
+	        for (i = 0; i < token.length; i++) {
+	            tokens[token[i]] = func;
+	        }
+	    }
+	
+	    function addWeekParseToken (token, callback) {
+	        addParseToken(token, function (input, array, config, token) {
+	            config._w = config._w || {};
+	            callback(input, config._w, config, token);
+	        });
+	    }
+	
+	    function addTimeToArrayFromToken(token, input, config) {
+	        if (input != null && hasOwnProp(tokens, token)) {
+	            tokens[token](input, config._a, config, token);
+	        }
+	    }
+	
+	    var YEAR = 0;
+	    var MONTH = 1;
+	    var DATE = 2;
+	    var HOUR = 3;
+	    var MINUTE = 4;
+	    var SECOND = 5;
+	    var MILLISECOND = 6;
+	
+	    function daysInMonth(year, month) {
+	        return new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
+	    }
+	
+	    // FORMATTING
+	
+	    addFormatToken('M', ['MM', 2], 'Mo', function () {
+	        return this.month() + 1;
+	    });
+	
+	    addFormatToken('MMM', 0, 0, function (format) {
+	        return this.localeData().monthsShort(this, format);
+	    });
+	
+	    addFormatToken('MMMM', 0, 0, function (format) {
+	        return this.localeData().months(this, format);
+	    });
+	
+	    // ALIASES
+	
+	    addUnitAlias('month', 'M');
+	
+	    // PARSING
+	
+	    addRegexToken('M',    match1to2);
+	    addRegexToken('MM',   match1to2, match2);
+	    addRegexToken('MMM',  matchWord);
+	    addRegexToken('MMMM', matchWord);
+	
+	    addParseToken(['M', 'MM'], function (input, array) {
+	        array[MONTH] = toInt(input) - 1;
+	    });
+	
+	    addParseToken(['MMM', 'MMMM'], function (input, array, config, token) {
+	        var month = config._locale.monthsParse(input, token, config._strict);
+	        // if we didn't find a month name, mark the date as invalid.
+	        if (month != null) {
+	            array[MONTH] = month;
+	        } else {
+	            getParsingFlags(config).invalidMonth = input;
+	        }
+	    });
+	
+	    // LOCALES
+	
+	    var defaultLocaleMonths = 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_');
+	    function localeMonths (m) {
+	        return this._months[m.month()];
+	    }
+	
+	    var defaultLocaleMonthsShort = 'Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec'.split('_');
+	    function localeMonthsShort (m) {
+	        return this._monthsShort[m.month()];
+	    }
+	
+	    function localeMonthsParse (monthName, format, strict) {
+	        var i, mom, regex;
+	
+	        if (!this._monthsParse) {
+	            this._monthsParse = [];
+	            this._longMonthsParse = [];
+	            this._shortMonthsParse = [];
+	        }
+	
+	        for (i = 0; i < 12; i++) {
+	            // make the regex if we don't have it already
+	            mom = create_utc__createUTC([2000, i]);
+	            if (strict && !this._longMonthsParse[i]) {
+	                this._longMonthsParse[i] = new RegExp('^' + this.months(mom, '').replace('.', '') + '$', 'i');
+	                this._shortMonthsParse[i] = new RegExp('^' + this.monthsShort(mom, '').replace('.', '') + '$', 'i');
+	            }
+	            if (!strict && !this._monthsParse[i]) {
+	                regex = '^' + this.months(mom, '') + '|^' + this.monthsShort(mom, '');
+	                this._monthsParse[i] = new RegExp(regex.replace('.', ''), 'i');
+	            }
+	            // test the regex
+	            if (strict && format === 'MMMM' && this._longMonthsParse[i].test(monthName)) {
+	                return i;
+	            } else if (strict && format === 'MMM' && this._shortMonthsParse[i].test(monthName)) {
+	                return i;
+	            } else if (!strict && this._monthsParse[i].test(monthName)) {
+	                return i;
+	            }
+	        }
+	    }
+	
+	    // MOMENTS
+	
+	    function setMonth (mom, value) {
+	        var dayOfMonth;
+	
+	        // TODO: Move this out of here!
+	        if (typeof value === 'string') {
+	            value = mom.localeData().monthsParse(value);
+	            // TODO: Another silent failure?
+	            if (typeof value !== 'number') {
+	                return mom;
+	            }
+	        }
+	
+	        dayOfMonth = Math.min(mom.date(), daysInMonth(mom.year(), value));
+	        mom._d['set' + (mom._isUTC ? 'UTC' : '') + 'Month'](value, dayOfMonth);
+	        return mom;
+	    }
+	
+	    function getSetMonth (value) {
+	        if (value != null) {
+	            setMonth(this, value);
+	            utils_hooks__hooks.updateOffset(this, true);
+	            return this;
+	        } else {
+	            return get_set__get(this, 'Month');
+	        }
+	    }
+	
+	    function getDaysInMonth () {
+	        return daysInMonth(this.year(), this.month());
+	    }
+	
+	    function checkOverflow (m) {
+	        var overflow;
+	        var a = m._a;
+	
+	        if (a && getParsingFlags(m).overflow === -2) {
+	            overflow =
+	                a[MONTH]       < 0 || a[MONTH]       > 11  ? MONTH :
+	                a[DATE]        < 1 || a[DATE]        > daysInMonth(a[YEAR], a[MONTH]) ? DATE :
+	                a[HOUR]        < 0 || a[HOUR]        > 24 || (a[HOUR] === 24 && (a[MINUTE] !== 0 || a[SECOND] !== 0 || a[MILLISECOND] !== 0)) ? HOUR :
+	                a[MINUTE]      < 0 || a[MINUTE]      > 59  ? MINUTE :
+	                a[SECOND]      < 0 || a[SECOND]      > 59  ? SECOND :
+	                a[MILLISECOND] < 0 || a[MILLISECOND] > 999 ? MILLISECOND :
+	                -1;
+	
+	            if (getParsingFlags(m)._overflowDayOfYear && (overflow < YEAR || overflow > DATE)) {
+	                overflow = DATE;
+	            }
+	
+	            getParsingFlags(m).overflow = overflow;
+	        }
+	
+	        return m;
+	    }
+	
+	    function warn(msg) {
+	        if (utils_hooks__hooks.suppressDeprecationWarnings === false && typeof console !== 'undefined' && console.warn) {
+	            console.warn('Deprecation warning: ' + msg);
+	        }
+	    }
+	
+	    function deprecate(msg, fn) {
+	        var firstTime = true,
+	            msgWithStack = msg + '\n' + (new Error()).stack;
+	
+	        return extend(function () {
+	            if (firstTime) {
+	                warn(msgWithStack);
+	                firstTime = false;
+	            }
+	            return fn.apply(this, arguments);
+	        }, fn);
+	    }
+	
+	    var deprecations = {};
+	
+	    function deprecateSimple(name, msg) {
+	        if (!deprecations[name]) {
+	            warn(msg);
+	            deprecations[name] = true;
+	        }
+	    }
+	
+	    utils_hooks__hooks.suppressDeprecationWarnings = false;
+	
+	    var from_string__isoRegex = /^\s*(?:[+-]\d{6}|\d{4})-(?:(\d\d-\d\d)|(W\d\d$)|(W\d\d-\d)|(\d\d\d))((T| )(\d\d(:\d\d(:\d\d(\.\d+)?)?)?)?([\+\-]\d\d(?::?\d\d)?|\s*Z)?)?$/;
+	
+	    var isoDates = [
+	        ['YYYYYY-MM-DD', /[+-]\d{6}-\d{2}-\d{2}/],
+	        ['YYYY-MM-DD', /\d{4}-\d{2}-\d{2}/],
+	        ['GGGG-[W]WW-E', /\d{4}-W\d{2}-\d/],
+	        ['GGGG-[W]WW', /\d{4}-W\d{2}/],
+	        ['YYYY-DDD', /\d{4}-\d{3}/]
+	    ];
+	
+	    // iso time formats and regexes
+	    var isoTimes = [
+	        ['HH:mm:ss.SSSS', /(T| )\d\d:\d\d:\d\d\.\d+/],
+	        ['HH:mm:ss', /(T| )\d\d:\d\d:\d\d/],
+	        ['HH:mm', /(T| )\d\d:\d\d/],
+	        ['HH', /(T| )\d\d/]
+	    ];
+	
+	    var aspNetJsonRegex = /^\/?Date\((\-?\d+)/i;
+	
+	    // date from iso format
+	    function configFromISO(config) {
+	        var i, l,
+	            string = config._i,
+	            match = from_string__isoRegex.exec(string);
+	
+	        if (match) {
+	            getParsingFlags(config).iso = true;
+	            for (i = 0, l = isoDates.length; i < l; i++) {
+	                if (isoDates[i][1].exec(string)) {
+	                    // match[5] should be 'T' or undefined
+	                    config._f = isoDates[i][0] + (match[6] || ' ');
+	                    break;
+	                }
+	            }
+	            for (i = 0, l = isoTimes.length; i < l; i++) {
+	                if (isoTimes[i][1].exec(string)) {
+	                    config._f += isoTimes[i][0];
+	                    break;
+	                }
+	            }
+	            if (string.match(matchOffset)) {
+	                config._f += 'Z';
+	            }
+	            configFromStringAndFormat(config);
+	        } else {
+	            config._isValid = false;
+	        }
+	    }
+	
+	    // date from iso format or fallback
+	    function configFromString(config) {
+	        var matched = aspNetJsonRegex.exec(config._i);
+	
+	        if (matched !== null) {
+	            config._d = new Date(+matched[1]);
+	            return;
+	        }
+	
+	        configFromISO(config);
+	        if (config._isValid === false) {
+	            delete config._isValid;
+	            utils_hooks__hooks.createFromInputFallback(config);
+	        }
+	    }
+	
+	    utils_hooks__hooks.createFromInputFallback = deprecate(
+	        'moment construction falls back to js Date. This is ' +
+	        'discouraged and will be removed in upcoming major ' +
+	        'release. Please refer to ' +
+	        'https://github.com/moment/moment/issues/1407 for more info.',
+	        function (config) {
+	            config._d = new Date(config._i + (config._useUTC ? ' UTC' : ''));
+	        }
+	    );
+	
+	    function createDate (y, m, d, h, M, s, ms) {
+	        //can't just apply() to create a date:
+	        //http://stackoverflow.com/questions/181348/instantiating-a-javascript-object-by-calling-prototype-constructor-apply
+	        var date = new Date(y, m, d, h, M, s, ms);
+	
+	        //the date constructor doesn't accept years < 1970
+	        if (y < 1970) {
+	            date.setFullYear(y);
+	        }
+	        return date;
+	    }
+	
+	    function createUTCDate (y) {
+	        var date = new Date(Date.UTC.apply(null, arguments));
+	        if (y < 1970) {
+	            date.setUTCFullYear(y);
+	        }
+	        return date;
+	    }
+	
+	    addFormatToken(0, ['YY', 2], 0, function () {
+	        return this.year() % 100;
+	    });
+	
+	    addFormatToken(0, ['YYYY',   4],       0, 'year');
+	    addFormatToken(0, ['YYYYY',  5],       0, 'year');
+	    addFormatToken(0, ['YYYYYY', 6, true], 0, 'year');
+	
+	    // ALIASES
+	
+	    addUnitAlias('year', 'y');
+	
+	    // PARSING
+	
+	    addRegexToken('Y',      matchSigned);
+	    addRegexToken('YY',     match1to2, match2);
+	    addRegexToken('YYYY',   match1to4, match4);
+	    addRegexToken('YYYYY',  match1to6, match6);
+	    addRegexToken('YYYYYY', match1to6, match6);
+	
+	    addParseToken(['YYYY', 'YYYYY', 'YYYYYY'], YEAR);
+	    addParseToken('YY', function (input, array) {
+	        array[YEAR] = utils_hooks__hooks.parseTwoDigitYear(input);
+	    });
+	
+	    // HELPERS
+	
+	    function daysInYear(year) {
+	        return isLeapYear(year) ? 366 : 365;
+	    }
+	
+	    function isLeapYear(year) {
+	        return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+	    }
+	
+	    // HOOKS
+	
+	    utils_hooks__hooks.parseTwoDigitYear = function (input) {
+	        return toInt(input) + (toInt(input) > 68 ? 1900 : 2000);
+	    };
+	
+	    // MOMENTS
+	
+	    var getSetYear = makeGetSet('FullYear', false);
+	
+	    function getIsLeapYear () {
+	        return isLeapYear(this.year());
+	    }
+	
+	    addFormatToken('w', ['ww', 2], 'wo', 'week');
+	    addFormatToken('W', ['WW', 2], 'Wo', 'isoWeek');
+	
+	    // ALIASES
+	
+	    addUnitAlias('week', 'w');
+	    addUnitAlias('isoWeek', 'W');
+	
+	    // PARSING
+	
+	    addRegexToken('w',  match1to2);
+	    addRegexToken('ww', match1to2, match2);
+	    addRegexToken('W',  match1to2);
+	    addRegexToken('WW', match1to2, match2);
+	
+	    addWeekParseToken(['w', 'ww', 'W', 'WW'], function (input, week, config, token) {
+	        week[token.substr(0, 1)] = toInt(input);
+	    });
+	
+	    // HELPERS
+	
+	    // firstDayOfWeek       0 = sun, 6 = sat
+	    //                      the day of the week that starts the week
+	    //                      (usually sunday or monday)
+	    // firstDayOfWeekOfYear 0 = sun, 6 = sat
+	    //                      the first week is the week that contains the first
+	    //                      of this day of the week
+	    //                      (eg. ISO weeks use thursday (4))
+	    function weekOfYear(mom, firstDayOfWeek, firstDayOfWeekOfYear) {
+	        var end = firstDayOfWeekOfYear - firstDayOfWeek,
+	            daysToDayOfWeek = firstDayOfWeekOfYear - mom.day(),
+	            adjustedMoment;
+	
+	
+	        if (daysToDayOfWeek > end) {
+	            daysToDayOfWeek -= 7;
+	        }
+	
+	        if (daysToDayOfWeek < end - 7) {
+	            daysToDayOfWeek += 7;
+	        }
+	
+	        adjustedMoment = local__createLocal(mom).add(daysToDayOfWeek, 'd');
+	        return {
+	            week: Math.ceil(adjustedMoment.dayOfYear() / 7),
+	            year: adjustedMoment.year()
+	        };
+	    }
+	
+	    // LOCALES
+	
+	    function localeWeek (mom) {
+	        return weekOfYear(mom, this._week.dow, this._week.doy).week;
+	    }
+	
+	    var defaultLocaleWeek = {
+	        dow : 0, // Sunday is the first day of the week.
+	        doy : 6  // The week that contains Jan 1st is the first week of the year.
+	    };
+	
+	    function localeFirstDayOfWeek () {
+	        return this._week.dow;
+	    }
+	
+	    function localeFirstDayOfYear () {
+	        return this._week.doy;
+	    }
+	
+	    // MOMENTS
+	
+	    function getSetWeek (input) {
+	        var week = this.localeData().week(this);
+	        return input == null ? week : this.add((input - week) * 7, 'd');
+	    }
+	
+	    function getSetISOWeek (input) {
+	        var week = weekOfYear(this, 1, 4).week;
+	        return input == null ? week : this.add((input - week) * 7, 'd');
+	    }
+	
+	    addFormatToken('DDD', ['DDDD', 3], 'DDDo', 'dayOfYear');
+	
+	    // ALIASES
+	
+	    addUnitAlias('dayOfYear', 'DDD');
+	
+	    // PARSING
+	
+	    addRegexToken('DDD',  match1to3);
+	    addRegexToken('DDDD', match3);
+	    addParseToken(['DDD', 'DDDD'], function (input, array, config) {
+	        config._dayOfYear = toInt(input);
+	    });
+	
+	    // HELPERS
+	
+	    //http://en.wikipedia.org/wiki/ISO_week_date#Calculating_a_date_given_the_year.2C_week_number_and_weekday
+	    function dayOfYearFromWeeks(year, week, weekday, firstDayOfWeekOfYear, firstDayOfWeek) {
+	        var d = createUTCDate(year, 0, 1).getUTCDay();
+	        var daysToAdd;
+	        var dayOfYear;
+	
+	        d = d === 0 ? 7 : d;
+	        weekday = weekday != null ? weekday : firstDayOfWeek;
+	        daysToAdd = firstDayOfWeek - d + (d > firstDayOfWeekOfYear ? 7 : 0) - (d < firstDayOfWeek ? 7 : 0);
+	        dayOfYear = 7 * (week - 1) + (weekday - firstDayOfWeek) + daysToAdd + 1;
+	
+	        return {
+	            year      : dayOfYear > 0 ? year      : year - 1,
+	            dayOfYear : dayOfYear > 0 ? dayOfYear : daysInYear(year - 1) + dayOfYear
+	        };
+	    }
+	
+	    // MOMENTS
+	
+	    function getSetDayOfYear (input) {
+	        var dayOfYear = Math.round((this.clone().startOf('day') - this.clone().startOf('year')) / 864e5) + 1;
+	        return input == null ? dayOfYear : this.add((input - dayOfYear), 'd');
+	    }
+	
+	    // Pick the first defined of two or three arguments.
+	    function defaults(a, b, c) {
+	        if (a != null) {
+	            return a;
+	        }
+	        if (b != null) {
+	            return b;
+	        }
+	        return c;
+	    }
+	
+	    function currentDateArray(config) {
+	        var now = new Date();
+	        if (config._useUTC) {
+	            return [now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()];
+	        }
+	        return [now.getFullYear(), now.getMonth(), now.getDate()];
+	    }
+	
+	    // convert an array to a date.
+	    // the array should mirror the parameters below
+	    // note: all values past the year are optional and will default to the lowest possible value.
+	    // [year, month, day , hour, minute, second, millisecond]
+	    function configFromArray (config) {
+	        var i, date, input = [], currentDate, yearToUse;
+	
+	        if (config._d) {
+	            return;
+	        }
+	
+	        currentDate = currentDateArray(config);
+	
+	        //compute day of the year from weeks and weekdays
+	        if (config._w && config._a[DATE] == null && config._a[MONTH] == null) {
+	            dayOfYearFromWeekInfo(config);
+	        }
+	
+	        //if the day of the year is set, figure out what it is
+	        if (config._dayOfYear) {
+	            yearToUse = defaults(config._a[YEAR], currentDate[YEAR]);
+	
+	            if (config._dayOfYear > daysInYear(yearToUse)) {
+	                getParsingFlags(config)._overflowDayOfYear = true;
+	            }
+	
+	            date = createUTCDate(yearToUse, 0, config._dayOfYear);
+	            config._a[MONTH] = date.getUTCMonth();
+	            config._a[DATE] = date.getUTCDate();
+	        }
+	
+	        // Default to current date.
+	        // * if no year, month, day of month are given, default to today
+	        // * if day of month is given, default month and year
+	        // * if month is given, default only year
+	        // * if year is given, don't default anything
+	        for (i = 0; i < 3 && config._a[i] == null; ++i) {
+	            config._a[i] = input[i] = currentDate[i];
+	        }
+	
+	        // Zero out whatever was not defaulted, including time
+	        for (; i < 7; i++) {
+	            config._a[i] = input[i] = (config._a[i] == null) ? (i === 2 ? 1 : 0) : config._a[i];
+	        }
+	
+	        // Check for 24:00:00.000
+	        if (config._a[HOUR] === 24 &&
+	                config._a[MINUTE] === 0 &&
+	                config._a[SECOND] === 0 &&
+	                config._a[MILLISECOND] === 0) {
+	            config._nextDay = true;
+	            config._a[HOUR] = 0;
+	        }
+	
+	        config._d = (config._useUTC ? createUTCDate : createDate).apply(null, input);
+	        // Apply timezone offset from input. The actual utcOffset can be changed
+	        // with parseZone.
+	        if (config._tzm != null) {
+	            config._d.setUTCMinutes(config._d.getUTCMinutes() - config._tzm);
+	        }
+	
+	        if (config._nextDay) {
+	            config._a[HOUR] = 24;
+	        }
+	    }
+	
+	    function dayOfYearFromWeekInfo(config) {
+	        var w, weekYear, week, weekday, dow, doy, temp;
+	
+	        w = config._w;
+	        if (w.GG != null || w.W != null || w.E != null) {
+	            dow = 1;
+	            doy = 4;
+	
+	            // TODO: We need to take the current isoWeekYear, but that depends on
+	            // how we interpret now (local, utc, fixed offset). So create
+	            // a now version of current config (take local/utc/offset flags, and
+	            // create now).
+	            weekYear = defaults(w.GG, config._a[YEAR], weekOfYear(local__createLocal(), 1, 4).year);
+	            week = defaults(w.W, 1);
+	            weekday = defaults(w.E, 1);
+	        } else {
+	            dow = config._locale._week.dow;
+	            doy = config._locale._week.doy;
+	
+	            weekYear = defaults(w.gg, config._a[YEAR], weekOfYear(local__createLocal(), dow, doy).year);
+	            week = defaults(w.w, 1);
+	
+	            if (w.d != null) {
+	                // weekday -- low day numbers are considered next week
+	                weekday = w.d;
+	                if (weekday < dow) {
+	                    ++week;
+	                }
+	            } else if (w.e != null) {
+	                // local weekday -- counting starts from begining of week
+	                weekday = w.e + dow;
+	            } else {
+	                // default to begining of week
+	                weekday = dow;
+	            }
+	        }
+	        temp = dayOfYearFromWeeks(weekYear, week, weekday, doy, dow);
+	
+	        config._a[YEAR] = temp.year;
+	        config._dayOfYear = temp.dayOfYear;
+	    }
+	
+	    utils_hooks__hooks.ISO_8601 = function () {};
+	
+	    // date from string and format string
+	    function configFromStringAndFormat(config) {
+	        // TODO: Move this to another part of the creation flow to prevent circular deps
+	        if (config._f === utils_hooks__hooks.ISO_8601) {
+	            configFromISO(config);
+	            return;
+	        }
+	
+	        config._a = [];
+	        getParsingFlags(config).empty = true;
+	
+	        // This array is used to make a Date, either with `new Date` or `Date.UTC`
+	        var string = '' + config._i,
+	            i, parsedInput, tokens, token, skipped,
+	            stringLength = string.length,
+	            totalParsedInputLength = 0;
+	
+	        tokens = expandFormat(config._f, config._locale).match(formattingTokens) || [];
+	
+	        for (i = 0; i < tokens.length; i++) {
+	            token = tokens[i];
+	            parsedInput = (string.match(getParseRegexForToken(token, config)) || [])[0];
+	            if (parsedInput) {
+	                skipped = string.substr(0, string.indexOf(parsedInput));
+	                if (skipped.length > 0) {
+	                    getParsingFlags(config).unusedInput.push(skipped);
+	                }
+	                string = string.slice(string.indexOf(parsedInput) + parsedInput.length);
+	                totalParsedInputLength += parsedInput.length;
+	            }
+	            // don't parse if it's not a known token
+	            if (formatTokenFunctions[token]) {
+	                if (parsedInput) {
+	                    getParsingFlags(config).empty = false;
+	                }
+	                else {
+	                    getParsingFlags(config).unusedTokens.push(token);
+	                }
+	                addTimeToArrayFromToken(token, parsedInput, config);
+	            }
+	            else if (config._strict && !parsedInput) {
+	                getParsingFlags(config).unusedTokens.push(token);
+	            }
+	        }
+	
+	        // add remaining unparsed input length to the string
+	        getParsingFlags(config).charsLeftOver = stringLength - totalParsedInputLength;
+	        if (string.length > 0) {
+	            getParsingFlags(config).unusedInput.push(string);
+	        }
+	
+	        // clear _12h flag if hour is <= 12
+	        if (getParsingFlags(config).bigHour === true &&
+	                config._a[HOUR] <= 12 &&
+	                config._a[HOUR] > 0) {
+	            getParsingFlags(config).bigHour = undefined;
+	        }
+	        // handle meridiem
+	        config._a[HOUR] = meridiemFixWrap(config._locale, config._a[HOUR], config._meridiem);
+	
+	        configFromArray(config);
+	        checkOverflow(config);
+	    }
+	
+	
+	    function meridiemFixWrap (locale, hour, meridiem) {
+	        var isPm;
+	
+	        if (meridiem == null) {
+	            // nothing to do
+	            return hour;
+	        }
+	        if (locale.meridiemHour != null) {
+	            return locale.meridiemHour(hour, meridiem);
+	        } else if (locale.isPM != null) {
+	            // Fallback
+	            isPm = locale.isPM(meridiem);
+	            if (isPm && hour < 12) {
+	                hour += 12;
+	            }
+	            if (!isPm && hour === 12) {
+	                hour = 0;
+	            }
+	            return hour;
+	        } else {
+	            // this is not supposed to happen
+	            return hour;
+	        }
+	    }
+	
+	    function configFromStringAndArray(config) {
+	        var tempConfig,
+	            bestMoment,
+	
+	            scoreToBeat,
+	            i,
+	            currentScore;
+	
+	        if (config._f.length === 0) {
+	            getParsingFlags(config).invalidFormat = true;
+	            config._d = new Date(NaN);
+	            return;
+	        }
+	
+	        for (i = 0; i < config._f.length; i++) {
+	            currentScore = 0;
+	            tempConfig = copyConfig({}, config);
+	            if (config._useUTC != null) {
+	                tempConfig._useUTC = config._useUTC;
+	            }
+	            tempConfig._f = config._f[i];
+	            configFromStringAndFormat(tempConfig);
+	
+	            if (!valid__isValid(tempConfig)) {
+	                continue;
+	            }
+	
+	            // if there is any input that was not parsed add a penalty for that format
+	            currentScore += getParsingFlags(tempConfig).charsLeftOver;
+	
+	            //or tokens
+	            currentScore += getParsingFlags(tempConfig).unusedTokens.length * 10;
+	
+	            getParsingFlags(tempConfig).score = currentScore;
+	
+	            if (scoreToBeat == null || currentScore < scoreToBeat) {
+	                scoreToBeat = currentScore;
+	                bestMoment = tempConfig;
+	            }
+	        }
+	
+	        extend(config, bestMoment || tempConfig);
+	    }
+	
+	    function configFromObject(config) {
+	        if (config._d) {
+	            return;
+	        }
+	
+	        var i = normalizeObjectUnits(config._i);
+	        config._a = [i.year, i.month, i.day || i.date, i.hour, i.minute, i.second, i.millisecond];
+	
+	        configFromArray(config);
+	    }
+	
+	    function createFromConfig (config) {
+	        var input = config._i,
+	            format = config._f,
+	            res;
+	
+	        config._locale = config._locale || locale_locales__getLocale(config._l);
+	
+	        if (input === null || (format === undefined && input === '')) {
+	            return valid__createInvalid({nullInput: true});
+	        }
+	
+	        if (typeof input === 'string') {
+	            config._i = input = config._locale.preparse(input);
+	        }
+	
+	        if (isMoment(input)) {
+	            return new Moment(checkOverflow(input));
+	        } else if (isArray(format)) {
+	            configFromStringAndArray(config);
+	        } else if (format) {
+	            configFromStringAndFormat(config);
+	        } else if (isDate(input)) {
+	            config._d = input;
+	        } else {
+	            configFromInput(config);
+	        }
+	
+	        res = new Moment(checkOverflow(config));
+	        if (res._nextDay) {
+	            // Adding is smart enough around DST
+	            res.add(1, 'd');
+	            res._nextDay = undefined;
+	        }
+	
+	        return res;
+	    }
+	
+	    function configFromInput(config) {
+	        var input = config._i;
+	        if (input === undefined) {
+	            config._d = new Date();
+	        } else if (isDate(input)) {
+	            config._d = new Date(+input);
+	        } else if (typeof input === 'string') {
+	            configFromString(config);
+	        } else if (isArray(input)) {
+	            config._a = map(input.slice(0), function (obj) {
+	                return parseInt(obj, 10);
+	            });
+	            configFromArray(config);
+	        } else if (typeof(input) === 'object') {
+	            configFromObject(config);
+	        } else if (typeof(input) === 'number') {
+	            // from milliseconds
+	            config._d = new Date(input);
+	        } else {
+	            utils_hooks__hooks.createFromInputFallback(config);
+	        }
+	    }
+	
+	    function createLocalOrUTC (input, format, locale, strict, isUTC) {
+	        var c = {};
+	
+	        if (typeof(locale) === 'boolean') {
+	            strict = locale;
+	            locale = undefined;
+	        }
+	        // object construction must be done this way.
+	        // https://github.com/moment/moment/issues/1423
+	        c._isAMomentObject = true;
+	        c._useUTC = c._isUTC = isUTC;
+	        c._l = locale;
+	        c._i = input;
+	        c._f = format;
+	        c._strict = strict;
+	
+	        return createFromConfig(c);
+	    }
+	
+	    function local__createLocal (input, format, locale, strict) {
+	        return createLocalOrUTC(input, format, locale, strict, false);
+	    }
+	
+	    var prototypeMin = deprecate(
+	         'moment().min is deprecated, use moment.min instead. https://github.com/moment/moment/issues/1548',
+	         function () {
+	             var other = local__createLocal.apply(null, arguments);
+	             return other < this ? this : other;
+	         }
+	     );
+	
+	    var prototypeMax = deprecate(
+	        'moment().max is deprecated, use moment.max instead. https://github.com/moment/moment/issues/1548',
+	        function () {
+	            var other = local__createLocal.apply(null, arguments);
+	            return other > this ? this : other;
+	        }
+	    );
+	
+	    // Pick a moment m from moments so that m[fn](other) is true for all
+	    // other. This relies on the function fn to be transitive.
+	    //
+	    // moments should either be an array of moment objects or an array, whose
+	    // first element is an array of moment objects.
+	    function pickBy(fn, moments) {
+	        var res, i;
+	        if (moments.length === 1 && isArray(moments[0])) {
+	            moments = moments[0];
+	        }
+	        if (!moments.length) {
+	            return local__createLocal();
+	        }
+	        res = moments[0];
+	        for (i = 1; i < moments.length; ++i) {
+	            if (moments[i][fn](res)) {
+	                res = moments[i];
+	            }
+	        }
+	        return res;
+	    }
+	
+	    // TODO: Use [].sort instead?
+	    function min () {
+	        var args = [].slice.call(arguments, 0);
+	
+	        return pickBy('isBefore', args);
+	    }
+	
+	    function max () {
+	        var args = [].slice.call(arguments, 0);
+	
+	        return pickBy('isAfter', args);
+	    }
+	
+	    function Duration (duration) {
+	        var normalizedInput = normalizeObjectUnits(duration),
+	            years = normalizedInput.year || 0,
+	            quarters = normalizedInput.quarter || 0,
+	            months = normalizedInput.month || 0,
+	            weeks = normalizedInput.week || 0,
+	            days = normalizedInput.day || 0,
+	            hours = normalizedInput.hour || 0,
+	            minutes = normalizedInput.minute || 0,
+	            seconds = normalizedInput.second || 0,
+	            milliseconds = normalizedInput.millisecond || 0;
+	
+	        // representation for dateAddRemove
+	        this._milliseconds = +milliseconds +
+	            seconds * 1e3 + // 1000
+	            minutes * 6e4 + // 1000 * 60
+	            hours * 36e5; // 1000 * 60 * 60
+	        // Because of dateAddRemove treats 24 hours as different from a
+	        // day when working around DST, we need to store them separately
+	        this._days = +days +
+	            weeks * 7;
+	        // It is impossible translate months into days without knowing
+	        // which months you are are talking about, so we have to store
+	        // it separately.
+	        this._months = +months +
+	            quarters * 3 +
+	            years * 12;
+	
+	        this._data = {};
+	
+	        this._locale = locale_locales__getLocale();
+	
+	        this._bubble();
+	    }
+	
+	    function isDuration (obj) {
+	        return obj instanceof Duration;
+	    }
+	
+	    function offset (token, separator) {
+	        addFormatToken(token, 0, 0, function () {
+	            var offset = this.utcOffset();
+	            var sign = '+';
+	            if (offset < 0) {
+	                offset = -offset;
+	                sign = '-';
+	            }
+	            return sign + zeroFill(~~(offset / 60), 2) + separator + zeroFill(~~(offset) % 60, 2);
+	        });
+	    }
+	
+	    offset('Z', ':');
+	    offset('ZZ', '');
+	
+	    // PARSING
+	
+	    addRegexToken('Z',  matchOffset);
+	    addRegexToken('ZZ', matchOffset);
+	    addParseToken(['Z', 'ZZ'], function (input, array, config) {
+	        config._useUTC = true;
+	        config._tzm = offsetFromString(input);
+	    });
+	
+	    // HELPERS
+	
+	    // timezone chunker
+	    // '+10:00' > ['10',  '00']
+	    // '-1530'  > ['-15', '30']
+	    var chunkOffset = /([\+\-]|\d\d)/gi;
+	
+	    function offsetFromString(string) {
+	        var matches = ((string || '').match(matchOffset) || []);
+	        var chunk   = matches[matches.length - 1] || [];
+	        var parts   = (chunk + '').match(chunkOffset) || ['-', 0, 0];
+	        var minutes = +(parts[1] * 60) + toInt(parts[2]);
+	
+	        return parts[0] === '+' ? minutes : -minutes;
+	    }
+	
+	    // Return a moment from input, that is local/utc/zone equivalent to model.
+	    function cloneWithOffset(input, model) {
+	        var res, diff;
+	        if (model._isUTC) {
+	            res = model.clone();
+	            diff = (isMoment(input) || isDate(input) ? +input : +local__createLocal(input)) - (+res);
+	            // Use low-level api, because this fn is low-level api.
+	            res._d.setTime(+res._d + diff);
+	            utils_hooks__hooks.updateOffset(res, false);
+	            return res;
+	        } else {
+	            return local__createLocal(input).local();
+	        }
+	        return model._isUTC ? local__createLocal(input).zone(model._offset || 0) : local__createLocal(input).local();
+	    }
+	
+	    function getDateOffset (m) {
+	        // On Firefox.24 Date#getTimezoneOffset returns a floating point.
+	        // https://github.com/moment/moment/pull/1871
+	        return -Math.round(m._d.getTimezoneOffset() / 15) * 15;
+	    }
+	
+	    // HOOKS
+	
+	    // This function will be called whenever a moment is mutated.
+	    // It is intended to keep the offset in sync with the timezone.
+	    utils_hooks__hooks.updateOffset = function () {};
+	
+	    // MOMENTS
+	
+	    // keepLocalTime = true means only change the timezone, without
+	    // affecting the local hour. So 5:31:26 +0300 --[utcOffset(2, true)]-->
+	    // 5:31:26 +0200 It is possible that 5:31:26 doesn't exist with offset
+	    // +0200, so we adjust the time as needed, to be valid.
+	    //
+	    // Keeping the time actually adds/subtracts (one hour)
+	    // from the actual represented time. That is why we call updateOffset
+	    // a second time. In case it wants us to change the offset again
+	    // _changeInProgress == true case, then we have to adjust, because
+	    // there is no such time in the given timezone.
+	    function getSetOffset (input, keepLocalTime) {
+	        var offset = this._offset || 0,
+	            localAdjust;
+	        if (input != null) {
+	            if (typeof input === 'string') {
+	                input = offsetFromString(input);
+	            }
+	            if (Math.abs(input) < 16) {
+	                input = input * 60;
+	            }
+	            if (!this._isUTC && keepLocalTime) {
+	                localAdjust = getDateOffset(this);
+	            }
+	            this._offset = input;
+	            this._isUTC = true;
+	            if (localAdjust != null) {
+	                this.add(localAdjust, 'm');
+	            }
+	            if (offset !== input) {
+	                if (!keepLocalTime || this._changeInProgress) {
+	                    add_subtract__addSubtract(this, create__createDuration(input - offset, 'm'), 1, false);
+	                } else if (!this._changeInProgress) {
+	                    this._changeInProgress = true;
+	                    utils_hooks__hooks.updateOffset(this, true);
+	                    this._changeInProgress = null;
+	                }
+	            }
+	            return this;
+	        } else {
+	            return this._isUTC ? offset : getDateOffset(this);
+	        }
+	    }
+	
+	    function getSetZone (input, keepLocalTime) {
+	        if (input != null) {
+	            if (typeof input !== 'string') {
+	                input = -input;
+	            }
+	
+	            this.utcOffset(input, keepLocalTime);
+	
+	            return this;
+	        } else {
+	            return -this.utcOffset();
+	        }
+	    }
+	
+	    function setOffsetToUTC (keepLocalTime) {
+	        return this.utcOffset(0, keepLocalTime);
+	    }
+	
+	    function setOffsetToLocal (keepLocalTime) {
+	        if (this._isUTC) {
+	            this.utcOffset(0, keepLocalTime);
+	            this._isUTC = false;
+	
+	            if (keepLocalTime) {
+	                this.subtract(getDateOffset(this), 'm');
+	            }
+	        }
+	        return this;
+	    }
+	
+	    function setOffsetToParsedOffset () {
+	        if (this._tzm) {
+	            this.utcOffset(this._tzm);
+	        } else if (typeof this._i === 'string') {
+	            this.utcOffset(offsetFromString(this._i));
+	        }
+	        return this;
+	    }
+	
+	    function hasAlignedHourOffset (input) {
+	        if (!input) {
+	            input = 0;
+	        }
+	        else {
+	            input = local__createLocal(input).utcOffset();
+	        }
+	
+	        return (this.utcOffset() - input) % 60 === 0;
+	    }
+	
+	    function isDaylightSavingTime () {
+	        return (
+	            this.utcOffset() > this.clone().month(0).utcOffset() ||
+	            this.utcOffset() > this.clone().month(5).utcOffset()
+	        );
+	    }
+	
+	    function isDaylightSavingTimeShifted () {
+	        if (this._a) {
+	            var other = this._isUTC ? create_utc__createUTC(this._a) : local__createLocal(this._a);
+	            return this.isValid() && compareArrays(this._a, other.toArray()) > 0;
+	        }
+	
+	        return false;
+	    }
+	
+	    function isLocal () {
+	        return !this._isUTC;
+	    }
+	
+	    function isUtcOffset () {
+	        return this._isUTC;
+	    }
+	
+	    function isUtc () {
+	        return this._isUTC && this._offset === 0;
+	    }
+	
+	    var aspNetRegex = /(\-)?(?:(\d*)\.)?(\d+)\:(\d+)(?:\:(\d+)\.?(\d{3})?)?/;
+	
+	    // from http://docs.closure-library.googlecode.com/git/closure_goog_date_date.js.source.html
+	    // somewhat more in line with 4.4.3.2 2004 spec, but allows decimal anywhere
+	    var create__isoRegex = /^(-)?P(?:(?:([0-9,.]*)Y)?(?:([0-9,.]*)M)?(?:([0-9,.]*)D)?(?:T(?:([0-9,.]*)H)?(?:([0-9,.]*)M)?(?:([0-9,.]*)S)?)?|([0-9,.]*)W)$/;
+	
+	    function create__createDuration (input, key) {
+	        var duration = input,
+	            // matching against regexp is expensive, do it on demand
+	            match = null,
+	            sign,
+	            ret,
+	            diffRes;
+	
+	        if (isDuration(input)) {
+	            duration = {
+	                ms : input._milliseconds,
+	                d  : input._days,
+	                M  : input._months
+	            };
+	        } else if (typeof input === 'number') {
+	            duration = {};
+	            if (key) {
+	                duration[key] = input;
+	            } else {
+	                duration.milliseconds = input;
+	            }
+	        } else if (!!(match = aspNetRegex.exec(input))) {
+	            sign = (match[1] === '-') ? -1 : 1;
+	            duration = {
+	                y  : 0,
+	                d  : toInt(match[DATE])        * sign,
+	                h  : toInt(match[HOUR])        * sign,
+	                m  : toInt(match[MINUTE])      * sign,
+	                s  : toInt(match[SECOND])      * sign,
+	                ms : toInt(match[MILLISECOND]) * sign
+	            };
+	        } else if (!!(match = create__isoRegex.exec(input))) {
+	            sign = (match[1] === '-') ? -1 : 1;
+	            duration = {
+	                y : parseIso(match[2], sign),
+	                M : parseIso(match[3], sign),
+	                d : parseIso(match[4], sign),
+	                h : parseIso(match[5], sign),
+	                m : parseIso(match[6], sign),
+	                s : parseIso(match[7], sign),
+	                w : parseIso(match[8], sign)
+	            };
+	        } else if (duration == null) {// checks for null or undefined
+	            duration = {};
+	        } else if (typeof duration === 'object' && ('from' in duration || 'to' in duration)) {
+	            diffRes = momentsDifference(local__createLocal(duration.from), local__createLocal(duration.to));
+	
+	            duration = {};
+	            duration.ms = diffRes.milliseconds;
+	            duration.M = diffRes.months;
+	        }
+	
+	        ret = new Duration(duration);
+	
+	        if (isDuration(input) && hasOwnProp(input, '_locale')) {
+	            ret._locale = input._locale;
+	        }
+	
+	        return ret;
+	    }
+	
+	    create__createDuration.fn = Duration.prototype;
+	
+	    function parseIso (inp, sign) {
+	        // We'd normally use ~~inp for this, but unfortunately it also
+	        // converts floats to ints.
+	        // inp may be undefined, so careful calling replace on it.
+	        var res = inp && parseFloat(inp.replace(',', '.'));
+	        // apply sign while we're at it
+	        return (isNaN(res) ? 0 : res) * sign;
+	    }
+	
+	    function positiveMomentsDifference(base, other) {
+	        var res = {milliseconds: 0, months: 0};
+	
+	        res.months = other.month() - base.month() +
+	            (other.year() - base.year()) * 12;
+	        if (base.clone().add(res.months, 'M').isAfter(other)) {
+	            --res.months;
+	        }
+	
+	        res.milliseconds = +other - +(base.clone().add(res.months, 'M'));
+	
+	        return res;
+	    }
+	
+	    function momentsDifference(base, other) {
+	        var res;
+	        other = cloneWithOffset(other, base);
+	        if (base.isBefore(other)) {
+	            res = positiveMomentsDifference(base, other);
+	        } else {
+	            res = positiveMomentsDifference(other, base);
+	            res.milliseconds = -res.milliseconds;
+	            res.months = -res.months;
+	        }
+	
+	        return res;
+	    }
+	
+	    function createAdder(direction, name) {
+	        return function (val, period) {
+	            var dur, tmp;
+	            //invert the arguments, but complain about it
+	            if (period !== null && !isNaN(+period)) {
+	                deprecateSimple(name, 'moment().' + name  + '(period, number) is deprecated. Please use moment().' + name + '(number, period).');
+	                tmp = val; val = period; period = tmp;
+	            }
+	
+	            val = typeof val === 'string' ? +val : val;
+	            dur = create__createDuration(val, period);
+	            add_subtract__addSubtract(this, dur, direction);
+	            return this;
+	        };
+	    }
+	
+	    function add_subtract__addSubtract (mom, duration, isAdding, updateOffset) {
+	        var milliseconds = duration._milliseconds,
+	            days = duration._days,
+	            months = duration._months;
+	        updateOffset = updateOffset == null ? true : updateOffset;
+	
+	        if (milliseconds) {
+	            mom._d.setTime(+mom._d + milliseconds * isAdding);
+	        }
+	        if (days) {
+	            get_set__set(mom, 'Date', get_set__get(mom, 'Date') + days * isAdding);
+	        }
+	        if (months) {
+	            setMonth(mom, get_set__get(mom, 'Month') + months * isAdding);
+	        }
+	        if (updateOffset) {
+	            utils_hooks__hooks.updateOffset(mom, days || months);
+	        }
+	    }
+	
+	    var add_subtract__add      = createAdder(1, 'add');
+	    var add_subtract__subtract = createAdder(-1, 'subtract');
+	
+	    function moment_calendar__calendar (time) {
+	        // We want to compare the start of today, vs this.
+	        // Getting start-of-today depends on whether we're local/utc/offset or not.
+	        var now = time || local__createLocal(),
+	            sod = cloneWithOffset(now, this).startOf('day'),
+	            diff = this.diff(sod, 'days', true),
+	            format = diff < -6 ? 'sameElse' :
+	                diff < -1 ? 'lastWeek' :
+	                diff < 0 ? 'lastDay' :
+	                diff < 1 ? 'sameDay' :
+	                diff < 2 ? 'nextDay' :
+	                diff < 7 ? 'nextWeek' : 'sameElse';
+	        return this.format(this.localeData().calendar(format, this, local__createLocal(now)));
+	    }
+	
+	    function clone () {
+	        return new Moment(this);
+	    }
+	
+	    function isAfter (input, units) {
+	        var inputMs;
+	        units = normalizeUnits(typeof units !== 'undefined' ? units : 'millisecond');
+	        if (units === 'millisecond') {
+	            input = isMoment(input) ? input : local__createLocal(input);
+	            return +this > +input;
+	        } else {
+	            inputMs = isMoment(input) ? +input : +local__createLocal(input);
+	            return inputMs < +this.clone().startOf(units);
+	        }
+	    }
+	
+	    function isBefore (input, units) {
+	        var inputMs;
+	        units = normalizeUnits(typeof units !== 'undefined' ? units : 'millisecond');
+	        if (units === 'millisecond') {
+	            input = isMoment(input) ? input : local__createLocal(input);
+	            return +this < +input;
+	        } else {
+	            inputMs = isMoment(input) ? +input : +local__createLocal(input);
+	            return +this.clone().endOf(units) < inputMs;
+	        }
+	    }
+	
+	    function isBetween (from, to, units) {
+	        return this.isAfter(from, units) && this.isBefore(to, units);
+	    }
+	
+	    function isSame (input, units) {
+	        var inputMs;
+	        units = normalizeUnits(units || 'millisecond');
+	        if (units === 'millisecond') {
+	            input = isMoment(input) ? input : local__createLocal(input);
+	            return +this === +input;
+	        } else {
+	            inputMs = +local__createLocal(input);
+	            return +(this.clone().startOf(units)) <= inputMs && inputMs <= +(this.clone().endOf(units));
+	        }
+	    }
+	
+	    function absFloor (number) {
+	        if (number < 0) {
+	            return Math.ceil(number);
+	        } else {
+	            return Math.floor(number);
+	        }
+	    }
+	
+	    function diff (input, units, asFloat) {
+	        var that = cloneWithOffset(input, this),
+	            zoneDelta = (that.utcOffset() - this.utcOffset()) * 6e4,
+	            delta, output;
+	
+	        units = normalizeUnits(units);
+	
+	        if (units === 'year' || units === 'month' || units === 'quarter') {
+	            output = monthDiff(this, that);
+	            if (units === 'quarter') {
+	                output = output / 3;
+	            } else if (units === 'year') {
+	                output = output / 12;
+	            }
+	        } else {
+	            delta = this - that;
+	            output = units === 'second' ? delta / 1e3 : // 1000
+	                units === 'minute' ? delta / 6e4 : // 1000 * 60
+	                units === 'hour' ? delta / 36e5 : // 1000 * 60 * 60
+	                units === 'day' ? (delta - zoneDelta) / 864e5 : // 1000 * 60 * 60 * 24, negate dst
+	                units === 'week' ? (delta - zoneDelta) / 6048e5 : // 1000 * 60 * 60 * 24 * 7, negate dst
+	                delta;
+	        }
+	        return asFloat ? output : absFloor(output);
+	    }
+	
+	    function monthDiff (a, b) {
+	        // difference in months
+	        var wholeMonthDiff = ((b.year() - a.year()) * 12) + (b.month() - a.month()),
+	            // b is in (anchor - 1 month, anchor + 1 month)
+	            anchor = a.clone().add(wholeMonthDiff, 'months'),
+	            anchor2, adjust;
+	
+	        if (b - anchor < 0) {
+	            anchor2 = a.clone().add(wholeMonthDiff - 1, 'months');
+	            // linear across the month
+	            adjust = (b - anchor) / (anchor - anchor2);
+	        } else {
+	            anchor2 = a.clone().add(wholeMonthDiff + 1, 'months');
+	            // linear across the month
+	            adjust = (b - anchor) / (anchor2 - anchor);
+	        }
+	
+	        return -(wholeMonthDiff + adjust);
+	    }
+	
+	    utils_hooks__hooks.defaultFormat = 'YYYY-MM-DDTHH:mm:ssZ';
+	
+	    function toString () {
+	        return this.clone().locale('en').format('ddd MMM DD YYYY HH:mm:ss [GMT]ZZ');
+	    }
+	
+	    function moment_format__toISOString () {
+	        var m = this.clone().utc();
+	        if (0 < m.year() && m.year() <= 9999) {
+	            if ('function' === typeof Date.prototype.toISOString) {
+	                // native implementation is ~50x faster, use it when we can
+	                return this.toDate().toISOString();
+	            } else {
+	                return formatMoment(m, 'YYYY-MM-DD[T]HH:mm:ss.SSS[Z]');
+	            }
+	        } else {
+	            return formatMoment(m, 'YYYYYY-MM-DD[T]HH:mm:ss.SSS[Z]');
+	        }
+	    }
+	
+	    function format (inputString) {
+	        var output = formatMoment(this, inputString || utils_hooks__hooks.defaultFormat);
+	        return this.localeData().postformat(output);
+	    }
+	
+	    function from (time, withoutSuffix) {
+	        if (!this.isValid()) {
+	            return this.localeData().invalidDate();
+	        }
+	        return create__createDuration({to: this, from: time}).locale(this.locale()).humanize(!withoutSuffix);
+	    }
+	
+	    function fromNow (withoutSuffix) {
+	        return this.from(local__createLocal(), withoutSuffix);
+	    }
+	
+	    function to (time, withoutSuffix) {
+	        if (!this.isValid()) {
+	            return this.localeData().invalidDate();
+	        }
+	        return create__createDuration({from: this, to: time}).locale(this.locale()).humanize(!withoutSuffix);
+	    }
+	
+	    function toNow (withoutSuffix) {
+	        return this.to(local__createLocal(), withoutSuffix);
+	    }
+	
+	    function locale (key) {
+	        var newLocaleData;
+	
+	        if (key === undefined) {
+	            return this._locale._abbr;
+	        } else {
+	            newLocaleData = locale_locales__getLocale(key);
+	            if (newLocaleData != null) {
+	                this._locale = newLocaleData;
+	            }
+	            return this;
+	        }
+	    }
+	
+	    var lang = deprecate(
+	        'moment().lang() is deprecated. Instead, use moment().localeData() to get the language configuration. Use moment().locale() to change languages.',
+	        function (key) {
+	            if (key === undefined) {
+	                return this.localeData();
+	            } else {
+	                return this.locale(key);
+	            }
+	        }
+	    );
+	
+	    function localeData () {
+	        return this._locale;
+	    }
+	
+	    function startOf (units) {
+	        units = normalizeUnits(units);
+	        // the following switch intentionally omits break keywords
+	        // to utilize falling through the cases.
+	        switch (units) {
+	        case 'year':
+	            this.month(0);
+	            /* falls through */
+	        case 'quarter':
+	        case 'month':
+	            this.date(1);
+	            /* falls through */
+	        case 'week':
+	        case 'isoWeek':
+	        case 'day':
+	            this.hours(0);
+	            /* falls through */
+	        case 'hour':
+	            this.minutes(0);
+	            /* falls through */
+	        case 'minute':
+	            this.seconds(0);
+	            /* falls through */
+	        case 'second':
+	            this.milliseconds(0);
+	        }
+	
+	        // weeks are a special case
+	        if (units === 'week') {
+	            this.weekday(0);
+	        }
+	        if (units === 'isoWeek') {
+	            this.isoWeekday(1);
+	        }
+	
+	        // quarters are also special
+	        if (units === 'quarter') {
+	            this.month(Math.floor(this.month() / 3) * 3);
+	        }
+	
+	        return this;
+	    }
+	
+	    function endOf (units) {
+	        units = normalizeUnits(units);
+	        if (units === undefined || units === 'millisecond') {
+	            return this;
+	        }
+	        return this.startOf(units).add(1, (units === 'isoWeek' ? 'week' : units)).subtract(1, 'ms');
+	    }
+	
+	    function to_type__valueOf () {
+	        return +this._d - ((this._offset || 0) * 60000);
+	    }
+	
+	    function unix () {
+	        return Math.floor(+this / 1000);
+	    }
+	
+	    function toDate () {
+	        return this._offset ? new Date(+this) : this._d;
+	    }
+	
+	    function toArray () {
+	        var m = this;
+	        return [m.year(), m.month(), m.date(), m.hour(), m.minute(), m.second(), m.millisecond()];
+	    }
+	
+	    function moment_valid__isValid () {
+	        return valid__isValid(this);
+	    }
+	
+	    function parsingFlags () {
+	        return extend({}, getParsingFlags(this));
+	    }
+	
+	    function invalidAt () {
+	        return getParsingFlags(this).overflow;
+	    }
+	
+	    addFormatToken(0, ['gg', 2], 0, function () {
+	        return this.weekYear() % 100;
+	    });
+	
+	    addFormatToken(0, ['GG', 2], 0, function () {
+	        return this.isoWeekYear() % 100;
+	    });
+	
+	    function addWeekYearFormatToken (token, getter) {
+	        addFormatToken(0, [token, token.length], 0, getter);
+	    }
+	
+	    addWeekYearFormatToken('gggg',     'weekYear');
+	    addWeekYearFormatToken('ggggg',    'weekYear');
+	    addWeekYearFormatToken('GGGG',  'isoWeekYear');
+	    addWeekYearFormatToken('GGGGG', 'isoWeekYear');
+	
+	    // ALIASES
+	
+	    addUnitAlias('weekYear', 'gg');
+	    addUnitAlias('isoWeekYear', 'GG');
+	
+	    // PARSING
+	
+	    addRegexToken('G',      matchSigned);
+	    addRegexToken('g',      matchSigned);
+	    addRegexToken('GG',     match1to2, match2);
+	    addRegexToken('gg',     match1to2, match2);
+	    addRegexToken('GGGG',   match1to4, match4);
+	    addRegexToken('gggg',   match1to4, match4);
+	    addRegexToken('GGGGG',  match1to6, match6);
+	    addRegexToken('ggggg',  match1to6, match6);
+	
+	    addWeekParseToken(['gggg', 'ggggg', 'GGGG', 'GGGGG'], function (input, week, config, token) {
+	        week[token.substr(0, 2)] = toInt(input);
+	    });
+	
+	    addWeekParseToken(['gg', 'GG'], function (input, week, config, token) {
+	        week[token] = utils_hooks__hooks.parseTwoDigitYear(input);
+	    });
+	
+	    // HELPERS
+	
+	    function weeksInYear(year, dow, doy) {
+	        return weekOfYear(local__createLocal([year, 11, 31 + dow - doy]), dow, doy).week;
+	    }
+	
+	    // MOMENTS
+	
+	    function getSetWeekYear (input) {
+	        var year = weekOfYear(this, this.localeData()._week.dow, this.localeData()._week.doy).year;
+	        return input == null ? year : this.add((input - year), 'y');
+	    }
+	
+	    function getSetISOWeekYear (input) {
+	        var year = weekOfYear(this, 1, 4).year;
+	        return input == null ? year : this.add((input - year), 'y');
+	    }
+	
+	    function getISOWeeksInYear () {
+	        return weeksInYear(this.year(), 1, 4);
+	    }
+	
+	    function getWeeksInYear () {
+	        var weekInfo = this.localeData()._week;
+	        return weeksInYear(this.year(), weekInfo.dow, weekInfo.doy);
+	    }
+	
+	    addFormatToken('Q', 0, 0, 'quarter');
+	
+	    // ALIASES
+	
+	    addUnitAlias('quarter', 'Q');
+	
+	    // PARSING
+	
+	    addRegexToken('Q', match1);
+	    addParseToken('Q', function (input, array) {
+	        array[MONTH] = (toInt(input) - 1) * 3;
+	    });
+	
+	    // MOMENTS
+	
+	    function getSetQuarter (input) {
+	        return input == null ? Math.ceil((this.month() + 1) / 3) : this.month((input - 1) * 3 + this.month() % 3);
+	    }
+	
+	    addFormatToken('D', ['DD', 2], 'Do', 'date');
+	
+	    // ALIASES
+	
+	    addUnitAlias('date', 'D');
+	
+	    // PARSING
+	
+	    addRegexToken('D',  match1to2);
+	    addRegexToken('DD', match1to2, match2);
+	    addRegexToken('Do', function (isStrict, locale) {
+	        return isStrict ? locale._ordinalParse : locale._ordinalParseLenient;
+	    });
+	
+	    addParseToken(['D', 'DD'], DATE);
+	    addParseToken('Do', function (input, array) {
+	        array[DATE] = toInt(input.match(match1to2)[0], 10);
+	    });
+	
+	    // MOMENTS
+	
+	    var getSetDayOfMonth = makeGetSet('Date', true);
+	
+	    addFormatToken('d', 0, 'do', 'day');
+	
+	    addFormatToken('dd', 0, 0, function (format) {
+	        return this.localeData().weekdaysMin(this, format);
+	    });
+	
+	    addFormatToken('ddd', 0, 0, function (format) {
+	        return this.localeData().weekdaysShort(this, format);
+	    });
+	
+	    addFormatToken('dddd', 0, 0, function (format) {
+	        return this.localeData().weekdays(this, format);
+	    });
+	
+	    addFormatToken('e', 0, 0, 'weekday');
+	    addFormatToken('E', 0, 0, 'isoWeekday');
+	
+	    // ALIASES
+	
+	    addUnitAlias('day', 'd');
+	    addUnitAlias('weekday', 'e');
+	    addUnitAlias('isoWeekday', 'E');
+	
+	    // PARSING
+	
+	    addRegexToken('d',    match1to2);
+	    addRegexToken('e',    match1to2);
+	    addRegexToken('E',    match1to2);
+	    addRegexToken('dd',   matchWord);
+	    addRegexToken('ddd',  matchWord);
+	    addRegexToken('dddd', matchWord);
+	
+	    addWeekParseToken(['dd', 'ddd', 'dddd'], function (input, week, config) {
+	        var weekday = config._locale.weekdaysParse(input);
+	        // if we didn't get a weekday name, mark the date as invalid
+	        if (weekday != null) {
+	            week.d = weekday;
+	        } else {
+	            getParsingFlags(config).invalidWeekday = input;
+	        }
+	    });
+	
+	    addWeekParseToken(['d', 'e', 'E'], function (input, week, config, token) {
+	        week[token] = toInt(input);
+	    });
+	
+	    // HELPERS
+	
+	    function parseWeekday(input, locale) {
+	        if (typeof input === 'string') {
+	            if (!isNaN(input)) {
+	                input = parseInt(input, 10);
+	            }
+	            else {
+	                input = locale.weekdaysParse(input);
+	                if (typeof input !== 'number') {
+	                    return null;
+	                }
+	            }
+	        }
+	        return input;
+	    }
+	
+	    // LOCALES
+	
+	    var defaultLocaleWeekdays = 'Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday'.split('_');
+	    function localeWeekdays (m) {
+	        return this._weekdays[m.day()];
+	    }
+	
+	    var defaultLocaleWeekdaysShort = 'Sun_Mon_Tue_Wed_Thu_Fri_Sat'.split('_');
+	    function localeWeekdaysShort (m) {
+	        return this._weekdaysShort[m.day()];
+	    }
+	
+	    var defaultLocaleWeekdaysMin = 'Su_Mo_Tu_We_Th_Fr_Sa'.split('_');
+	    function localeWeekdaysMin (m) {
+	        return this._weekdaysMin[m.day()];
+	    }
+	
+	    function localeWeekdaysParse (weekdayName) {
+	        var i, mom, regex;
+	
+	        if (!this._weekdaysParse) {
+	            this._weekdaysParse = [];
+	        }
+	
+	        for (i = 0; i < 7; i++) {
+	            // make the regex if we don't have it already
+	            if (!this._weekdaysParse[i]) {
+	                mom = local__createLocal([2000, 1]).day(i);
+	                regex = '^' + this.weekdays(mom, '') + '|^' + this.weekdaysShort(mom, '') + '|^' + this.weekdaysMin(mom, '');
+	                this._weekdaysParse[i] = new RegExp(regex.replace('.', ''), 'i');
+	            }
+	            // test the regex
+	            if (this._weekdaysParse[i].test(weekdayName)) {
+	                return i;
+	            }
+	        }
+	    }
+	
+	    // MOMENTS
+	
+	    function getSetDayOfWeek (input) {
+	        var day = this._isUTC ? this._d.getUTCDay() : this._d.getDay();
+	        if (input != null) {
+	            input = parseWeekday(input, this.localeData());
+	            return this.add(input - day, 'd');
+	        } else {
+	            return day;
+	        }
+	    }
+	
+	    function getSetLocaleDayOfWeek (input) {
+	        var weekday = (this.day() + 7 - this.localeData()._week.dow) % 7;
+	        return input == null ? weekday : this.add(input - weekday, 'd');
+	    }
+	
+	    function getSetISODayOfWeek (input) {
+	        // behaves the same as moment#day except
+	        // as a getter, returns 7 instead of 0 (1-7 range instead of 0-6)
+	        // as a setter, sunday should belong to the previous week.
+	        return input == null ? this.day() || 7 : this.day(this.day() % 7 ? input : input - 7);
+	    }
+	
+	    addFormatToken('H', ['HH', 2], 0, 'hour');
+	    addFormatToken('h', ['hh', 2], 0, function () {
+	        return this.hours() % 12 || 12;
+	    });
+	
+	    function meridiem (token, lowercase) {
+	        addFormatToken(token, 0, 0, function () {
+	            return this.localeData().meridiem(this.hours(), this.minutes(), lowercase);
+	        });
+	    }
+	
+	    meridiem('a', true);
+	    meridiem('A', false);
+	
+	    // ALIASES
+	
+	    addUnitAlias('hour', 'h');
+	
+	    // PARSING
+	
+	    function matchMeridiem (isStrict, locale) {
+	        return locale._meridiemParse;
+	    }
+	
+	    addRegexToken('a',  matchMeridiem);
+	    addRegexToken('A',  matchMeridiem);
+	    addRegexToken('H',  match1to2);
+	    addRegexToken('h',  match1to2);
+	    addRegexToken('HH', match1to2, match2);
+	    addRegexToken('hh', match1to2, match2);
+	
+	    addParseToken(['H', 'HH'], HOUR);
+	    addParseToken(['a', 'A'], function (input, array, config) {
+	        config._isPm = config._locale.isPM(input);
+	        config._meridiem = input;
+	    });
+	    addParseToken(['h', 'hh'], function (input, array, config) {
+	        array[HOUR] = toInt(input);
+	        getParsingFlags(config).bigHour = true;
+	    });
+	
+	    // LOCALES
+	
+	    function localeIsPM (input) {
+	        // IE8 Quirks Mode & IE7 Standards Mode do not allow accessing strings like arrays
+	        // Using charAt should be more compatible.
+	        return ((input + '').toLowerCase().charAt(0) === 'p');
+	    }
+	
+	    var defaultLocaleMeridiemParse = /[ap]\.?m?\.?/i;
+	    function localeMeridiem (hours, minutes, isLower) {
+	        if (hours > 11) {
+	            return isLower ? 'pm' : 'PM';
+	        } else {
+	            return isLower ? 'am' : 'AM';
+	        }
+	    }
+	
+	
+	    // MOMENTS
+	
+	    // Setting the hour should keep the time, because the user explicitly
+	    // specified which hour he wants. So trying to maintain the same hour (in
+	    // a new timezone) makes sense. Adding/subtracting hours does not follow
+	    // this rule.
+	    var getSetHour = makeGetSet('Hours', true);
+	
+	    addFormatToken('m', ['mm', 2], 0, 'minute');
+	
+	    // ALIASES
+	
+	    addUnitAlias('minute', 'm');
+	
+	    // PARSING
+	
+	    addRegexToken('m',  match1to2);
+	    addRegexToken('mm', match1to2, match2);
+	    addParseToken(['m', 'mm'], MINUTE);
+	
+	    // MOMENTS
+	
+	    var getSetMinute = makeGetSet('Minutes', false);
+	
+	    addFormatToken('s', ['ss', 2], 0, 'second');
+	
+	    // ALIASES
+	
+	    addUnitAlias('second', 's');
+	
+	    // PARSING
+	
+	    addRegexToken('s',  match1to2);
+	    addRegexToken('ss', match1to2, match2);
+	    addParseToken(['s', 'ss'], SECOND);
+	
+	    // MOMENTS
+	
+	    var getSetSecond = makeGetSet('Seconds', false);
+	
+	    addFormatToken('S', 0, 0, function () {
+	        return ~~(this.millisecond() / 100);
+	    });
+	
+	    addFormatToken(0, ['SS', 2], 0, function () {
+	        return ~~(this.millisecond() / 10);
+	    });
+	
+	    function millisecond__milliseconds (token) {
+	        addFormatToken(0, [token, 3], 0, 'millisecond');
+	    }
+	
+	    millisecond__milliseconds('SSS');
+	    millisecond__milliseconds('SSSS');
+	
+	    // ALIASES
+	
+	    addUnitAlias('millisecond', 'ms');
+	
+	    // PARSING
+	
+	    addRegexToken('S',    match1to3, match1);
+	    addRegexToken('SS',   match1to3, match2);
+	    addRegexToken('SSS',  match1to3, match3);
+	    addRegexToken('SSSS', matchUnsigned);
+	    addParseToken(['S', 'SS', 'SSS', 'SSSS'], function (input, array) {
+	        array[MILLISECOND] = toInt(('0.' + input) * 1000);
+	    });
+	
+	    // MOMENTS
+	
+	    var getSetMillisecond = makeGetSet('Milliseconds', false);
+	
+	    addFormatToken('z',  0, 0, 'zoneAbbr');
+	    addFormatToken('zz', 0, 0, 'zoneName');
+	
+	    // MOMENTS
+	
+	    function getZoneAbbr () {
+	        return this._isUTC ? 'UTC' : '';
+	    }
+	
+	    function getZoneName () {
+	        return this._isUTC ? 'Coordinated Universal Time' : '';
+	    }
+	
+	    var momentPrototype__proto = Moment.prototype;
+	
+	    momentPrototype__proto.add          = add_subtract__add;
+	    momentPrototype__proto.calendar     = moment_calendar__calendar;
+	    momentPrototype__proto.clone        = clone;
+	    momentPrototype__proto.diff         = diff;
+	    momentPrototype__proto.endOf        = endOf;
+	    momentPrototype__proto.format       = format;
+	    momentPrototype__proto.from         = from;
+	    momentPrototype__proto.fromNow      = fromNow;
+	    momentPrototype__proto.to           = to;
+	    momentPrototype__proto.toNow        = toNow;
+	    momentPrototype__proto.get          = getSet;
+	    momentPrototype__proto.invalidAt    = invalidAt;
+	    momentPrototype__proto.isAfter      = isAfter;
+	    momentPrototype__proto.isBefore     = isBefore;
+	    momentPrototype__proto.isBetween    = isBetween;
+	    momentPrototype__proto.isSame       = isSame;
+	    momentPrototype__proto.isValid      = moment_valid__isValid;
+	    momentPrototype__proto.lang         = lang;
+	    momentPrototype__proto.locale       = locale;
+	    momentPrototype__proto.localeData   = localeData;
+	    momentPrototype__proto.max          = prototypeMax;
+	    momentPrototype__proto.min          = prototypeMin;
+	    momentPrototype__proto.parsingFlags = parsingFlags;
+	    momentPrototype__proto.set          = getSet;
+	    momentPrototype__proto.startOf      = startOf;
+	    momentPrototype__proto.subtract     = add_subtract__subtract;
+	    momentPrototype__proto.toArray      = toArray;
+	    momentPrototype__proto.toDate       = toDate;
+	    momentPrototype__proto.toISOString  = moment_format__toISOString;
+	    momentPrototype__proto.toJSON       = moment_format__toISOString;
+	    momentPrototype__proto.toString     = toString;
+	    momentPrototype__proto.unix         = unix;
+	    momentPrototype__proto.valueOf      = to_type__valueOf;
+	
+	    // Year
+	    momentPrototype__proto.year       = getSetYear;
+	    momentPrototype__proto.isLeapYear = getIsLeapYear;
+	
+	    // Week Year
+	    momentPrototype__proto.weekYear    = getSetWeekYear;
+	    momentPrototype__proto.isoWeekYear = getSetISOWeekYear;
+	
+	    // Quarter
+	    momentPrototype__proto.quarter = momentPrototype__proto.quarters = getSetQuarter;
+	
+	    // Month
+	    momentPrototype__proto.month       = getSetMonth;
+	    momentPrototype__proto.daysInMonth = getDaysInMonth;
+	
+	    // Week
+	    momentPrototype__proto.week           = momentPrototype__proto.weeks        = getSetWeek;
+	    momentPrototype__proto.isoWeek        = momentPrototype__proto.isoWeeks     = getSetISOWeek;
+	    momentPrototype__proto.weeksInYear    = getWeeksInYear;
+	    momentPrototype__proto.isoWeeksInYear = getISOWeeksInYear;
+	
+	    // Day
+	    momentPrototype__proto.date       = getSetDayOfMonth;
+	    momentPrototype__proto.day        = momentPrototype__proto.days             = getSetDayOfWeek;
+	    momentPrototype__proto.weekday    = getSetLocaleDayOfWeek;
+	    momentPrototype__proto.isoWeekday = getSetISODayOfWeek;
+	    momentPrototype__proto.dayOfYear  = getSetDayOfYear;
+	
+	    // Hour
+	    momentPrototype__proto.hour = momentPrototype__proto.hours = getSetHour;
+	
+	    // Minute
+	    momentPrototype__proto.minute = momentPrototype__proto.minutes = getSetMinute;
+	
+	    // Second
+	    momentPrototype__proto.second = momentPrototype__proto.seconds = getSetSecond;
+	
+	    // Millisecond
+	    momentPrototype__proto.millisecond = momentPrototype__proto.milliseconds = getSetMillisecond;
+	
+	    // Offset
+	    momentPrototype__proto.utcOffset            = getSetOffset;
+	    momentPrototype__proto.utc                  = setOffsetToUTC;
+	    momentPrototype__proto.local                = setOffsetToLocal;
+	    momentPrototype__proto.parseZone            = setOffsetToParsedOffset;
+	    momentPrototype__proto.hasAlignedHourOffset = hasAlignedHourOffset;
+	    momentPrototype__proto.isDST                = isDaylightSavingTime;
+	    momentPrototype__proto.isDSTShifted         = isDaylightSavingTimeShifted;
+	    momentPrototype__proto.isLocal              = isLocal;
+	    momentPrototype__proto.isUtcOffset          = isUtcOffset;
+	    momentPrototype__proto.isUtc                = isUtc;
+	    momentPrototype__proto.isUTC                = isUtc;
+	
+	    // Timezone
+	    momentPrototype__proto.zoneAbbr = getZoneAbbr;
+	    momentPrototype__proto.zoneName = getZoneName;
+	
+	    // Deprecations
+	    momentPrototype__proto.dates  = deprecate('dates accessor is deprecated. Use date instead.', getSetDayOfMonth);
+	    momentPrototype__proto.months = deprecate('months accessor is deprecated. Use month instead', getSetMonth);
+	    momentPrototype__proto.years  = deprecate('years accessor is deprecated. Use year instead', getSetYear);
+	    momentPrototype__proto.zone   = deprecate('moment().zone is deprecated, use moment().utcOffset instead. https://github.com/moment/moment/issues/1779', getSetZone);
+	
+	    var momentPrototype = momentPrototype__proto;
+	
+	    function moment__createUnix (input) {
+	        return local__createLocal(input * 1000);
+	    }
+	
+	    function moment__createInZone () {
+	        return local__createLocal.apply(null, arguments).parseZone();
+	    }
+	
+	    var defaultCalendar = {
+	        sameDay : '[Today at] LT',
+	        nextDay : '[Tomorrow at] LT',
+	        nextWeek : 'dddd [at] LT',
+	        lastDay : '[Yesterday at] LT',
+	        lastWeek : '[Last] dddd [at] LT',
+	        sameElse : 'L'
+	    };
+	
+	    function locale_calendar__calendar (key, mom, now) {
+	        var output = this._calendar[key];
+	        return typeof output === 'function' ? output.call(mom, now) : output;
+	    }
+	
+	    var defaultLongDateFormat = {
+	        LTS  : 'h:mm:ss A',
+	        LT   : 'h:mm A',
+	        L    : 'MM/DD/YYYY',
+	        LL   : 'MMMM D, YYYY',
+	        LLL  : 'MMMM D, YYYY LT',
+	        LLLL : 'dddd, MMMM D, YYYY LT'
+	    };
+	
+	    function longDateFormat (key) {
+	        var output = this._longDateFormat[key];
+	        if (!output && this._longDateFormat[key.toUpperCase()]) {
+	            output = this._longDateFormat[key.toUpperCase()].replace(/MMMM|MM|DD|dddd/g, function (val) {
+	                return val.slice(1);
+	            });
+	            this._longDateFormat[key] = output;
+	        }
+	        return output;
+	    }
+	
+	    var defaultInvalidDate = 'Invalid date';
+	
+	    function invalidDate () {
+	        return this._invalidDate;
+	    }
+	
+	    var defaultOrdinal = '%d';
+	    var defaultOrdinalParse = /\d{1,2}/;
+	
+	    function ordinal (number) {
+	        return this._ordinal.replace('%d', number);
+	    }
+	
+	    function preParsePostFormat (string) {
+	        return string;
+	    }
+	
+	    var defaultRelativeTime = {
+	        future : 'in %s',
+	        past   : '%s ago',
+	        s  : 'a few seconds',
+	        m  : 'a minute',
+	        mm : '%d minutes',
+	        h  : 'an hour',
+	        hh : '%d hours',
+	        d  : 'a day',
+	        dd : '%d days',
+	        M  : 'a month',
+	        MM : '%d months',
+	        y  : 'a year',
+	        yy : '%d years'
+	    };
+	
+	    function relative__relativeTime (number, withoutSuffix, string, isFuture) {
+	        var output = this._relativeTime[string];
+	        return (typeof output === 'function') ?
+	            output(number, withoutSuffix, string, isFuture) :
+	            output.replace(/%d/i, number);
+	    }
+	
+	    function pastFuture (diff, output) {
+	        var format = this._relativeTime[diff > 0 ? 'future' : 'past'];
+	        return typeof format === 'function' ? format(output) : format.replace(/%s/i, output);
+	    }
+	
+	    function locale_set__set (config) {
+	        var prop, i;
+	        for (i in config) {
+	            prop = config[i];
+	            if (typeof prop === 'function') {
+	                this[i] = prop;
+	            } else {
+	                this['_' + i] = prop;
+	            }
+	        }
+	        // Lenient ordinal parsing accepts just a number in addition to
+	        // number + (possibly) stuff coming from _ordinalParseLenient.
+	        this._ordinalParseLenient = new RegExp(this._ordinalParse.source + '|' + (/\d{1,2}/).source);
+	    }
+	
+	    var prototype__proto = Locale.prototype;
+	
+	    prototype__proto._calendar       = defaultCalendar;
+	    prototype__proto.calendar        = locale_calendar__calendar;
+	    prototype__proto._longDateFormat = defaultLongDateFormat;
+	    prototype__proto.longDateFormat  = longDateFormat;
+	    prototype__proto._invalidDate    = defaultInvalidDate;
+	    prototype__proto.invalidDate     = invalidDate;
+	    prototype__proto._ordinal        = defaultOrdinal;
+	    prototype__proto.ordinal         = ordinal;
+	    prototype__proto._ordinalParse   = defaultOrdinalParse;
+	    prototype__proto.preparse        = preParsePostFormat;
+	    prototype__proto.postformat      = preParsePostFormat;
+	    prototype__proto._relativeTime   = defaultRelativeTime;
+	    prototype__proto.relativeTime    = relative__relativeTime;
+	    prototype__proto.pastFuture      = pastFuture;
+	    prototype__proto.set             = locale_set__set;
+	
+	    // Month
+	    prototype__proto.months       =        localeMonths;
+	    prototype__proto._months      = defaultLocaleMonths;
+	    prototype__proto.monthsShort  =        localeMonthsShort;
+	    prototype__proto._monthsShort = defaultLocaleMonthsShort;
+	    prototype__proto.monthsParse  =        localeMonthsParse;
+	
+	    // Week
+	    prototype__proto.week = localeWeek;
+	    prototype__proto._week = defaultLocaleWeek;
+	    prototype__proto.firstDayOfYear = localeFirstDayOfYear;
+	    prototype__proto.firstDayOfWeek = localeFirstDayOfWeek;
+	
+	    // Day of Week
+	    prototype__proto.weekdays       =        localeWeekdays;
+	    prototype__proto._weekdays      = defaultLocaleWeekdays;
+	    prototype__proto.weekdaysMin    =        localeWeekdaysMin;
+	    prototype__proto._weekdaysMin   = defaultLocaleWeekdaysMin;
+	    prototype__proto.weekdaysShort  =        localeWeekdaysShort;
+	    prototype__proto._weekdaysShort = defaultLocaleWeekdaysShort;
+	    prototype__proto.weekdaysParse  =        localeWeekdaysParse;
+	
+	    // Hours
+	    prototype__proto.isPM = localeIsPM;
+	    prototype__proto._meridiemParse = defaultLocaleMeridiemParse;
+	    prototype__proto.meridiem = localeMeridiem;
+	
+	    function lists__get (format, index, field, setter) {
+	        var locale = locale_locales__getLocale();
+	        var utc = create_utc__createUTC().set(setter, index);
+	        return locale[field](utc, format);
+	    }
+	
+	    function list (format, index, field, count, setter) {
+	        if (typeof format === 'number') {
+	            index = format;
+	            format = undefined;
+	        }
+	
+	        format = format || '';
+	
+	        if (index != null) {
+	            return lists__get(format, index, field, setter);
+	        }
+	
+	        var i;
+	        var out = [];
+	        for (i = 0; i < count; i++) {
+	            out[i] = lists__get(format, i, field, setter);
+	        }
+	        return out;
+	    }
+	
+	    function lists__listMonths (format, index) {
+	        return list(format, index, 'months', 12, 'month');
+	    }
+	
+	    function lists__listMonthsShort (format, index) {
+	        return list(format, index, 'monthsShort', 12, 'month');
+	    }
+	
+	    function lists__listWeekdays (format, index) {
+	        return list(format, index, 'weekdays', 7, 'day');
+	    }
+	
+	    function lists__listWeekdaysShort (format, index) {
+	        return list(format, index, 'weekdaysShort', 7, 'day');
+	    }
+	
+	    function lists__listWeekdaysMin (format, index) {
+	        return list(format, index, 'weekdaysMin', 7, 'day');
+	    }
+	
+	    locale_locales__getSetGlobalLocale('en', {
+	        ordinalParse: /\d{1,2}(th|st|nd|rd)/,
+	        ordinal : function (number) {
+	            var b = number % 10,
+	                output = (toInt(number % 100 / 10) === 1) ? 'th' :
+	                (b === 1) ? 'st' :
+	                (b === 2) ? 'nd' :
+	                (b === 3) ? 'rd' : 'th';
+	            return number + output;
+	        }
+	    });
+	
+	    // Side effect imports
+	    utils_hooks__hooks.lang = deprecate('moment.lang is deprecated. Use moment.locale instead.', locale_locales__getSetGlobalLocale);
+	    utils_hooks__hooks.langData = deprecate('moment.langData is deprecated. Use moment.localeData instead.', locale_locales__getLocale);
+	
+	    var mathAbs = Math.abs;
+	
+	    function duration_abs__abs () {
+	        var data           = this._data;
+	
+	        this._milliseconds = mathAbs(this._milliseconds);
+	        this._days         = mathAbs(this._days);
+	        this._months       = mathAbs(this._months);
+	
+	        data.milliseconds  = mathAbs(data.milliseconds);
+	        data.seconds       = mathAbs(data.seconds);
+	        data.minutes       = mathAbs(data.minutes);
+	        data.hours         = mathAbs(data.hours);
+	        data.months        = mathAbs(data.months);
+	        data.years         = mathAbs(data.years);
+	
+	        return this;
+	    }
+	
+	    function duration_add_subtract__addSubtract (duration, input, value, direction) {
+	        var other = create__createDuration(input, value);
+	
+	        duration._milliseconds += direction * other._milliseconds;
+	        duration._days         += direction * other._days;
+	        duration._months       += direction * other._months;
+	
+	        return duration._bubble();
+	    }
+	
+	    // supports only 2.0-style add(1, 's') or add(duration)
+	    function duration_add_subtract__add (input, value) {
+	        return duration_add_subtract__addSubtract(this, input, value, 1);
+	    }
+	
+	    // supports only 2.0-style subtract(1, 's') or subtract(duration)
+	    function duration_add_subtract__subtract (input, value) {
+	        return duration_add_subtract__addSubtract(this, input, value, -1);
+	    }
+	
+	    function bubble () {
+	        var milliseconds = this._milliseconds;
+	        var days         = this._days;
+	        var months       = this._months;
+	        var data         = this._data;
+	        var seconds, minutes, hours, years = 0;
+	
+	        // The following code bubbles up values, see the tests for
+	        // examples of what that means.
+	        data.milliseconds = milliseconds % 1000;
+	
+	        seconds           = absFloor(milliseconds / 1000);
+	        data.seconds      = seconds % 60;
+	
+	        minutes           = absFloor(seconds / 60);
+	        data.minutes      = minutes % 60;
+	
+	        hours             = absFloor(minutes / 60);
+	        data.hours        = hours % 24;
+	
+	        days += absFloor(hours / 24);
+	
+	        // Accurately convert days to years, assume start from year 0.
+	        years = absFloor(daysToYears(days));
+	        days -= absFloor(yearsToDays(years));
+	
+	        // 30 days to a month
+	        // TODO (iskren): Use anchor date (like 1st Jan) to compute this.
+	        months += absFloor(days / 30);
+	        days   %= 30;
+	
+	        // 12 months -> 1 year
+	        years  += absFloor(months / 12);
+	        months %= 12;
+	
+	        data.days   = days;
+	        data.months = months;
+	        data.years  = years;
+	
+	        return this;
+	    }
+	
+	    function daysToYears (days) {
+	        // 400 years have 146097 days (taking into account leap year rules)
+	        return days * 400 / 146097;
+	    }
+	
+	    function yearsToDays (years) {
+	        // years * 365 + absFloor(years / 4) -
+	        //     absFloor(years / 100) + absFloor(years / 400);
+	        return years * 146097 / 400;
+	    }
+	
+	    function as (units) {
+	        var days;
+	        var months;
+	        var milliseconds = this._milliseconds;
+	
+	        units = normalizeUnits(units);
+	
+	        if (units === 'month' || units === 'year') {
+	            days   = this._days   + milliseconds / 864e5;
+	            months = this._months + daysToYears(days) * 12;
+	            return units === 'month' ? months : months / 12;
+	        } else {
+	            // handle milliseconds separately because of floating point math errors (issue #1867)
+	            days = this._days + Math.round(yearsToDays(this._months / 12));
+	            switch (units) {
+	                case 'week'   : return days / 7     + milliseconds / 6048e5;
+	                case 'day'    : return days         + milliseconds / 864e5;
+	                case 'hour'   : return days * 24    + milliseconds / 36e5;
+	                case 'minute' : return days * 1440  + milliseconds / 6e4;
+	                case 'second' : return days * 86400 + milliseconds / 1000;
+	                // Math.floor prevents floating point math errors here
+	                case 'millisecond': return Math.floor(days * 864e5) + milliseconds;
+	                default: throw new Error('Unknown unit ' + units);
+	            }
+	        }
+	    }
+	
+	    // TODO: Use this.as('ms')?
+	    function duration_as__valueOf () {
+	        return (
+	            this._milliseconds +
+	            this._days * 864e5 +
+	            (this._months % 12) * 2592e6 +
+	            toInt(this._months / 12) * 31536e6
+	        );
+	    }
+	
+	    function makeAs (alias) {
+	        return function () {
+	            return this.as(alias);
+	        };
+	    }
+	
+	    var asMilliseconds = makeAs('ms');
+	    var asSeconds      = makeAs('s');
+	    var asMinutes      = makeAs('m');
+	    var asHours        = makeAs('h');
+	    var asDays         = makeAs('d');
+	    var asWeeks        = makeAs('w');
+	    var asMonths       = makeAs('M');
+	    var asYears        = makeAs('y');
+	
+	    function duration_get__get (units) {
+	        units = normalizeUnits(units);
+	        return this[units + 's']();
+	    }
+	
+	    function makeGetter(name) {
+	        return function () {
+	            return this._data[name];
+	        };
+	    }
+	
+	    var duration_get__milliseconds = makeGetter('milliseconds');
+	    var seconds      = makeGetter('seconds');
+	    var minutes      = makeGetter('minutes');
+	    var hours        = makeGetter('hours');
+	    var days         = makeGetter('days');
+	    var months       = makeGetter('months');
+	    var years        = makeGetter('years');
+	
+	    function weeks () {
+	        return absFloor(this.days() / 7);
+	    }
+	
+	    var round = Math.round;
+	    var thresholds = {
+	        s: 45,  // seconds to minute
+	        m: 45,  // minutes to hour
+	        h: 22,  // hours to day
+	        d: 26,  // days to month
+	        M: 11   // months to year
+	    };
+	
+	    // helper function for moment.fn.from, moment.fn.fromNow, and moment.duration.fn.humanize
+	    function substituteTimeAgo(string, number, withoutSuffix, isFuture, locale) {
+	        return locale.relativeTime(number || 1, !!withoutSuffix, string, isFuture);
+	    }
+	
+	    function duration_humanize__relativeTime (posNegDuration, withoutSuffix, locale) {
+	        var duration = create__createDuration(posNegDuration).abs();
+	        var seconds  = round(duration.as('s'));
+	        var minutes  = round(duration.as('m'));
+	        var hours    = round(duration.as('h'));
+	        var days     = round(duration.as('d'));
+	        var months   = round(duration.as('M'));
+	        var years    = round(duration.as('y'));
+	
+	        var a = seconds < thresholds.s && ['s', seconds]  ||
+	                minutes === 1          && ['m']           ||
+	                minutes < thresholds.m && ['mm', minutes] ||
+	                hours   === 1          && ['h']           ||
+	                hours   < thresholds.h && ['hh', hours]   ||
+	                days    === 1          && ['d']           ||
+	                days    < thresholds.d && ['dd', days]    ||
+	                months  === 1          && ['M']           ||
+	                months  < thresholds.M && ['MM', months]  ||
+	                years   === 1          && ['y']           || ['yy', years];
+	
+	        a[2] = withoutSuffix;
+	        a[3] = +posNegDuration > 0;
+	        a[4] = locale;
+	        return substituteTimeAgo.apply(null, a);
+	    }
+	
+	    // This function allows you to set a threshold for relative time strings
+	    function duration_humanize__getSetRelativeTimeThreshold (threshold, limit) {
+	        if (thresholds[threshold] === undefined) {
+	            return false;
+	        }
+	        if (limit === undefined) {
+	            return thresholds[threshold];
+	        }
+	        thresholds[threshold] = limit;
+	        return true;
+	    }
+	
+	    function humanize (withSuffix) {
+	        var locale = this.localeData();
+	        var output = duration_humanize__relativeTime(this, !withSuffix, locale);
+	
+	        if (withSuffix) {
+	            output = locale.pastFuture(+this, output);
+	        }
+	
+	        return locale.postformat(output);
+	    }
+	
+	    var iso_string__abs = Math.abs;
+	
+	    function iso_string__toISOString() {
+	        // inspired by https://github.com/dordille/moment-isoduration/blob/master/moment.isoduration.js
+	        var Y = iso_string__abs(this.years());
+	        var M = iso_string__abs(this.months());
+	        var D = iso_string__abs(this.days());
+	        var h = iso_string__abs(this.hours());
+	        var m = iso_string__abs(this.minutes());
+	        var s = iso_string__abs(this.seconds() + this.milliseconds() / 1000);
+	        var total = this.asSeconds();
+	
+	        if (!total) {
+	            // this is the same as C#'s (Noda) and python (isodate)...
+	            // but not other JS (goog.date)
+	            return 'P0D';
+	        }
+	
+	        return (total < 0 ? '-' : '') +
+	            'P' +
+	            (Y ? Y + 'Y' : '') +
+	            (M ? M + 'M' : '') +
+	            (D ? D + 'D' : '') +
+	            ((h || m || s) ? 'T' : '') +
+	            (h ? h + 'H' : '') +
+	            (m ? m + 'M' : '') +
+	            (s ? s + 'S' : '');
+	    }
+	
+	    var duration_prototype__proto = Duration.prototype;
+	
+	    duration_prototype__proto.abs            = duration_abs__abs;
+	    duration_prototype__proto.add            = duration_add_subtract__add;
+	    duration_prototype__proto.subtract       = duration_add_subtract__subtract;
+	    duration_prototype__proto.as             = as;
+	    duration_prototype__proto.asMilliseconds = asMilliseconds;
+	    duration_prototype__proto.asSeconds      = asSeconds;
+	    duration_prototype__proto.asMinutes      = asMinutes;
+	    duration_prototype__proto.asHours        = asHours;
+	    duration_prototype__proto.asDays         = asDays;
+	    duration_prototype__proto.asWeeks        = asWeeks;
+	    duration_prototype__proto.asMonths       = asMonths;
+	    duration_prototype__proto.asYears        = asYears;
+	    duration_prototype__proto.valueOf        = duration_as__valueOf;
+	    duration_prototype__proto._bubble        = bubble;
+	    duration_prototype__proto.get            = duration_get__get;
+	    duration_prototype__proto.milliseconds   = duration_get__milliseconds;
+	    duration_prototype__proto.seconds        = seconds;
+	    duration_prototype__proto.minutes        = minutes;
+	    duration_prototype__proto.hours          = hours;
+	    duration_prototype__proto.days           = days;
+	    duration_prototype__proto.weeks          = weeks;
+	    duration_prototype__proto.months         = months;
+	    duration_prototype__proto.years          = years;
+	    duration_prototype__proto.humanize       = humanize;
+	    duration_prototype__proto.toISOString    = iso_string__toISOString;
+	    duration_prototype__proto.toString       = iso_string__toISOString;
+	    duration_prototype__proto.toJSON         = iso_string__toISOString;
+	    duration_prototype__proto.locale         = locale;
+	    duration_prototype__proto.localeData     = localeData;
+	
+	    // Deprecations
+	    duration_prototype__proto.toIsoString = deprecate('toIsoString() is deprecated. Please use toISOString() instead (notice the capitals)', iso_string__toISOString);
+	    duration_prototype__proto.lang = lang;
+	
+	    // Side effect imports
+	
+	    addFormatToken('X', 0, 0, 'unix');
+	    addFormatToken('x', 0, 0, 'valueOf');
+	
+	    // PARSING
+	
+	    addRegexToken('x', matchSigned);
+	    addRegexToken('X', matchTimestamp);
+	    addParseToken('X', function (input, array, config) {
+	        config._d = new Date(parseFloat(input, 10) * 1000);
+	    });
+	    addParseToken('x', function (input, array, config) {
+	        config._d = new Date(toInt(input));
+	    });
+	
+	    // Side effect imports
+	
+	
+	    utils_hooks__hooks.version = '2.10.3';
+	
+	    setHookCallback(local__createLocal);
+	
+	    utils_hooks__hooks.fn                    = momentPrototype;
+	    utils_hooks__hooks.min                   = min;
+	    utils_hooks__hooks.max                   = max;
+	    utils_hooks__hooks.utc                   = create_utc__createUTC;
+	    utils_hooks__hooks.unix                  = moment__createUnix;
+	    utils_hooks__hooks.months                = lists__listMonths;
+	    utils_hooks__hooks.isDate                = isDate;
+	    utils_hooks__hooks.locale                = locale_locales__getSetGlobalLocale;
+	    utils_hooks__hooks.invalid               = valid__createInvalid;
+	    utils_hooks__hooks.duration              = create__createDuration;
+	    utils_hooks__hooks.isMoment              = isMoment;
+	    utils_hooks__hooks.weekdays              = lists__listWeekdays;
+	    utils_hooks__hooks.parseZone             = moment__createInZone;
+	    utils_hooks__hooks.localeData            = locale_locales__getLocale;
+	    utils_hooks__hooks.isDuration            = isDuration;
+	    utils_hooks__hooks.monthsShort           = lists__listMonthsShort;
+	    utils_hooks__hooks.weekdaysMin           = lists__listWeekdaysMin;
+	    utils_hooks__hooks.defineLocale          = defineLocale;
+	    utils_hooks__hooks.weekdaysShort         = lists__listWeekdaysShort;
+	    utils_hooks__hooks.normalizeUnits        = normalizeUnits;
+	    utils_hooks__hooks.relativeTimeThreshold = duration_humanize__getSetRelativeTimeThreshold;
+	
+	    var _moment = utils_hooks__hooks;
+	
+	    return _moment;
+	
+	}));
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(34)(module)))
+
+/***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(30);
+
+
+/***/ },
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -22471,3136 +25608,12 @@
 
 
 /***/ },
-/* 16 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(module) {//! moment.js
-	//! version : 2.10.3
-	//! authors : Tim Wood, Iskren Chernev, Moment.js contributors
-	//! license : MIT
-	//! momentjs.com
-	
-	(function (global, factory) {
-	    true ? module.exports = factory() :
-	    typeof define === 'function' && define.amd ? define(factory) :
-	    global.moment = factory()
-	}(this, function () { 'use strict';
-	
-	    var hookCallback;
-	
-	    function utils_hooks__hooks () {
-	        return hookCallback.apply(null, arguments);
-	    }
-	
-	    // This is done to register the method called with moment()
-	    // without creating circular dependencies.
-	    function setHookCallback (callback) {
-	        hookCallback = callback;
-	    }
-	
-	    function isArray(input) {
-	        return Object.prototype.toString.call(input) === '[object Array]';
-	    }
-	
-	    function isDate(input) {
-	        return input instanceof Date || Object.prototype.toString.call(input) === '[object Date]';
-	    }
-	
-	    function map(arr, fn) {
-	        var res = [], i;
-	        for (i = 0; i < arr.length; ++i) {
-	            res.push(fn(arr[i], i));
-	        }
-	        return res;
-	    }
-	
-	    function hasOwnProp(a, b) {
-	        return Object.prototype.hasOwnProperty.call(a, b);
-	    }
-	
-	    function extend(a, b) {
-	        for (var i in b) {
-	            if (hasOwnProp(b, i)) {
-	                a[i] = b[i];
-	            }
-	        }
-	
-	        if (hasOwnProp(b, 'toString')) {
-	            a.toString = b.toString;
-	        }
-	
-	        if (hasOwnProp(b, 'valueOf')) {
-	            a.valueOf = b.valueOf;
-	        }
-	
-	        return a;
-	    }
-	
-	    function create_utc__createUTC (input, format, locale, strict) {
-	        return createLocalOrUTC(input, format, locale, strict, true).utc();
-	    }
-	
-	    function defaultParsingFlags() {
-	        // We need to deep clone this object.
-	        return {
-	            empty           : false,
-	            unusedTokens    : [],
-	            unusedInput     : [],
-	            overflow        : -2,
-	            charsLeftOver   : 0,
-	            nullInput       : false,
-	            invalidMonth    : null,
-	            invalidFormat   : false,
-	            userInvalidated : false,
-	            iso             : false
-	        };
-	    }
-	
-	    function getParsingFlags(m) {
-	        if (m._pf == null) {
-	            m._pf = defaultParsingFlags();
-	        }
-	        return m._pf;
-	    }
-	
-	    function valid__isValid(m) {
-	        if (m._isValid == null) {
-	            var flags = getParsingFlags(m);
-	            m._isValid = !isNaN(m._d.getTime()) &&
-	                flags.overflow < 0 &&
-	                !flags.empty &&
-	                !flags.invalidMonth &&
-	                !flags.nullInput &&
-	                !flags.invalidFormat &&
-	                !flags.userInvalidated;
-	
-	            if (m._strict) {
-	                m._isValid = m._isValid &&
-	                    flags.charsLeftOver === 0 &&
-	                    flags.unusedTokens.length === 0 &&
-	                    flags.bigHour === undefined;
-	            }
-	        }
-	        return m._isValid;
-	    }
-	
-	    function valid__createInvalid (flags) {
-	        var m = create_utc__createUTC(NaN);
-	        if (flags != null) {
-	            extend(getParsingFlags(m), flags);
-	        }
-	        else {
-	            getParsingFlags(m).userInvalidated = true;
-	        }
-	
-	        return m;
-	    }
-	
-	    var momentProperties = utils_hooks__hooks.momentProperties = [];
-	
-	    function copyConfig(to, from) {
-	        var i, prop, val;
-	
-	        if (typeof from._isAMomentObject !== 'undefined') {
-	            to._isAMomentObject = from._isAMomentObject;
-	        }
-	        if (typeof from._i !== 'undefined') {
-	            to._i = from._i;
-	        }
-	        if (typeof from._f !== 'undefined') {
-	            to._f = from._f;
-	        }
-	        if (typeof from._l !== 'undefined') {
-	            to._l = from._l;
-	        }
-	        if (typeof from._strict !== 'undefined') {
-	            to._strict = from._strict;
-	        }
-	        if (typeof from._tzm !== 'undefined') {
-	            to._tzm = from._tzm;
-	        }
-	        if (typeof from._isUTC !== 'undefined') {
-	            to._isUTC = from._isUTC;
-	        }
-	        if (typeof from._offset !== 'undefined') {
-	            to._offset = from._offset;
-	        }
-	        if (typeof from._pf !== 'undefined') {
-	            to._pf = getParsingFlags(from);
-	        }
-	        if (typeof from._locale !== 'undefined') {
-	            to._locale = from._locale;
-	        }
-	
-	        if (momentProperties.length > 0) {
-	            for (i in momentProperties) {
-	                prop = momentProperties[i];
-	                val = from[prop];
-	                if (typeof val !== 'undefined') {
-	                    to[prop] = val;
-	                }
-	            }
-	        }
-	
-	        return to;
-	    }
-	
-	    var updateInProgress = false;
-	
-	    // Moment prototype object
-	    function Moment(config) {
-	        copyConfig(this, config);
-	        this._d = new Date(+config._d);
-	        // Prevent infinite loop in case updateOffset creates new moment
-	        // objects.
-	        if (updateInProgress === false) {
-	            updateInProgress = true;
-	            utils_hooks__hooks.updateOffset(this);
-	            updateInProgress = false;
-	        }
-	    }
-	
-	    function isMoment (obj) {
-	        return obj instanceof Moment || (obj != null && obj._isAMomentObject != null);
-	    }
-	
-	    function toInt(argumentForCoercion) {
-	        var coercedNumber = +argumentForCoercion,
-	            value = 0;
-	
-	        if (coercedNumber !== 0 && isFinite(coercedNumber)) {
-	            if (coercedNumber >= 0) {
-	                value = Math.floor(coercedNumber);
-	            } else {
-	                value = Math.ceil(coercedNumber);
-	            }
-	        }
-	
-	        return value;
-	    }
-	
-	    function compareArrays(array1, array2, dontConvert) {
-	        var len = Math.min(array1.length, array2.length),
-	            lengthDiff = Math.abs(array1.length - array2.length),
-	            diffs = 0,
-	            i;
-	        for (i = 0; i < len; i++) {
-	            if ((dontConvert && array1[i] !== array2[i]) ||
-	                (!dontConvert && toInt(array1[i]) !== toInt(array2[i]))) {
-	                diffs++;
-	            }
-	        }
-	        return diffs + lengthDiff;
-	    }
-	
-	    function Locale() {
-	    }
-	
-	    var locales = {};
-	    var globalLocale;
-	
-	    function normalizeLocale(key) {
-	        return key ? key.toLowerCase().replace('_', '-') : key;
-	    }
-	
-	    // pick the locale from the array
-	    // try ['en-au', 'en-gb'] as 'en-au', 'en-gb', 'en', as in move through the list trying each
-	    // substring from most specific to least, but move to the next array item if it's a more specific variant than the current root
-	    function chooseLocale(names) {
-	        var i = 0, j, next, locale, split;
-	
-	        while (i < names.length) {
-	            split = normalizeLocale(names[i]).split('-');
-	            j = split.length;
-	            next = normalizeLocale(names[i + 1]);
-	            next = next ? next.split('-') : null;
-	            while (j > 0) {
-	                locale = loadLocale(split.slice(0, j).join('-'));
-	                if (locale) {
-	                    return locale;
-	                }
-	                if (next && next.length >= j && compareArrays(split, next, true) >= j - 1) {
-	                    //the next array item is better than a shallower substring of this one
-	                    break;
-	                }
-	                j--;
-	            }
-	            i++;
-	        }
-	        return null;
-	    }
-	
-	    function loadLocale(name) {
-	        var oldLocale = null;
-	        // TODO: Find a better way to register and load all the locales in Node
-	        if (!locales[name] && typeof module !== 'undefined' &&
-	                module && module.exports) {
-	            try {
-	                oldLocale = globalLocale._abbr;
-	                __webpack_require__(31)("./" + name);
-	                // because defineLocale currently also sets the global locale, we
-	                // want to undo that for lazy loaded locales
-	                locale_locales__getSetGlobalLocale(oldLocale);
-	            } catch (e) { }
-	        }
-	        return locales[name];
-	    }
-	
-	    // This function will load locale and then set the global locale.  If
-	    // no arguments are passed in, it will simply return the current global
-	    // locale key.
-	    function locale_locales__getSetGlobalLocale (key, values) {
-	        var data;
-	        if (key) {
-	            if (typeof values === 'undefined') {
-	                data = locale_locales__getLocale(key);
-	            }
-	            else {
-	                data = defineLocale(key, values);
-	            }
-	
-	            if (data) {
-	                // moment.duration._locale = moment._locale = data;
-	                globalLocale = data;
-	            }
-	        }
-	
-	        return globalLocale._abbr;
-	    }
-	
-	    function defineLocale (name, values) {
-	        if (values !== null) {
-	            values.abbr = name;
-	            if (!locales[name]) {
-	                locales[name] = new Locale();
-	            }
-	            locales[name].set(values);
-	
-	            // backwards compat for now: also set the locale
-	            locale_locales__getSetGlobalLocale(name);
-	
-	            return locales[name];
-	        } else {
-	            // useful for testing
-	            delete locales[name];
-	            return null;
-	        }
-	    }
-	
-	    // returns locale data
-	    function locale_locales__getLocale (key) {
-	        var locale;
-	
-	        if (key && key._locale && key._locale._abbr) {
-	            key = key._locale._abbr;
-	        }
-	
-	        if (!key) {
-	            return globalLocale;
-	        }
-	
-	        if (!isArray(key)) {
-	            //short-circuit everything else
-	            locale = loadLocale(key);
-	            if (locale) {
-	                return locale;
-	            }
-	            key = [key];
-	        }
-	
-	        return chooseLocale(key);
-	    }
-	
-	    var aliases = {};
-	
-	    function addUnitAlias (unit, shorthand) {
-	        var lowerCase = unit.toLowerCase();
-	        aliases[lowerCase] = aliases[lowerCase + 's'] = aliases[shorthand] = unit;
-	    }
-	
-	    function normalizeUnits(units) {
-	        return typeof units === 'string' ? aliases[units] || aliases[units.toLowerCase()] : undefined;
-	    }
-	
-	    function normalizeObjectUnits(inputObject) {
-	        var normalizedInput = {},
-	            normalizedProp,
-	            prop;
-	
-	        for (prop in inputObject) {
-	            if (hasOwnProp(inputObject, prop)) {
-	                normalizedProp = normalizeUnits(prop);
-	                if (normalizedProp) {
-	                    normalizedInput[normalizedProp] = inputObject[prop];
-	                }
-	            }
-	        }
-	
-	        return normalizedInput;
-	    }
-	
-	    function makeGetSet (unit, keepTime) {
-	        return function (value) {
-	            if (value != null) {
-	                get_set__set(this, unit, value);
-	                utils_hooks__hooks.updateOffset(this, keepTime);
-	                return this;
-	            } else {
-	                return get_set__get(this, unit);
-	            }
-	        };
-	    }
-	
-	    function get_set__get (mom, unit) {
-	        return mom._d['get' + (mom._isUTC ? 'UTC' : '') + unit]();
-	    }
-	
-	    function get_set__set (mom, unit, value) {
-	        return mom._d['set' + (mom._isUTC ? 'UTC' : '') + unit](value);
-	    }
-	
-	    // MOMENTS
-	
-	    function getSet (units, value) {
-	        var unit;
-	        if (typeof units === 'object') {
-	            for (unit in units) {
-	                this.set(unit, units[unit]);
-	            }
-	        } else {
-	            units = normalizeUnits(units);
-	            if (typeof this[units] === 'function') {
-	                return this[units](value);
-	            }
-	        }
-	        return this;
-	    }
-	
-	    function zeroFill(number, targetLength, forceSign) {
-	        var output = '' + Math.abs(number),
-	            sign = number >= 0;
-	
-	        while (output.length < targetLength) {
-	            output = '0' + output;
-	        }
-	        return (sign ? (forceSign ? '+' : '') : '-') + output;
-	    }
-	
-	    var formattingTokens = /(\[[^\[]*\])|(\\)?(Mo|MM?M?M?|Do|DDDo|DD?D?D?|ddd?d?|do?|w[o|w]?|W[o|W]?|Q|YYYYYY|YYYYY|YYYY|YY|gg(ggg?)?|GG(GGG?)?|e|E|a|A|hh?|HH?|mm?|ss?|S{1,4}|x|X|zz?|ZZ?|.)/g;
-	
-	    var localFormattingTokens = /(\[[^\[]*\])|(\\)?(LTS|LT|LL?L?L?|l{1,4})/g;
-	
-	    var formatFunctions = {};
-	
-	    var formatTokenFunctions = {};
-	
-	    // token:    'M'
-	    // padded:   ['MM', 2]
-	    // ordinal:  'Mo'
-	    // callback: function () { this.month() + 1 }
-	    function addFormatToken (token, padded, ordinal, callback) {
-	        var func = callback;
-	        if (typeof callback === 'string') {
-	            func = function () {
-	                return this[callback]();
-	            };
-	        }
-	        if (token) {
-	            formatTokenFunctions[token] = func;
-	        }
-	        if (padded) {
-	            formatTokenFunctions[padded[0]] = function () {
-	                return zeroFill(func.apply(this, arguments), padded[1], padded[2]);
-	            };
-	        }
-	        if (ordinal) {
-	            formatTokenFunctions[ordinal] = function () {
-	                return this.localeData().ordinal(func.apply(this, arguments), token);
-	            };
-	        }
-	    }
-	
-	    function removeFormattingTokens(input) {
-	        if (input.match(/\[[\s\S]/)) {
-	            return input.replace(/^\[|\]$/g, '');
-	        }
-	        return input.replace(/\\/g, '');
-	    }
-	
-	    function makeFormatFunction(format) {
-	        var array = format.match(formattingTokens), i, length;
-	
-	        for (i = 0, length = array.length; i < length; i++) {
-	            if (formatTokenFunctions[array[i]]) {
-	                array[i] = formatTokenFunctions[array[i]];
-	            } else {
-	                array[i] = removeFormattingTokens(array[i]);
-	            }
-	        }
-	
-	        return function (mom) {
-	            var output = '';
-	            for (i = 0; i < length; i++) {
-	                output += array[i] instanceof Function ? array[i].call(mom, format) : array[i];
-	            }
-	            return output;
-	        };
-	    }
-	
-	    // format date using native date object
-	    function formatMoment(m, format) {
-	        if (!m.isValid()) {
-	            return m.localeData().invalidDate();
-	        }
-	
-	        format = expandFormat(format, m.localeData());
-	
-	        if (!formatFunctions[format]) {
-	            formatFunctions[format] = makeFormatFunction(format);
-	        }
-	
-	        return formatFunctions[format](m);
-	    }
-	
-	    function expandFormat(format, locale) {
-	        var i = 5;
-	
-	        function replaceLongDateFormatTokens(input) {
-	            return locale.longDateFormat(input) || input;
-	        }
-	
-	        localFormattingTokens.lastIndex = 0;
-	        while (i >= 0 && localFormattingTokens.test(format)) {
-	            format = format.replace(localFormattingTokens, replaceLongDateFormatTokens);
-	            localFormattingTokens.lastIndex = 0;
-	            i -= 1;
-	        }
-	
-	        return format;
-	    }
-	
-	    var match1         = /\d/;            //       0 - 9
-	    var match2         = /\d\d/;          //      00 - 99
-	    var match3         = /\d{3}/;         //     000 - 999
-	    var match4         = /\d{4}/;         //    0000 - 9999
-	    var match6         = /[+-]?\d{6}/;    // -999999 - 999999
-	    var match1to2      = /\d\d?/;         //       0 - 99
-	    var match1to3      = /\d{1,3}/;       //       0 - 999
-	    var match1to4      = /\d{1,4}/;       //       0 - 9999
-	    var match1to6      = /[+-]?\d{1,6}/;  // -999999 - 999999
-	
-	    var matchUnsigned  = /\d+/;           //       0 - inf
-	    var matchSigned    = /[+-]?\d+/;      //    -inf - inf
-	
-	    var matchOffset    = /Z|[+-]\d\d:?\d\d/gi; // +00:00 -00:00 +0000 -0000 or Z
-	
-	    var matchTimestamp = /[+-]?\d+(\.\d{1,3})?/; // 123456789 123456789.123
-	
-	    // any word (or two) characters or numbers including two/three word month in arabic.
-	    var matchWord = /[0-9]*['a-z\u00A0-\u05FF\u0700-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+|[\u0600-\u06FF\/]+(\s*?[\u0600-\u06FF]+){1,2}/i;
-	
-	    var regexes = {};
-	
-	    function addRegexToken (token, regex, strictRegex) {
-	        regexes[token] = typeof regex === 'function' ? regex : function (isStrict) {
-	            return (isStrict && strictRegex) ? strictRegex : regex;
-	        };
-	    }
-	
-	    function getParseRegexForToken (token, config) {
-	        if (!hasOwnProp(regexes, token)) {
-	            return new RegExp(unescapeFormat(token));
-	        }
-	
-	        return regexes[token](config._strict, config._locale);
-	    }
-	
-	    // Code from http://stackoverflow.com/questions/3561493/is-there-a-regexp-escape-function-in-javascript
-	    function unescapeFormat(s) {
-	        return s.replace('\\', '').replace(/\\(\[)|\\(\])|\[([^\]\[]*)\]|\\(.)/g, function (matched, p1, p2, p3, p4) {
-	            return p1 || p2 || p3 || p4;
-	        }).replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-	    }
-	
-	    var tokens = {};
-	
-	    function addParseToken (token, callback) {
-	        var i, func = callback;
-	        if (typeof token === 'string') {
-	            token = [token];
-	        }
-	        if (typeof callback === 'number') {
-	            func = function (input, array) {
-	                array[callback] = toInt(input);
-	            };
-	        }
-	        for (i = 0; i < token.length; i++) {
-	            tokens[token[i]] = func;
-	        }
-	    }
-	
-	    function addWeekParseToken (token, callback) {
-	        addParseToken(token, function (input, array, config, token) {
-	            config._w = config._w || {};
-	            callback(input, config._w, config, token);
-	        });
-	    }
-	
-	    function addTimeToArrayFromToken(token, input, config) {
-	        if (input != null && hasOwnProp(tokens, token)) {
-	            tokens[token](input, config._a, config, token);
-	        }
-	    }
-	
-	    var YEAR = 0;
-	    var MONTH = 1;
-	    var DATE = 2;
-	    var HOUR = 3;
-	    var MINUTE = 4;
-	    var SECOND = 5;
-	    var MILLISECOND = 6;
-	
-	    function daysInMonth(year, month) {
-	        return new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
-	    }
-	
-	    // FORMATTING
-	
-	    addFormatToken('M', ['MM', 2], 'Mo', function () {
-	        return this.month() + 1;
-	    });
-	
-	    addFormatToken('MMM', 0, 0, function (format) {
-	        return this.localeData().monthsShort(this, format);
-	    });
-	
-	    addFormatToken('MMMM', 0, 0, function (format) {
-	        return this.localeData().months(this, format);
-	    });
-	
-	    // ALIASES
-	
-	    addUnitAlias('month', 'M');
-	
-	    // PARSING
-	
-	    addRegexToken('M',    match1to2);
-	    addRegexToken('MM',   match1to2, match2);
-	    addRegexToken('MMM',  matchWord);
-	    addRegexToken('MMMM', matchWord);
-	
-	    addParseToken(['M', 'MM'], function (input, array) {
-	        array[MONTH] = toInt(input) - 1;
-	    });
-	
-	    addParseToken(['MMM', 'MMMM'], function (input, array, config, token) {
-	        var month = config._locale.monthsParse(input, token, config._strict);
-	        // if we didn't find a month name, mark the date as invalid.
-	        if (month != null) {
-	            array[MONTH] = month;
-	        } else {
-	            getParsingFlags(config).invalidMonth = input;
-	        }
-	    });
-	
-	    // LOCALES
-	
-	    var defaultLocaleMonths = 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_');
-	    function localeMonths (m) {
-	        return this._months[m.month()];
-	    }
-	
-	    var defaultLocaleMonthsShort = 'Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec'.split('_');
-	    function localeMonthsShort (m) {
-	        return this._monthsShort[m.month()];
-	    }
-	
-	    function localeMonthsParse (monthName, format, strict) {
-	        var i, mom, regex;
-	
-	        if (!this._monthsParse) {
-	            this._monthsParse = [];
-	            this._longMonthsParse = [];
-	            this._shortMonthsParse = [];
-	        }
-	
-	        for (i = 0; i < 12; i++) {
-	            // make the regex if we don't have it already
-	            mom = create_utc__createUTC([2000, i]);
-	            if (strict && !this._longMonthsParse[i]) {
-	                this._longMonthsParse[i] = new RegExp('^' + this.months(mom, '').replace('.', '') + '$', 'i');
-	                this._shortMonthsParse[i] = new RegExp('^' + this.monthsShort(mom, '').replace('.', '') + '$', 'i');
-	            }
-	            if (!strict && !this._monthsParse[i]) {
-	                regex = '^' + this.months(mom, '') + '|^' + this.monthsShort(mom, '');
-	                this._monthsParse[i] = new RegExp(regex.replace('.', ''), 'i');
-	            }
-	            // test the regex
-	            if (strict && format === 'MMMM' && this._longMonthsParse[i].test(monthName)) {
-	                return i;
-	            } else if (strict && format === 'MMM' && this._shortMonthsParse[i].test(monthName)) {
-	                return i;
-	            } else if (!strict && this._monthsParse[i].test(monthName)) {
-	                return i;
-	            }
-	        }
-	    }
-	
-	    // MOMENTS
-	
-	    function setMonth (mom, value) {
-	        var dayOfMonth;
-	
-	        // TODO: Move this out of here!
-	        if (typeof value === 'string') {
-	            value = mom.localeData().monthsParse(value);
-	            // TODO: Another silent failure?
-	            if (typeof value !== 'number') {
-	                return mom;
-	            }
-	        }
-	
-	        dayOfMonth = Math.min(mom.date(), daysInMonth(mom.year(), value));
-	        mom._d['set' + (mom._isUTC ? 'UTC' : '') + 'Month'](value, dayOfMonth);
-	        return mom;
-	    }
-	
-	    function getSetMonth (value) {
-	        if (value != null) {
-	            setMonth(this, value);
-	            utils_hooks__hooks.updateOffset(this, true);
-	            return this;
-	        } else {
-	            return get_set__get(this, 'Month');
-	        }
-	    }
-	
-	    function getDaysInMonth () {
-	        return daysInMonth(this.year(), this.month());
-	    }
-	
-	    function checkOverflow (m) {
-	        var overflow;
-	        var a = m._a;
-	
-	        if (a && getParsingFlags(m).overflow === -2) {
-	            overflow =
-	                a[MONTH]       < 0 || a[MONTH]       > 11  ? MONTH :
-	                a[DATE]        < 1 || a[DATE]        > daysInMonth(a[YEAR], a[MONTH]) ? DATE :
-	                a[HOUR]        < 0 || a[HOUR]        > 24 || (a[HOUR] === 24 && (a[MINUTE] !== 0 || a[SECOND] !== 0 || a[MILLISECOND] !== 0)) ? HOUR :
-	                a[MINUTE]      < 0 || a[MINUTE]      > 59  ? MINUTE :
-	                a[SECOND]      < 0 || a[SECOND]      > 59  ? SECOND :
-	                a[MILLISECOND] < 0 || a[MILLISECOND] > 999 ? MILLISECOND :
-	                -1;
-	
-	            if (getParsingFlags(m)._overflowDayOfYear && (overflow < YEAR || overflow > DATE)) {
-	                overflow = DATE;
-	            }
-	
-	            getParsingFlags(m).overflow = overflow;
-	        }
-	
-	        return m;
-	    }
-	
-	    function warn(msg) {
-	        if (utils_hooks__hooks.suppressDeprecationWarnings === false && typeof console !== 'undefined' && console.warn) {
-	            console.warn('Deprecation warning: ' + msg);
-	        }
-	    }
-	
-	    function deprecate(msg, fn) {
-	        var firstTime = true,
-	            msgWithStack = msg + '\n' + (new Error()).stack;
-	
-	        return extend(function () {
-	            if (firstTime) {
-	                warn(msgWithStack);
-	                firstTime = false;
-	            }
-	            return fn.apply(this, arguments);
-	        }, fn);
-	    }
-	
-	    var deprecations = {};
-	
-	    function deprecateSimple(name, msg) {
-	        if (!deprecations[name]) {
-	            warn(msg);
-	            deprecations[name] = true;
-	        }
-	    }
-	
-	    utils_hooks__hooks.suppressDeprecationWarnings = false;
-	
-	    var from_string__isoRegex = /^\s*(?:[+-]\d{6}|\d{4})-(?:(\d\d-\d\d)|(W\d\d$)|(W\d\d-\d)|(\d\d\d))((T| )(\d\d(:\d\d(:\d\d(\.\d+)?)?)?)?([\+\-]\d\d(?::?\d\d)?|\s*Z)?)?$/;
-	
-	    var isoDates = [
-	        ['YYYYYY-MM-DD', /[+-]\d{6}-\d{2}-\d{2}/],
-	        ['YYYY-MM-DD', /\d{4}-\d{2}-\d{2}/],
-	        ['GGGG-[W]WW-E', /\d{4}-W\d{2}-\d/],
-	        ['GGGG-[W]WW', /\d{4}-W\d{2}/],
-	        ['YYYY-DDD', /\d{4}-\d{3}/]
-	    ];
-	
-	    // iso time formats and regexes
-	    var isoTimes = [
-	        ['HH:mm:ss.SSSS', /(T| )\d\d:\d\d:\d\d\.\d+/],
-	        ['HH:mm:ss', /(T| )\d\d:\d\d:\d\d/],
-	        ['HH:mm', /(T| )\d\d:\d\d/],
-	        ['HH', /(T| )\d\d/]
-	    ];
-	
-	    var aspNetJsonRegex = /^\/?Date\((\-?\d+)/i;
-	
-	    // date from iso format
-	    function configFromISO(config) {
-	        var i, l,
-	            string = config._i,
-	            match = from_string__isoRegex.exec(string);
-	
-	        if (match) {
-	            getParsingFlags(config).iso = true;
-	            for (i = 0, l = isoDates.length; i < l; i++) {
-	                if (isoDates[i][1].exec(string)) {
-	                    // match[5] should be 'T' or undefined
-	                    config._f = isoDates[i][0] + (match[6] || ' ');
-	                    break;
-	                }
-	            }
-	            for (i = 0, l = isoTimes.length; i < l; i++) {
-	                if (isoTimes[i][1].exec(string)) {
-	                    config._f += isoTimes[i][0];
-	                    break;
-	                }
-	            }
-	            if (string.match(matchOffset)) {
-	                config._f += 'Z';
-	            }
-	            configFromStringAndFormat(config);
-	        } else {
-	            config._isValid = false;
-	        }
-	    }
-	
-	    // date from iso format or fallback
-	    function configFromString(config) {
-	        var matched = aspNetJsonRegex.exec(config._i);
-	
-	        if (matched !== null) {
-	            config._d = new Date(+matched[1]);
-	            return;
-	        }
-	
-	        configFromISO(config);
-	        if (config._isValid === false) {
-	            delete config._isValid;
-	            utils_hooks__hooks.createFromInputFallback(config);
-	        }
-	    }
-	
-	    utils_hooks__hooks.createFromInputFallback = deprecate(
-	        'moment construction falls back to js Date. This is ' +
-	        'discouraged and will be removed in upcoming major ' +
-	        'release. Please refer to ' +
-	        'https://github.com/moment/moment/issues/1407 for more info.',
-	        function (config) {
-	            config._d = new Date(config._i + (config._useUTC ? ' UTC' : ''));
-	        }
-	    );
-	
-	    function createDate (y, m, d, h, M, s, ms) {
-	        //can't just apply() to create a date:
-	        //http://stackoverflow.com/questions/181348/instantiating-a-javascript-object-by-calling-prototype-constructor-apply
-	        var date = new Date(y, m, d, h, M, s, ms);
-	
-	        //the date constructor doesn't accept years < 1970
-	        if (y < 1970) {
-	            date.setFullYear(y);
-	        }
-	        return date;
-	    }
-	
-	    function createUTCDate (y) {
-	        var date = new Date(Date.UTC.apply(null, arguments));
-	        if (y < 1970) {
-	            date.setUTCFullYear(y);
-	        }
-	        return date;
-	    }
-	
-	    addFormatToken(0, ['YY', 2], 0, function () {
-	        return this.year() % 100;
-	    });
-	
-	    addFormatToken(0, ['YYYY',   4],       0, 'year');
-	    addFormatToken(0, ['YYYYY',  5],       0, 'year');
-	    addFormatToken(0, ['YYYYYY', 6, true], 0, 'year');
-	
-	    // ALIASES
-	
-	    addUnitAlias('year', 'y');
-	
-	    // PARSING
-	
-	    addRegexToken('Y',      matchSigned);
-	    addRegexToken('YY',     match1to2, match2);
-	    addRegexToken('YYYY',   match1to4, match4);
-	    addRegexToken('YYYYY',  match1to6, match6);
-	    addRegexToken('YYYYYY', match1to6, match6);
-	
-	    addParseToken(['YYYY', 'YYYYY', 'YYYYYY'], YEAR);
-	    addParseToken('YY', function (input, array) {
-	        array[YEAR] = utils_hooks__hooks.parseTwoDigitYear(input);
-	    });
-	
-	    // HELPERS
-	
-	    function daysInYear(year) {
-	        return isLeapYear(year) ? 366 : 365;
-	    }
-	
-	    function isLeapYear(year) {
-	        return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
-	    }
-	
-	    // HOOKS
-	
-	    utils_hooks__hooks.parseTwoDigitYear = function (input) {
-	        return toInt(input) + (toInt(input) > 68 ? 1900 : 2000);
-	    };
-	
-	    // MOMENTS
-	
-	    var getSetYear = makeGetSet('FullYear', false);
-	
-	    function getIsLeapYear () {
-	        return isLeapYear(this.year());
-	    }
-	
-	    addFormatToken('w', ['ww', 2], 'wo', 'week');
-	    addFormatToken('W', ['WW', 2], 'Wo', 'isoWeek');
-	
-	    // ALIASES
-	
-	    addUnitAlias('week', 'w');
-	    addUnitAlias('isoWeek', 'W');
-	
-	    // PARSING
-	
-	    addRegexToken('w',  match1to2);
-	    addRegexToken('ww', match1to2, match2);
-	    addRegexToken('W',  match1to2);
-	    addRegexToken('WW', match1to2, match2);
-	
-	    addWeekParseToken(['w', 'ww', 'W', 'WW'], function (input, week, config, token) {
-	        week[token.substr(0, 1)] = toInt(input);
-	    });
-	
-	    // HELPERS
-	
-	    // firstDayOfWeek       0 = sun, 6 = sat
-	    //                      the day of the week that starts the week
-	    //                      (usually sunday or monday)
-	    // firstDayOfWeekOfYear 0 = sun, 6 = sat
-	    //                      the first week is the week that contains the first
-	    //                      of this day of the week
-	    //                      (eg. ISO weeks use thursday (4))
-	    function weekOfYear(mom, firstDayOfWeek, firstDayOfWeekOfYear) {
-	        var end = firstDayOfWeekOfYear - firstDayOfWeek,
-	            daysToDayOfWeek = firstDayOfWeekOfYear - mom.day(),
-	            adjustedMoment;
-	
-	
-	        if (daysToDayOfWeek > end) {
-	            daysToDayOfWeek -= 7;
-	        }
-	
-	        if (daysToDayOfWeek < end - 7) {
-	            daysToDayOfWeek += 7;
-	        }
-	
-	        adjustedMoment = local__createLocal(mom).add(daysToDayOfWeek, 'd');
-	        return {
-	            week: Math.ceil(adjustedMoment.dayOfYear() / 7),
-	            year: adjustedMoment.year()
-	        };
-	    }
-	
-	    // LOCALES
-	
-	    function localeWeek (mom) {
-	        return weekOfYear(mom, this._week.dow, this._week.doy).week;
-	    }
-	
-	    var defaultLocaleWeek = {
-	        dow : 0, // Sunday is the first day of the week.
-	        doy : 6  // The week that contains Jan 1st is the first week of the year.
-	    };
-	
-	    function localeFirstDayOfWeek () {
-	        return this._week.dow;
-	    }
-	
-	    function localeFirstDayOfYear () {
-	        return this._week.doy;
-	    }
-	
-	    // MOMENTS
-	
-	    function getSetWeek (input) {
-	        var week = this.localeData().week(this);
-	        return input == null ? week : this.add((input - week) * 7, 'd');
-	    }
-	
-	    function getSetISOWeek (input) {
-	        var week = weekOfYear(this, 1, 4).week;
-	        return input == null ? week : this.add((input - week) * 7, 'd');
-	    }
-	
-	    addFormatToken('DDD', ['DDDD', 3], 'DDDo', 'dayOfYear');
-	
-	    // ALIASES
-	
-	    addUnitAlias('dayOfYear', 'DDD');
-	
-	    // PARSING
-	
-	    addRegexToken('DDD',  match1to3);
-	    addRegexToken('DDDD', match3);
-	    addParseToken(['DDD', 'DDDD'], function (input, array, config) {
-	        config._dayOfYear = toInt(input);
-	    });
-	
-	    // HELPERS
-	
-	    //http://en.wikipedia.org/wiki/ISO_week_date#Calculating_a_date_given_the_year.2C_week_number_and_weekday
-	    function dayOfYearFromWeeks(year, week, weekday, firstDayOfWeekOfYear, firstDayOfWeek) {
-	        var d = createUTCDate(year, 0, 1).getUTCDay();
-	        var daysToAdd;
-	        var dayOfYear;
-	
-	        d = d === 0 ? 7 : d;
-	        weekday = weekday != null ? weekday : firstDayOfWeek;
-	        daysToAdd = firstDayOfWeek - d + (d > firstDayOfWeekOfYear ? 7 : 0) - (d < firstDayOfWeek ? 7 : 0);
-	        dayOfYear = 7 * (week - 1) + (weekday - firstDayOfWeek) + daysToAdd + 1;
-	
-	        return {
-	            year      : dayOfYear > 0 ? year      : year - 1,
-	            dayOfYear : dayOfYear > 0 ? dayOfYear : daysInYear(year - 1) + dayOfYear
-	        };
-	    }
-	
-	    // MOMENTS
-	
-	    function getSetDayOfYear (input) {
-	        var dayOfYear = Math.round((this.clone().startOf('day') - this.clone().startOf('year')) / 864e5) + 1;
-	        return input == null ? dayOfYear : this.add((input - dayOfYear), 'd');
-	    }
-	
-	    // Pick the first defined of two or three arguments.
-	    function defaults(a, b, c) {
-	        if (a != null) {
-	            return a;
-	        }
-	        if (b != null) {
-	            return b;
-	        }
-	        return c;
-	    }
-	
-	    function currentDateArray(config) {
-	        var now = new Date();
-	        if (config._useUTC) {
-	            return [now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()];
-	        }
-	        return [now.getFullYear(), now.getMonth(), now.getDate()];
-	    }
-	
-	    // convert an array to a date.
-	    // the array should mirror the parameters below
-	    // note: all values past the year are optional and will default to the lowest possible value.
-	    // [year, month, day , hour, minute, second, millisecond]
-	    function configFromArray (config) {
-	        var i, date, input = [], currentDate, yearToUse;
-	
-	        if (config._d) {
-	            return;
-	        }
-	
-	        currentDate = currentDateArray(config);
-	
-	        //compute day of the year from weeks and weekdays
-	        if (config._w && config._a[DATE] == null && config._a[MONTH] == null) {
-	            dayOfYearFromWeekInfo(config);
-	        }
-	
-	        //if the day of the year is set, figure out what it is
-	        if (config._dayOfYear) {
-	            yearToUse = defaults(config._a[YEAR], currentDate[YEAR]);
-	
-	            if (config._dayOfYear > daysInYear(yearToUse)) {
-	                getParsingFlags(config)._overflowDayOfYear = true;
-	            }
-	
-	            date = createUTCDate(yearToUse, 0, config._dayOfYear);
-	            config._a[MONTH] = date.getUTCMonth();
-	            config._a[DATE] = date.getUTCDate();
-	        }
-	
-	        // Default to current date.
-	        // * if no year, month, day of month are given, default to today
-	        // * if day of month is given, default month and year
-	        // * if month is given, default only year
-	        // * if year is given, don't default anything
-	        for (i = 0; i < 3 && config._a[i] == null; ++i) {
-	            config._a[i] = input[i] = currentDate[i];
-	        }
-	
-	        // Zero out whatever was not defaulted, including time
-	        for (; i < 7; i++) {
-	            config._a[i] = input[i] = (config._a[i] == null) ? (i === 2 ? 1 : 0) : config._a[i];
-	        }
-	
-	        // Check for 24:00:00.000
-	        if (config._a[HOUR] === 24 &&
-	                config._a[MINUTE] === 0 &&
-	                config._a[SECOND] === 0 &&
-	                config._a[MILLISECOND] === 0) {
-	            config._nextDay = true;
-	            config._a[HOUR] = 0;
-	        }
-	
-	        config._d = (config._useUTC ? createUTCDate : createDate).apply(null, input);
-	        // Apply timezone offset from input. The actual utcOffset can be changed
-	        // with parseZone.
-	        if (config._tzm != null) {
-	            config._d.setUTCMinutes(config._d.getUTCMinutes() - config._tzm);
-	        }
-	
-	        if (config._nextDay) {
-	            config._a[HOUR] = 24;
-	        }
-	    }
-	
-	    function dayOfYearFromWeekInfo(config) {
-	        var w, weekYear, week, weekday, dow, doy, temp;
-	
-	        w = config._w;
-	        if (w.GG != null || w.W != null || w.E != null) {
-	            dow = 1;
-	            doy = 4;
-	
-	            // TODO: We need to take the current isoWeekYear, but that depends on
-	            // how we interpret now (local, utc, fixed offset). So create
-	            // a now version of current config (take local/utc/offset flags, and
-	            // create now).
-	            weekYear = defaults(w.GG, config._a[YEAR], weekOfYear(local__createLocal(), 1, 4).year);
-	            week = defaults(w.W, 1);
-	            weekday = defaults(w.E, 1);
-	        } else {
-	            dow = config._locale._week.dow;
-	            doy = config._locale._week.doy;
-	
-	            weekYear = defaults(w.gg, config._a[YEAR], weekOfYear(local__createLocal(), dow, doy).year);
-	            week = defaults(w.w, 1);
-	
-	            if (w.d != null) {
-	                // weekday -- low day numbers are considered next week
-	                weekday = w.d;
-	                if (weekday < dow) {
-	                    ++week;
-	                }
-	            } else if (w.e != null) {
-	                // local weekday -- counting starts from begining of week
-	                weekday = w.e + dow;
-	            } else {
-	                // default to begining of week
-	                weekday = dow;
-	            }
-	        }
-	        temp = dayOfYearFromWeeks(weekYear, week, weekday, doy, dow);
-	
-	        config._a[YEAR] = temp.year;
-	        config._dayOfYear = temp.dayOfYear;
-	    }
-	
-	    utils_hooks__hooks.ISO_8601 = function () {};
-	
-	    // date from string and format string
-	    function configFromStringAndFormat(config) {
-	        // TODO: Move this to another part of the creation flow to prevent circular deps
-	        if (config._f === utils_hooks__hooks.ISO_8601) {
-	            configFromISO(config);
-	            return;
-	        }
-	
-	        config._a = [];
-	        getParsingFlags(config).empty = true;
-	
-	        // This array is used to make a Date, either with `new Date` or `Date.UTC`
-	        var string = '' + config._i,
-	            i, parsedInput, tokens, token, skipped,
-	            stringLength = string.length,
-	            totalParsedInputLength = 0;
-	
-	        tokens = expandFormat(config._f, config._locale).match(formattingTokens) || [];
-	
-	        for (i = 0; i < tokens.length; i++) {
-	            token = tokens[i];
-	            parsedInput = (string.match(getParseRegexForToken(token, config)) || [])[0];
-	            if (parsedInput) {
-	                skipped = string.substr(0, string.indexOf(parsedInput));
-	                if (skipped.length > 0) {
-	                    getParsingFlags(config).unusedInput.push(skipped);
-	                }
-	                string = string.slice(string.indexOf(parsedInput) + parsedInput.length);
-	                totalParsedInputLength += parsedInput.length;
-	            }
-	            // don't parse if it's not a known token
-	            if (formatTokenFunctions[token]) {
-	                if (parsedInput) {
-	                    getParsingFlags(config).empty = false;
-	                }
-	                else {
-	                    getParsingFlags(config).unusedTokens.push(token);
-	                }
-	                addTimeToArrayFromToken(token, parsedInput, config);
-	            }
-	            else if (config._strict && !parsedInput) {
-	                getParsingFlags(config).unusedTokens.push(token);
-	            }
-	        }
-	
-	        // add remaining unparsed input length to the string
-	        getParsingFlags(config).charsLeftOver = stringLength - totalParsedInputLength;
-	        if (string.length > 0) {
-	            getParsingFlags(config).unusedInput.push(string);
-	        }
-	
-	        // clear _12h flag if hour is <= 12
-	        if (getParsingFlags(config).bigHour === true &&
-	                config._a[HOUR] <= 12 &&
-	                config._a[HOUR] > 0) {
-	            getParsingFlags(config).bigHour = undefined;
-	        }
-	        // handle meridiem
-	        config._a[HOUR] = meridiemFixWrap(config._locale, config._a[HOUR], config._meridiem);
-	
-	        configFromArray(config);
-	        checkOverflow(config);
-	    }
-	
-	
-	    function meridiemFixWrap (locale, hour, meridiem) {
-	        var isPm;
-	
-	        if (meridiem == null) {
-	            // nothing to do
-	            return hour;
-	        }
-	        if (locale.meridiemHour != null) {
-	            return locale.meridiemHour(hour, meridiem);
-	        } else if (locale.isPM != null) {
-	            // Fallback
-	            isPm = locale.isPM(meridiem);
-	            if (isPm && hour < 12) {
-	                hour += 12;
-	            }
-	            if (!isPm && hour === 12) {
-	                hour = 0;
-	            }
-	            return hour;
-	        } else {
-	            // this is not supposed to happen
-	            return hour;
-	        }
-	    }
-	
-	    function configFromStringAndArray(config) {
-	        var tempConfig,
-	            bestMoment,
-	
-	            scoreToBeat,
-	            i,
-	            currentScore;
-	
-	        if (config._f.length === 0) {
-	            getParsingFlags(config).invalidFormat = true;
-	            config._d = new Date(NaN);
-	            return;
-	        }
-	
-	        for (i = 0; i < config._f.length; i++) {
-	            currentScore = 0;
-	            tempConfig = copyConfig({}, config);
-	            if (config._useUTC != null) {
-	                tempConfig._useUTC = config._useUTC;
-	            }
-	            tempConfig._f = config._f[i];
-	            configFromStringAndFormat(tempConfig);
-	
-	            if (!valid__isValid(tempConfig)) {
-	                continue;
-	            }
-	
-	            // if there is any input that was not parsed add a penalty for that format
-	            currentScore += getParsingFlags(tempConfig).charsLeftOver;
-	
-	            //or tokens
-	            currentScore += getParsingFlags(tempConfig).unusedTokens.length * 10;
-	
-	            getParsingFlags(tempConfig).score = currentScore;
-	
-	            if (scoreToBeat == null || currentScore < scoreToBeat) {
-	                scoreToBeat = currentScore;
-	                bestMoment = tempConfig;
-	            }
-	        }
-	
-	        extend(config, bestMoment || tempConfig);
-	    }
-	
-	    function configFromObject(config) {
-	        if (config._d) {
-	            return;
-	        }
-	
-	        var i = normalizeObjectUnits(config._i);
-	        config._a = [i.year, i.month, i.day || i.date, i.hour, i.minute, i.second, i.millisecond];
-	
-	        configFromArray(config);
-	    }
-	
-	    function createFromConfig (config) {
-	        var input = config._i,
-	            format = config._f,
-	            res;
-	
-	        config._locale = config._locale || locale_locales__getLocale(config._l);
-	
-	        if (input === null || (format === undefined && input === '')) {
-	            return valid__createInvalid({nullInput: true});
-	        }
-	
-	        if (typeof input === 'string') {
-	            config._i = input = config._locale.preparse(input);
-	        }
-	
-	        if (isMoment(input)) {
-	            return new Moment(checkOverflow(input));
-	        } else if (isArray(format)) {
-	            configFromStringAndArray(config);
-	        } else if (format) {
-	            configFromStringAndFormat(config);
-	        } else if (isDate(input)) {
-	            config._d = input;
-	        } else {
-	            configFromInput(config);
-	        }
-	
-	        res = new Moment(checkOverflow(config));
-	        if (res._nextDay) {
-	            // Adding is smart enough around DST
-	            res.add(1, 'd');
-	            res._nextDay = undefined;
-	        }
-	
-	        return res;
-	    }
-	
-	    function configFromInput(config) {
-	        var input = config._i;
-	        if (input === undefined) {
-	            config._d = new Date();
-	        } else if (isDate(input)) {
-	            config._d = new Date(+input);
-	        } else if (typeof input === 'string') {
-	            configFromString(config);
-	        } else if (isArray(input)) {
-	            config._a = map(input.slice(0), function (obj) {
-	                return parseInt(obj, 10);
-	            });
-	            configFromArray(config);
-	        } else if (typeof(input) === 'object') {
-	            configFromObject(config);
-	        } else if (typeof(input) === 'number') {
-	            // from milliseconds
-	            config._d = new Date(input);
-	        } else {
-	            utils_hooks__hooks.createFromInputFallback(config);
-	        }
-	    }
-	
-	    function createLocalOrUTC (input, format, locale, strict, isUTC) {
-	        var c = {};
-	
-	        if (typeof(locale) === 'boolean') {
-	            strict = locale;
-	            locale = undefined;
-	        }
-	        // object construction must be done this way.
-	        // https://github.com/moment/moment/issues/1423
-	        c._isAMomentObject = true;
-	        c._useUTC = c._isUTC = isUTC;
-	        c._l = locale;
-	        c._i = input;
-	        c._f = format;
-	        c._strict = strict;
-	
-	        return createFromConfig(c);
-	    }
-	
-	    function local__createLocal (input, format, locale, strict) {
-	        return createLocalOrUTC(input, format, locale, strict, false);
-	    }
-	
-	    var prototypeMin = deprecate(
-	         'moment().min is deprecated, use moment.min instead. https://github.com/moment/moment/issues/1548',
-	         function () {
-	             var other = local__createLocal.apply(null, arguments);
-	             return other < this ? this : other;
-	         }
-	     );
-	
-	    var prototypeMax = deprecate(
-	        'moment().max is deprecated, use moment.max instead. https://github.com/moment/moment/issues/1548',
-	        function () {
-	            var other = local__createLocal.apply(null, arguments);
-	            return other > this ? this : other;
-	        }
-	    );
-	
-	    // Pick a moment m from moments so that m[fn](other) is true for all
-	    // other. This relies on the function fn to be transitive.
-	    //
-	    // moments should either be an array of moment objects or an array, whose
-	    // first element is an array of moment objects.
-	    function pickBy(fn, moments) {
-	        var res, i;
-	        if (moments.length === 1 && isArray(moments[0])) {
-	            moments = moments[0];
-	        }
-	        if (!moments.length) {
-	            return local__createLocal();
-	        }
-	        res = moments[0];
-	        for (i = 1; i < moments.length; ++i) {
-	            if (moments[i][fn](res)) {
-	                res = moments[i];
-	            }
-	        }
-	        return res;
-	    }
-	
-	    // TODO: Use [].sort instead?
-	    function min () {
-	        var args = [].slice.call(arguments, 0);
-	
-	        return pickBy('isBefore', args);
-	    }
-	
-	    function max () {
-	        var args = [].slice.call(arguments, 0);
-	
-	        return pickBy('isAfter', args);
-	    }
-	
-	    function Duration (duration) {
-	        var normalizedInput = normalizeObjectUnits(duration),
-	            years = normalizedInput.year || 0,
-	            quarters = normalizedInput.quarter || 0,
-	            months = normalizedInput.month || 0,
-	            weeks = normalizedInput.week || 0,
-	            days = normalizedInput.day || 0,
-	            hours = normalizedInput.hour || 0,
-	            minutes = normalizedInput.minute || 0,
-	            seconds = normalizedInput.second || 0,
-	            milliseconds = normalizedInput.millisecond || 0;
-	
-	        // representation for dateAddRemove
-	        this._milliseconds = +milliseconds +
-	            seconds * 1e3 + // 1000
-	            minutes * 6e4 + // 1000 * 60
-	            hours * 36e5; // 1000 * 60 * 60
-	        // Because of dateAddRemove treats 24 hours as different from a
-	        // day when working around DST, we need to store them separately
-	        this._days = +days +
-	            weeks * 7;
-	        // It is impossible translate months into days without knowing
-	        // which months you are are talking about, so we have to store
-	        // it separately.
-	        this._months = +months +
-	            quarters * 3 +
-	            years * 12;
-	
-	        this._data = {};
-	
-	        this._locale = locale_locales__getLocale();
-	
-	        this._bubble();
-	    }
-	
-	    function isDuration (obj) {
-	        return obj instanceof Duration;
-	    }
-	
-	    function offset (token, separator) {
-	        addFormatToken(token, 0, 0, function () {
-	            var offset = this.utcOffset();
-	            var sign = '+';
-	            if (offset < 0) {
-	                offset = -offset;
-	                sign = '-';
-	            }
-	            return sign + zeroFill(~~(offset / 60), 2) + separator + zeroFill(~~(offset) % 60, 2);
-	        });
-	    }
-	
-	    offset('Z', ':');
-	    offset('ZZ', '');
-	
-	    // PARSING
-	
-	    addRegexToken('Z',  matchOffset);
-	    addRegexToken('ZZ', matchOffset);
-	    addParseToken(['Z', 'ZZ'], function (input, array, config) {
-	        config._useUTC = true;
-	        config._tzm = offsetFromString(input);
-	    });
-	
-	    // HELPERS
-	
-	    // timezone chunker
-	    // '+10:00' > ['10',  '00']
-	    // '-1530'  > ['-15', '30']
-	    var chunkOffset = /([\+\-]|\d\d)/gi;
-	
-	    function offsetFromString(string) {
-	        var matches = ((string || '').match(matchOffset) || []);
-	        var chunk   = matches[matches.length - 1] || [];
-	        var parts   = (chunk + '').match(chunkOffset) || ['-', 0, 0];
-	        var minutes = +(parts[1] * 60) + toInt(parts[2]);
-	
-	        return parts[0] === '+' ? minutes : -minutes;
-	    }
-	
-	    // Return a moment from input, that is local/utc/zone equivalent to model.
-	    function cloneWithOffset(input, model) {
-	        var res, diff;
-	        if (model._isUTC) {
-	            res = model.clone();
-	            diff = (isMoment(input) || isDate(input) ? +input : +local__createLocal(input)) - (+res);
-	            // Use low-level api, because this fn is low-level api.
-	            res._d.setTime(+res._d + diff);
-	            utils_hooks__hooks.updateOffset(res, false);
-	            return res;
-	        } else {
-	            return local__createLocal(input).local();
-	        }
-	        return model._isUTC ? local__createLocal(input).zone(model._offset || 0) : local__createLocal(input).local();
-	    }
-	
-	    function getDateOffset (m) {
-	        // On Firefox.24 Date#getTimezoneOffset returns a floating point.
-	        // https://github.com/moment/moment/pull/1871
-	        return -Math.round(m._d.getTimezoneOffset() / 15) * 15;
-	    }
-	
-	    // HOOKS
-	
-	    // This function will be called whenever a moment is mutated.
-	    // It is intended to keep the offset in sync with the timezone.
-	    utils_hooks__hooks.updateOffset = function () {};
-	
-	    // MOMENTS
-	
-	    // keepLocalTime = true means only change the timezone, without
-	    // affecting the local hour. So 5:31:26 +0300 --[utcOffset(2, true)]-->
-	    // 5:31:26 +0200 It is possible that 5:31:26 doesn't exist with offset
-	    // +0200, so we adjust the time as needed, to be valid.
-	    //
-	    // Keeping the time actually adds/subtracts (one hour)
-	    // from the actual represented time. That is why we call updateOffset
-	    // a second time. In case it wants us to change the offset again
-	    // _changeInProgress == true case, then we have to adjust, because
-	    // there is no such time in the given timezone.
-	    function getSetOffset (input, keepLocalTime) {
-	        var offset = this._offset || 0,
-	            localAdjust;
-	        if (input != null) {
-	            if (typeof input === 'string') {
-	                input = offsetFromString(input);
-	            }
-	            if (Math.abs(input) < 16) {
-	                input = input * 60;
-	            }
-	            if (!this._isUTC && keepLocalTime) {
-	                localAdjust = getDateOffset(this);
-	            }
-	            this._offset = input;
-	            this._isUTC = true;
-	            if (localAdjust != null) {
-	                this.add(localAdjust, 'm');
-	            }
-	            if (offset !== input) {
-	                if (!keepLocalTime || this._changeInProgress) {
-	                    add_subtract__addSubtract(this, create__createDuration(input - offset, 'm'), 1, false);
-	                } else if (!this._changeInProgress) {
-	                    this._changeInProgress = true;
-	                    utils_hooks__hooks.updateOffset(this, true);
-	                    this._changeInProgress = null;
-	                }
-	            }
-	            return this;
-	        } else {
-	            return this._isUTC ? offset : getDateOffset(this);
-	        }
-	    }
-	
-	    function getSetZone (input, keepLocalTime) {
-	        if (input != null) {
-	            if (typeof input !== 'string') {
-	                input = -input;
-	            }
-	
-	            this.utcOffset(input, keepLocalTime);
-	
-	            return this;
-	        } else {
-	            return -this.utcOffset();
-	        }
-	    }
-	
-	    function setOffsetToUTC (keepLocalTime) {
-	        return this.utcOffset(0, keepLocalTime);
-	    }
-	
-	    function setOffsetToLocal (keepLocalTime) {
-	        if (this._isUTC) {
-	            this.utcOffset(0, keepLocalTime);
-	            this._isUTC = false;
-	
-	            if (keepLocalTime) {
-	                this.subtract(getDateOffset(this), 'm');
-	            }
-	        }
-	        return this;
-	    }
-	
-	    function setOffsetToParsedOffset () {
-	        if (this._tzm) {
-	            this.utcOffset(this._tzm);
-	        } else if (typeof this._i === 'string') {
-	            this.utcOffset(offsetFromString(this._i));
-	        }
-	        return this;
-	    }
-	
-	    function hasAlignedHourOffset (input) {
-	        if (!input) {
-	            input = 0;
-	        }
-	        else {
-	            input = local__createLocal(input).utcOffset();
-	        }
-	
-	        return (this.utcOffset() - input) % 60 === 0;
-	    }
-	
-	    function isDaylightSavingTime () {
-	        return (
-	            this.utcOffset() > this.clone().month(0).utcOffset() ||
-	            this.utcOffset() > this.clone().month(5).utcOffset()
-	        );
-	    }
-	
-	    function isDaylightSavingTimeShifted () {
-	        if (this._a) {
-	            var other = this._isUTC ? create_utc__createUTC(this._a) : local__createLocal(this._a);
-	            return this.isValid() && compareArrays(this._a, other.toArray()) > 0;
-	        }
-	
-	        return false;
-	    }
-	
-	    function isLocal () {
-	        return !this._isUTC;
-	    }
-	
-	    function isUtcOffset () {
-	        return this._isUTC;
-	    }
-	
-	    function isUtc () {
-	        return this._isUTC && this._offset === 0;
-	    }
-	
-	    var aspNetRegex = /(\-)?(?:(\d*)\.)?(\d+)\:(\d+)(?:\:(\d+)\.?(\d{3})?)?/;
-	
-	    // from http://docs.closure-library.googlecode.com/git/closure_goog_date_date.js.source.html
-	    // somewhat more in line with 4.4.3.2 2004 spec, but allows decimal anywhere
-	    var create__isoRegex = /^(-)?P(?:(?:([0-9,.]*)Y)?(?:([0-9,.]*)M)?(?:([0-9,.]*)D)?(?:T(?:([0-9,.]*)H)?(?:([0-9,.]*)M)?(?:([0-9,.]*)S)?)?|([0-9,.]*)W)$/;
-	
-	    function create__createDuration (input, key) {
-	        var duration = input,
-	            // matching against regexp is expensive, do it on demand
-	            match = null,
-	            sign,
-	            ret,
-	            diffRes;
-	
-	        if (isDuration(input)) {
-	            duration = {
-	                ms : input._milliseconds,
-	                d  : input._days,
-	                M  : input._months
-	            };
-	        } else if (typeof input === 'number') {
-	            duration = {};
-	            if (key) {
-	                duration[key] = input;
-	            } else {
-	                duration.milliseconds = input;
-	            }
-	        } else if (!!(match = aspNetRegex.exec(input))) {
-	            sign = (match[1] === '-') ? -1 : 1;
-	            duration = {
-	                y  : 0,
-	                d  : toInt(match[DATE])        * sign,
-	                h  : toInt(match[HOUR])        * sign,
-	                m  : toInt(match[MINUTE])      * sign,
-	                s  : toInt(match[SECOND])      * sign,
-	                ms : toInt(match[MILLISECOND]) * sign
-	            };
-	        } else if (!!(match = create__isoRegex.exec(input))) {
-	            sign = (match[1] === '-') ? -1 : 1;
-	            duration = {
-	                y : parseIso(match[2], sign),
-	                M : parseIso(match[3], sign),
-	                d : parseIso(match[4], sign),
-	                h : parseIso(match[5], sign),
-	                m : parseIso(match[6], sign),
-	                s : parseIso(match[7], sign),
-	                w : parseIso(match[8], sign)
-	            };
-	        } else if (duration == null) {// checks for null or undefined
-	            duration = {};
-	        } else if (typeof duration === 'object' && ('from' in duration || 'to' in duration)) {
-	            diffRes = momentsDifference(local__createLocal(duration.from), local__createLocal(duration.to));
-	
-	            duration = {};
-	            duration.ms = diffRes.milliseconds;
-	            duration.M = diffRes.months;
-	        }
-	
-	        ret = new Duration(duration);
-	
-	        if (isDuration(input) && hasOwnProp(input, '_locale')) {
-	            ret._locale = input._locale;
-	        }
-	
-	        return ret;
-	    }
-	
-	    create__createDuration.fn = Duration.prototype;
-	
-	    function parseIso (inp, sign) {
-	        // We'd normally use ~~inp for this, but unfortunately it also
-	        // converts floats to ints.
-	        // inp may be undefined, so careful calling replace on it.
-	        var res = inp && parseFloat(inp.replace(',', '.'));
-	        // apply sign while we're at it
-	        return (isNaN(res) ? 0 : res) * sign;
-	    }
-	
-	    function positiveMomentsDifference(base, other) {
-	        var res = {milliseconds: 0, months: 0};
-	
-	        res.months = other.month() - base.month() +
-	            (other.year() - base.year()) * 12;
-	        if (base.clone().add(res.months, 'M').isAfter(other)) {
-	            --res.months;
-	        }
-	
-	        res.milliseconds = +other - +(base.clone().add(res.months, 'M'));
-	
-	        return res;
-	    }
-	
-	    function momentsDifference(base, other) {
-	        var res;
-	        other = cloneWithOffset(other, base);
-	        if (base.isBefore(other)) {
-	            res = positiveMomentsDifference(base, other);
-	        } else {
-	            res = positiveMomentsDifference(other, base);
-	            res.milliseconds = -res.milliseconds;
-	            res.months = -res.months;
-	        }
-	
-	        return res;
-	    }
-	
-	    function createAdder(direction, name) {
-	        return function (val, period) {
-	            var dur, tmp;
-	            //invert the arguments, but complain about it
-	            if (period !== null && !isNaN(+period)) {
-	                deprecateSimple(name, 'moment().' + name  + '(period, number) is deprecated. Please use moment().' + name + '(number, period).');
-	                tmp = val; val = period; period = tmp;
-	            }
-	
-	            val = typeof val === 'string' ? +val : val;
-	            dur = create__createDuration(val, period);
-	            add_subtract__addSubtract(this, dur, direction);
-	            return this;
-	        };
-	    }
-	
-	    function add_subtract__addSubtract (mom, duration, isAdding, updateOffset) {
-	        var milliseconds = duration._milliseconds,
-	            days = duration._days,
-	            months = duration._months;
-	        updateOffset = updateOffset == null ? true : updateOffset;
-	
-	        if (milliseconds) {
-	            mom._d.setTime(+mom._d + milliseconds * isAdding);
-	        }
-	        if (days) {
-	            get_set__set(mom, 'Date', get_set__get(mom, 'Date') + days * isAdding);
-	        }
-	        if (months) {
-	            setMonth(mom, get_set__get(mom, 'Month') + months * isAdding);
-	        }
-	        if (updateOffset) {
-	            utils_hooks__hooks.updateOffset(mom, days || months);
-	        }
-	    }
-	
-	    var add_subtract__add      = createAdder(1, 'add');
-	    var add_subtract__subtract = createAdder(-1, 'subtract');
-	
-	    function moment_calendar__calendar (time) {
-	        // We want to compare the start of today, vs this.
-	        // Getting start-of-today depends on whether we're local/utc/offset or not.
-	        var now = time || local__createLocal(),
-	            sod = cloneWithOffset(now, this).startOf('day'),
-	            diff = this.diff(sod, 'days', true),
-	            format = diff < -6 ? 'sameElse' :
-	                diff < -1 ? 'lastWeek' :
-	                diff < 0 ? 'lastDay' :
-	                diff < 1 ? 'sameDay' :
-	                diff < 2 ? 'nextDay' :
-	                diff < 7 ? 'nextWeek' : 'sameElse';
-	        return this.format(this.localeData().calendar(format, this, local__createLocal(now)));
-	    }
-	
-	    function clone () {
-	        return new Moment(this);
-	    }
-	
-	    function isAfter (input, units) {
-	        var inputMs;
-	        units = normalizeUnits(typeof units !== 'undefined' ? units : 'millisecond');
-	        if (units === 'millisecond') {
-	            input = isMoment(input) ? input : local__createLocal(input);
-	            return +this > +input;
-	        } else {
-	            inputMs = isMoment(input) ? +input : +local__createLocal(input);
-	            return inputMs < +this.clone().startOf(units);
-	        }
-	    }
-	
-	    function isBefore (input, units) {
-	        var inputMs;
-	        units = normalizeUnits(typeof units !== 'undefined' ? units : 'millisecond');
-	        if (units === 'millisecond') {
-	            input = isMoment(input) ? input : local__createLocal(input);
-	            return +this < +input;
-	        } else {
-	            inputMs = isMoment(input) ? +input : +local__createLocal(input);
-	            return +this.clone().endOf(units) < inputMs;
-	        }
-	    }
-	
-	    function isBetween (from, to, units) {
-	        return this.isAfter(from, units) && this.isBefore(to, units);
-	    }
-	
-	    function isSame (input, units) {
-	        var inputMs;
-	        units = normalizeUnits(units || 'millisecond');
-	        if (units === 'millisecond') {
-	            input = isMoment(input) ? input : local__createLocal(input);
-	            return +this === +input;
-	        } else {
-	            inputMs = +local__createLocal(input);
-	            return +(this.clone().startOf(units)) <= inputMs && inputMs <= +(this.clone().endOf(units));
-	        }
-	    }
-	
-	    function absFloor (number) {
-	        if (number < 0) {
-	            return Math.ceil(number);
-	        } else {
-	            return Math.floor(number);
-	        }
-	    }
-	
-	    function diff (input, units, asFloat) {
-	        var that = cloneWithOffset(input, this),
-	            zoneDelta = (that.utcOffset() - this.utcOffset()) * 6e4,
-	            delta, output;
-	
-	        units = normalizeUnits(units);
-	
-	        if (units === 'year' || units === 'month' || units === 'quarter') {
-	            output = monthDiff(this, that);
-	            if (units === 'quarter') {
-	                output = output / 3;
-	            } else if (units === 'year') {
-	                output = output / 12;
-	            }
-	        } else {
-	            delta = this - that;
-	            output = units === 'second' ? delta / 1e3 : // 1000
-	                units === 'minute' ? delta / 6e4 : // 1000 * 60
-	                units === 'hour' ? delta / 36e5 : // 1000 * 60 * 60
-	                units === 'day' ? (delta - zoneDelta) / 864e5 : // 1000 * 60 * 60 * 24, negate dst
-	                units === 'week' ? (delta - zoneDelta) / 6048e5 : // 1000 * 60 * 60 * 24 * 7, negate dst
-	                delta;
-	        }
-	        return asFloat ? output : absFloor(output);
-	    }
-	
-	    function monthDiff (a, b) {
-	        // difference in months
-	        var wholeMonthDiff = ((b.year() - a.year()) * 12) + (b.month() - a.month()),
-	            // b is in (anchor - 1 month, anchor + 1 month)
-	            anchor = a.clone().add(wholeMonthDiff, 'months'),
-	            anchor2, adjust;
-	
-	        if (b - anchor < 0) {
-	            anchor2 = a.clone().add(wholeMonthDiff - 1, 'months');
-	            // linear across the month
-	            adjust = (b - anchor) / (anchor - anchor2);
-	        } else {
-	            anchor2 = a.clone().add(wholeMonthDiff + 1, 'months');
-	            // linear across the month
-	            adjust = (b - anchor) / (anchor2 - anchor);
-	        }
-	
-	        return -(wholeMonthDiff + adjust);
-	    }
-	
-	    utils_hooks__hooks.defaultFormat = 'YYYY-MM-DDTHH:mm:ssZ';
-	
-	    function toString () {
-	        return this.clone().locale('en').format('ddd MMM DD YYYY HH:mm:ss [GMT]ZZ');
-	    }
-	
-	    function moment_format__toISOString () {
-	        var m = this.clone().utc();
-	        if (0 < m.year() && m.year() <= 9999) {
-	            if ('function' === typeof Date.prototype.toISOString) {
-	                // native implementation is ~50x faster, use it when we can
-	                return this.toDate().toISOString();
-	            } else {
-	                return formatMoment(m, 'YYYY-MM-DD[T]HH:mm:ss.SSS[Z]');
-	            }
-	        } else {
-	            return formatMoment(m, 'YYYYYY-MM-DD[T]HH:mm:ss.SSS[Z]');
-	        }
-	    }
-	
-	    function format (inputString) {
-	        var output = formatMoment(this, inputString || utils_hooks__hooks.defaultFormat);
-	        return this.localeData().postformat(output);
-	    }
-	
-	    function from (time, withoutSuffix) {
-	        if (!this.isValid()) {
-	            return this.localeData().invalidDate();
-	        }
-	        return create__createDuration({to: this, from: time}).locale(this.locale()).humanize(!withoutSuffix);
-	    }
-	
-	    function fromNow (withoutSuffix) {
-	        return this.from(local__createLocal(), withoutSuffix);
-	    }
-	
-	    function to (time, withoutSuffix) {
-	        if (!this.isValid()) {
-	            return this.localeData().invalidDate();
-	        }
-	        return create__createDuration({from: this, to: time}).locale(this.locale()).humanize(!withoutSuffix);
-	    }
-	
-	    function toNow (withoutSuffix) {
-	        return this.to(local__createLocal(), withoutSuffix);
-	    }
-	
-	    function locale (key) {
-	        var newLocaleData;
-	
-	        if (key === undefined) {
-	            return this._locale._abbr;
-	        } else {
-	            newLocaleData = locale_locales__getLocale(key);
-	            if (newLocaleData != null) {
-	                this._locale = newLocaleData;
-	            }
-	            return this;
-	        }
-	    }
-	
-	    var lang = deprecate(
-	        'moment().lang() is deprecated. Instead, use moment().localeData() to get the language configuration. Use moment().locale() to change languages.',
-	        function (key) {
-	            if (key === undefined) {
-	                return this.localeData();
-	            } else {
-	                return this.locale(key);
-	            }
-	        }
-	    );
-	
-	    function localeData () {
-	        return this._locale;
-	    }
-	
-	    function startOf (units) {
-	        units = normalizeUnits(units);
-	        // the following switch intentionally omits break keywords
-	        // to utilize falling through the cases.
-	        switch (units) {
-	        case 'year':
-	            this.month(0);
-	            /* falls through */
-	        case 'quarter':
-	        case 'month':
-	            this.date(1);
-	            /* falls through */
-	        case 'week':
-	        case 'isoWeek':
-	        case 'day':
-	            this.hours(0);
-	            /* falls through */
-	        case 'hour':
-	            this.minutes(0);
-	            /* falls through */
-	        case 'minute':
-	            this.seconds(0);
-	            /* falls through */
-	        case 'second':
-	            this.milliseconds(0);
-	        }
-	
-	        // weeks are a special case
-	        if (units === 'week') {
-	            this.weekday(0);
-	        }
-	        if (units === 'isoWeek') {
-	            this.isoWeekday(1);
-	        }
-	
-	        // quarters are also special
-	        if (units === 'quarter') {
-	            this.month(Math.floor(this.month() / 3) * 3);
-	        }
-	
-	        return this;
-	    }
-	
-	    function endOf (units) {
-	        units = normalizeUnits(units);
-	        if (units === undefined || units === 'millisecond') {
-	            return this;
-	        }
-	        return this.startOf(units).add(1, (units === 'isoWeek' ? 'week' : units)).subtract(1, 'ms');
-	    }
-	
-	    function to_type__valueOf () {
-	        return +this._d - ((this._offset || 0) * 60000);
-	    }
-	
-	    function unix () {
-	        return Math.floor(+this / 1000);
-	    }
-	
-	    function toDate () {
-	        return this._offset ? new Date(+this) : this._d;
-	    }
-	
-	    function toArray () {
-	        var m = this;
-	        return [m.year(), m.month(), m.date(), m.hour(), m.minute(), m.second(), m.millisecond()];
-	    }
-	
-	    function moment_valid__isValid () {
-	        return valid__isValid(this);
-	    }
-	
-	    function parsingFlags () {
-	        return extend({}, getParsingFlags(this));
-	    }
-	
-	    function invalidAt () {
-	        return getParsingFlags(this).overflow;
-	    }
-	
-	    addFormatToken(0, ['gg', 2], 0, function () {
-	        return this.weekYear() % 100;
-	    });
-	
-	    addFormatToken(0, ['GG', 2], 0, function () {
-	        return this.isoWeekYear() % 100;
-	    });
-	
-	    function addWeekYearFormatToken (token, getter) {
-	        addFormatToken(0, [token, token.length], 0, getter);
-	    }
-	
-	    addWeekYearFormatToken('gggg',     'weekYear');
-	    addWeekYearFormatToken('ggggg',    'weekYear');
-	    addWeekYearFormatToken('GGGG',  'isoWeekYear');
-	    addWeekYearFormatToken('GGGGG', 'isoWeekYear');
-	
-	    // ALIASES
-	
-	    addUnitAlias('weekYear', 'gg');
-	    addUnitAlias('isoWeekYear', 'GG');
-	
-	    // PARSING
-	
-	    addRegexToken('G',      matchSigned);
-	    addRegexToken('g',      matchSigned);
-	    addRegexToken('GG',     match1to2, match2);
-	    addRegexToken('gg',     match1to2, match2);
-	    addRegexToken('GGGG',   match1to4, match4);
-	    addRegexToken('gggg',   match1to4, match4);
-	    addRegexToken('GGGGG',  match1to6, match6);
-	    addRegexToken('ggggg',  match1to6, match6);
-	
-	    addWeekParseToken(['gggg', 'ggggg', 'GGGG', 'GGGGG'], function (input, week, config, token) {
-	        week[token.substr(0, 2)] = toInt(input);
-	    });
-	
-	    addWeekParseToken(['gg', 'GG'], function (input, week, config, token) {
-	        week[token] = utils_hooks__hooks.parseTwoDigitYear(input);
-	    });
-	
-	    // HELPERS
-	
-	    function weeksInYear(year, dow, doy) {
-	        return weekOfYear(local__createLocal([year, 11, 31 + dow - doy]), dow, doy).week;
-	    }
-	
-	    // MOMENTS
-	
-	    function getSetWeekYear (input) {
-	        var year = weekOfYear(this, this.localeData()._week.dow, this.localeData()._week.doy).year;
-	        return input == null ? year : this.add((input - year), 'y');
-	    }
-	
-	    function getSetISOWeekYear (input) {
-	        var year = weekOfYear(this, 1, 4).year;
-	        return input == null ? year : this.add((input - year), 'y');
-	    }
-	
-	    function getISOWeeksInYear () {
-	        return weeksInYear(this.year(), 1, 4);
-	    }
-	
-	    function getWeeksInYear () {
-	        var weekInfo = this.localeData()._week;
-	        return weeksInYear(this.year(), weekInfo.dow, weekInfo.doy);
-	    }
-	
-	    addFormatToken('Q', 0, 0, 'quarter');
-	
-	    // ALIASES
-	
-	    addUnitAlias('quarter', 'Q');
-	
-	    // PARSING
-	
-	    addRegexToken('Q', match1);
-	    addParseToken('Q', function (input, array) {
-	        array[MONTH] = (toInt(input) - 1) * 3;
-	    });
-	
-	    // MOMENTS
-	
-	    function getSetQuarter (input) {
-	        return input == null ? Math.ceil((this.month() + 1) / 3) : this.month((input - 1) * 3 + this.month() % 3);
-	    }
-	
-	    addFormatToken('D', ['DD', 2], 'Do', 'date');
-	
-	    // ALIASES
-	
-	    addUnitAlias('date', 'D');
-	
-	    // PARSING
-	
-	    addRegexToken('D',  match1to2);
-	    addRegexToken('DD', match1to2, match2);
-	    addRegexToken('Do', function (isStrict, locale) {
-	        return isStrict ? locale._ordinalParse : locale._ordinalParseLenient;
-	    });
-	
-	    addParseToken(['D', 'DD'], DATE);
-	    addParseToken('Do', function (input, array) {
-	        array[DATE] = toInt(input.match(match1to2)[0], 10);
-	    });
-	
-	    // MOMENTS
-	
-	    var getSetDayOfMonth = makeGetSet('Date', true);
-	
-	    addFormatToken('d', 0, 'do', 'day');
-	
-	    addFormatToken('dd', 0, 0, function (format) {
-	        return this.localeData().weekdaysMin(this, format);
-	    });
-	
-	    addFormatToken('ddd', 0, 0, function (format) {
-	        return this.localeData().weekdaysShort(this, format);
-	    });
-	
-	    addFormatToken('dddd', 0, 0, function (format) {
-	        return this.localeData().weekdays(this, format);
-	    });
-	
-	    addFormatToken('e', 0, 0, 'weekday');
-	    addFormatToken('E', 0, 0, 'isoWeekday');
-	
-	    // ALIASES
-	
-	    addUnitAlias('day', 'd');
-	    addUnitAlias('weekday', 'e');
-	    addUnitAlias('isoWeekday', 'E');
-	
-	    // PARSING
-	
-	    addRegexToken('d',    match1to2);
-	    addRegexToken('e',    match1to2);
-	    addRegexToken('E',    match1to2);
-	    addRegexToken('dd',   matchWord);
-	    addRegexToken('ddd',  matchWord);
-	    addRegexToken('dddd', matchWord);
-	
-	    addWeekParseToken(['dd', 'ddd', 'dddd'], function (input, week, config) {
-	        var weekday = config._locale.weekdaysParse(input);
-	        // if we didn't get a weekday name, mark the date as invalid
-	        if (weekday != null) {
-	            week.d = weekday;
-	        } else {
-	            getParsingFlags(config).invalidWeekday = input;
-	        }
-	    });
-	
-	    addWeekParseToken(['d', 'e', 'E'], function (input, week, config, token) {
-	        week[token] = toInt(input);
-	    });
-	
-	    // HELPERS
-	
-	    function parseWeekday(input, locale) {
-	        if (typeof input === 'string') {
-	            if (!isNaN(input)) {
-	                input = parseInt(input, 10);
-	            }
-	            else {
-	                input = locale.weekdaysParse(input);
-	                if (typeof input !== 'number') {
-	                    return null;
-	                }
-	            }
-	        }
-	        return input;
-	    }
-	
-	    // LOCALES
-	
-	    var defaultLocaleWeekdays = 'Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday'.split('_');
-	    function localeWeekdays (m) {
-	        return this._weekdays[m.day()];
-	    }
-	
-	    var defaultLocaleWeekdaysShort = 'Sun_Mon_Tue_Wed_Thu_Fri_Sat'.split('_');
-	    function localeWeekdaysShort (m) {
-	        return this._weekdaysShort[m.day()];
-	    }
-	
-	    var defaultLocaleWeekdaysMin = 'Su_Mo_Tu_We_Th_Fr_Sa'.split('_');
-	    function localeWeekdaysMin (m) {
-	        return this._weekdaysMin[m.day()];
-	    }
-	
-	    function localeWeekdaysParse (weekdayName) {
-	        var i, mom, regex;
-	
-	        if (!this._weekdaysParse) {
-	            this._weekdaysParse = [];
-	        }
-	
-	        for (i = 0; i < 7; i++) {
-	            // make the regex if we don't have it already
-	            if (!this._weekdaysParse[i]) {
-	                mom = local__createLocal([2000, 1]).day(i);
-	                regex = '^' + this.weekdays(mom, '') + '|^' + this.weekdaysShort(mom, '') + '|^' + this.weekdaysMin(mom, '');
-	                this._weekdaysParse[i] = new RegExp(regex.replace('.', ''), 'i');
-	            }
-	            // test the regex
-	            if (this._weekdaysParse[i].test(weekdayName)) {
-	                return i;
-	            }
-	        }
-	    }
-	
-	    // MOMENTS
-	
-	    function getSetDayOfWeek (input) {
-	        var day = this._isUTC ? this._d.getUTCDay() : this._d.getDay();
-	        if (input != null) {
-	            input = parseWeekday(input, this.localeData());
-	            return this.add(input - day, 'd');
-	        } else {
-	            return day;
-	        }
-	    }
-	
-	    function getSetLocaleDayOfWeek (input) {
-	        var weekday = (this.day() + 7 - this.localeData()._week.dow) % 7;
-	        return input == null ? weekday : this.add(input - weekday, 'd');
-	    }
-	
-	    function getSetISODayOfWeek (input) {
-	        // behaves the same as moment#day except
-	        // as a getter, returns 7 instead of 0 (1-7 range instead of 0-6)
-	        // as a setter, sunday should belong to the previous week.
-	        return input == null ? this.day() || 7 : this.day(this.day() % 7 ? input : input - 7);
-	    }
-	
-	    addFormatToken('H', ['HH', 2], 0, 'hour');
-	    addFormatToken('h', ['hh', 2], 0, function () {
-	        return this.hours() % 12 || 12;
-	    });
-	
-	    function meridiem (token, lowercase) {
-	        addFormatToken(token, 0, 0, function () {
-	            return this.localeData().meridiem(this.hours(), this.minutes(), lowercase);
-	        });
-	    }
-	
-	    meridiem('a', true);
-	    meridiem('A', false);
-	
-	    // ALIASES
-	
-	    addUnitAlias('hour', 'h');
-	
-	    // PARSING
-	
-	    function matchMeridiem (isStrict, locale) {
-	        return locale._meridiemParse;
-	    }
-	
-	    addRegexToken('a',  matchMeridiem);
-	    addRegexToken('A',  matchMeridiem);
-	    addRegexToken('H',  match1to2);
-	    addRegexToken('h',  match1to2);
-	    addRegexToken('HH', match1to2, match2);
-	    addRegexToken('hh', match1to2, match2);
-	
-	    addParseToken(['H', 'HH'], HOUR);
-	    addParseToken(['a', 'A'], function (input, array, config) {
-	        config._isPm = config._locale.isPM(input);
-	        config._meridiem = input;
-	    });
-	    addParseToken(['h', 'hh'], function (input, array, config) {
-	        array[HOUR] = toInt(input);
-	        getParsingFlags(config).bigHour = true;
-	    });
-	
-	    // LOCALES
-	
-	    function localeIsPM (input) {
-	        // IE8 Quirks Mode & IE7 Standards Mode do not allow accessing strings like arrays
-	        // Using charAt should be more compatible.
-	        return ((input + '').toLowerCase().charAt(0) === 'p');
-	    }
-	
-	    var defaultLocaleMeridiemParse = /[ap]\.?m?\.?/i;
-	    function localeMeridiem (hours, minutes, isLower) {
-	        if (hours > 11) {
-	            return isLower ? 'pm' : 'PM';
-	        } else {
-	            return isLower ? 'am' : 'AM';
-	        }
-	    }
-	
-	
-	    // MOMENTS
-	
-	    // Setting the hour should keep the time, because the user explicitly
-	    // specified which hour he wants. So trying to maintain the same hour (in
-	    // a new timezone) makes sense. Adding/subtracting hours does not follow
-	    // this rule.
-	    var getSetHour = makeGetSet('Hours', true);
-	
-	    addFormatToken('m', ['mm', 2], 0, 'minute');
-	
-	    // ALIASES
-	
-	    addUnitAlias('minute', 'm');
-	
-	    // PARSING
-	
-	    addRegexToken('m',  match1to2);
-	    addRegexToken('mm', match1to2, match2);
-	    addParseToken(['m', 'mm'], MINUTE);
-	
-	    // MOMENTS
-	
-	    var getSetMinute = makeGetSet('Minutes', false);
-	
-	    addFormatToken('s', ['ss', 2], 0, 'second');
-	
-	    // ALIASES
-	
-	    addUnitAlias('second', 's');
-	
-	    // PARSING
-	
-	    addRegexToken('s',  match1to2);
-	    addRegexToken('ss', match1to2, match2);
-	    addParseToken(['s', 'ss'], SECOND);
-	
-	    // MOMENTS
-	
-	    var getSetSecond = makeGetSet('Seconds', false);
-	
-	    addFormatToken('S', 0, 0, function () {
-	        return ~~(this.millisecond() / 100);
-	    });
-	
-	    addFormatToken(0, ['SS', 2], 0, function () {
-	        return ~~(this.millisecond() / 10);
-	    });
-	
-	    function millisecond__milliseconds (token) {
-	        addFormatToken(0, [token, 3], 0, 'millisecond');
-	    }
-	
-	    millisecond__milliseconds('SSS');
-	    millisecond__milliseconds('SSSS');
-	
-	    // ALIASES
-	
-	    addUnitAlias('millisecond', 'ms');
-	
-	    // PARSING
-	
-	    addRegexToken('S',    match1to3, match1);
-	    addRegexToken('SS',   match1to3, match2);
-	    addRegexToken('SSS',  match1to3, match3);
-	    addRegexToken('SSSS', matchUnsigned);
-	    addParseToken(['S', 'SS', 'SSS', 'SSSS'], function (input, array) {
-	        array[MILLISECOND] = toInt(('0.' + input) * 1000);
-	    });
-	
-	    // MOMENTS
-	
-	    var getSetMillisecond = makeGetSet('Milliseconds', false);
-	
-	    addFormatToken('z',  0, 0, 'zoneAbbr');
-	    addFormatToken('zz', 0, 0, 'zoneName');
-	
-	    // MOMENTS
-	
-	    function getZoneAbbr () {
-	        return this._isUTC ? 'UTC' : '';
-	    }
-	
-	    function getZoneName () {
-	        return this._isUTC ? 'Coordinated Universal Time' : '';
-	    }
-	
-	    var momentPrototype__proto = Moment.prototype;
-	
-	    momentPrototype__proto.add          = add_subtract__add;
-	    momentPrototype__proto.calendar     = moment_calendar__calendar;
-	    momentPrototype__proto.clone        = clone;
-	    momentPrototype__proto.diff         = diff;
-	    momentPrototype__proto.endOf        = endOf;
-	    momentPrototype__proto.format       = format;
-	    momentPrototype__proto.from         = from;
-	    momentPrototype__proto.fromNow      = fromNow;
-	    momentPrototype__proto.to           = to;
-	    momentPrototype__proto.toNow        = toNow;
-	    momentPrototype__proto.get          = getSet;
-	    momentPrototype__proto.invalidAt    = invalidAt;
-	    momentPrototype__proto.isAfter      = isAfter;
-	    momentPrototype__proto.isBefore     = isBefore;
-	    momentPrototype__proto.isBetween    = isBetween;
-	    momentPrototype__proto.isSame       = isSame;
-	    momentPrototype__proto.isValid      = moment_valid__isValid;
-	    momentPrototype__proto.lang         = lang;
-	    momentPrototype__proto.locale       = locale;
-	    momentPrototype__proto.localeData   = localeData;
-	    momentPrototype__proto.max          = prototypeMax;
-	    momentPrototype__proto.min          = prototypeMin;
-	    momentPrototype__proto.parsingFlags = parsingFlags;
-	    momentPrototype__proto.set          = getSet;
-	    momentPrototype__proto.startOf      = startOf;
-	    momentPrototype__proto.subtract     = add_subtract__subtract;
-	    momentPrototype__proto.toArray      = toArray;
-	    momentPrototype__proto.toDate       = toDate;
-	    momentPrototype__proto.toISOString  = moment_format__toISOString;
-	    momentPrototype__proto.toJSON       = moment_format__toISOString;
-	    momentPrototype__proto.toString     = toString;
-	    momentPrototype__proto.unix         = unix;
-	    momentPrototype__proto.valueOf      = to_type__valueOf;
-	
-	    // Year
-	    momentPrototype__proto.year       = getSetYear;
-	    momentPrototype__proto.isLeapYear = getIsLeapYear;
-	
-	    // Week Year
-	    momentPrototype__proto.weekYear    = getSetWeekYear;
-	    momentPrototype__proto.isoWeekYear = getSetISOWeekYear;
-	
-	    // Quarter
-	    momentPrototype__proto.quarter = momentPrototype__proto.quarters = getSetQuarter;
-	
-	    // Month
-	    momentPrototype__proto.month       = getSetMonth;
-	    momentPrototype__proto.daysInMonth = getDaysInMonth;
-	
-	    // Week
-	    momentPrototype__proto.week           = momentPrototype__proto.weeks        = getSetWeek;
-	    momentPrototype__proto.isoWeek        = momentPrototype__proto.isoWeeks     = getSetISOWeek;
-	    momentPrototype__proto.weeksInYear    = getWeeksInYear;
-	    momentPrototype__proto.isoWeeksInYear = getISOWeeksInYear;
-	
-	    // Day
-	    momentPrototype__proto.date       = getSetDayOfMonth;
-	    momentPrototype__proto.day        = momentPrototype__proto.days             = getSetDayOfWeek;
-	    momentPrototype__proto.weekday    = getSetLocaleDayOfWeek;
-	    momentPrototype__proto.isoWeekday = getSetISODayOfWeek;
-	    momentPrototype__proto.dayOfYear  = getSetDayOfYear;
-	
-	    // Hour
-	    momentPrototype__proto.hour = momentPrototype__proto.hours = getSetHour;
-	
-	    // Minute
-	    momentPrototype__proto.minute = momentPrototype__proto.minutes = getSetMinute;
-	
-	    // Second
-	    momentPrototype__proto.second = momentPrototype__proto.seconds = getSetSecond;
-	
-	    // Millisecond
-	    momentPrototype__proto.millisecond = momentPrototype__proto.milliseconds = getSetMillisecond;
-	
-	    // Offset
-	    momentPrototype__proto.utcOffset            = getSetOffset;
-	    momentPrototype__proto.utc                  = setOffsetToUTC;
-	    momentPrototype__proto.local                = setOffsetToLocal;
-	    momentPrototype__proto.parseZone            = setOffsetToParsedOffset;
-	    momentPrototype__proto.hasAlignedHourOffset = hasAlignedHourOffset;
-	    momentPrototype__proto.isDST                = isDaylightSavingTime;
-	    momentPrototype__proto.isDSTShifted         = isDaylightSavingTimeShifted;
-	    momentPrototype__proto.isLocal              = isLocal;
-	    momentPrototype__proto.isUtcOffset          = isUtcOffset;
-	    momentPrototype__proto.isUtc                = isUtc;
-	    momentPrototype__proto.isUTC                = isUtc;
-	
-	    // Timezone
-	    momentPrototype__proto.zoneAbbr = getZoneAbbr;
-	    momentPrototype__proto.zoneName = getZoneName;
-	
-	    // Deprecations
-	    momentPrototype__proto.dates  = deprecate('dates accessor is deprecated. Use date instead.', getSetDayOfMonth);
-	    momentPrototype__proto.months = deprecate('months accessor is deprecated. Use month instead', getSetMonth);
-	    momentPrototype__proto.years  = deprecate('years accessor is deprecated. Use year instead', getSetYear);
-	    momentPrototype__proto.zone   = deprecate('moment().zone is deprecated, use moment().utcOffset instead. https://github.com/moment/moment/issues/1779', getSetZone);
-	
-	    var momentPrototype = momentPrototype__proto;
-	
-	    function moment__createUnix (input) {
-	        return local__createLocal(input * 1000);
-	    }
-	
-	    function moment__createInZone () {
-	        return local__createLocal.apply(null, arguments).parseZone();
-	    }
-	
-	    var defaultCalendar = {
-	        sameDay : '[Today at] LT',
-	        nextDay : '[Tomorrow at] LT',
-	        nextWeek : 'dddd [at] LT',
-	        lastDay : '[Yesterday at] LT',
-	        lastWeek : '[Last] dddd [at] LT',
-	        sameElse : 'L'
-	    };
-	
-	    function locale_calendar__calendar (key, mom, now) {
-	        var output = this._calendar[key];
-	        return typeof output === 'function' ? output.call(mom, now) : output;
-	    }
-	
-	    var defaultLongDateFormat = {
-	        LTS  : 'h:mm:ss A',
-	        LT   : 'h:mm A',
-	        L    : 'MM/DD/YYYY',
-	        LL   : 'MMMM D, YYYY',
-	        LLL  : 'MMMM D, YYYY LT',
-	        LLLL : 'dddd, MMMM D, YYYY LT'
-	    };
-	
-	    function longDateFormat (key) {
-	        var output = this._longDateFormat[key];
-	        if (!output && this._longDateFormat[key.toUpperCase()]) {
-	            output = this._longDateFormat[key.toUpperCase()].replace(/MMMM|MM|DD|dddd/g, function (val) {
-	                return val.slice(1);
-	            });
-	            this._longDateFormat[key] = output;
-	        }
-	        return output;
-	    }
-	
-	    var defaultInvalidDate = 'Invalid date';
-	
-	    function invalidDate () {
-	        return this._invalidDate;
-	    }
-	
-	    var defaultOrdinal = '%d';
-	    var defaultOrdinalParse = /\d{1,2}/;
-	
-	    function ordinal (number) {
-	        return this._ordinal.replace('%d', number);
-	    }
-	
-	    function preParsePostFormat (string) {
-	        return string;
-	    }
-	
-	    var defaultRelativeTime = {
-	        future : 'in %s',
-	        past   : '%s ago',
-	        s  : 'a few seconds',
-	        m  : 'a minute',
-	        mm : '%d minutes',
-	        h  : 'an hour',
-	        hh : '%d hours',
-	        d  : 'a day',
-	        dd : '%d days',
-	        M  : 'a month',
-	        MM : '%d months',
-	        y  : 'a year',
-	        yy : '%d years'
-	    };
-	
-	    function relative__relativeTime (number, withoutSuffix, string, isFuture) {
-	        var output = this._relativeTime[string];
-	        return (typeof output === 'function') ?
-	            output(number, withoutSuffix, string, isFuture) :
-	            output.replace(/%d/i, number);
-	    }
-	
-	    function pastFuture (diff, output) {
-	        var format = this._relativeTime[diff > 0 ? 'future' : 'past'];
-	        return typeof format === 'function' ? format(output) : format.replace(/%s/i, output);
-	    }
-	
-	    function locale_set__set (config) {
-	        var prop, i;
-	        for (i in config) {
-	            prop = config[i];
-	            if (typeof prop === 'function') {
-	                this[i] = prop;
-	            } else {
-	                this['_' + i] = prop;
-	            }
-	        }
-	        // Lenient ordinal parsing accepts just a number in addition to
-	        // number + (possibly) stuff coming from _ordinalParseLenient.
-	        this._ordinalParseLenient = new RegExp(this._ordinalParse.source + '|' + (/\d{1,2}/).source);
-	    }
-	
-	    var prototype__proto = Locale.prototype;
-	
-	    prototype__proto._calendar       = defaultCalendar;
-	    prototype__proto.calendar        = locale_calendar__calendar;
-	    prototype__proto._longDateFormat = defaultLongDateFormat;
-	    prototype__proto.longDateFormat  = longDateFormat;
-	    prototype__proto._invalidDate    = defaultInvalidDate;
-	    prototype__proto.invalidDate     = invalidDate;
-	    prototype__proto._ordinal        = defaultOrdinal;
-	    prototype__proto.ordinal         = ordinal;
-	    prototype__proto._ordinalParse   = defaultOrdinalParse;
-	    prototype__proto.preparse        = preParsePostFormat;
-	    prototype__proto.postformat      = preParsePostFormat;
-	    prototype__proto._relativeTime   = defaultRelativeTime;
-	    prototype__proto.relativeTime    = relative__relativeTime;
-	    prototype__proto.pastFuture      = pastFuture;
-	    prototype__proto.set             = locale_set__set;
-	
-	    // Month
-	    prototype__proto.months       =        localeMonths;
-	    prototype__proto._months      = defaultLocaleMonths;
-	    prototype__proto.monthsShort  =        localeMonthsShort;
-	    prototype__proto._monthsShort = defaultLocaleMonthsShort;
-	    prototype__proto.monthsParse  =        localeMonthsParse;
-	
-	    // Week
-	    prototype__proto.week = localeWeek;
-	    prototype__proto._week = defaultLocaleWeek;
-	    prototype__proto.firstDayOfYear = localeFirstDayOfYear;
-	    prototype__proto.firstDayOfWeek = localeFirstDayOfWeek;
-	
-	    // Day of Week
-	    prototype__proto.weekdays       =        localeWeekdays;
-	    prototype__proto._weekdays      = defaultLocaleWeekdays;
-	    prototype__proto.weekdaysMin    =        localeWeekdaysMin;
-	    prototype__proto._weekdaysMin   = defaultLocaleWeekdaysMin;
-	    prototype__proto.weekdaysShort  =        localeWeekdaysShort;
-	    prototype__proto._weekdaysShort = defaultLocaleWeekdaysShort;
-	    prototype__proto.weekdaysParse  =        localeWeekdaysParse;
-	
-	    // Hours
-	    prototype__proto.isPM = localeIsPM;
-	    prototype__proto._meridiemParse = defaultLocaleMeridiemParse;
-	    prototype__proto.meridiem = localeMeridiem;
-	
-	    function lists__get (format, index, field, setter) {
-	        var locale = locale_locales__getLocale();
-	        var utc = create_utc__createUTC().set(setter, index);
-	        return locale[field](utc, format);
-	    }
-	
-	    function list (format, index, field, count, setter) {
-	        if (typeof format === 'number') {
-	            index = format;
-	            format = undefined;
-	        }
-	
-	        format = format || '';
-	
-	        if (index != null) {
-	            return lists__get(format, index, field, setter);
-	        }
-	
-	        var i;
-	        var out = [];
-	        for (i = 0; i < count; i++) {
-	            out[i] = lists__get(format, i, field, setter);
-	        }
-	        return out;
-	    }
-	
-	    function lists__listMonths (format, index) {
-	        return list(format, index, 'months', 12, 'month');
-	    }
-	
-	    function lists__listMonthsShort (format, index) {
-	        return list(format, index, 'monthsShort', 12, 'month');
-	    }
-	
-	    function lists__listWeekdays (format, index) {
-	        return list(format, index, 'weekdays', 7, 'day');
-	    }
-	
-	    function lists__listWeekdaysShort (format, index) {
-	        return list(format, index, 'weekdaysShort', 7, 'day');
-	    }
-	
-	    function lists__listWeekdaysMin (format, index) {
-	        return list(format, index, 'weekdaysMin', 7, 'day');
-	    }
-	
-	    locale_locales__getSetGlobalLocale('en', {
-	        ordinalParse: /\d{1,2}(th|st|nd|rd)/,
-	        ordinal : function (number) {
-	            var b = number % 10,
-	                output = (toInt(number % 100 / 10) === 1) ? 'th' :
-	                (b === 1) ? 'st' :
-	                (b === 2) ? 'nd' :
-	                (b === 3) ? 'rd' : 'th';
-	            return number + output;
-	        }
-	    });
-	
-	    // Side effect imports
-	    utils_hooks__hooks.lang = deprecate('moment.lang is deprecated. Use moment.locale instead.', locale_locales__getSetGlobalLocale);
-	    utils_hooks__hooks.langData = deprecate('moment.langData is deprecated. Use moment.localeData instead.', locale_locales__getLocale);
-	
-	    var mathAbs = Math.abs;
-	
-	    function duration_abs__abs () {
-	        var data           = this._data;
-	
-	        this._milliseconds = mathAbs(this._milliseconds);
-	        this._days         = mathAbs(this._days);
-	        this._months       = mathAbs(this._months);
-	
-	        data.milliseconds  = mathAbs(data.milliseconds);
-	        data.seconds       = mathAbs(data.seconds);
-	        data.minutes       = mathAbs(data.minutes);
-	        data.hours         = mathAbs(data.hours);
-	        data.months        = mathAbs(data.months);
-	        data.years         = mathAbs(data.years);
-	
-	        return this;
-	    }
-	
-	    function duration_add_subtract__addSubtract (duration, input, value, direction) {
-	        var other = create__createDuration(input, value);
-	
-	        duration._milliseconds += direction * other._milliseconds;
-	        duration._days         += direction * other._days;
-	        duration._months       += direction * other._months;
-	
-	        return duration._bubble();
-	    }
-	
-	    // supports only 2.0-style add(1, 's') or add(duration)
-	    function duration_add_subtract__add (input, value) {
-	        return duration_add_subtract__addSubtract(this, input, value, 1);
-	    }
-	
-	    // supports only 2.0-style subtract(1, 's') or subtract(duration)
-	    function duration_add_subtract__subtract (input, value) {
-	        return duration_add_subtract__addSubtract(this, input, value, -1);
-	    }
-	
-	    function bubble () {
-	        var milliseconds = this._milliseconds;
-	        var days         = this._days;
-	        var months       = this._months;
-	        var data         = this._data;
-	        var seconds, minutes, hours, years = 0;
-	
-	        // The following code bubbles up values, see the tests for
-	        // examples of what that means.
-	        data.milliseconds = milliseconds % 1000;
-	
-	        seconds           = absFloor(milliseconds / 1000);
-	        data.seconds      = seconds % 60;
-	
-	        minutes           = absFloor(seconds / 60);
-	        data.minutes      = minutes % 60;
-	
-	        hours             = absFloor(minutes / 60);
-	        data.hours        = hours % 24;
-	
-	        days += absFloor(hours / 24);
-	
-	        // Accurately convert days to years, assume start from year 0.
-	        years = absFloor(daysToYears(days));
-	        days -= absFloor(yearsToDays(years));
-	
-	        // 30 days to a month
-	        // TODO (iskren): Use anchor date (like 1st Jan) to compute this.
-	        months += absFloor(days / 30);
-	        days   %= 30;
-	
-	        // 12 months -> 1 year
-	        years  += absFloor(months / 12);
-	        months %= 12;
-	
-	        data.days   = days;
-	        data.months = months;
-	        data.years  = years;
-	
-	        return this;
-	    }
-	
-	    function daysToYears (days) {
-	        // 400 years have 146097 days (taking into account leap year rules)
-	        return days * 400 / 146097;
-	    }
-	
-	    function yearsToDays (years) {
-	        // years * 365 + absFloor(years / 4) -
-	        //     absFloor(years / 100) + absFloor(years / 400);
-	        return years * 146097 / 400;
-	    }
-	
-	    function as (units) {
-	        var days;
-	        var months;
-	        var milliseconds = this._milliseconds;
-	
-	        units = normalizeUnits(units);
-	
-	        if (units === 'month' || units === 'year') {
-	            days   = this._days   + milliseconds / 864e5;
-	            months = this._months + daysToYears(days) * 12;
-	            return units === 'month' ? months : months / 12;
-	        } else {
-	            // handle milliseconds separately because of floating point math errors (issue #1867)
-	            days = this._days + Math.round(yearsToDays(this._months / 12));
-	            switch (units) {
-	                case 'week'   : return days / 7     + milliseconds / 6048e5;
-	                case 'day'    : return days         + milliseconds / 864e5;
-	                case 'hour'   : return days * 24    + milliseconds / 36e5;
-	                case 'minute' : return days * 1440  + milliseconds / 6e4;
-	                case 'second' : return days * 86400 + milliseconds / 1000;
-	                // Math.floor prevents floating point math errors here
-	                case 'millisecond': return Math.floor(days * 864e5) + milliseconds;
-	                default: throw new Error('Unknown unit ' + units);
-	            }
-	        }
-	    }
-	
-	    // TODO: Use this.as('ms')?
-	    function duration_as__valueOf () {
-	        return (
-	            this._milliseconds +
-	            this._days * 864e5 +
-	            (this._months % 12) * 2592e6 +
-	            toInt(this._months / 12) * 31536e6
-	        );
-	    }
-	
-	    function makeAs (alias) {
-	        return function () {
-	            return this.as(alias);
-	        };
-	    }
-	
-	    var asMilliseconds = makeAs('ms');
-	    var asSeconds      = makeAs('s');
-	    var asMinutes      = makeAs('m');
-	    var asHours        = makeAs('h');
-	    var asDays         = makeAs('d');
-	    var asWeeks        = makeAs('w');
-	    var asMonths       = makeAs('M');
-	    var asYears        = makeAs('y');
-	
-	    function duration_get__get (units) {
-	        units = normalizeUnits(units);
-	        return this[units + 's']();
-	    }
-	
-	    function makeGetter(name) {
-	        return function () {
-	            return this._data[name];
-	        };
-	    }
-	
-	    var duration_get__milliseconds = makeGetter('milliseconds');
-	    var seconds      = makeGetter('seconds');
-	    var minutes      = makeGetter('minutes');
-	    var hours        = makeGetter('hours');
-	    var days         = makeGetter('days');
-	    var months       = makeGetter('months');
-	    var years        = makeGetter('years');
-	
-	    function weeks () {
-	        return absFloor(this.days() / 7);
-	    }
-	
-	    var round = Math.round;
-	    var thresholds = {
-	        s: 45,  // seconds to minute
-	        m: 45,  // minutes to hour
-	        h: 22,  // hours to day
-	        d: 26,  // days to month
-	        M: 11   // months to year
-	    };
-	
-	    // helper function for moment.fn.from, moment.fn.fromNow, and moment.duration.fn.humanize
-	    function substituteTimeAgo(string, number, withoutSuffix, isFuture, locale) {
-	        return locale.relativeTime(number || 1, !!withoutSuffix, string, isFuture);
-	    }
-	
-	    function duration_humanize__relativeTime (posNegDuration, withoutSuffix, locale) {
-	        var duration = create__createDuration(posNegDuration).abs();
-	        var seconds  = round(duration.as('s'));
-	        var minutes  = round(duration.as('m'));
-	        var hours    = round(duration.as('h'));
-	        var days     = round(duration.as('d'));
-	        var months   = round(duration.as('M'));
-	        var years    = round(duration.as('y'));
-	
-	        var a = seconds < thresholds.s && ['s', seconds]  ||
-	                minutes === 1          && ['m']           ||
-	                minutes < thresholds.m && ['mm', minutes] ||
-	                hours   === 1          && ['h']           ||
-	                hours   < thresholds.h && ['hh', hours]   ||
-	                days    === 1          && ['d']           ||
-	                days    < thresholds.d && ['dd', days]    ||
-	                months  === 1          && ['M']           ||
-	                months  < thresholds.M && ['MM', months]  ||
-	                years   === 1          && ['y']           || ['yy', years];
-	
-	        a[2] = withoutSuffix;
-	        a[3] = +posNegDuration > 0;
-	        a[4] = locale;
-	        return substituteTimeAgo.apply(null, a);
-	    }
-	
-	    // This function allows you to set a threshold for relative time strings
-	    function duration_humanize__getSetRelativeTimeThreshold (threshold, limit) {
-	        if (thresholds[threshold] === undefined) {
-	            return false;
-	        }
-	        if (limit === undefined) {
-	            return thresholds[threshold];
-	        }
-	        thresholds[threshold] = limit;
-	        return true;
-	    }
-	
-	    function humanize (withSuffix) {
-	        var locale = this.localeData();
-	        var output = duration_humanize__relativeTime(this, !withSuffix, locale);
-	
-	        if (withSuffix) {
-	            output = locale.pastFuture(+this, output);
-	        }
-	
-	        return locale.postformat(output);
-	    }
-	
-	    var iso_string__abs = Math.abs;
-	
-	    function iso_string__toISOString() {
-	        // inspired by https://github.com/dordille/moment-isoduration/blob/master/moment.isoduration.js
-	        var Y = iso_string__abs(this.years());
-	        var M = iso_string__abs(this.months());
-	        var D = iso_string__abs(this.days());
-	        var h = iso_string__abs(this.hours());
-	        var m = iso_string__abs(this.minutes());
-	        var s = iso_string__abs(this.seconds() + this.milliseconds() / 1000);
-	        var total = this.asSeconds();
-	
-	        if (!total) {
-	            // this is the same as C#'s (Noda) and python (isodate)...
-	            // but not other JS (goog.date)
-	            return 'P0D';
-	        }
-	
-	        return (total < 0 ? '-' : '') +
-	            'P' +
-	            (Y ? Y + 'Y' : '') +
-	            (M ? M + 'M' : '') +
-	            (D ? D + 'D' : '') +
-	            ((h || m || s) ? 'T' : '') +
-	            (h ? h + 'H' : '') +
-	            (m ? m + 'M' : '') +
-	            (s ? s + 'S' : '');
-	    }
-	
-	    var duration_prototype__proto = Duration.prototype;
-	
-	    duration_prototype__proto.abs            = duration_abs__abs;
-	    duration_prototype__proto.add            = duration_add_subtract__add;
-	    duration_prototype__proto.subtract       = duration_add_subtract__subtract;
-	    duration_prototype__proto.as             = as;
-	    duration_prototype__proto.asMilliseconds = asMilliseconds;
-	    duration_prototype__proto.asSeconds      = asSeconds;
-	    duration_prototype__proto.asMinutes      = asMinutes;
-	    duration_prototype__proto.asHours        = asHours;
-	    duration_prototype__proto.asDays         = asDays;
-	    duration_prototype__proto.asWeeks        = asWeeks;
-	    duration_prototype__proto.asMonths       = asMonths;
-	    duration_prototype__proto.asYears        = asYears;
-	    duration_prototype__proto.valueOf        = duration_as__valueOf;
-	    duration_prototype__proto._bubble        = bubble;
-	    duration_prototype__proto.get            = duration_get__get;
-	    duration_prototype__proto.milliseconds   = duration_get__milliseconds;
-	    duration_prototype__proto.seconds        = seconds;
-	    duration_prototype__proto.minutes        = minutes;
-	    duration_prototype__proto.hours          = hours;
-	    duration_prototype__proto.days           = days;
-	    duration_prototype__proto.weeks          = weeks;
-	    duration_prototype__proto.months         = months;
-	    duration_prototype__proto.years          = years;
-	    duration_prototype__proto.humanize       = humanize;
-	    duration_prototype__proto.toISOString    = iso_string__toISOString;
-	    duration_prototype__proto.toString       = iso_string__toISOString;
-	    duration_prototype__proto.toJSON         = iso_string__toISOString;
-	    duration_prototype__proto.locale         = locale;
-	    duration_prototype__proto.localeData     = localeData;
-	
-	    // Deprecations
-	    duration_prototype__proto.toIsoString = deprecate('toIsoString() is deprecated. Please use toISOString() instead (notice the capitals)', iso_string__toISOString);
-	    duration_prototype__proto.lang = lang;
-	
-	    // Side effect imports
-	
-	    addFormatToken('X', 0, 0, 'unix');
-	    addFormatToken('x', 0, 0, 'valueOf');
-	
-	    // PARSING
-	
-	    addRegexToken('x', matchSigned);
-	    addRegexToken('X', matchTimestamp);
-	    addParseToken('X', function (input, array, config) {
-	        config._d = new Date(parseFloat(input, 10) * 1000);
-	    });
-	    addParseToken('x', function (input, array, config) {
-	        config._d = new Date(toInt(input));
-	    });
-	
-	    // Side effect imports
-	
-	
-	    utils_hooks__hooks.version = '2.10.3';
-	
-	    setHookCallback(local__createLocal);
-	
-	    utils_hooks__hooks.fn                    = momentPrototype;
-	    utils_hooks__hooks.min                   = min;
-	    utils_hooks__hooks.max                   = max;
-	    utils_hooks__hooks.utc                   = create_utc__createUTC;
-	    utils_hooks__hooks.unix                  = moment__createUnix;
-	    utils_hooks__hooks.months                = lists__listMonths;
-	    utils_hooks__hooks.isDate                = isDate;
-	    utils_hooks__hooks.locale                = locale_locales__getSetGlobalLocale;
-	    utils_hooks__hooks.invalid               = valid__createInvalid;
-	    utils_hooks__hooks.duration              = create__createDuration;
-	    utils_hooks__hooks.isMoment              = isMoment;
-	    utils_hooks__hooks.weekdays              = lists__listWeekdays;
-	    utils_hooks__hooks.parseZone             = moment__createInZone;
-	    utils_hooks__hooks.localeData            = locale_locales__getLocale;
-	    utils_hooks__hooks.isDuration            = isDuration;
-	    utils_hooks__hooks.monthsShort           = lists__listMonthsShort;
-	    utils_hooks__hooks.weekdaysMin           = lists__listWeekdaysMin;
-	    utils_hooks__hooks.defineLocale          = defineLocale;
-	    utils_hooks__hooks.weekdaysShort         = lists__listWeekdaysShort;
-	    utils_hooks__hooks.normalizeUnits        = normalizeUnits;
-	    utils_hooks__hooks.relativeTimeThreshold = duration_humanize__getSetRelativeTimeThreshold;
-	
-	    var _moment = utils_hooks__hooks;
-	
-	    return _moment;
-	
-	}));
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(35)(module)))
-
-/***/ },
-/* 17 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(30);
-
-
-/***/ },
 /* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
-	var _Object$create = __webpack_require__(36)["default"];
+	var _Object$create = __webpack_require__(35)["default"];
 	
 	exports["default"] = function (subClass, superClass) {
 	  if (typeof superClass !== "function" && superClass !== null) {
@@ -25626,7 +25639,7 @@
 
 	"use strict";
 	
-	var _Object$getOwnPropertyDescriptor = __webpack_require__(37)["default"];
+	var _Object$getOwnPropertyDescriptor = __webpack_require__(36)["default"];
 	
 	exports["default"] = function get(_x, _x2, _x3) {
 	  var _again = true;
@@ -25715,7 +25728,7 @@
 /* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(148), __esModule: true };
+	module.exports = { "default": __webpack_require__(145), __esModule: true };
 
 /***/ },
 /* 23 */
@@ -25741,11 +25754,11 @@
 	  value: true
 	});
 	
-	var _Crossfilter = __webpack_require__(121);
+	var _Crossfilter = __webpack_require__(120);
 	
 	var _Crossfilter2 = _interopRequireDefault(_Crossfilter);
 	
-	var _Store2 = __webpack_require__(32);
+	var _Store2 = __webpack_require__(33);
 	
 	var HistoricalStore = (function (_Store) {
 	  function HistoricalStore(action, props) {
@@ -25838,7 +25851,7 @@
 	
 	var _import2 = _interopRequireDefault(_import);
 	
-	var _Store2 = __webpack_require__(32);
+	var _Store2 = __webpack_require__(33);
 	
 	var LatestStore = (function (_Store) {
 	  function LatestStore(props) {
@@ -25898,11 +25911,11 @@
 	
 	var _import2 = _interopRequireDefault(_import);
 	
-	var _THREE = __webpack_require__(146);
+	var _THREE = __webpack_require__(143);
 	
 	var _THREE2 = _interopRequireDefault(_THREE);
 	
-	var _Store2 = __webpack_require__(32);
+	var _Store2 = __webpack_require__(33);
 	
 	var QuaternionStore = (function (_Store) {
 	  function QuaternionStore(props) {
@@ -25967,15 +25980,11 @@
 	  value: true
 	});
 	
-	// import TelemetryIndex from "../telemetry_index.js";
-	// import _ from "lodash";
+	// According to https://github.com/acdlite/flummox/pull/176, class support will
+	// likely soon be deprecated.
 	
 	var TelemetryActions = {
 	  relay: function relay(telemetry) {
-	    // if (telemetry[0].k === TelemetryIndex.number("STATUS")) {
-	    //   console.log("status event", _.map(telemetry, (d) => {return d.v;}));
-	    // }
-	
 	    return telemetry;
 	  }
 	};
@@ -26005,7 +26014,7 @@
 	  value: true
 	});
 	
-	var _React = __webpack_require__(17);
+	var _React = __webpack_require__(16);
 	
 	var _React2 = _interopRequireDefault(_React);
 	
@@ -26157,7 +26166,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	module.exports = __webpack_require__(143);
+	module.exports = __webpack_require__(142);
 
 
 /***/ },
@@ -26179,27 +26188,27 @@
 	
 	'use strict';
 	
-	var EventPluginUtils = __webpack_require__(122);
-	var ReactChildren = __webpack_require__(123);
-	var ReactComponent = __webpack_require__(124);
-	var ReactClass = __webpack_require__(125);
-	var ReactContext = __webpack_require__(126);
-	var ReactCurrentOwner = __webpack_require__(127);
-	var ReactElement = __webpack_require__(128);
-	var ReactElementValidator = __webpack_require__(129);
-	var ReactDOM = __webpack_require__(130);
-	var ReactDOMTextComponent = __webpack_require__(131);
-	var ReactDefaultInjection = __webpack_require__(132);
-	var ReactInstanceHandles = __webpack_require__(133);
-	var ReactMount = __webpack_require__(134);
-	var ReactPerf = __webpack_require__(135);
-	var ReactPropTypes = __webpack_require__(136);
-	var ReactReconciler = __webpack_require__(137);
-	var ReactServerRendering = __webpack_require__(138);
+	var EventPluginUtils = __webpack_require__(121);
+	var ReactChildren = __webpack_require__(122);
+	var ReactComponent = __webpack_require__(123);
+	var ReactClass = __webpack_require__(124);
+	var ReactContext = __webpack_require__(125);
+	var ReactCurrentOwner = __webpack_require__(126);
+	var ReactElement = __webpack_require__(127);
+	var ReactElementValidator = __webpack_require__(128);
+	var ReactDOM = __webpack_require__(129);
+	var ReactDOMTextComponent = __webpack_require__(130);
+	var ReactDefaultInjection = __webpack_require__(131);
+	var ReactInstanceHandles = __webpack_require__(132);
+	var ReactMount = __webpack_require__(133);
+	var ReactPerf = __webpack_require__(134);
+	var ReactPropTypes = __webpack_require__(135);
+	var ReactReconciler = __webpack_require__(136);
+	var ReactServerRendering = __webpack_require__(137);
 	
-	var assign = __webpack_require__(139);
-	var findDOMNode = __webpack_require__(140);
-	var onlyChild = __webpack_require__(141);
+	var assign = __webpack_require__(138);
+	var findDOMNode = __webpack_require__(139);
+	var onlyChild = __webpack_require__(140);
 	
 	ReactDefaultInjection.inject();
 	
@@ -26265,7 +26274,7 @@
 	}
 	
 	if ("production" !== process.env.NODE_ENV) {
-	  var ExecutionEnvironment = __webpack_require__(142);
+	  var ExecutionEnvironment = __webpack_require__(141);
 	  if (ExecutionEnvironment.canUseDOM && window.top === window.self) {
 	
 	    // If we're in Chrome, look for the devtools marker and provide a download
@@ -26313,179 +26322,179 @@
 	
 	module.exports = React;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
 /* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./af": 38,
-		"./af.js": 38,
-		"./ar": 42,
-		"./ar-ma": 39,
-		"./ar-ma.js": 39,
-		"./ar-sa": 40,
-		"./ar-sa.js": 40,
-		"./ar-tn": 41,
-		"./ar-tn.js": 41,
-		"./ar.js": 42,
-		"./az": 43,
-		"./az.js": 43,
-		"./be": 44,
-		"./be.js": 44,
-		"./bg": 45,
-		"./bg.js": 45,
-		"./bn": 46,
-		"./bn.js": 46,
-		"./bo": 47,
-		"./bo.js": 47,
-		"./br": 48,
-		"./br.js": 48,
-		"./bs": 49,
-		"./bs.js": 49,
-		"./ca": 50,
-		"./ca.js": 50,
-		"./cs": 51,
-		"./cs.js": 51,
-		"./cv": 52,
-		"./cv.js": 52,
-		"./cy": 53,
-		"./cy.js": 53,
-		"./da": 54,
-		"./da.js": 54,
-		"./de": 56,
-		"./de-at": 55,
-		"./de-at.js": 55,
-		"./de.js": 56,
-		"./el": 57,
-		"./el.js": 57,
-		"./en-au": 58,
-		"./en-au.js": 58,
-		"./en-ca": 59,
-		"./en-ca.js": 59,
-		"./en-gb": 60,
-		"./en-gb.js": 60,
-		"./eo": 61,
-		"./eo.js": 61,
-		"./es": 62,
-		"./es.js": 62,
-		"./et": 63,
-		"./et.js": 63,
-		"./eu": 64,
-		"./eu.js": 64,
-		"./fa": 65,
-		"./fa.js": 65,
-		"./fi": 66,
-		"./fi.js": 66,
-		"./fo": 67,
-		"./fo.js": 67,
-		"./fr": 69,
-		"./fr-ca": 68,
-		"./fr-ca.js": 68,
-		"./fr.js": 69,
-		"./fy": 70,
-		"./fy.js": 70,
-		"./gl": 71,
-		"./gl.js": 71,
-		"./he": 72,
-		"./he.js": 72,
-		"./hi": 73,
-		"./hi.js": 73,
-		"./hr": 74,
-		"./hr.js": 74,
-		"./hu": 75,
-		"./hu.js": 75,
-		"./hy-am": 76,
-		"./hy-am.js": 76,
-		"./id": 77,
-		"./id.js": 77,
-		"./is": 78,
-		"./is.js": 78,
-		"./it": 79,
-		"./it.js": 79,
-		"./ja": 80,
-		"./ja.js": 80,
-		"./jv": 81,
-		"./jv.js": 81,
-		"./ka": 82,
-		"./ka.js": 82,
-		"./km": 83,
-		"./km.js": 83,
-		"./ko": 84,
-		"./ko.js": 84,
-		"./lb": 85,
-		"./lb.js": 85,
-		"./lt": 86,
-		"./lt.js": 86,
-		"./lv": 87,
-		"./lv.js": 87,
-		"./me": 88,
-		"./me.js": 88,
-		"./mk": 89,
-		"./mk.js": 89,
-		"./ml": 90,
-		"./ml.js": 90,
-		"./mr": 91,
-		"./mr.js": 91,
-		"./ms-my": 92,
-		"./ms-my.js": 92,
-		"./my": 93,
-		"./my.js": 93,
-		"./nb": 94,
-		"./nb.js": 94,
-		"./ne": 95,
-		"./ne.js": 95,
-		"./nl": 96,
-		"./nl.js": 96,
-		"./nn": 97,
-		"./nn.js": 97,
-		"./pl": 98,
-		"./pl.js": 98,
-		"./pt": 100,
-		"./pt-br": 99,
-		"./pt-br.js": 99,
-		"./pt.js": 100,
-		"./ro": 101,
-		"./ro.js": 101,
-		"./ru": 102,
-		"./ru.js": 102,
-		"./si": 103,
-		"./si.js": 103,
-		"./sk": 104,
-		"./sk.js": 104,
-		"./sl": 105,
-		"./sl.js": 105,
-		"./sq": 106,
-		"./sq.js": 106,
-		"./sr": 108,
-		"./sr-cyrl": 107,
-		"./sr-cyrl.js": 107,
-		"./sr.js": 108,
-		"./sv": 109,
-		"./sv.js": 109,
-		"./ta": 110,
-		"./ta.js": 110,
-		"./th": 111,
-		"./th.js": 111,
-		"./tl-ph": 112,
-		"./tl-ph.js": 112,
-		"./tr": 113,
-		"./tr.js": 113,
-		"./tzm": 115,
-		"./tzm-latn": 114,
-		"./tzm-latn.js": 114,
-		"./tzm.js": 115,
-		"./uk": 116,
-		"./uk.js": 116,
-		"./uz": 117,
-		"./uz.js": 117,
-		"./vi": 118,
-		"./vi.js": 118,
-		"./zh-cn": 119,
-		"./zh-cn.js": 119,
-		"./zh-tw": 120,
-		"./zh-tw.js": 120
+		"./af": 37,
+		"./af.js": 37,
+		"./ar": 41,
+		"./ar-ma": 38,
+		"./ar-ma.js": 38,
+		"./ar-sa": 39,
+		"./ar-sa.js": 39,
+		"./ar-tn": 40,
+		"./ar-tn.js": 40,
+		"./ar.js": 41,
+		"./az": 42,
+		"./az.js": 42,
+		"./be": 43,
+		"./be.js": 43,
+		"./bg": 44,
+		"./bg.js": 44,
+		"./bn": 45,
+		"./bn.js": 45,
+		"./bo": 46,
+		"./bo.js": 46,
+		"./br": 47,
+		"./br.js": 47,
+		"./bs": 48,
+		"./bs.js": 48,
+		"./ca": 49,
+		"./ca.js": 49,
+		"./cs": 50,
+		"./cs.js": 50,
+		"./cv": 51,
+		"./cv.js": 51,
+		"./cy": 52,
+		"./cy.js": 52,
+		"./da": 53,
+		"./da.js": 53,
+		"./de": 55,
+		"./de-at": 54,
+		"./de-at.js": 54,
+		"./de.js": 55,
+		"./el": 56,
+		"./el.js": 56,
+		"./en-au": 57,
+		"./en-au.js": 57,
+		"./en-ca": 58,
+		"./en-ca.js": 58,
+		"./en-gb": 59,
+		"./en-gb.js": 59,
+		"./eo": 60,
+		"./eo.js": 60,
+		"./es": 61,
+		"./es.js": 61,
+		"./et": 62,
+		"./et.js": 62,
+		"./eu": 63,
+		"./eu.js": 63,
+		"./fa": 64,
+		"./fa.js": 64,
+		"./fi": 65,
+		"./fi.js": 65,
+		"./fo": 66,
+		"./fo.js": 66,
+		"./fr": 68,
+		"./fr-ca": 67,
+		"./fr-ca.js": 67,
+		"./fr.js": 68,
+		"./fy": 69,
+		"./fy.js": 69,
+		"./gl": 70,
+		"./gl.js": 70,
+		"./he": 71,
+		"./he.js": 71,
+		"./hi": 72,
+		"./hi.js": 72,
+		"./hr": 73,
+		"./hr.js": 73,
+		"./hu": 74,
+		"./hu.js": 74,
+		"./hy-am": 75,
+		"./hy-am.js": 75,
+		"./id": 76,
+		"./id.js": 76,
+		"./is": 77,
+		"./is.js": 77,
+		"./it": 78,
+		"./it.js": 78,
+		"./ja": 79,
+		"./ja.js": 79,
+		"./jv": 80,
+		"./jv.js": 80,
+		"./ka": 81,
+		"./ka.js": 81,
+		"./km": 82,
+		"./km.js": 82,
+		"./ko": 83,
+		"./ko.js": 83,
+		"./lb": 84,
+		"./lb.js": 84,
+		"./lt": 85,
+		"./lt.js": 85,
+		"./lv": 86,
+		"./lv.js": 86,
+		"./me": 87,
+		"./me.js": 87,
+		"./mk": 88,
+		"./mk.js": 88,
+		"./ml": 89,
+		"./ml.js": 89,
+		"./mr": 90,
+		"./mr.js": 90,
+		"./ms-my": 91,
+		"./ms-my.js": 91,
+		"./my": 92,
+		"./my.js": 92,
+		"./nb": 93,
+		"./nb.js": 93,
+		"./ne": 94,
+		"./ne.js": 94,
+		"./nl": 95,
+		"./nl.js": 95,
+		"./nn": 96,
+		"./nn.js": 96,
+		"./pl": 97,
+		"./pl.js": 97,
+		"./pt": 99,
+		"./pt-br": 98,
+		"./pt-br.js": 98,
+		"./pt.js": 99,
+		"./ro": 100,
+		"./ro.js": 100,
+		"./ru": 101,
+		"./ru.js": 101,
+		"./si": 102,
+		"./si.js": 102,
+		"./sk": 103,
+		"./sk.js": 103,
+		"./sl": 104,
+		"./sl.js": 104,
+		"./sq": 105,
+		"./sq.js": 105,
+		"./sr": 107,
+		"./sr-cyrl": 106,
+		"./sr-cyrl.js": 106,
+		"./sr.js": 107,
+		"./sv": 108,
+		"./sv.js": 108,
+		"./ta": 109,
+		"./ta.js": 109,
+		"./th": 110,
+		"./th.js": 110,
+		"./tl-ph": 111,
+		"./tl-ph.js": 111,
+		"./tr": 112,
+		"./tr.js": 112,
+		"./tzm": 114,
+		"./tzm-latn": 113,
+		"./tzm-latn.js": 113,
+		"./tzm.js": 114,
+		"./uk": 115,
+		"./uk.js": 115,
+		"./uz": 116,
+		"./uz.js": 116,
+		"./vi": 117,
+		"./vi.js": 117,
+		"./zh-cn": 118,
+		"./zh-cn.js": 118,
+		"./zh-tw": 119,
+		"./zh-tw.js": 119
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -26503,358 +26512,6 @@
 
 /***/ },
 /* 32 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
-	
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
-	
-	var _bind = Function.prototype.bind;
-	
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
-	
-	var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
-	
-	exports.__esModule = true;
-	/**
-	 * Flux
-	 *
-	 * The main Flux class.
-	 */
-	
-	var _Store = __webpack_require__(144);
-	
-	var Store = _interopRequire(_Store);
-	
-	var _Actions = __webpack_require__(145);
-	
-	var Actions = _interopRequire(_Actions);
-	
-	var _Dispatcher = __webpack_require__(152);
-	
-	var _EventEmitter2 = __webpack_require__(153);
-	
-	var EventEmitter = _interopRequire(_EventEmitter2);
-	
-	var _assign = __webpack_require__(154);
-	
-	var assign = _interopRequire(_assign);
-	
-	var _uniqueId = __webpack_require__(155);
-	
-	var uniqueId = _interopRequire(_uniqueId);
-	
-	var Flux = (function (_EventEmitter) {
-	  function Flux() {
-	    _classCallCheck(this, Flux);
-	
-	    _EventEmitter.call(this);
-	
-	    this.dispatcher = new _Dispatcher.Dispatcher();
-	
-	    this._stores = {};
-	    this._actions = {};
-	  }
-	
-	  _inherits(Flux, _EventEmitter);
-	
-	  Flux.prototype.createStore = function createStore(key, _Store) {
-	    for (var _len = arguments.length, constructorArgs = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
-	      constructorArgs[_key - 2] = arguments[_key];
-	    }
-	
-	    if (!(_Store.prototype instanceof Store)) {
-	      var className = getClassName(_Store);
-	
-	      throw new Error('You\'ve attempted to create a store from the class ' + className + ', which ' + 'does not have the base Store class in its prototype chain. Make sure ' + ('you\'re using the `extends` keyword: `class ' + className + ' extends ') + 'Store { ... }`');
-	    }
-	
-	    if (this._stores.hasOwnProperty(key) && this._stores[key]) {
-	      throw new Error('You\'ve attempted to create multiple stores with key ' + key + '. Keys must ' + 'be unique.');
-	    }
-	
-	    var store = new (_bind.apply(_Store, [null].concat(constructorArgs)))();
-	    var token = this.dispatcher.register(store.handler.bind(store));
-	
-	    store._waitFor = this.waitFor.bind(this);
-	    store._token = token;
-	    store._getAllActionIds = this.getAllActionIds.bind(this);
-	
-	    this._stores[key] = store;
-	
-	    return store;
-	  };
-	
-	  Flux.prototype.getStore = function getStore(key) {
-	    return this._stores.hasOwnProperty(key) ? this._stores[key] : undefined;
-	  };
-	
-	  Flux.prototype.removeStore = function removeStore(key) {
-	    if (this._stores.hasOwnProperty(key)) {
-	      this._stores[key].removeAllListeners();
-	      this.dispatcher.unregister(this._stores[key]._token);
-	      delete this._stores[key];
-	    } else {
-	      throw new Error('You\'ve attempted to remove store with key ' + key + ' which does not exist.');
-	    }
-	  };
-	
-	  Flux.prototype.createActions = function createActions(key, _Actions) {
-	    for (var _len2 = arguments.length, constructorArgs = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
-	      constructorArgs[_key2 - 2] = arguments[_key2];
-	    }
-	
-	    if (!(_Actions.prototype instanceof Actions) && _Actions !== Actions) {
-	      if (typeof _Actions === 'function') {
-	        var className = getClassName(_Actions);
-	
-	        throw new Error('You\'ve attempted to create actions from the class ' + className + ', which ' + 'does not have the base Actions class in its prototype chain. Make ' + ('sure you\'re using the `extends` keyword: `class ' + className + ' ') + 'extends Actions { ... }`');
-	      } else {
-	        var properties = _Actions;
-	        _Actions = (function (_Actions2) {
-	          var _class = function () {
-	            _classCallCheck(this, _class);
-	
-	            if (_Actions2 != null) {
-	              _Actions2.apply(this, arguments);
-	            }
-	          };
-	
-	          _inherits(_class, _Actions2);
-	
-	          return _class;
-	        })(Actions);
-	        assign(_Actions.prototype, properties);
-	      }
-	    }
-	
-	    if (this._actions.hasOwnProperty(key) && this._actions[key]) {
-	      throw new Error('You\'ve attempted to create multiple actions with key ' + key + '. Keys ' + 'must be unique.');
-	    }
-	
-	    var actions = new (_bind.apply(_Actions, [null].concat(constructorArgs)))();
-	    actions.dispatch = this.dispatch.bind(this);
-	    actions.dispatchAsync = this.dispatchAsync.bind(this);
-	
-	    this._actions[key] = actions;
-	
-	    return actions;
-	  };
-	
-	  Flux.prototype.getActions = function getActions(key) {
-	    return this._actions.hasOwnProperty(key) ? this._actions[key] : undefined;
-	  };
-	
-	  Flux.prototype.getActionIds = function getActionIds(key) {
-	    var actions = this.getActions(key);
-	
-	    if (!actions) {
-	      return;
-	    }return actions.getConstants();
-	  };
-	
-	  Flux.prototype.removeActions = function removeActions(key) {
-	    if (this._actions.hasOwnProperty(key)) {
-	      delete this._actions[key];
-	    } else {
-	      throw new Error('You\'ve attempted to remove actions with key ' + key + ' which does not exist.');
-	    }
-	  };
-	
-	  Flux.prototype.getAllActionIds = function getAllActionIds() {
-	    var actionIds = [];
-	
-	    for (var key in this._actions) {
-	      if (!this._actions.hasOwnProperty(key)) continue;
-	
-	      var actionConstants = this._actions[key].getConstants();
-	
-	      actionIds = actionIds.concat(getValues(actionConstants));
-	    }
-	
-	    return actionIds;
-	  };
-	
-	  Flux.prototype.dispatch = function dispatch(actionId, body) {
-	    this._dispatch({ actionId: actionId, body: body });
-	  };
-	
-	  Flux.prototype.dispatchAsync = function dispatchAsync(actionId, promise, actionArgs) {
-	    var _this = this;
-	
-	    var dispatchId = uniqueId();
-	
-	    var payload = {
-	      actionId: actionId,
-	      dispatchId: dispatchId,
-	      async: 'begin'
-	    };
-	
-	    if (actionArgs) payload.actionArgs = actionArgs;
-	
-	    this._dispatch(payload);
-	
-	    return promise.then(function (body) {
-	      _this._dispatch({
-	        actionId: actionId,
-	        dispatchId: dispatchId,
-	        body: body,
-	        async: 'success'
-	      });
-	
-	      return body;
-	    }, function (error) {
-	      _this._dispatch({
-	        actionId: actionId,
-	        dispatchId: dispatchId,
-	        error: error,
-	        async: 'failure'
-	      });
-	    })['catch'](function (error) {
-	      _this.emit('error', error);
-	
-	      throw error;
-	    });
-	  };
-	
-	  Flux.prototype._dispatch = function _dispatch(payload) {
-	    this.dispatcher.dispatch(payload);
-	    this.emit('dispatch', payload);
-	  };
-	
-	  Flux.prototype.waitFor = function waitFor(tokensOrStores) {
-	
-	    if (!Array.isArray(tokensOrStores)) tokensOrStores = [tokensOrStores];
-	
-	    var ensureIsToken = function ensureIsToken(tokenOrStore) {
-	      return tokenOrStore instanceof Store ? tokenOrStore._token : tokenOrStore;
-	    };
-	
-	    var tokens = tokensOrStores.map(ensureIsToken);
-	
-	    this.dispatcher.waitFor(tokens);
-	  };
-	
-	  Flux.prototype.removeAllStoreListeners = function removeAllStoreListeners(event) {
-	    for (var key in this._stores) {
-	      if (!this._stores.hasOwnProperty(key)) continue;
-	
-	      var store = this._stores[key];
-	
-	      store.removeAllListeners(event);
-	    }
-	  };
-	
-	  Flux.prototype.serialize = function serialize() {
-	    var stateTree = {};
-	
-	    for (var key in this._stores) {
-	      if (!this._stores.hasOwnProperty(key)) continue;
-	
-	      var store = this._stores[key];
-	
-	      var serialize = store.constructor.serialize;
-	
-	      if (typeof serialize !== 'function') continue;
-	
-	      var serializedStoreState = serialize(store.state);
-	
-	      if (typeof serializedStoreState !== 'string') {
-	        var className = store.constructor.name;
-	
-	        if (process.env.NODE_ENV !== 'production') {
-	          console.warn('The store with key \'' + key + '\' was not serialized because the static ' + ('method `' + className + '.serialize()` returned a non-string with type ') + ('\'' + typeof serializedStoreState + '\'.'));
-	        }
-	      }
-	
-	      stateTree[key] = serializedStoreState;
-	
-	      if (typeof store.constructor.deserialize !== 'function') {
-	        var className = store.constructor.name;
-	
-	        if (process.env.NODE_ENV !== 'production') {
-	          console.warn('The class `' + className + '` has a `serialize()` method, but no ' + 'corresponding `deserialize()` method.');
-	        }
-	      }
-	    }
-	
-	    return JSON.stringify(stateTree);
-	  };
-	
-	  Flux.prototype.deserialize = function deserialize(serializedState) {
-	    var stateMap = undefined;
-	
-	    try {
-	      stateMap = JSON.parse(serializedState);
-	    } catch (error) {
-	      var className = this.constructor.name;
-	
-	      if (process.env.NODE_ENV !== 'production') {
-	        throw new Error('Invalid value passed to `' + className + '#deserialize()`: ' + ('' + serializedState));
-	      }
-	    }
-	
-	    for (var key in this._stores) {
-	      if (!this._stores.hasOwnProperty(key)) continue;
-	
-	      var store = this._stores[key];
-	
-	      var deserialize = store.constructor.deserialize;
-	
-	      if (typeof deserialize !== 'function') continue;
-	
-	      var storeStateString = stateMap[key];
-	      var storeState = deserialize(storeStateString);
-	
-	      store.replaceState(storeState);
-	
-	      if (typeof store.constructor.serialize !== 'function') {
-	        var className = store.constructor.name;
-	
-	        if (process.env.NODE_ENV !== 'production') {
-	          console.warn('The class `' + className + '` has a `deserialize()` method, but no ' + 'corresponding `serialize()` method.');
-	        }
-	      }
-	    }
-	  };
-	
-	  return Flux;
-	})(EventEmitter);
-	
-	exports['default'] = Flux;
-	
-	// Aliases
-	Flux.prototype.getConstants = Flux.prototype.getActionIds;
-	Flux.prototype.getAllConstants = Flux.prototype.getAllActionIds;
-	Flux.prototype.dehydrate = Flux.prototype.serialize;
-	Flux.prototype.hydrate = Flux.prototype.deserialize;
-	
-	function getClassName(Class) {
-	  return Class.prototype.constructor.name;
-	}
-	
-	function getValues(object) {
-	  var values = [];
-	
-	  for (var key in object) {
-	    if (!object.hasOwnProperty(key)) continue;
-	
-	    values.push(object[key]);
-	  }
-	
-	  return values;
-	}
-	
-	var Flummox = Flux;
-	
-	exports.Flux = Flux;
-	exports.Flummox = Flummox;
-	exports.Store = Store;
-	exports.Actions = Actions;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
-
-/***/ },
-/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;!function() {
@@ -36363,495 +36020,359 @@
 	}();
 
 /***/ },
-/* 34 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/*! Moment Duration Format v1.3.0
-	 *  https://github.com/jsmreese/moment-duration-format 
-	 *  Date: 2014-07-15
+	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
+	
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
+	
+	var _bind = Function.prototype.bind;
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	exports.__esModule = true;
+	/**
+	 * Flux
 	 *
-	 *  Duration format plugin function for the Moment.js library
-	 *  http://momentjs.com/
-	 *
-	 *  Copyright 2014 John Madhavan-Reese
-	 *  Released under the MIT license
+	 * The main Flux class.
 	 */
 	
-	(function (root, undefined) {
+	var _Store = __webpack_require__(146);
 	
-		// repeatZero(qty)
-		// returns "0" repeated qty times
-		function repeatZero(qty) {
-			var result = "";
-			
-			// exit early
-			// if qty is 0 or a negative number
-			// or doesn't coerce to an integer
-			qty = parseInt(qty, 10);
-			if (!qty || qty < 1) { return result; }
-			
-			while (qty) {
-				result += "0";
-				qty -= 1;
-			}
-			
-			return result;
-		}
-		
-		// padZero(str, len [, isRight])
-		// pads a string with zeros up to a specified length
-		// will not pad a string if its length is aready
-		// greater than or equal to the specified length
-		// default output pads with zeros on the left
-		// set isRight to `true` to pad with zeros on the right
-		function padZero(str, len, isRight) {
-			if (str == null) { str = ""; }
-			str = "" + str;
-			
-			return (isRight ? str : "") + repeatZero(len - str.length) + (isRight ? "" : str);
-		}
-		
-		// isArray
-		function isArray(array) {
-			return Object.prototype.toString.call(array) === "[object Array]";
-		}
-		
-		// isObject
-		function isObject(obj) {
-			return Object.prototype.toString.call(obj) === "[object Object]";
-		}
-		
-		// findLast
-		function findLast(array, callback) {
-			var index = array.length;
+	var Store = _interopRequire(_Store);
 	
-			while (index -= 1) {
-				if (callback(array[index])) { return array[index]; }
-			}
-		}
+	var _Actions = __webpack_require__(147);
 	
-		// find
-		function find(array, callback) {
-			var index = 0,
-				max = array.length,
-				match;
-				
-			if (typeof callback !== "function") {
-				match = callback;
-				callback = function (item) {
-					return item === match;
-				};
-			}
+	var Actions = _interopRequire(_Actions);
 	
-			while (index < max) {
-				if (callback(array[index])) { return array[index]; }
-				index += 1;
-			}
-		}
-		
-		// each
-		function each(array, callback) {
-			var index = 0,
-				max = array.length;
-				
-			if (!array || !max) { return; }
+	var _Dispatcher = __webpack_require__(151);
 	
-			while (index < max) {
-				if (callback(array[index], index) === false) { return; }
-				index += 1;
-			}
-		}
-		
-		// map
-		function map(array, callback) {
-			var index = 0,
-				max = array.length,
-				ret = [];
+	var _EventEmitter2 = __webpack_require__(153);
 	
-			if (!array || !max) { return ret; }
-					
-			while (index < max) {
-				ret[index] = callback(array[index], index);
-				index += 1;
-			}
-			
-			return ret;
-		}
-		
-		// pluck
-		function pluck(array, prop) {
-			return map(array, function (item) {
-				return item[prop];
-			});
-		}
-		
-		// compact
-		function compact(array) {
-			var ret = [];
-			
-			each(array, function (item) {
-				if (item) { ret.push(item); }
-			});
-			
-			return ret;
-		}
-		
-		// unique
-		function unique(array) {
-			var ret = [];
-			
-			each(array, function (_a) {
-				if (!find(ret, _a)) { ret.push(_a); }
-			});
-			
-			return ret;
-		}
-		
-		// intersection
-		function intersection(a, b) {
-			var ret = [];
-			
-			each(a, function (_a) {
-				each(b, function (_b) {
-					if (_a === _b) { ret.push(_a); }
-				});
-			});
-			
-			return unique(ret);
-		}
-		
-		// rest
-		function rest(array, callback) {
-			var ret = [];
-			
-			each(array, function (item, index) {
-				if (!callback(item)) {
-					ret = array.slice(index);
-					return false;
-				}
-			});
-			
-			return ret;
-		}
+	var EventEmitter = _interopRequire(_EventEmitter2);
 	
-		// initial
-		function initial(array, callback) {
-			var reversed = array.slice().reverse();
-			
-			return rest(reversed, callback).reverse();
-		}
-		
-		// extend
-		function extend(a, b) {
-			for (var key in b) {
-				if (b.hasOwnProperty(key)) { a[key] = b[key]; }
-			}
-			
-			return a;
-		}
-				
-		// define internal moment reference
-		var moment;
+	var _assign = __webpack_require__(155);
 	
-		if (true) {
-			try { moment = __webpack_require__(16); } 
-			catch (e) {}
-		} 
-		
-		if (!moment && root.moment) {
-			moment = root.moment;
-		}
-		
-		if (!moment) {
-			throw "Moment Duration Format cannot find Moment.js";
-		}
-		
-		// moment.duration.format([template] [, precision] [, settings])
-		moment.duration.fn.format = function () {
+	var assign = _interopRequire(_assign);
 	
-			var tokenizer, tokens, types, typeMap, momentTypes, foundFirst, trimIndex,
-				args = [].slice.call(arguments),
-				settings = extend({}, this.format.defaults),
-				// keep a shadow copy of this moment for calculating remainders
-				remainder = moment.duration(this);
+	var _uniqueId = __webpack_require__(154);
 	
-			// add a reference to this duration object to the settings for use
-			// in a template function
-			settings.duration = this;
+	var uniqueId = _interopRequire(_uniqueId);
 	
-			// parse arguments
-			each(args, function (arg) {
-				if (typeof arg === "string" || typeof arg === "function") {
-					settings.template = arg;
-					return;
-				}
+	var Flux = (function (_EventEmitter) {
+	  function Flux() {
+	    _classCallCheck(this, Flux);
 	
-				if (typeof arg === "number") {
-					settings.precision = arg;
-					return;
-				}
+	    _EventEmitter.call(this);
 	
-				if (isObject(arg)) {
-					extend(settings, arg);
-				}
-			});
+	    this.dispatcher = new _Dispatcher.Dispatcher();
 	
-			// types
-			types = settings.types = (isArray(settings.types) ? settings.types : settings.types.split(" "));
+	    this._stores = {};
+	    this._actions = {};
+	  }
 	
-			// template
-			if (typeof settings.template === "function") {
-				settings.template = settings.template.apply(settings);
-			}
+	  _inherits(Flux, _EventEmitter);
 	
-			// tokenizer regexp
-			tokenizer = new RegExp(map(types, function (type) {
-				return settings[type].source;
-			}).join("|"), "g");
+	  Flux.prototype.createStore = function createStore(key, _Store) {
+	    for (var _len = arguments.length, constructorArgs = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+	      constructorArgs[_key - 2] = arguments[_key];
+	    }
 	
-			// token type map function
-			typeMap = function (token) {
-				return find(types, function (type) {
-					return settings[type].test(token);
-				});
-			};
+	    if (!(_Store.prototype instanceof Store)) {
+	      var className = getClassName(_Store);
 	
-			// tokens array
-			tokens = map(settings.template.match(tokenizer), function (token, index) {
-				var type = typeMap(token),
-					length = token.length;
+	      throw new Error('You\'ve attempted to create a store from the class ' + className + ', which ' + 'does not have the base Store class in its prototype chain. Make sure ' + ('you\'re using the `extends` keyword: `class ' + className + ' extends ') + 'Store { ... }`');
+	    }
 	
-				return {
-					index: index,
-					length: length,
+	    if (this._stores.hasOwnProperty(key) && this._stores[key]) {
+	      throw new Error('You\'ve attempted to create multiple stores with key ' + key + '. Keys must ' + 'be unique.');
+	    }
 	
-					// replace escaped tokens with the non-escaped token text
-					token: (type === "escape" ? token.replace(settings.escape, "$1") : token),
+	    var store = new (_bind.apply(_Store, [null].concat(constructorArgs)))();
+	    var token = this.dispatcher.register(store.handler.bind(store));
 	
-					// ignore type on non-moment tokens
-					type: ((type === "escape" || type === "general") ? null : type)
+	    store._waitFor = this.waitFor.bind(this);
+	    store._token = token;
+	    store._getAllActionIds = this.getAllActionIds.bind(this);
 	
-					// calculate base value for all moment tokens
-					//baseValue: ((type === "escape" || type === "general") ? null : this.as(type))
-				};
-			}, this);
+	    this._stores[key] = store;
 	
-			// unique moment token types in the template (in order of descending magnitude)
-			momentTypes = intersection(types, unique(compact(pluck(tokens, "type"))));
+	    return store;
+	  };
 	
-			// exit early if there are no momentTypes
-			if (!momentTypes.length) {
-				return pluck(tokens, "token").join("");
-			}
+	  Flux.prototype.getStore = function getStore(key) {
+	    return this._stores.hasOwnProperty(key) ? this._stores[key] : undefined;
+	  };
 	
-			// calculate values for each token type in the template
-			each(momentTypes, function (momentType, index) {
-				var value, wholeValue, decimalValue, isLeast, isMost;
+	  Flux.prototype.removeStore = function removeStore(key) {
+	    if (this._stores.hasOwnProperty(key)) {
+	      this._stores[key].removeAllListeners();
+	      this.dispatcher.unregister(this._stores[key]._token);
+	      delete this._stores[key];
+	    } else {
+	      throw new Error('You\'ve attempted to remove store with key ' + key + ' which does not exist.');
+	    }
+	  };
 	
-				// calculate integer and decimal value portions
-				value = remainder.as(momentType);
-				wholeValue = (value > 0 ? Math.floor(value) : Math.ceil(value));
-				decimalValue = value - wholeValue;
+	  Flux.prototype.createActions = function createActions(key, _Actions) {
+	    for (var _len2 = arguments.length, constructorArgs = Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
+	      constructorArgs[_key2 - 2] = arguments[_key2];
+	    }
 	
-				// is this the least-significant moment token found?
-				isLeast = ((index + 1) === momentTypes.length);
+	    if (!(_Actions.prototype instanceof Actions) && _Actions !== Actions) {
+	      if (typeof _Actions === 'function') {
+	        var className = getClassName(_Actions);
 	
-				// is this the most-significant moment token found?
-				isMost = (!index);
+	        throw new Error('You\'ve attempted to create actions from the class ' + className + ', which ' + 'does not have the base Actions class in its prototype chain. Make ' + ('sure you\'re using the `extends` keyword: `class ' + className + ' ') + 'extends Actions { ... }`');
+	      } else {
+	        var properties = _Actions;
+	        _Actions = (function (_Actions2) {
+	          var _class = function () {
+	            _classCallCheck(this, _class);
 	
-				// update tokens array
-				// using this algorithm to not assume anything about
-				// the order or frequency of any tokens
-				each(tokens, function (token) {
-					if (token.type === momentType) {
-						extend(token, {
-							value: value,
-							wholeValue: wholeValue,
-							decimalValue: decimalValue,
-							isLeast: isLeast,
-							isMost: isMost
-						});
+	            if (_Actions2 != null) {
+	              _Actions2.apply(this, arguments);
+	            }
+	          };
 	
-						if (isMost) {
-							// note the length of the most-significant moment token:
-							// if it is greater than one and forceLength is not set, default forceLength to `true`
-							if (settings.forceLength == null && token.length > 1) {
-								settings.forceLength = true;
-							}
+	          _inherits(_class, _Actions2);
 	
-							// rationale is this:
-							// if the template is "h:mm:ss" and the moment value is 5 minutes, the user-friendly output is "5:00", not "05:00"
-							// shouldn't pad the `minutes` token even though it has length of two
-							// if the template is "hh:mm:ss", the user clearly wanted everything padded so we should output "05:00"
-							// if the user wanted the full padded output, they can set `{ trim: false }` to get "00:05:00"
-						}
-					}
-				});
+	          return _class;
+	        })(Actions);
+	        assign(_Actions.prototype, properties);
+	      }
+	    }
 	
-				// update remainder
-				remainder.subtract(wholeValue, momentType);
-			});
-		
-			// trim tokens array
-			if (settings.trim) {
-				tokens = (settings.trim === "left" ? rest : initial)(tokens, function (token) {
-					// return `true` if:
-					// the token is not the least moment token (don't trim the least moment token)
-					// the token is a moment token that does not have a value (don't trim moment tokens that have a whole value)
-					return !(token.isLeast || (token.type != null && token.wholeValue));
-				});
-			}
-			
-			
-			// build output
+	    if (this._actions.hasOwnProperty(key) && this._actions[key]) {
+	      throw new Error('You\'ve attempted to create multiple actions with key ' + key + '. Keys ' + 'must be unique.');
+	    }
 	
-			// the first moment token can have special handling
-			foundFirst = false;
+	    var actions = new (_bind.apply(_Actions, [null].concat(constructorArgs)))();
+	    actions.dispatch = this.dispatch.bind(this);
+	    actions.dispatchAsync = this.dispatchAsync.bind(this);
 	
-			// run the map in reverse order if trimming from the right
-			if (settings.trim === "right") {
-				tokens.reverse();
-			}
+	    this._actions[key] = actions;
 	
-			tokens = map(tokens, function (token) {
-				var val,
-					decVal;
+	    return actions;
+	  };
 	
-				if (!token.type) {
-					// if it is not a moment token, use the token as its own value
-					return token.token;
-				}
+	  Flux.prototype.getActions = function getActions(key) {
+	    return this._actions.hasOwnProperty(key) ? this._actions[key] : undefined;
+	  };
 	
-				// apply negative precision formatting to the least-significant moment token
-				if (token.isLeast && (settings.precision < 0)) {
-					val = (Math.floor(token.wholeValue * Math.pow(10, settings.precision)) * Math.pow(10, -settings.precision)).toString();
-				} else {
-					val = token.wholeValue.toString();
-				}
-				
-				// remove negative sign from the beginning
-				val = val.replace(/^\-/, "");
+	  Flux.prototype.getActionIds = function getActionIds(key) {
+	    var actions = this.getActions(key);
 	
-				// apply token length formatting
-				// special handling for the first moment token that is not the most significant in a trimmed template
-				if (token.length > 1 && (foundFirst || token.isMost || settings.forceLength)) {
-					val = padZero(val, token.length);
-				}
+	    if (!actions) {
+	      return;
+	    }return actions.getConstants();
+	  };
 	
-				// add decimal value if precision > 0
-				if (token.isLeast && (settings.precision > 0)) {
-					decVal = token.decimalValue.toString().replace(/^\-/, "").split(/\.|e\-/);
-					switch (decVal.length) {
-						case 1:
-							val += "." + padZero(decVal[0], settings.precision, true).slice(0, settings.precision);
-							break;
-							
-						case 2:
-							val += "." + padZero(decVal[1], settings.precision, true).slice(0, settings.precision);		
-							break;
-							
-						case 3:
-							val += "." + padZero(repeatZero((+decVal[2]) - 1) + (decVal[0] || "0") + decVal[1], settings.precision, true).slice(0, settings.precision);		
-							break;
-						
-						default:
-							throw "Moment Duration Format: unable to parse token decimal value.";
-					}
-				}
-				
-				// add a negative sign if the value is negative and token is most significant
-				if (token.isMost && token.value < 0) {
-					val = "-" + val;
-				}
+	  Flux.prototype.removeActions = function removeActions(key) {
+	    if (this._actions.hasOwnProperty(key)) {
+	      delete this._actions[key];
+	    } else {
+	      throw new Error('You\'ve attempted to remove actions with key ' + key + ' which does not exist.');
+	    }
+	  };
 	
-				foundFirst = true;
+	  Flux.prototype.getAllActionIds = function getAllActionIds() {
+	    var actionIds = [];
 	
-				return val;
-			});
+	    for (var key in this._actions) {
+	      if (!this._actions.hasOwnProperty(key)) continue;
 	
-			// undo the reverse if trimming from the right
-			if (settings.trim === "right") {
-				tokens.reverse();
-			}
+	      var actionConstants = this._actions[key].getConstants();
 	
-			return tokens.join("");
-		};
+	      actionIds = actionIds.concat(getValues(actionConstants));
+	    }
 	
-		moment.duration.fn.format.defaults = {
-			// token definitions
-			escape: /\[(.+?)\]/,
-			years: /[Yy]+/,
-			months: /M+/,
-			weeks: /[Ww]+/,
-			days: /[Dd]+/,
-			hours: /[Hh]+/,
-			minutes: /m+/,
-			seconds: /s+/,
-			milliseconds: /S+/,
-			general: /.+?/,
+	    return actionIds;
+	  };
 	
-			// token type names
-			// in order of descending magnitude
-			// can be a space-separated token name list or an array of token names
-			types: "escape years months weeks days hours minutes seconds milliseconds general",
+	  Flux.prototype.dispatch = function dispatch(actionId, body) {
+	    this._dispatch({ actionId: actionId, body: body });
+	  };
 	
-			// format options
+	  Flux.prototype.dispatchAsync = function dispatchAsync(actionId, promise, actionArgs) {
+	    var _this = this;
 	
-			// trim
-			// "left" - template tokens are trimmed from the left until the first moment token that has a value >= 1
-			// "right" - template tokens are trimmed from the right until the first moment token that has a value >= 1
-			// (the final moment token is not trimmed, regardless of value)
-			// `false` - template tokens are not trimmed
-			trim: "left",
+	    var dispatchId = uniqueId();
 	
-			// precision
-			// number of decimal digits to include after (to the right of) the decimal point (positive integer)
-			// or the number of digits to truncate to 0 before (to the left of) the decimal point (negative integer)
-			precision: 0,
+	    var payload = {
+	      actionId: actionId,
+	      dispatchId: dispatchId,
+	      async: 'begin'
+	    };
 	
-			// force first moment token with a value to render at full length even when template is trimmed and first moment token has length of 1
-			forceLength: null,
+	    if (actionArgs) payload.actionArgs = actionArgs;
 	
-			// template used to format duration
-			// may be a function or a string
-			// template functions are executed with the `this` binding of the settings object
-			// so that template strings may be dynamically generated based on the duration object
-			// (accessible via `this.duration`)
-			// or any of the other settings
-			template: function () {
-				var types = this.types,
-					dur = this.duration,
-					lastType = findLast(types, function (type) {
-						return dur._data[type];
-					});
+	    this._dispatch(payload);
 	
-				// default template strings for each duration dimension type
-				switch (lastType) {
-					case "seconds":
-						return "h:mm:ss";
-					case "minutes":
-						return "d[d] h:mm";
-					case "hours":
-						return "d[d] h[h]";
-					case "days":
-						return "M[m] d[d]";
-					case "weeks":
-						return "y[y] w[w]";
-					case "months":
-						return "y[y] M[m]";
-					case "years":
-						return "y[y]";
-					default:
-						return "y[y] M[m] d[d] h:mm:ss";
-				}
-			}
-		};
+	    return promise.then(function (body) {
+	      _this._dispatch({
+	        actionId: actionId,
+	        dispatchId: dispatchId,
+	        body: body,
+	        async: 'success'
+	      });
 	
-	})(this);
-
+	      return body;
+	    }, function (error) {
+	      _this._dispatch({
+	        actionId: actionId,
+	        dispatchId: dispatchId,
+	        error: error,
+	        async: 'failure'
+	      });
+	    })['catch'](function (error) {
+	      _this.emit('error', error);
+	
+	      throw error;
+	    });
+	  };
+	
+	  Flux.prototype._dispatch = function _dispatch(payload) {
+	    this.dispatcher.dispatch(payload);
+	    this.emit('dispatch', payload);
+	  };
+	
+	  Flux.prototype.waitFor = function waitFor(tokensOrStores) {
+	
+	    if (!Array.isArray(tokensOrStores)) tokensOrStores = [tokensOrStores];
+	
+	    var ensureIsToken = function ensureIsToken(tokenOrStore) {
+	      return tokenOrStore instanceof Store ? tokenOrStore._token : tokenOrStore;
+	    };
+	
+	    var tokens = tokensOrStores.map(ensureIsToken);
+	
+	    this.dispatcher.waitFor(tokens);
+	  };
+	
+	  Flux.prototype.removeAllStoreListeners = function removeAllStoreListeners(event) {
+	    for (var key in this._stores) {
+	      if (!this._stores.hasOwnProperty(key)) continue;
+	
+	      var store = this._stores[key];
+	
+	      store.removeAllListeners(event);
+	    }
+	  };
+	
+	  Flux.prototype.serialize = function serialize() {
+	    var stateTree = {};
+	
+	    for (var key in this._stores) {
+	      if (!this._stores.hasOwnProperty(key)) continue;
+	
+	      var store = this._stores[key];
+	
+	      var serialize = store.constructor.serialize;
+	
+	      if (typeof serialize !== 'function') continue;
+	
+	      var serializedStoreState = serialize(store.state);
+	
+	      if (typeof serializedStoreState !== 'string') {
+	        var className = store.constructor.name;
+	
+	        if (process.env.NODE_ENV !== 'production') {
+	          console.warn('The store with key \'' + key + '\' was not serialized because the static ' + ('method `' + className + '.serialize()` returned a non-string with type ') + ('\'' + typeof serializedStoreState + '\'.'));
+	        }
+	      }
+	
+	      stateTree[key] = serializedStoreState;
+	
+	      if (typeof store.constructor.deserialize !== 'function') {
+	        var className = store.constructor.name;
+	
+	        if (process.env.NODE_ENV !== 'production') {
+	          console.warn('The class `' + className + '` has a `serialize()` method, but no ' + 'corresponding `deserialize()` method.');
+	        }
+	      }
+	    }
+	
+	    return JSON.stringify(stateTree);
+	  };
+	
+	  Flux.prototype.deserialize = function deserialize(serializedState) {
+	    var stateMap = undefined;
+	
+	    try {
+	      stateMap = JSON.parse(serializedState);
+	    } catch (error) {
+	      var className = this.constructor.name;
+	
+	      if (process.env.NODE_ENV !== 'production') {
+	        throw new Error('Invalid value passed to `' + className + '#deserialize()`: ' + ('' + serializedState));
+	      }
+	    }
+	
+	    for (var key in this._stores) {
+	      if (!this._stores.hasOwnProperty(key)) continue;
+	
+	      var store = this._stores[key];
+	
+	      var deserialize = store.constructor.deserialize;
+	
+	      if (typeof deserialize !== 'function') continue;
+	
+	      var storeStateString = stateMap[key];
+	      var storeState = deserialize(storeStateString);
+	
+	      store.replaceState(storeState);
+	
+	      if (typeof store.constructor.serialize !== 'function') {
+	        var className = store.constructor.name;
+	
+	        if (process.env.NODE_ENV !== 'production') {
+	          console.warn('The class `' + className + '` has a `deserialize()` method, but no ' + 'corresponding `serialize()` method.');
+	        }
+	      }
+	    }
+	  };
+	
+	  return Flux;
+	})(EventEmitter);
+	
+	exports['default'] = Flux;
+	
+	// Aliases
+	Flux.prototype.getConstants = Flux.prototype.getActionIds;
+	Flux.prototype.getAllConstants = Flux.prototype.getAllActionIds;
+	Flux.prototype.dehydrate = Flux.prototype.serialize;
+	Flux.prototype.hydrate = Flux.prototype.deserialize;
+	
+	function getClassName(Class) {
+	  return Class.prototype.constructor.name;
+	}
+	
+	function getValues(object) {
+	  var values = [];
+	
+	  for (var key in object) {
+	    if (!object.hasOwnProperty(key)) continue;
+	
+	    values.push(object[key]);
+	  }
+	
+	  return values;
+	}
+	
+	var Flummox = Flux;
+	
+	exports.Flux = Flux;
+	exports.Flummox = Flummox;
+	exports.Store = Store;
+	exports.Actions = Actions;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 35 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = function(module) {
@@ -36867,6 +36388,12 @@
 
 
 /***/ },
+/* 35 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(148), __esModule: true };
+
+/***/ },
 /* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -36876,18 +36403,12 @@
 /* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(150), __esModule: true };
-
-/***/ },
-/* 38 */
-/***/ function(module, exports, __webpack_require__) {
-
 	//! moment.js locale configuration
 	//! locale : afrikaans (af)
 	//! author : Werner Mollentze : https://github.com/wernerm
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -36956,7 +36477,7 @@
 	}));
 
 /***/ },
-/* 39 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -36965,7 +36486,7 @@
 	//! author : Abdel Said : https://github.com/abdelsaid
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -37019,7 +36540,7 @@
 	}));
 
 /***/ },
-/* 40 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -37027,7 +36548,7 @@
 	//! author : Suhail Alkowaileet : https://github.com/xsoh
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -37126,14 +36647,14 @@
 	}));
 
 /***/ },
-/* 41 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 	//! locale  : Tunisian Arabic (ar-tn)
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -37187,7 +36708,7 @@
 	}));
 
 /***/ },
-/* 42 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -37197,7 +36718,7 @@
 	//! Native plural forms: forabi https://github.com/forabi
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -37327,7 +36848,7 @@
 	}));
 
 /***/ },
-/* 43 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -37335,7 +36856,7 @@
 	//! author : topchiyev : https://github.com/topchiyev
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -37435,7 +36956,7 @@
 	}));
 
 /***/ },
-/* 44 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -37445,7 +36966,7 @@
 	//! Author : Menelion Elensúle : https://github.com/Oire
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -37586,7 +37107,7 @@
 	}));
 
 /***/ },
-/* 45 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -37594,7 +37115,7 @@
 	//! author : Krasen Borisov : https://github.com/kraz
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -37680,7 +37201,7 @@
 	}));
 
 /***/ },
-/* 46 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -37688,7 +37209,7 @@
 	//! author : Kaushik Gandhi : https://github.com/kaushikgandhi
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -37797,7 +37318,7 @@
 	}));
 
 /***/ },
-/* 47 */
+/* 46 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -37805,7 +37326,7 @@
 	//! author : Thupten N. Chakrishar : https://github.com/vajradog
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -37911,7 +37432,7 @@
 	}));
 
 /***/ },
-/* 48 */
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -37919,7 +37440,7 @@
 	//! author : Jean-Baptiste Le Duigou : https://github.com/jbleduigou
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -38022,7 +37543,7 @@
 	}));
 
 /***/ },
-/* 49 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -38031,7 +37552,7 @@
 	//! based on (hr) translation by Bojan Marković
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -38167,7 +37688,7 @@
 	}));
 
 /***/ },
-/* 50 */
+/* 49 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -38175,7 +37696,7 @@
 	//! author : Juan G. Hurtado : https://github.com/juanghurtado
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -38250,7 +37771,7 @@
 	}));
 
 /***/ },
-/* 51 */
+/* 50 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -38258,7 +37779,7 @@
 	//! author : petrbela : https://github.com/petrbela
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -38411,7 +37932,7 @@
 	}));
 
 /***/ },
-/* 52 */
+/* 51 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -38419,7 +37940,7 @@
 	//! author : Anatoly Mironov : https://github.com/mirontoli
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -38478,7 +37999,7 @@
 	}));
 
 /***/ },
-/* 53 */
+/* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -38486,7 +38007,7 @@
 	//! author : Robert Allen
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -38561,7 +38082,7 @@
 	}));
 
 /***/ },
-/* 54 */
+/* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -38569,7 +38090,7 @@
 	//! author : Ulrik Nielsen : https://github.com/mrbase
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -38625,7 +38146,7 @@
 	}));
 
 /***/ },
-/* 55 */
+/* 54 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -38635,7 +38156,7 @@
 	//! author : Martin Groller : https://github.com/MadMG
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -38705,7 +38226,7 @@
 	}));
 
 /***/ },
-/* 56 */
+/* 55 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -38714,7 +38235,7 @@
 	//! author: Menelion Elensúle: https://github.com/Oire
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -38784,7 +38305,7 @@
 	}));
 
 /***/ },
-/* 57 */
+/* 56 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -38792,7 +38313,7 @@
 	//! author : Aggelos Karalias : https://github.com/mehiel
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -38882,14 +38403,14 @@
 	}));
 
 /***/ },
-/* 58 */
+/* 57 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
 	//! locale : australian english (en-au)
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -38952,7 +38473,7 @@
 	}));
 
 /***/ },
-/* 59 */
+/* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -38960,7 +38481,7 @@
 	//! author : Jonathan Abourbih : https://github.com/jonbca
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -39019,7 +38540,7 @@
 	}));
 
 /***/ },
-/* 60 */
+/* 59 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -39027,7 +38548,7 @@
 	//! author : Chris Gedrim : https://github.com/chrisgedrim
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -39090,7 +38611,7 @@
 	}));
 
 /***/ },
-/* 61 */
+/* 60 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -39100,7 +38621,7 @@
 	//!          Se ne, bonvolu korekti kaj avizi min por ke mi povas lerni!
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -39167,7 +38688,7 @@
 	}));
 
 /***/ },
-/* 62 */
+/* 61 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -39175,7 +38696,7 @@
 	//! author : Julio Napurí : https://github.com/julionc
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -39250,7 +38771,7 @@
 	}));
 
 /***/ },
-/* 63 */
+/* 62 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -39259,7 +38780,7 @@
 	//! improvements : Illimar Tambek : https://github.com/ragulka
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -39334,7 +38855,7 @@
 	}));
 
 /***/ },
-/* 64 */
+/* 63 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -39342,7 +38863,7 @@
 	//! author : Eneko Illarramendi : https://github.com/eillarra
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -39402,7 +38923,7 @@
 	}));
 
 /***/ },
-/* 65 */
+/* 64 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -39410,7 +38931,7 @@
 	//! author : Ebrahim Byagowi : https://github.com/ebraminio
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -39511,7 +39032,7 @@
 	}));
 
 /***/ },
-/* 66 */
+/* 65 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -39519,7 +39040,7 @@
 	//! author : Tarmo Aidantausta : https://github.com/bleadof
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -39622,7 +39143,7 @@
 	}));
 
 /***/ },
-/* 67 */
+/* 66 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -39630,7 +39151,7 @@
 	//! author : Ragnar Johannesen : https://github.com/ragnar123
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -39686,7 +39207,7 @@
 	}));
 
 /***/ },
-/* 68 */
+/* 67 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -39694,7 +39215,7 @@
 	//! author : Jonathan Abourbih : https://github.com/jonbca
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -39748,7 +39269,7 @@
 	}));
 
 /***/ },
-/* 69 */
+/* 68 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -39756,7 +39277,7 @@
 	//! author : John Fischer : https://github.com/jfroffice
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -39814,7 +39335,7 @@
 	}));
 
 /***/ },
-/* 70 */
+/* 69 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -39822,7 +39343,7 @@
 	//! author : Robin van der Vliet : https://github.com/robin0van0der0v
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -39889,7 +39410,7 @@
 	}));
 
 /***/ },
-/* 71 */
+/* 70 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -39897,7 +39418,7 @@
 	//! author : Juan G. Hurtado : https://github.com/juanghurtado
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -39968,7 +39489,7 @@
 	}));
 
 /***/ },
-/* 72 */
+/* 71 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -39978,7 +39499,7 @@
 	//! author : Tal Ater : https://github.com/TalAter
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -40054,7 +39575,7 @@
 	}));
 
 /***/ },
-/* 73 */
+/* 72 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -40062,7 +39583,7 @@
 	//! author : Mayank Singhal : https://github.com/mayanksinghal
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -40181,7 +39702,7 @@
 	}));
 
 /***/ },
-/* 74 */
+/* 73 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -40189,7 +39710,7 @@
 	//! author : Bojan Marković : https://github.com/bmarkovic
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -40325,7 +39846,7 @@
 	}));
 
 /***/ },
-/* 75 */
+/* 74 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -40333,7 +39854,7 @@
 	//! author : Adam Brunner : https://github.com/adambrunner
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -40438,7 +39959,7 @@
 	}));
 
 /***/ },
-/* 76 */
+/* 75 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -40446,7 +39967,7 @@
 	//! author : Armendarabyan : https://github.com/armendarabyan
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -40553,7 +40074,7 @@
 	}));
 
 /***/ },
-/* 77 */
+/* 76 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -40562,7 +40083,7 @@
 	//! reference: http://id.wikisource.org/wiki/Pedoman_Umum_Ejaan_Bahasa_Indonesia_yang_Disempurnakan
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -40640,7 +40161,7 @@
 	}));
 
 /***/ },
-/* 78 */
+/* 77 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -40648,7 +40169,7 @@
 	//! author : Hinrik Örn Sigurðsson : https://github.com/hinrik
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -40771,7 +40292,7 @@
 	}));
 
 /***/ },
-/* 79 */
+/* 78 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -40780,7 +40301,7 @@
 	//! author: Mattia Larentis: https://github.com/nostalgiaz
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -40845,7 +40366,7 @@
 	}));
 
 /***/ },
-/* 80 */
+/* 79 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -40853,7 +40374,7 @@
 	//! author : LI Long : https://github.com/baryon
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -40914,7 +40435,7 @@
 	}));
 
 /***/ },
-/* 81 */
+/* 80 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -40923,7 +40444,7 @@
 	//! reference: http://jv.wikipedia.org/wiki/Basa_Jawa
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -41001,7 +40522,7 @@
 	}));
 
 /***/ },
-/* 82 */
+/* 81 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -41009,7 +40530,7 @@
 	//! author : Irakli Janiashvili : https://github.com/irakli-janiashvili
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -41108,7 +40629,7 @@
 	}));
 
 /***/ },
-/* 83 */
+/* 82 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -41116,7 +40637,7 @@
 	//! author : Kruy Vanna : https://github.com/kruyvanna
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -41170,7 +40691,7 @@
 	}));
 
 /***/ },
-/* 84 */
+/* 83 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -41182,7 +40703,7 @@
 	//! - Jeeeyul Lee <jeeeyul@gmail.com>
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -41242,7 +40763,7 @@
 	}));
 
 /***/ },
-/* 85 */
+/* 84 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -41250,7 +40771,7 @@
 	//! author : mweimerskirch : https://github.com/mweimerskirch, David Raison : https://github.com/kwisatz
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -41380,7 +40901,7 @@
 	}));
 
 /***/ },
-/* 86 */
+/* 85 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -41388,7 +40909,7 @@
 	//! author : Mindaugas Mozūras : https://github.com/mmozuras
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -41499,7 +41020,7 @@
 	}));
 
 /***/ },
-/* 87 */
+/* 86 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -41508,7 +41029,7 @@
 	//! author : Jānis Elmeris : https://github.com/JanisE
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -41599,7 +41120,7 @@
 	}));
 
 /***/ },
-/* 88 */
+/* 87 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -41607,7 +41128,7 @@
 	//! author : Miodrag Nikač <miodrag@restartit.me> : https://github.com/miodragnikac
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -41712,7 +41233,7 @@
 	}));
 
 /***/ },
-/* 89 */
+/* 88 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -41720,7 +41241,7 @@
 	//! author : Borislav Mickov : https://github.com/B0k0
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -41806,7 +41327,7 @@
 	}));
 
 /***/ },
-/* 90 */
+/* 89 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -41814,7 +41335,7 @@
 	//! author : Floyd Pink : https://github.com/floydpink
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -41881,7 +41402,7 @@
 	}));
 
 /***/ },
-/* 91 */
+/* 90 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -41889,7 +41410,7 @@
 	//! author : Harshad Kale : https://github.com/kalehv
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -42006,7 +41527,7 @@
 	}));
 
 /***/ },
-/* 92 */
+/* 91 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -42014,7 +41535,7 @@
 	//! author : Weldan Jamili : https://github.com/weldan
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -42092,7 +41613,7 @@
 	}));
 
 /***/ },
-/* 93 */
+/* 92 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -42100,7 +41621,7 @@
 	//! author : Squar team, mysquar.com
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -42189,7 +41710,7 @@
 	}));
 
 /***/ },
-/* 94 */
+/* 93 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -42198,7 +41719,7 @@
 	//!           Sigurd Gartmann : https://github.com/sigurdga
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -42254,7 +41775,7 @@
 	}));
 
 /***/ },
-/* 95 */
+/* 94 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -42262,7 +41783,7 @@
 	//! author : suvash : https://github.com/suvash
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -42381,7 +41902,7 @@
 	}));
 
 /***/ },
-/* 96 */
+/* 95 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -42389,7 +41910,7 @@
 	//! author : Joris Röling : https://github.com/jjupiter
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -42456,7 +41977,7 @@
 	}));
 
 /***/ },
-/* 97 */
+/* 96 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -42464,7 +41985,7 @@
 	//! author : https://github.com/mechuwind
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -42520,7 +42041,7 @@
 	}));
 
 /***/ },
-/* 98 */
+/* 97 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -42528,7 +42049,7 @@
 	//! author : Rafal Hirsz : https://github.com/evoL
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -42629,7 +42150,7 @@
 	}));
 
 /***/ },
-/* 99 */
+/* 98 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -42637,7 +42158,7 @@
 	//! author : Caio Ribeiro Pereira : https://github.com/caio-ribeiro-pereira
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -42693,7 +42214,7 @@
 	}));
 
 /***/ },
-/* 100 */
+/* 99 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -42701,7 +42222,7 @@
 	//! author : Jefferson : https://github.com/jalex79
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -42761,7 +42282,7 @@
 	}));
 
 /***/ },
-/* 101 */
+/* 100 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -42770,7 +42291,7 @@
 	//! author : Valentin Agachi : https://github.com/avaly
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -42839,7 +42360,7 @@
 	}));
 
 /***/ },
-/* 102 */
+/* 101 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -42848,7 +42369,7 @@
 	//! Author : Menelion Elensúle : https://github.com/Oire
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -43007,7 +42528,7 @@
 	}));
 
 /***/ },
-/* 103 */
+/* 102 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -43015,7 +42536,7 @@
 	//! author : Sampath Sitinamaluwa : https://github.com/sampathsris
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -43076,7 +42597,7 @@
 	}));
 
 /***/ },
-/* 104 */
+/* 103 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -43085,7 +42606,7 @@
 	//! based on work of petrbela : https://github.com/petrbela
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -43238,7 +42759,7 @@
 	}));
 
 /***/ },
-/* 105 */
+/* 104 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -43246,7 +42767,7 @@
 	//! author : Robert Sedovšek : https://github.com/sedovsek
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -43402,7 +42923,7 @@
 	}));
 
 /***/ },
-/* 106 */
+/* 105 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -43412,7 +42933,7 @@
 	//! author : Oerd Cukalla : https://github.com/oerd (fixes)
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -43475,7 +42996,7 @@
 	}));
 
 /***/ },
-/* 107 */
+/* 106 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -43483,7 +43004,7 @@
 	//! author : Milan Janačković<milanjanackovic@gmail.com> : https://github.com/milan-j
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -43587,7 +43108,7 @@
 	}));
 
 /***/ },
-/* 108 */
+/* 107 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -43595,7 +43116,7 @@
 	//! author : Milan Janačković<milanjanackovic@gmail.com> : https://github.com/milan-j
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -43699,7 +43220,7 @@
 	}));
 
 /***/ },
-/* 109 */
+/* 108 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -43707,7 +43228,7 @@
 	//! author : Jens Alm : https://github.com/ulmus
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -43770,7 +43291,7 @@
 	}));
 
 /***/ },
-/* 110 */
+/* 109 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -43778,7 +43299,7 @@
 	//! author : Arjunkumar Krishnamoorthy : https://github.com/tk120404
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -43869,7 +43390,7 @@
 	}));
 
 /***/ },
-/* 111 */
+/* 110 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -43877,7 +43398,7 @@
 	//! author : Kridsada Thanabulpong : https://github.com/sirn
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -43938,7 +43459,7 @@
 	}));
 
 /***/ },
-/* 112 */
+/* 111 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -43946,7 +43467,7 @@
 	//! author : Dan Hagman
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44004,7 +43525,7 @@
 	}));
 
 /***/ },
-/* 113 */
+/* 112 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44013,7 +43534,7 @@
 	//!           Burak Yiğit Kaya: https://github.com/BYK
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44098,7 +43619,7 @@
 	}));
 
 /***/ },
-/* 114 */
+/* 113 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44106,7 +43627,7 @@
 	//! author : Abdel Said : https://github.com/abdelsaid
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44160,7 +43681,7 @@
 	}));
 
 /***/ },
-/* 115 */
+/* 114 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44168,7 +43689,7 @@
 	//! author : Abdel Said : https://github.com/abdelsaid
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44222,7 +43743,7 @@
 	}));
 
 /***/ },
-/* 116 */
+/* 115 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44231,7 +43752,7 @@
 	//! Author : Menelion Elensúle : https://github.com/Oire
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44379,7 +43900,7 @@
 	}));
 
 /***/ },
-/* 117 */
+/* 116 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44387,7 +43908,7 @@
 	//! author : Sardor Muminov : https://github.com/muminoff
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44441,7 +43962,7 @@
 	}));
 
 /***/ },
-/* 118 */
+/* 117 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44449,7 +43970,7 @@
 	//! author : Bang Nguyen : https://github.com/bangnk
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44511,7 +44032,7 @@
 	}));
 
 /***/ },
-/* 119 */
+/* 118 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44520,7 +44041,7 @@
 	//! author : Zeno Zeng : https://github.com/zenozeng
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44642,7 +44163,7 @@
 	}));
 
 /***/ },
-/* 120 */
+/* 119 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//! moment.js locale configuration
@@ -44650,7 +44171,7 @@
 	//! author : Ben : https://github.com/ben-lin
 	
 	(function (global, factory) {
-	   true ? factory(__webpack_require__(16)) :
+	   true ? factory(__webpack_require__(15)) :
 	   typeof define === 'function' && define.amd ? define(['moment'], factory) :
 	   factory(global.moment)
 	}(this, function (moment) { 'use strict';
@@ -44747,14 +44268,14 @@
 	}));
 
 /***/ },
-/* 121 */
+/* 120 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(156).crossfilter;
+	module.exports = __webpack_require__(152).crossfilter;
 
 
 /***/ },
-/* 122 */
+/* 121 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -44770,9 +44291,9 @@
 	
 	'use strict';
 	
-	var EventConstants = __webpack_require__(157);
+	var EventConstants = __webpack_require__(156);
 	
-	var invariant = __webpack_require__(158);
+	var invariant = __webpack_require__(157);
 	
 	/**
 	 * Injected dependencies:
@@ -44975,10 +44496,10 @@
 	
 	module.exports = EventPluginUtils;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 123 */
+/* 122 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -44994,11 +44515,11 @@
 	
 	'use strict';
 	
-	var PooledClass = __webpack_require__(159);
-	var ReactFragment = __webpack_require__(160);
+	var PooledClass = __webpack_require__(158);
+	var ReactFragment = __webpack_require__(159);
 	
-	var traverseAllChildren = __webpack_require__(161);
-	var warning = __webpack_require__(162);
+	var traverseAllChildren = __webpack_require__(160);
+	var warning = __webpack_require__(161);
 	
 	var twoArgumentPooler = PooledClass.twoArgumentPooler;
 	var threeArgumentPooler = PooledClass.threeArgumentPooler;
@@ -45131,10 +44652,10 @@
 	
 	module.exports = ReactChildren;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 124 */
+/* 123 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -45150,10 +44671,10 @@
 	
 	'use strict';
 	
-	var ReactUpdateQueue = __webpack_require__(163);
+	var ReactUpdateQueue = __webpack_require__(162);
 	
-	var invariant = __webpack_require__(158);
-	var warning = __webpack_require__(162);
+	var invariant = __webpack_require__(157);
+	var warning = __webpack_require__(161);
 	
 	/**
 	 * Base class helpers for the updating state of a component.
@@ -45288,10 +44809,10 @@
 	
 	module.exports = ReactComponent;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 125 */
+/* 124 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -45307,21 +44828,21 @@
 	
 	'use strict';
 	
-	var ReactComponent = __webpack_require__(124);
-	var ReactCurrentOwner = __webpack_require__(127);
-	var ReactElement = __webpack_require__(128);
+	var ReactComponent = __webpack_require__(123);
+	var ReactCurrentOwner = __webpack_require__(126);
+	var ReactElement = __webpack_require__(127);
 	var ReactErrorUtils = __webpack_require__(165);
 	var ReactInstanceMap = __webpack_require__(166);
 	var ReactLifeCycle = __webpack_require__(167);
 	var ReactPropTypeLocations = __webpack_require__(168);
 	var ReactPropTypeLocationNames = __webpack_require__(164);
-	var ReactUpdateQueue = __webpack_require__(163);
+	var ReactUpdateQueue = __webpack_require__(162);
 	
-	var assign = __webpack_require__(139);
-	var invariant = __webpack_require__(158);
+	var assign = __webpack_require__(138);
+	var invariant = __webpack_require__(157);
 	var keyMirror = __webpack_require__(169);
 	var keyOf = __webpack_require__(170);
-	var warning = __webpack_require__(162);
+	var warning = __webpack_require__(161);
 	
 	var MIXINS_KEY = keyOf({mixins: null});
 	
@@ -46237,10 +45758,10 @@
 	
 	module.exports = ReactClass;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 126 */
+/* 125 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -46256,9 +45777,9 @@
 	
 	'use strict';
 	
-	var assign = __webpack_require__(139);
-	var emptyObject = __webpack_require__(171);
-	var warning = __webpack_require__(162);
+	var assign = __webpack_require__(138);
+	var emptyObject = __webpack_require__(163);
+	var warning = __webpack_require__(161);
 	
 	var didWarn = false;
 	
@@ -46318,10 +45839,10 @@
 	
 	module.exports = ReactContext;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 127 */
+/* 126 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -46359,7 +45880,7 @@
 
 
 /***/ },
-/* 128 */
+/* 127 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -46375,11 +45896,11 @@
 	
 	'use strict';
 	
-	var ReactContext = __webpack_require__(126);
-	var ReactCurrentOwner = __webpack_require__(127);
+	var ReactContext = __webpack_require__(125);
+	var ReactCurrentOwner = __webpack_require__(126);
 	
-	var assign = __webpack_require__(139);
-	var warning = __webpack_require__(162);
+	var assign = __webpack_require__(138);
+	var warning = __webpack_require__(161);
 	
 	var RESERVED_PROPS = {
 	  key: true,
@@ -46667,10 +46188,10 @@
 	
 	module.exports = ReactElement;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 129 */
+/* 128 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -46693,16 +46214,16 @@
 	
 	'use strict';
 	
-	var ReactElement = __webpack_require__(128);
-	var ReactFragment = __webpack_require__(160);
+	var ReactElement = __webpack_require__(127);
+	var ReactFragment = __webpack_require__(159);
 	var ReactPropTypeLocations = __webpack_require__(168);
 	var ReactPropTypeLocationNames = __webpack_require__(164);
-	var ReactCurrentOwner = __webpack_require__(127);
+	var ReactCurrentOwner = __webpack_require__(126);
 	var ReactNativeComponent = __webpack_require__(172);
 	
 	var getIteratorFn = __webpack_require__(1);
-	var invariant = __webpack_require__(158);
-	var warning = __webpack_require__(162);
+	var invariant = __webpack_require__(157);
+	var warning = __webpack_require__(161);
 	
 	function getDeclarationErrorAddendum() {
 	  if (ReactCurrentOwner.current) {
@@ -47135,10 +46656,10 @@
 	
 	module.exports = ReactElementValidator;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 130 */
+/* 129 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -47155,10 +46676,10 @@
 	
 	'use strict';
 	
-	var ReactElement = __webpack_require__(128);
-	var ReactElementValidator = __webpack_require__(129);
+	var ReactElement = __webpack_require__(127);
+	var ReactElementValidator = __webpack_require__(128);
 	
-	var mapObject = __webpack_require__(174);
+	var mapObject = __webpack_require__(171);
 	
 	/**
 	 * Create a factory that creates HTML tag elements.
@@ -47317,10 +46838,10 @@
 	
 	module.exports = ReactDOM;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 131 */
+/* 130 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -47337,13 +46858,13 @@
 	
 	'use strict';
 	
-	var DOMPropertyOperations = __webpack_require__(175);
+	var DOMPropertyOperations = __webpack_require__(174);
 	var ReactComponentBrowserEnvironment =
-	  __webpack_require__(176);
-	var ReactDOMComponent = __webpack_require__(177);
+	  __webpack_require__(175);
+	var ReactDOMComponent = __webpack_require__(176);
 	
-	var assign = __webpack_require__(139);
-	var escapeTextContentForBrowser = __webpack_require__(178);
+	var assign = __webpack_require__(138);
+	var escapeTextContentForBrowser = __webpack_require__(177);
 	
 	/**
 	 * Text nodes violate a couple assumptions that React makes about components:
@@ -47441,7 +46962,7 @@
 
 
 /***/ },
-/* 132 */
+/* 131 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -47457,42 +46978,42 @@
 	
 	'use strict';
 	
-	var BeforeInputEventPlugin = __webpack_require__(179);
-	var ChangeEventPlugin = __webpack_require__(180);
-	var ClientReactRootIndex = __webpack_require__(181);
-	var DefaultEventPluginOrder = __webpack_require__(182);
-	var EnterLeaveEventPlugin = __webpack_require__(183);
-	var ExecutionEnvironment = __webpack_require__(142);
-	var HTMLDOMPropertyConfig = __webpack_require__(184);
-	var MobileSafariClickEventPlugin = __webpack_require__(185);
-	var ReactBrowserComponentMixin = __webpack_require__(186);
-	var ReactClass = __webpack_require__(125);
+	var BeforeInputEventPlugin = __webpack_require__(178);
+	var ChangeEventPlugin = __webpack_require__(179);
+	var ClientReactRootIndex = __webpack_require__(180);
+	var DefaultEventPluginOrder = __webpack_require__(181);
+	var EnterLeaveEventPlugin = __webpack_require__(182);
+	var ExecutionEnvironment = __webpack_require__(141);
+	var HTMLDOMPropertyConfig = __webpack_require__(183);
+	var MobileSafariClickEventPlugin = __webpack_require__(184);
+	var ReactBrowserComponentMixin = __webpack_require__(185);
+	var ReactClass = __webpack_require__(124);
 	var ReactComponentBrowserEnvironment =
-	  __webpack_require__(176);
-	var ReactDefaultBatchingStrategy = __webpack_require__(187);
-	var ReactDOMComponent = __webpack_require__(177);
-	var ReactDOMButton = __webpack_require__(188);
-	var ReactDOMForm = __webpack_require__(189);
-	var ReactDOMImg = __webpack_require__(190);
-	var ReactDOMIDOperations = __webpack_require__(191);
-	var ReactDOMIframe = __webpack_require__(192);
-	var ReactDOMInput = __webpack_require__(193);
-	var ReactDOMOption = __webpack_require__(194);
-	var ReactDOMSelect = __webpack_require__(195);
-	var ReactDOMTextarea = __webpack_require__(196);
-	var ReactDOMTextComponent = __webpack_require__(131);
-	var ReactElement = __webpack_require__(128);
-	var ReactEventListener = __webpack_require__(197);
-	var ReactInjection = __webpack_require__(198);
-	var ReactInstanceHandles = __webpack_require__(133);
-	var ReactMount = __webpack_require__(134);
-	var ReactReconcileTransaction = __webpack_require__(199);
-	var SelectEventPlugin = __webpack_require__(200);
-	var ServerReactRootIndex = __webpack_require__(201);
-	var SimpleEventPlugin = __webpack_require__(202);
-	var SVGDOMPropertyConfig = __webpack_require__(203);
+	  __webpack_require__(175);
+	var ReactDefaultBatchingStrategy = __webpack_require__(186);
+	var ReactDOMComponent = __webpack_require__(176);
+	var ReactDOMButton = __webpack_require__(187);
+	var ReactDOMForm = __webpack_require__(188);
+	var ReactDOMImg = __webpack_require__(189);
+	var ReactDOMIDOperations = __webpack_require__(190);
+	var ReactDOMIframe = __webpack_require__(191);
+	var ReactDOMInput = __webpack_require__(192);
+	var ReactDOMOption = __webpack_require__(193);
+	var ReactDOMSelect = __webpack_require__(194);
+	var ReactDOMTextarea = __webpack_require__(195);
+	var ReactDOMTextComponent = __webpack_require__(130);
+	var ReactElement = __webpack_require__(127);
+	var ReactEventListener = __webpack_require__(196);
+	var ReactInjection = __webpack_require__(197);
+	var ReactInstanceHandles = __webpack_require__(132);
+	var ReactMount = __webpack_require__(133);
+	var ReactReconcileTransaction = __webpack_require__(198);
+	var SelectEventPlugin = __webpack_require__(199);
+	var ServerReactRootIndex = __webpack_require__(200);
+	var SimpleEventPlugin = __webpack_require__(201);
+	var SVGDOMPropertyConfig = __webpack_require__(202);
 	
-	var createFullPageComponent = __webpack_require__(204);
+	var createFullPageComponent = __webpack_require__(203);
 	
 	function autoGenerateWrapperClass(type) {
 	  return ReactClass.createClass({
@@ -47590,7 +47111,7 @@
 	  if ("production" !== process.env.NODE_ENV) {
 	    var url = (ExecutionEnvironment.canUseDOM && window.location.href) || '';
 	    if ((/[?&]react_perf\b/).test(url)) {
-	      var ReactDefaultPerf = __webpack_require__(205);
+	      var ReactDefaultPerf = __webpack_require__(204);
 	      ReactDefaultPerf.start();
 	    }
 	  }
@@ -47600,10 +47121,10 @@
 	  inject: inject
 	};
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 133 */
+/* 132 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -47620,9 +47141,9 @@
 	
 	'use strict';
 	
-	var ReactRootIndex = __webpack_require__(206);
+	var ReactRootIndex = __webpack_require__(205);
 	
-	var invariant = __webpack_require__(158);
+	var invariant = __webpack_require__(157);
 	
 	var SEPARATOR = '.';
 	var SEPARATOR_LENGTH = SEPARATOR.length;
@@ -47939,10 +47460,10 @@
 	
 	module.exports = ReactInstanceHandles;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 134 */
+/* 133 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -47958,28 +47479,28 @@
 	
 	'use strict';
 	
-	var DOMProperty = __webpack_require__(207);
-	var ReactBrowserEventEmitter = __webpack_require__(208);
-	var ReactCurrentOwner = __webpack_require__(127);
-	var ReactElement = __webpack_require__(128);
-	var ReactElementValidator = __webpack_require__(129);
-	var ReactEmptyComponent = __webpack_require__(209);
-	var ReactInstanceHandles = __webpack_require__(133);
+	var DOMProperty = __webpack_require__(206);
+	var ReactBrowserEventEmitter = __webpack_require__(207);
+	var ReactCurrentOwner = __webpack_require__(126);
+	var ReactElement = __webpack_require__(127);
+	var ReactElementValidator = __webpack_require__(128);
+	var ReactEmptyComponent = __webpack_require__(208);
+	var ReactInstanceHandles = __webpack_require__(132);
 	var ReactInstanceMap = __webpack_require__(166);
-	var ReactMarkupChecksum = __webpack_require__(210);
-	var ReactPerf = __webpack_require__(135);
-	var ReactReconciler = __webpack_require__(137);
-	var ReactUpdateQueue = __webpack_require__(163);
-	var ReactUpdates = __webpack_require__(211);
+	var ReactMarkupChecksum = __webpack_require__(209);
+	var ReactPerf = __webpack_require__(134);
+	var ReactReconciler = __webpack_require__(136);
+	var ReactUpdateQueue = __webpack_require__(162);
+	var ReactUpdates = __webpack_require__(210);
 	
-	var emptyObject = __webpack_require__(171);
-	var containsNode = __webpack_require__(212);
-	var getReactRootElementInContainer = __webpack_require__(213);
-	var instantiateReactComponent = __webpack_require__(214);
-	var invariant = __webpack_require__(158);
-	var setInnerHTML = __webpack_require__(215);
-	var shouldUpdateReactComponent = __webpack_require__(216);
-	var warning = __webpack_require__(162);
+	var emptyObject = __webpack_require__(163);
+	var containsNode = __webpack_require__(211);
+	var getReactRootElementInContainer = __webpack_require__(212);
+	var instantiateReactComponent = __webpack_require__(213);
+	var invariant = __webpack_require__(157);
+	var setInnerHTML = __webpack_require__(214);
+	var shouldUpdateReactComponent = __webpack_require__(215);
+	var warning = __webpack_require__(161);
 	
 	var SEPARATOR = ReactInstanceHandles.SEPARATOR;
 	
@@ -48833,10 +48354,10 @@
 	
 	module.exports = ReactMount;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 135 */
+/* 134 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -48940,10 +48461,10 @@
 	
 	module.exports = ReactPerf;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 136 */
+/* 135 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -48959,11 +48480,11 @@
 	
 	'use strict';
 	
-	var ReactElement = __webpack_require__(128);
-	var ReactFragment = __webpack_require__(160);
+	var ReactElement = __webpack_require__(127);
+	var ReactFragment = __webpack_require__(159);
 	var ReactPropTypeLocationNames = __webpack_require__(164);
 	
-	var emptyFunction = __webpack_require__(217);
+	var emptyFunction = __webpack_require__(216);
 	
 	/**
 	 * Collection of methods that allow declaration and validation of props that are
@@ -49296,7 +48817,7 @@
 
 
 /***/ },
-/* 137 */
+/* 136 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -49313,7 +48834,7 @@
 	'use strict';
 	
 	var ReactRef = __webpack_require__(218);
-	var ReactElementValidator = __webpack_require__(129);
+	var ReactElementValidator = __webpack_require__(128);
 	
 	/**
 	 * Helper to call ReactRef.attachRefs with this composite component, split out
@@ -49420,10 +48941,10 @@
 	
 	module.exports = ReactReconciler;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 138 */
+/* 137 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -49439,15 +48960,15 @@
 	 */
 	'use strict';
 	
-	var ReactElement = __webpack_require__(128);
-	var ReactInstanceHandles = __webpack_require__(133);
-	var ReactMarkupChecksum = __webpack_require__(210);
+	var ReactElement = __webpack_require__(127);
+	var ReactInstanceHandles = __webpack_require__(132);
+	var ReactMarkupChecksum = __webpack_require__(209);
 	var ReactServerRenderingTransaction =
-	  __webpack_require__(219);
+	  __webpack_require__(217);
 	
-	var emptyObject = __webpack_require__(171);
-	var instantiateReactComponent = __webpack_require__(214);
-	var invariant = __webpack_require__(158);
+	var emptyObject = __webpack_require__(163);
+	var instantiateReactComponent = __webpack_require__(213);
+	var invariant = __webpack_require__(157);
 	
 	/**
 	 * @param {ReactElement} element
@@ -49505,10 +49026,10 @@
 	  renderToStaticMarkup: renderToStaticMarkup
 	};
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 139 */
+/* 138 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -49561,7 +49082,7 @@
 
 
 /***/ },
-/* 140 */
+/* 139 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -49578,13 +49099,13 @@
 	
 	'use strict';
 	
-	var ReactCurrentOwner = __webpack_require__(127);
+	var ReactCurrentOwner = __webpack_require__(126);
 	var ReactInstanceMap = __webpack_require__(166);
-	var ReactMount = __webpack_require__(134);
+	var ReactMount = __webpack_require__(133);
 	
-	var invariant = __webpack_require__(158);
-	var isNode = __webpack_require__(220);
-	var warning = __webpack_require__(162);
+	var invariant = __webpack_require__(157);
+	var isNode = __webpack_require__(219);
+	var warning = __webpack_require__(161);
 	
 	/**
 	 * Returns the DOM node rendered by this element.
@@ -49634,10 +49155,10 @@
 	
 	module.exports = findDOMNode;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 141 */
+/* 140 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -49652,9 +49173,9 @@
 	 */
 	'use strict';
 	
-	var ReactElement = __webpack_require__(128);
+	var ReactElement = __webpack_require__(127);
 	
-	var invariant = __webpack_require__(158);
+	var invariant = __webpack_require__(157);
 	
 	/**
 	 * Returns the first child in a collection of children and verifies that there
@@ -49677,10 +49198,10 @@
 	
 	module.exports = onlyChild;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 142 */
+/* 141 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -49728,7 +49249,7 @@
 
 
 /***/ },
-/* 143 */
+/* 142 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -49736,10 +49257,10 @@
 	 * Module dependencies.
 	 */
 	
-	var url = __webpack_require__(221);
-	var parser = __webpack_require__(228);
-	var Manager = __webpack_require__(222);
-	var debug = __webpack_require__(272)('socket.io-client');
+	var url = __webpack_require__(220);
+	var parser = __webpack_require__(226);
+	var Manager = __webpack_require__(221);
+	var debug = __webpack_require__(271)('socket.io-client');
 	
 	/**
 	 * Module exports.
@@ -49816,470 +49337,12 @@
 	 * @api public
 	 */
 	
-	exports.Manager = __webpack_require__(222);
-	exports.Socket = __webpack_require__(223);
+	exports.Manager = __webpack_require__(221);
+	exports.Socket = __webpack_require__(222);
 
 
 /***/ },
-/* 144 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
-	
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
-	
-	var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
-	
-	/**
-	 * Store
-	 *
-	 * Stores hold application state. They respond to actions sent by the dispatcher
-	 * and broadcast change events to listeners, so they can grab the latest data.
-	 * The key thing to remember is that the only way stores receive information
-	 * from the outside world is via the dispatcher.
-	 */
-	
-	var _EventEmitter2 = __webpack_require__(153);
-	
-	var EventEmitter = _interopRequire(_EventEmitter2);
-	
-	var _assign = __webpack_require__(154);
-	
-	var assign = _interopRequire(_assign);
-	
-	var Store = (function (_EventEmitter) {
-	
-	  /**
-	   * Stores are initialized with a reference
-	   * @type {Object}
-	   */
-	
-	  function Store() {
-	    _classCallCheck(this, Store);
-	
-	    _EventEmitter.call(this);
-	
-	    this.state = null;
-	
-	    // Map of action ids to collection of action handlers
-	    // Async handlers are categorized as 'begin', 'success', or 'error'
-	    // Non-async handlers are categorized as 'success'
-	    this._handlers = {};
-	
-	    // Like above, except generic handlers are called for every action
-	    this._genericHandlers = {
-	      begin: [],
-	      success: [],
-	      failure: []
-	    };
-	
-	    // Array of { matcher, handler }
-	    // matcher is called with each payload
-	    // handler is called if matcher returns true
-	    this._matchHandlers = [];
-	  }
-	
-	  _inherits(Store, _EventEmitter);
-	
-	  Store.prototype.setState = function setState(newState) {
-	    // Do a transactional state update if a function is passed
-	    if (typeof newState === 'function') {
-	      var prevState = this._isHandlingDispatch ? this._pendingState : this.state;
-	
-	      newState = newState(prevState);
-	    }
-	
-	    if (this._isHandlingDispatch) {
-	      this._pendingState = this._assignState(this._pendingState, newState);
-	      this._emitChangeAfterHandlingDispatch = true;
-	    } else {
-	      this.state = this._assignState(this.state, newState);
-	      this.emit('change');
-	    }
-	  };
-	
-	  Store.prototype.replaceState = function replaceState(newState) {
-	    if (this._isHandlingDispatch) {
-	      this._pendingState = this._assignState(undefined, newState);
-	      this._emitChangeAfterHandlingDispatch = true;
-	    } else {
-	      this.state = this._assignState(undefined, newState);
-	      this.emit('change');
-	    }
-	  };
-	
-	  Store.prototype.getStateAsObject = function getStateAsObject() {
-	    return this.state;
-	  };
-	
-	  Store.assignState = function assignState(oldState, newState) {
-	    return assign({}, oldState, newState);
-	  };
-	
-	  Store.prototype._assignState = function _assignState() {
-	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-	      args[_key] = arguments[_key];
-	    }
-	
-	    return (this.constructor.assignState || Store.assignState).apply(undefined, args);
-	  };
-	
-	  Store.prototype.forceUpdate = function forceUpdate() {
-	    if (this._isHandlingDispatch) {
-	      this._emitChangeAfterHandlingDispatch = true;
-	    } else {
-	      this.emit('change');
-	    }
-	  };
-	
-	  Store.prototype.register = function register(actionId, handler) {
-	    actionId = ensureActionId(actionId);
-	
-	    if (typeof handler !== 'function') {
-	      return;
-	    }var actionHandlers = this._handlers[actionId] || {};
-	    var actionSuccessHandlers = actionHandlers.success || [];
-	
-	    actionSuccessHandlers.push(handler.bind(this));
-	
-	    actionHandlers.success = actionSuccessHandlers;
-	    this._handlers[actionId] = actionHandlers;
-	  };
-	
-	  Store.prototype.registerAsync = function registerAsync(actionId, beginHandler, successHandler, failureHandler) {
-	    actionId = ensureActionId(actionId);
-	
-	    var actionHandlers = this._handlers[actionId] || {};
-	
-	    var newActionHandlers = {
-	      begin: beginHandler,
-	      success: successHandler,
-	      failure: failureHandler
-	    };
-	
-	    for (var handlerType in newActionHandlers) {
-	      var handler = newActionHandlers[handlerType];
-	
-	      if (typeof handler !== 'function') continue;
-	
-	      var actionTypeHandlers = actionHandlers[handlerType] || [];
-	
-	      actionTypeHandlers.push(handler.bind(this));
-	
-	      actionHandlers[handlerType] = actionTypeHandlers;
-	    }
-	
-	    this._handlers[actionId] = actionHandlers;
-	  };
-	
-	  Store.prototype.registerAll = function registerAll(handler) {
-	    if (typeof handler !== 'function') {
-	      return;
-	    }this._genericHandlers.success.push(handler.bind(this));
-	  };
-	
-	  Store.prototype.registerAllAsync = function registerAllAsync(beginHandler, successHandler, failureHandler) {
-	    var newActionHandlers = {
-	      begin: beginHandler,
-	      success: successHandler,
-	      failure: failureHandler
-	    };
-	
-	    for (var handlerType in newActionHandlers) {
-	      var handler = newActionHandlers[handlerType];
-	
-	      if (typeof handler !== 'function') continue;
-	
-	      this._genericHandlers[handlerType].push(handler.bind(this));
-	    }
-	  };
-	
-	  Store.prototype.registerMatch = function registerMatch(matcher, handler) {
-	    this._matchHandlers.push({
-	      matcher: matcher,
-	      handler: handler.bind(this)
-	    });
-	  };
-	
-	  Store.prototype.waitFor = function waitFor(tokensOrStores) {
-	    this._waitFor(tokensOrStores);
-	  };
-	
-	  Store.prototype.handler = function handler(payload) {
-	    var body = payload.body;
-	    var actionId = payload.actionId;
-	    var asyncType = payload.async;
-	    var actionArgs = payload.actionArgs;
-	    var error = payload.error;
-	
-	    // Collect array of all matching action handlers
-	    var actionHandlers = this._handlers[actionId] || {};
-	    var genericHandlers = this._genericHandlers;
-	    var matchHandlers = this._matchHandlers;
-	
-	    var matchedActionHandlers = [];
-	
-	    if (asyncType === 'begin' || asyncType === 'failure') {
-	      var matchedAsyncActionHandlers = actionHandlers[asyncType];
-	      var matchedAsyncGenericHandlers = genericHandlers[asyncType];
-	
-	      if (matchedAsyncActionHandlers) {
-	        matchedActionHandlers = matchedActionHandlers.concat(matchedAsyncActionHandlers);
-	      }
-	
-	      if (matchedAsyncGenericHandlers) {
-	        matchedActionHandlers = matchedActionHandlers.concat(matchedAsyncGenericHandlers);
-	      }
-	    } else {
-	      var matchedSuccessActionHandlers = actionHandlers.success;
-	      var matchedSuccessGenericHandlers = genericHandlers.success;
-	
-	      if (matchedSuccessActionHandlers) {
-	        matchedActionHandlers = matchedActionHandlers.concat(matchedSuccessActionHandlers);
-	      }
-	
-	      if (matchedSuccessGenericHandlers) {
-	        matchedActionHandlers = matchedActionHandlers.concat(matchedSuccessGenericHandlers);
-	      }
-	    }
-	
-	    // Collect handlers that match custom matcher functions
-	    // These are collected separately because they always receive the payload
-	    // as the sole argument.
-	    var customMatchedActionHandlers = [];
-	
-	    for (var _iterator = matchHandlers, _isArray = Array.isArray(_iterator), _i2 = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
-	      var _ref;
-	
-	      if (_isArray) {
-	        if (_i2 >= _iterator.length) break;
-	        _ref = _iterator[_i2++];
-	      } else {
-	        _i2 = _iterator.next();
-	        if (_i2.done) break;
-	        _ref = _i2.value;
-	      }
-	
-	      var matcher = _ref.matcher;
-	      var handler = _ref.handler;
-	
-	      if (matcher(payload)) {
-	        customMatchedActionHandlers.push(handler);
-	      }
-	    }
-	
-	    // Determine args to pass to handlers based on action type
-	    var args = undefined;
-	
-	    switch (asyncType) {
-	      case 'begin':
-	        args = [payload];
-	        break;
-	      case 'failure':
-	        args = [error, payload];
-	        break;
-	      default:
-	        args = [body, payload];
-	    }
-	
-	    this._isHandlingDispatch = true;
-	    this._pendingState = this._assignState(undefined, this.state);
-	    this._emitChangeAfterHandlingDispatch = false;
-	
-	    try {
-	      // Dispatch matched handlers
-	      for (var _iterator2 = matchedActionHandlers, _isArray2 = Array.isArray(_iterator2), _i3 = 0, _iterator2 = _isArray2 ? _iterator2 : _iterator2[Symbol.iterator]();;) {
-	        var _ref2;
-	
-	        if (_isArray2) {
-	          if (_i3 >= _iterator2.length) break;
-	          _ref2 = _iterator2[_i3++];
-	        } else {
-	          _i3 = _iterator2.next();
-	          if (_i3.done) break;
-	          _ref2 = _i3.value;
-	        }
-	
-	        var actionHandler = _ref2;
-	
-	        actionHandler.apply(undefined, args);
-	      }
-	
-	      // Dispatch custom matched handers
-	      for (var _i = 0; _i < customMatchedActionHandlers.length; _i++) {
-	        var actionHandler = customMatchedActionHandlers[_i];
-	        actionHandler(payload);
-	      }
-	    } finally {
-	      var emit = false;
-	
-	      if (this._emitChangeAfterHandlingDispatch) {
-	        emit = true;
-	        this.state = this._pendingState;
-	      }
-	
-	      this._isHandlingDispatch = false;
-	      this._pendingState = undefined;
-	      this._emitChangeAfterHandlingDispatch = false;
-	
-	      if (emit) this.emit('change');
-	    }
-	  };
-	
-	  return Store;
-	})(EventEmitter);
-	
-	module.exports = Store;
-	
-	function ensureActionId(actionOrActionId) {
-	  return typeof actionOrActionId === 'function' ? actionOrActionId._id : actionOrActionId;
-	}
-
-/***/ },
-/* 145 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
-	
-	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
-	
-	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
-	
-	/**
-	 * Actions
-	 *
-	 * Instances of the Actions class represent a set of actions. (In Flux parlance,
-	 * these might be more accurately denoted as Action Creators, while Action
-	 * refers to the payload sent to the dispatcher, but this is... confusing. We
-	 * will use Action to mean the function you call to trigger a dispatch.)
-	 *
-	 * Create actions by extending from the base Actions class and adding methods.
-	 * All methods on the prototype (except the constructor) will be
-	 * converted into actions. The return value of an action is used as the body
-	 * of the payload sent to the dispatcher.
-	 */
-	
-	var _uniqueId = __webpack_require__(155);
-	
-	var uniqueId = _interopRequire(_uniqueId);
-	
-	var Actions = (function () {
-	  function Actions() {
-	    _classCallCheck(this, Actions);
-	
-	    this._baseId = uniqueId();
-	
-	    var methodNames = this._getActionMethodNames();
-	    for (var i = 0; i < methodNames.length; i++) {
-	      var methodName = methodNames[i];
-	      this._wrapAction(methodName);
-	    }
-	
-	    this.getConstants = this.getActionIds;
-	  }
-	
-	  Actions.prototype.getActionIds = function getActionIds() {
-	    var _this = this;
-	
-	    return this._getActionMethodNames().reduce(function (result, actionName) {
-	      result[actionName] = _this[actionName]._id;
-	      return result;
-	    }, {});
-	  };
-	
-	  Actions.prototype.getActionsAsObject = function getActionsAsObject() {
-	    var _this2 = this;
-	
-	    return this._getActionMethodNames().reduce(function (result, actionName) {
-	      result[actionName] = _this2[actionName];
-	      return result;
-	    }, {});
-	  };
-	
-	  Actions.prototype._getActionMethodNames = function _getActionMethodNames(instance) {
-	    var _this3 = this;
-	
-	    return Object.getOwnPropertyNames(this.constructor.prototype).filter(function (name) {
-	      return name !== 'constructor' && typeof _this3[name] === 'function';
-	    });
-	  };
-	
-	  Actions.prototype._wrapAction = function _wrapAction(methodName) {
-	    var _this4 = this;
-	
-	    var originalMethod = this[methodName];
-	    var actionId = this._createActionId(methodName);
-	
-	    var action = function action() {
-	      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-	        args[_key] = arguments[_key];
-	      }
-	
-	      var body = originalMethod.apply(_this4, args);
-	
-	      if (isPromise(body)) {
-	        var promise = body;
-	        _this4._dispatchAsync(actionId, promise, args, methodName);
-	      } else {
-	        _this4._dispatch(actionId, body, args, methodName);
-	      }
-	
-	      // Return original method's return value to caller
-	      return body;
-	    };
-	
-	    action._id = actionId;
-	
-	    this[methodName] = action;
-	  };
-	
-	  /**
-	   * Create unique string constant for an action method, using
-	   * @param {string} methodName - Name of the action method
-	   */
-	
-	  Actions.prototype._createActionId = function _createActionId(methodName) {
-	    return '' + this._baseId + '-' + methodName;
-	  };
-	
-	  Actions.prototype._dispatch = function _dispatch(actionId, body, args, methodName) {
-	    if (typeof this.dispatch === 'function') {
-	      if (typeof body !== 'undefined') {
-	        this.dispatch(actionId, body, args);
-	      }
-	    } else {
-	      if (process.env.NODE_ENV !== 'production') {
-	        console.warn('You\'ve attempted to perform the action ' + ('' + this.constructor.name + '#' + methodName + ', but it hasn\'t been added ') + 'to a Flux instance.');
-	      }
-	    }
-	
-	    return body;
-	  };
-	
-	  Actions.prototype._dispatchAsync = function _dispatchAsync(actionId, promise, args, methodName) {
-	    if (typeof this.dispatchAsync === 'function') {
-	      this.dispatchAsync(actionId, promise, args);
-	    } else {
-	      if (process.env.NODE_ENV !== 'production') {
-	        console.warn('You\'ve attempted to perform the asynchronous action ' + ('' + this.constructor.name + '#' + methodName + ', but it hasn\'t been added ') + 'to a Flux instance.');
-	      }
-	    }
-	  };
-	
-	  return Actions;
-	})();
-	
-	module.exports = Actions;
-	
-	function isPromise(value) {
-	  return value && typeof value.then === 'function';
-	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
-
-/***/ },
-/* 146 */
+/* 143 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var self = self || {};// File:src/Three.js
@@ -85431,42 +84494,500 @@
 
 
 /***/ },
-/* 147 */
+/* 144 */
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(224);
-	module.exports = __webpack_require__(225).core.Object.assign;
+	module.exports = __webpack_require__(223).core.Object.assign;
+
+/***/ },
+/* 145 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var $ = __webpack_require__(223);
+	module.exports = function defineProperty(it, key, desc){
+	  return $.setDesc(it, key, desc);
+	};
+
+/***/ },
+/* 146 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
+	
+	var _inherits = function (subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
+	
+	/**
+	 * Store
+	 *
+	 * Stores hold application state. They respond to actions sent by the dispatcher
+	 * and broadcast change events to listeners, so they can grab the latest data.
+	 * The key thing to remember is that the only way stores receive information
+	 * from the outside world is via the dispatcher.
+	 */
+	
+	var _EventEmitter2 = __webpack_require__(153);
+	
+	var EventEmitter = _interopRequire(_EventEmitter2);
+	
+	var _assign = __webpack_require__(155);
+	
+	var assign = _interopRequire(_assign);
+	
+	var Store = (function (_EventEmitter) {
+	
+	  /**
+	   * Stores are initialized with a reference
+	   * @type {Object}
+	   */
+	
+	  function Store() {
+	    _classCallCheck(this, Store);
+	
+	    _EventEmitter.call(this);
+	
+	    this.state = null;
+	
+	    // Map of action ids to collection of action handlers
+	    // Async handlers are categorized as 'begin', 'success', or 'error'
+	    // Non-async handlers are categorized as 'success'
+	    this._handlers = {};
+	
+	    // Like above, except generic handlers are called for every action
+	    this._genericHandlers = {
+	      begin: [],
+	      success: [],
+	      failure: []
+	    };
+	
+	    // Array of { matcher, handler }
+	    // matcher is called with each payload
+	    // handler is called if matcher returns true
+	    this._matchHandlers = [];
+	  }
+	
+	  _inherits(Store, _EventEmitter);
+	
+	  Store.prototype.setState = function setState(newState) {
+	    // Do a transactional state update if a function is passed
+	    if (typeof newState === 'function') {
+	      var prevState = this._isHandlingDispatch ? this._pendingState : this.state;
+	
+	      newState = newState(prevState);
+	    }
+	
+	    if (this._isHandlingDispatch) {
+	      this._pendingState = this._assignState(this._pendingState, newState);
+	      this._emitChangeAfterHandlingDispatch = true;
+	    } else {
+	      this.state = this._assignState(this.state, newState);
+	      this.emit('change');
+	    }
+	  };
+	
+	  Store.prototype.replaceState = function replaceState(newState) {
+	    if (this._isHandlingDispatch) {
+	      this._pendingState = this._assignState(undefined, newState);
+	      this._emitChangeAfterHandlingDispatch = true;
+	    } else {
+	      this.state = this._assignState(undefined, newState);
+	      this.emit('change');
+	    }
+	  };
+	
+	  Store.prototype.getStateAsObject = function getStateAsObject() {
+	    return this.state;
+	  };
+	
+	  Store.assignState = function assignState(oldState, newState) {
+	    return assign({}, oldState, newState);
+	  };
+	
+	  Store.prototype._assignState = function _assignState() {
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+	
+	    return (this.constructor.assignState || Store.assignState).apply(undefined, args);
+	  };
+	
+	  Store.prototype.forceUpdate = function forceUpdate() {
+	    if (this._isHandlingDispatch) {
+	      this._emitChangeAfterHandlingDispatch = true;
+	    } else {
+	      this.emit('change');
+	    }
+	  };
+	
+	  Store.prototype.register = function register(actionId, handler) {
+	    actionId = ensureActionId(actionId);
+	
+	    if (typeof handler !== 'function') {
+	      return;
+	    }var actionHandlers = this._handlers[actionId] || {};
+	    var actionSuccessHandlers = actionHandlers.success || [];
+	
+	    actionSuccessHandlers.push(handler.bind(this));
+	
+	    actionHandlers.success = actionSuccessHandlers;
+	    this._handlers[actionId] = actionHandlers;
+	  };
+	
+	  Store.prototype.registerAsync = function registerAsync(actionId, beginHandler, successHandler, failureHandler) {
+	    actionId = ensureActionId(actionId);
+	
+	    var actionHandlers = this._handlers[actionId] || {};
+	
+	    var newActionHandlers = {
+	      begin: beginHandler,
+	      success: successHandler,
+	      failure: failureHandler
+	    };
+	
+	    for (var handlerType in newActionHandlers) {
+	      var handler = newActionHandlers[handlerType];
+	
+	      if (typeof handler !== 'function') continue;
+	
+	      var actionTypeHandlers = actionHandlers[handlerType] || [];
+	
+	      actionTypeHandlers.push(handler.bind(this));
+	
+	      actionHandlers[handlerType] = actionTypeHandlers;
+	    }
+	
+	    this._handlers[actionId] = actionHandlers;
+	  };
+	
+	  Store.prototype.registerAll = function registerAll(handler) {
+	    if (typeof handler !== 'function') {
+	      return;
+	    }this._genericHandlers.success.push(handler.bind(this));
+	  };
+	
+	  Store.prototype.registerAllAsync = function registerAllAsync(beginHandler, successHandler, failureHandler) {
+	    var newActionHandlers = {
+	      begin: beginHandler,
+	      success: successHandler,
+	      failure: failureHandler
+	    };
+	
+	    for (var handlerType in newActionHandlers) {
+	      var handler = newActionHandlers[handlerType];
+	
+	      if (typeof handler !== 'function') continue;
+	
+	      this._genericHandlers[handlerType].push(handler.bind(this));
+	    }
+	  };
+	
+	  Store.prototype.registerMatch = function registerMatch(matcher, handler) {
+	    this._matchHandlers.push({
+	      matcher: matcher,
+	      handler: handler.bind(this)
+	    });
+	  };
+	
+	  Store.prototype.waitFor = function waitFor(tokensOrStores) {
+	    this._waitFor(tokensOrStores);
+	  };
+	
+	  Store.prototype.handler = function handler(payload) {
+	    var body = payload.body;
+	    var actionId = payload.actionId;
+	    var asyncType = payload.async;
+	    var actionArgs = payload.actionArgs;
+	    var error = payload.error;
+	
+	    // Collect array of all matching action handlers
+	    var actionHandlers = this._handlers[actionId] || {};
+	    var genericHandlers = this._genericHandlers;
+	    var matchHandlers = this._matchHandlers;
+	
+	    var matchedActionHandlers = [];
+	
+	    if (asyncType === 'begin' || asyncType === 'failure') {
+	      var matchedAsyncActionHandlers = actionHandlers[asyncType];
+	      var matchedAsyncGenericHandlers = genericHandlers[asyncType];
+	
+	      if (matchedAsyncActionHandlers) {
+	        matchedActionHandlers = matchedActionHandlers.concat(matchedAsyncActionHandlers);
+	      }
+	
+	      if (matchedAsyncGenericHandlers) {
+	        matchedActionHandlers = matchedActionHandlers.concat(matchedAsyncGenericHandlers);
+	      }
+	    } else {
+	      var matchedSuccessActionHandlers = actionHandlers.success;
+	      var matchedSuccessGenericHandlers = genericHandlers.success;
+	
+	      if (matchedSuccessActionHandlers) {
+	        matchedActionHandlers = matchedActionHandlers.concat(matchedSuccessActionHandlers);
+	      }
+	
+	      if (matchedSuccessGenericHandlers) {
+	        matchedActionHandlers = matchedActionHandlers.concat(matchedSuccessGenericHandlers);
+	      }
+	    }
+	
+	    // Collect handlers that match custom matcher functions
+	    // These are collected separately because they always receive the payload
+	    // as the sole argument.
+	    var customMatchedActionHandlers = [];
+	
+	    for (var _iterator = matchHandlers, _isArray = Array.isArray(_iterator), _i2 = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
+	      var _ref;
+	
+	      if (_isArray) {
+	        if (_i2 >= _iterator.length) break;
+	        _ref = _iterator[_i2++];
+	      } else {
+	        _i2 = _iterator.next();
+	        if (_i2.done) break;
+	        _ref = _i2.value;
+	      }
+	
+	      var matcher = _ref.matcher;
+	      var handler = _ref.handler;
+	
+	      if (matcher(payload)) {
+	        customMatchedActionHandlers.push(handler);
+	      }
+	    }
+	
+	    // Determine args to pass to handlers based on action type
+	    var args = undefined;
+	
+	    switch (asyncType) {
+	      case 'begin':
+	        args = [payload];
+	        break;
+	      case 'failure':
+	        args = [error, payload];
+	        break;
+	      default:
+	        args = [body, payload];
+	    }
+	
+	    this._isHandlingDispatch = true;
+	    this._pendingState = this._assignState(undefined, this.state);
+	    this._emitChangeAfterHandlingDispatch = false;
+	
+	    try {
+	      // Dispatch matched handlers
+	      for (var _iterator2 = matchedActionHandlers, _isArray2 = Array.isArray(_iterator2), _i3 = 0, _iterator2 = _isArray2 ? _iterator2 : _iterator2[Symbol.iterator]();;) {
+	        var _ref2;
+	
+	        if (_isArray2) {
+	          if (_i3 >= _iterator2.length) break;
+	          _ref2 = _iterator2[_i3++];
+	        } else {
+	          _i3 = _iterator2.next();
+	          if (_i3.done) break;
+	          _ref2 = _i3.value;
+	        }
+	
+	        var actionHandler = _ref2;
+	
+	        actionHandler.apply(undefined, args);
+	      }
+	
+	      // Dispatch custom matched handers
+	      for (var _i = 0; _i < customMatchedActionHandlers.length; _i++) {
+	        var actionHandler = customMatchedActionHandlers[_i];
+	        actionHandler(payload);
+	      }
+	    } finally {
+	      var emit = false;
+	
+	      if (this._emitChangeAfterHandlingDispatch) {
+	        emit = true;
+	        this.state = this._pendingState;
+	      }
+	
+	      this._isHandlingDispatch = false;
+	      this._pendingState = undefined;
+	      this._emitChangeAfterHandlingDispatch = false;
+	
+	      if (emit) this.emit('change');
+	    }
+	  };
+	
+	  return Store;
+	})(EventEmitter);
+	
+	module.exports = Store;
+	
+	function ensureActionId(actionOrActionId) {
+	  return typeof actionOrActionId === 'function' ? actionOrActionId._id : actionOrActionId;
+	}
+
+/***/ },
+/* 147 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
+	
+	var _interopRequire = function (obj) { return obj && obj.__esModule ? obj['default'] : obj; };
+	
+	var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } };
+	
+	/**
+	 * Actions
+	 *
+	 * Instances of the Actions class represent a set of actions. (In Flux parlance,
+	 * these might be more accurately denoted as Action Creators, while Action
+	 * refers to the payload sent to the dispatcher, but this is... confusing. We
+	 * will use Action to mean the function you call to trigger a dispatch.)
+	 *
+	 * Create actions by extending from the base Actions class and adding methods.
+	 * All methods on the prototype (except the constructor) will be
+	 * converted into actions. The return value of an action is used as the body
+	 * of the payload sent to the dispatcher.
+	 */
+	
+	var _uniqueId = __webpack_require__(154);
+	
+	var uniqueId = _interopRequire(_uniqueId);
+	
+	var Actions = (function () {
+	  function Actions() {
+	    _classCallCheck(this, Actions);
+	
+	    this._baseId = uniqueId();
+	
+	    var methodNames = this._getActionMethodNames();
+	    for (var i = 0; i < methodNames.length; i++) {
+	      var methodName = methodNames[i];
+	      this._wrapAction(methodName);
+	    }
+	
+	    this.getConstants = this.getActionIds;
+	  }
+	
+	  Actions.prototype.getActionIds = function getActionIds() {
+	    var _this = this;
+	
+	    return this._getActionMethodNames().reduce(function (result, actionName) {
+	      result[actionName] = _this[actionName]._id;
+	      return result;
+	    }, {});
+	  };
+	
+	  Actions.prototype.getActionsAsObject = function getActionsAsObject() {
+	    var _this2 = this;
+	
+	    return this._getActionMethodNames().reduce(function (result, actionName) {
+	      result[actionName] = _this2[actionName];
+	      return result;
+	    }, {});
+	  };
+	
+	  Actions.prototype._getActionMethodNames = function _getActionMethodNames(instance) {
+	    var _this3 = this;
+	
+	    return Object.getOwnPropertyNames(this.constructor.prototype).filter(function (name) {
+	      return name !== 'constructor' && typeof _this3[name] === 'function';
+	    });
+	  };
+	
+	  Actions.prototype._wrapAction = function _wrapAction(methodName) {
+	    var _this4 = this;
+	
+	    var originalMethod = this[methodName];
+	    var actionId = this._createActionId(methodName);
+	
+	    var action = function action() {
+	      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	        args[_key] = arguments[_key];
+	      }
+	
+	      var body = originalMethod.apply(_this4, args);
+	
+	      if (isPromise(body)) {
+	        var promise = body;
+	        _this4._dispatchAsync(actionId, promise, args, methodName);
+	      } else {
+	        _this4._dispatch(actionId, body, args, methodName);
+	      }
+	
+	      // Return original method's return value to caller
+	      return body;
+	    };
+	
+	    action._id = actionId;
+	
+	    this[methodName] = action;
+	  };
+	
+	  /**
+	   * Create unique string constant for an action method, using
+	   * @param {string} methodName - Name of the action method
+	   */
+	
+	  Actions.prototype._createActionId = function _createActionId(methodName) {
+	    return '' + this._baseId + '-' + methodName;
+	  };
+	
+	  Actions.prototype._dispatch = function _dispatch(actionId, body, args, methodName) {
+	    if (typeof this.dispatch === 'function') {
+	      if (typeof body !== 'undefined') {
+	        this.dispatch(actionId, body, args);
+	      }
+	    } else {
+	      if (process.env.NODE_ENV !== 'production') {
+	        console.warn('You\'ve attempted to perform the action ' + ('' + this.constructor.name + '#' + methodName + ', but it hasn\'t been added ') + 'to a Flux instance.');
+	      }
+	    }
+	
+	    return body;
+	  };
+	
+	  Actions.prototype._dispatchAsync = function _dispatchAsync(actionId, promise, args, methodName) {
+	    if (typeof this.dispatchAsync === 'function') {
+	      this.dispatchAsync(actionId, promise, args);
+	    } else {
+	      if (process.env.NODE_ENV !== 'production') {
+	        console.warn('You\'ve attempted to perform the asynchronous action ' + ('' + this.constructor.name + '#' + methodName + ', but it hasn\'t been added ') + 'to a Flux instance.');
+	      }
+	    }
+	  };
+	
+	  return Actions;
+	})();
+	
+	module.exports = Actions;
+	
+	function isPromise(value) {
+	  return value && typeof value.then === 'function';
+	}
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
 /* 148 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $ = __webpack_require__(225);
-	module.exports = function defineProperty(it, key, desc){
-	  return $.setDesc(it, key, desc);
+	var $ = __webpack_require__(223);
+	module.exports = function create(P, D){
+	  return $.create(P, D);
 	};
 
 /***/ },
 /* 149 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $ = __webpack_require__(225);
-	module.exports = function create(P, D){
-	  return $.create(P, D);
-	};
-
-/***/ },
-/* 150 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var $ = __webpack_require__(225);
-	__webpack_require__(226);
+	var $ = __webpack_require__(223);
+	__webpack_require__(225);
 	module.exports = function getOwnPropertyDescriptor(it, key){
 	  return $.getDesc(it, key);
 	};
 
 /***/ },
-/* 151 */
+/* 150 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// shim for using process in browser
@@ -85562,7 +85083,7 @@
 
 
 /***/ },
-/* 152 */
+/* 151 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -85578,333 +85099,7 @@
 
 
 /***/ },
-/* 153 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	/**
-	 * Representation of a single EventEmitter function.
-	 *
-	 * @param {Function} fn Event handler to be called.
-	 * @param {Mixed} context Context for function execution.
-	 * @param {Boolean} once Only emit once
-	 * @api private
-	 */
-	function EE(fn, context, once) {
-	  this.fn = fn;
-	  this.context = context;
-	  this.once = once || false;
-	}
-	
-	/**
-	 * Minimal EventEmitter interface that is molded against the Node.js
-	 * EventEmitter interface.
-	 *
-	 * @constructor
-	 * @api public
-	 */
-	function EventEmitter() { /* Nothing to set */ }
-	
-	/**
-	 * Holds the assigned EventEmitters by name.
-	 *
-	 * @type {Object}
-	 * @private
-	 */
-	EventEmitter.prototype._events = undefined;
-	
-	/**
-	 * Return a list of assigned event listeners.
-	 *
-	 * @param {String} event The events that should be listed.
-	 * @returns {Array}
-	 * @api public
-	 */
-	EventEmitter.prototype.listeners = function listeners(event) {
-	  if (!this._events || !this._events[event]) return [];
-	  if (this._events[event].fn) return [this._events[event].fn];
-	
-	  for (var i = 0, l = this._events[event].length, ee = new Array(l); i < l; i++) {
-	    ee[i] = this._events[event][i].fn;
-	  }
-	
-	  return ee;
-	};
-	
-	/**
-	 * Emit an event to all registered event listeners.
-	 *
-	 * @param {String} event The name of the event.
-	 * @returns {Boolean} Indication if we've emitted an event.
-	 * @api public
-	 */
-	EventEmitter.prototype.emit = function emit(event, a1, a2, a3, a4, a5) {
-	  if (!this._events || !this._events[event]) return false;
-	
-	  var listeners = this._events[event]
-	    , len = arguments.length
-	    , args
-	    , i;
-	
-	  if ('function' === typeof listeners.fn) {
-	    if (listeners.once) this.removeListener(event, listeners.fn, true);
-	
-	    switch (len) {
-	      case 1: return listeners.fn.call(listeners.context), true;
-	      case 2: return listeners.fn.call(listeners.context, a1), true;
-	      case 3: return listeners.fn.call(listeners.context, a1, a2), true;
-	      case 4: return listeners.fn.call(listeners.context, a1, a2, a3), true;
-	      case 5: return listeners.fn.call(listeners.context, a1, a2, a3, a4), true;
-	      case 6: return listeners.fn.call(listeners.context, a1, a2, a3, a4, a5), true;
-	    }
-	
-	    for (i = 1, args = new Array(len -1); i < len; i++) {
-	      args[i - 1] = arguments[i];
-	    }
-	
-	    listeners.fn.apply(listeners.context, args);
-	  } else {
-	    var length = listeners.length
-	      , j;
-	
-	    for (i = 0; i < length; i++) {
-	      if (listeners[i].once) this.removeListener(event, listeners[i].fn, true);
-	
-	      switch (len) {
-	        case 1: listeners[i].fn.call(listeners[i].context); break;
-	        case 2: listeners[i].fn.call(listeners[i].context, a1); break;
-	        case 3: listeners[i].fn.call(listeners[i].context, a1, a2); break;
-	        default:
-	          if (!args) for (j = 1, args = new Array(len -1); j < len; j++) {
-	            args[j - 1] = arguments[j];
-	          }
-	
-	          listeners[i].fn.apply(listeners[i].context, args);
-	      }
-	    }
-	  }
-	
-	  return true;
-	};
-	
-	/**
-	 * Register a new EventListener for the given event.
-	 *
-	 * @param {String} event Name of the event.
-	 * @param {Functon} fn Callback function.
-	 * @param {Mixed} context The context of the function.
-	 * @api public
-	 */
-	EventEmitter.prototype.on = function on(event, fn, context) {
-	  var listener = new EE(fn, context || this);
-	
-	  if (!this._events) this._events = {};
-	  if (!this._events[event]) this._events[event] = listener;
-	  else {
-	    if (!this._events[event].fn) this._events[event].push(listener);
-	    else this._events[event] = [
-	      this._events[event], listener
-	    ];
-	  }
-	
-	  return this;
-	};
-	
-	/**
-	 * Add an EventListener that's only called once.
-	 *
-	 * @param {String} event Name of the event.
-	 * @param {Function} fn Callback function.
-	 * @param {Mixed} context The context of the function.
-	 * @api public
-	 */
-	EventEmitter.prototype.once = function once(event, fn, context) {
-	  var listener = new EE(fn, context || this, true);
-	
-	  if (!this._events) this._events = {};
-	  if (!this._events[event]) this._events[event] = listener;
-	  else {
-	    if (!this._events[event].fn) this._events[event].push(listener);
-	    else this._events[event] = [
-	      this._events[event], listener
-	    ];
-	  }
-	
-	  return this;
-	};
-	
-	/**
-	 * Remove event listeners.
-	 *
-	 * @param {String} event The event we want to remove.
-	 * @param {Function} fn The listener that we need to find.
-	 * @param {Boolean} once Only remove once listeners.
-	 * @api public
-	 */
-	EventEmitter.prototype.removeListener = function removeListener(event, fn, once) {
-	  if (!this._events || !this._events[event]) return this;
-	
-	  var listeners = this._events[event]
-	    , events = [];
-	
-	  if (fn) {
-	    if (listeners.fn && (listeners.fn !== fn || (once && !listeners.once))) {
-	      events.push(listeners);
-	    }
-	    if (!listeners.fn) for (var i = 0, length = listeners.length; i < length; i++) {
-	      if (listeners[i].fn !== fn || (once && !listeners[i].once)) {
-	        events.push(listeners[i]);
-	      }
-	    }
-	  }
-	
-	  //
-	  // Reset the array, or remove it completely if we have no more listeners.
-	  //
-	  if (events.length) {
-	    this._events[event] = events.length === 1 ? events[0] : events;
-	  } else {
-	    delete this._events[event];
-	  }
-	
-	  return this;
-	};
-	
-	/**
-	 * Remove all listeners or only the listeners for the specified event.
-	 *
-	 * @param {String} event The event want to remove all listeners for.
-	 * @api public
-	 */
-	EventEmitter.prototype.removeAllListeners = function removeAllListeners(event) {
-	  if (!this._events) return this;
-	
-	  if (event) delete this._events[event];
-	  else this._events = {};
-	
-	  return this;
-	};
-	
-	//
-	// Alias methods names because people roll like that.
-	//
-	EventEmitter.prototype.off = EventEmitter.prototype.removeListener;
-	EventEmitter.prototype.addListener = EventEmitter.prototype.on;
-	
-	//
-	// This function doesn't apply anymore.
-	//
-	EventEmitter.prototype.setMaxListeners = function setMaxListeners() {
-	  return this;
-	};
-	
-	//
-	// Expose the module.
-	//
-	EventEmitter.EventEmitter = EventEmitter;
-	EventEmitter.EventEmitter2 = EventEmitter;
-	EventEmitter.EventEmitter3 = EventEmitter;
-	
-	//
-	// Expose the module.
-	//
-	module.exports = EventEmitter;
-
-
-/***/ },
-/* 154 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	function ToObject(val) {
-		if (val == null) {
-			throw new TypeError('Object.assign cannot be called with null or undefined');
-		}
-	
-		return Object(val);
-	}
-	
-	module.exports = Object.assign || function (target, source) {
-		var from;
-		var keys;
-		var to = ToObject(target);
-	
-		for (var s = 1; s < arguments.length; s++) {
-			from = arguments[s];
-			keys = Object.keys(Object(from));
-	
-			for (var i = 0; i < keys.length; i++) {
-				to[keys[i]] = from[keys[i]];
-			}
-		}
-	
-		return to;
-	};
-
-
-/***/ },
-/* 155 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	
-	var count = 0;
-	
-	/**
-	 * Generate a unique ID.
-	 *
-	 * Optionally pass a prefix to prepend, a suffix to append, or a
-	 * multiplier to use on the ID.
-	 *
-	 * ```js
-	 * uniqueId(); //=> '25'
-	 *
-	 * uniqueId({prefix: 'apple_'});
-	 * //=> 'apple_10'
-	 *
-	 * uniqueId({suffix: '_orange'});
-	 * //=> '10_orange'
-	 *
-	 * uniqueId({multiplier: 5});
-	 * //=> 5, 10, 15, 20...
-	 * ```
-	 *
-	 * To reset the `id` to zero, do `id.reset()`.
-	 *
-	 * @param  {Object} `options` Optionally pass a `prefix`, `suffix` and/or `multiplier.
-	 * @return {String} The unique id.
-	 * @api public
-	 */
-	
-	var id = module.exports = function (options) {
-	  options = options || {};
-	
-	  var prefix = options.prefix;
-	  var suffix = options.suffix;
-	
-	  var id = ++count * (options.multiplier || 1);
-	
-	  if (prefix == null) {
-	    prefix = '';
-	  }
-	
-	  if (suffix == null) {
-	    suffix = '';
-	  }
-	
-	  return String(prefix) + id + String(suffix);
-	};
-	
-	
-	id.reset = function() {
-	  return count = 0;
-	};
-
-/***/ },
-/* 156 */
+/* 152 */
 /***/ function(module, exports, __webpack_require__) {
 
 	(function(exports){
@@ -87311,7 +86506,333 @@
 
 
 /***/ },
-/* 157 */
+/* 153 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	/**
+	 * Representation of a single EventEmitter function.
+	 *
+	 * @param {Function} fn Event handler to be called.
+	 * @param {Mixed} context Context for function execution.
+	 * @param {Boolean} once Only emit once
+	 * @api private
+	 */
+	function EE(fn, context, once) {
+	  this.fn = fn;
+	  this.context = context;
+	  this.once = once || false;
+	}
+	
+	/**
+	 * Minimal EventEmitter interface that is molded against the Node.js
+	 * EventEmitter interface.
+	 *
+	 * @constructor
+	 * @api public
+	 */
+	function EventEmitter() { /* Nothing to set */ }
+	
+	/**
+	 * Holds the assigned EventEmitters by name.
+	 *
+	 * @type {Object}
+	 * @private
+	 */
+	EventEmitter.prototype._events = undefined;
+	
+	/**
+	 * Return a list of assigned event listeners.
+	 *
+	 * @param {String} event The events that should be listed.
+	 * @returns {Array}
+	 * @api public
+	 */
+	EventEmitter.prototype.listeners = function listeners(event) {
+	  if (!this._events || !this._events[event]) return [];
+	  if (this._events[event].fn) return [this._events[event].fn];
+	
+	  for (var i = 0, l = this._events[event].length, ee = new Array(l); i < l; i++) {
+	    ee[i] = this._events[event][i].fn;
+	  }
+	
+	  return ee;
+	};
+	
+	/**
+	 * Emit an event to all registered event listeners.
+	 *
+	 * @param {String} event The name of the event.
+	 * @returns {Boolean} Indication if we've emitted an event.
+	 * @api public
+	 */
+	EventEmitter.prototype.emit = function emit(event, a1, a2, a3, a4, a5) {
+	  if (!this._events || !this._events[event]) return false;
+	
+	  var listeners = this._events[event]
+	    , len = arguments.length
+	    , args
+	    , i;
+	
+	  if ('function' === typeof listeners.fn) {
+	    if (listeners.once) this.removeListener(event, listeners.fn, true);
+	
+	    switch (len) {
+	      case 1: return listeners.fn.call(listeners.context), true;
+	      case 2: return listeners.fn.call(listeners.context, a1), true;
+	      case 3: return listeners.fn.call(listeners.context, a1, a2), true;
+	      case 4: return listeners.fn.call(listeners.context, a1, a2, a3), true;
+	      case 5: return listeners.fn.call(listeners.context, a1, a2, a3, a4), true;
+	      case 6: return listeners.fn.call(listeners.context, a1, a2, a3, a4, a5), true;
+	    }
+	
+	    for (i = 1, args = new Array(len -1); i < len; i++) {
+	      args[i - 1] = arguments[i];
+	    }
+	
+	    listeners.fn.apply(listeners.context, args);
+	  } else {
+	    var length = listeners.length
+	      , j;
+	
+	    for (i = 0; i < length; i++) {
+	      if (listeners[i].once) this.removeListener(event, listeners[i].fn, true);
+	
+	      switch (len) {
+	        case 1: listeners[i].fn.call(listeners[i].context); break;
+	        case 2: listeners[i].fn.call(listeners[i].context, a1); break;
+	        case 3: listeners[i].fn.call(listeners[i].context, a1, a2); break;
+	        default:
+	          if (!args) for (j = 1, args = new Array(len -1); j < len; j++) {
+	            args[j - 1] = arguments[j];
+	          }
+	
+	          listeners[i].fn.apply(listeners[i].context, args);
+	      }
+	    }
+	  }
+	
+	  return true;
+	};
+	
+	/**
+	 * Register a new EventListener for the given event.
+	 *
+	 * @param {String} event Name of the event.
+	 * @param {Functon} fn Callback function.
+	 * @param {Mixed} context The context of the function.
+	 * @api public
+	 */
+	EventEmitter.prototype.on = function on(event, fn, context) {
+	  var listener = new EE(fn, context || this);
+	
+	  if (!this._events) this._events = {};
+	  if (!this._events[event]) this._events[event] = listener;
+	  else {
+	    if (!this._events[event].fn) this._events[event].push(listener);
+	    else this._events[event] = [
+	      this._events[event], listener
+	    ];
+	  }
+	
+	  return this;
+	};
+	
+	/**
+	 * Add an EventListener that's only called once.
+	 *
+	 * @param {String} event Name of the event.
+	 * @param {Function} fn Callback function.
+	 * @param {Mixed} context The context of the function.
+	 * @api public
+	 */
+	EventEmitter.prototype.once = function once(event, fn, context) {
+	  var listener = new EE(fn, context || this, true);
+	
+	  if (!this._events) this._events = {};
+	  if (!this._events[event]) this._events[event] = listener;
+	  else {
+	    if (!this._events[event].fn) this._events[event].push(listener);
+	    else this._events[event] = [
+	      this._events[event], listener
+	    ];
+	  }
+	
+	  return this;
+	};
+	
+	/**
+	 * Remove event listeners.
+	 *
+	 * @param {String} event The event we want to remove.
+	 * @param {Function} fn The listener that we need to find.
+	 * @param {Boolean} once Only remove once listeners.
+	 * @api public
+	 */
+	EventEmitter.prototype.removeListener = function removeListener(event, fn, once) {
+	  if (!this._events || !this._events[event]) return this;
+	
+	  var listeners = this._events[event]
+	    , events = [];
+	
+	  if (fn) {
+	    if (listeners.fn && (listeners.fn !== fn || (once && !listeners.once))) {
+	      events.push(listeners);
+	    }
+	    if (!listeners.fn) for (var i = 0, length = listeners.length; i < length; i++) {
+	      if (listeners[i].fn !== fn || (once && !listeners[i].once)) {
+	        events.push(listeners[i]);
+	      }
+	    }
+	  }
+	
+	  //
+	  // Reset the array, or remove it completely if we have no more listeners.
+	  //
+	  if (events.length) {
+	    this._events[event] = events.length === 1 ? events[0] : events;
+	  } else {
+	    delete this._events[event];
+	  }
+	
+	  return this;
+	};
+	
+	/**
+	 * Remove all listeners or only the listeners for the specified event.
+	 *
+	 * @param {String} event The event want to remove all listeners for.
+	 * @api public
+	 */
+	EventEmitter.prototype.removeAllListeners = function removeAllListeners(event) {
+	  if (!this._events) return this;
+	
+	  if (event) delete this._events[event];
+	  else this._events = {};
+	
+	  return this;
+	};
+	
+	//
+	// Alias methods names because people roll like that.
+	//
+	EventEmitter.prototype.off = EventEmitter.prototype.removeListener;
+	EventEmitter.prototype.addListener = EventEmitter.prototype.on;
+	
+	//
+	// This function doesn't apply anymore.
+	//
+	EventEmitter.prototype.setMaxListeners = function setMaxListeners() {
+	  return this;
+	};
+	
+	//
+	// Expose the module.
+	//
+	EventEmitter.EventEmitter = EventEmitter;
+	EventEmitter.EventEmitter2 = EventEmitter;
+	EventEmitter.EventEmitter3 = EventEmitter;
+	
+	//
+	// Expose the module.
+	//
+	module.exports = EventEmitter;
+
+
+/***/ },
+/* 154 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	
+	var count = 0;
+	
+	/**
+	 * Generate a unique ID.
+	 *
+	 * Optionally pass a prefix to prepend, a suffix to append, or a
+	 * multiplier to use on the ID.
+	 *
+	 * ```js
+	 * uniqueId(); //=> '25'
+	 *
+	 * uniqueId({prefix: 'apple_'});
+	 * //=> 'apple_10'
+	 *
+	 * uniqueId({suffix: '_orange'});
+	 * //=> '10_orange'
+	 *
+	 * uniqueId({multiplier: 5});
+	 * //=> 5, 10, 15, 20...
+	 * ```
+	 *
+	 * To reset the `id` to zero, do `id.reset()`.
+	 *
+	 * @param  {Object} `options` Optionally pass a `prefix`, `suffix` and/or `multiplier.
+	 * @return {String} The unique id.
+	 * @api public
+	 */
+	
+	var id = module.exports = function (options) {
+	  options = options || {};
+	
+	  var prefix = options.prefix;
+	  var suffix = options.suffix;
+	
+	  var id = ++count * (options.multiplier || 1);
+	
+	  if (prefix == null) {
+	    prefix = '';
+	  }
+	
+	  if (suffix == null) {
+	    suffix = '';
+	  }
+	
+	  return String(prefix) + id + String(suffix);
+	};
+	
+	
+	id.reset = function() {
+	  return count = 0;
+	};
+
+/***/ },
+/* 155 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	function ToObject(val) {
+		if (val == null) {
+			throw new TypeError('Object.assign cannot be called with null or undefined');
+		}
+	
+		return Object(val);
+	}
+	
+	module.exports = Object.assign || function (target, source) {
+		var from;
+		var keys;
+		var to = ToObject(target);
+	
+		for (var s = 1; s < arguments.length; s++) {
+			from = arguments[s];
+			keys = Object.keys(Object(from));
+	
+			for (var i = 0; i < keys.length; i++) {
+				to[keys[i]] = from[keys[i]];
+			}
+		}
+	
+		return to;
+	};
+
+
+/***/ },
+/* 156 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -87387,7 +86908,7 @@
 
 
 /***/ },
-/* 158 */
+/* 157 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -87444,10 +86965,10 @@
 	
 	module.exports = invariant;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 159 */
+/* 158 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -87463,7 +86984,7 @@
 	
 	'use strict';
 	
-	var invariant = __webpack_require__(158);
+	var invariant = __webpack_require__(157);
 	
 	/**
 	 * Static poolers. Several custom versions for each potential number of
@@ -87563,10 +87084,10 @@
 	
 	module.exports = PooledClass;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 160 */
+/* 159 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -87582,9 +87103,9 @@
 	
 	'use strict';
 	
-	var ReactElement = __webpack_require__(128);
+	var ReactElement = __webpack_require__(127);
 	
-	var warning = __webpack_require__(162);
+	var warning = __webpack_require__(161);
 	
 	/**
 	 * We used to allow keyed objects to serve as a collection of ReactElements,
@@ -87751,10 +87272,10 @@
 	
 	module.exports = ReactFragment;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 161 */
+/* 160 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -87770,13 +87291,13 @@
 	
 	'use strict';
 	
-	var ReactElement = __webpack_require__(128);
-	var ReactFragment = __webpack_require__(160);
-	var ReactInstanceHandles = __webpack_require__(133);
+	var ReactElement = __webpack_require__(127);
+	var ReactFragment = __webpack_require__(159);
+	var ReactInstanceHandles = __webpack_require__(132);
 	
 	var getIteratorFn = __webpack_require__(1);
-	var invariant = __webpack_require__(158);
-	var warning = __webpack_require__(162);
+	var invariant = __webpack_require__(157);
+	var warning = __webpack_require__(161);
 	
 	var SEPARATOR = ReactInstanceHandles.SEPARATOR;
 	var SUBSEPARATOR = ':';
@@ -88007,10 +87528,10 @@
 	
 	module.exports = traverseAllChildren;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 162 */
+/* 161 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -88026,7 +87547,7 @@
 	
 	"use strict";
 	
-	var emptyFunction = __webpack_require__(217);
+	var emptyFunction = __webpack_require__(216);
 	
 	/**
 	 * Similar to invariant but only logs a warning if the condition is not met.
@@ -88073,10 +87594,10 @@
 	
 	module.exports = warning;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 163 */
+/* 162 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -88093,14 +87614,14 @@
 	'use strict';
 	
 	var ReactLifeCycle = __webpack_require__(167);
-	var ReactCurrentOwner = __webpack_require__(127);
-	var ReactElement = __webpack_require__(128);
+	var ReactCurrentOwner = __webpack_require__(126);
+	var ReactElement = __webpack_require__(127);
 	var ReactInstanceMap = __webpack_require__(166);
-	var ReactUpdates = __webpack_require__(211);
+	var ReactUpdates = __webpack_require__(210);
 	
-	var assign = __webpack_require__(139);
-	var invariant = __webpack_require__(158);
-	var warning = __webpack_require__(162);
+	var assign = __webpack_require__(138);
+	var invariant = __webpack_require__(157);
+	var warning = __webpack_require__(161);
 	
 	function enqueueUpdate(internalInstance) {
 	  if (internalInstance !== ReactLifeCycle.currentlyMountingInstance) {
@@ -88375,7 +87896,34 @@
 	
 	module.exports = ReactUpdateQueue;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
+
+/***/ },
+/* 163 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright 2013-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule emptyObject
+	 */
+	
+	"use strict";
+	
+	var emptyObject = {};
+	
+	if ("production" !== process.env.NODE_ENV) {
+	  Object.freeze(emptyObject);
+	}
+	
+	module.exports = emptyObject;
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
 /* 164 */
@@ -88406,7 +87954,7 @@
 	
 	module.exports = ReactPropTypeLocationNames;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
 /* 165 */
@@ -88584,7 +88132,7 @@
 	
 	'use strict';
 	
-	var invariant = __webpack_require__(158);
+	var invariant = __webpack_require__(157);
 	
 	/**
 	 * Constructs an enumeration with keys equal to their value.
@@ -88622,7 +88170,7 @@
 	
 	module.exports = keyMirror;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
 /* 170 */
@@ -88668,7 +88216,7 @@
 /* 171 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {/**
+	/**
 	 * Copyright 2013-2015, Facebook, Inc.
 	 * All rights reserved.
 	 *
@@ -88676,20 +88224,50 @@
 	 * LICENSE file in the root directory of this source tree. An additional grant
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 *
-	 * @providesModule emptyObject
+	 * @providesModule mapObject
 	 */
 	
-	"use strict";
+	'use strict';
 	
-	var emptyObject = {};
+	var hasOwnProperty = Object.prototype.hasOwnProperty;
 	
-	if ("production" !== process.env.NODE_ENV) {
-	  Object.freeze(emptyObject);
+	/**
+	 * Executes the provided `callback` once for each enumerable own property in the
+	 * object and constructs a new object from the results. The `callback` is
+	 * invoked with three arguments:
+	 *
+	 *  - the property value
+	 *  - the property name
+	 *  - the object being traversed
+	 *
+	 * Properties that are added after the call to `mapObject` will not be visited
+	 * by `callback`. If the values of existing properties are changed, the value
+	 * passed to `callback` will be the value at the time `mapObject` visits them.
+	 * Properties that are deleted before being visited are not visited.
+	 *
+	 * @grep function objectMap()
+	 * @grep function objMap()
+	 *
+	 * @param {?object} object
+	 * @param {function} callback
+	 * @param {*} context
+	 * @return {?object}
+	 */
+	function mapObject(object, callback, context) {
+	  if (!object) {
+	    return null;
+	  }
+	  var result = {};
+	  for (var name in object) {
+	    if (hasOwnProperty.call(object, name)) {
+	      result[name] = callback.call(context, object[name], name, object);
+	    }
+	  }
+	  return result;
 	}
 	
-	module.exports = emptyObject;
-	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	module.exports = mapObject;
+
 
 /***/ },
 /* 172 */
@@ -88708,8 +88286,8 @@
 	
 	'use strict';
 	
-	var assign = __webpack_require__(139);
-	var invariant = __webpack_require__(158);
+	var assign = __webpack_require__(138);
+	var invariant = __webpack_require__(157);
 	
 	var autoGenerateWrapperClass = null;
 	var genericComponentClass = null;
@@ -88799,7 +88377,7 @@
 	
 	module.exports = ReactNativeComponent;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
 /* 173 */
@@ -88827,7 +88405,7 @@
 	
 	var _import2 = _interopRequireDefault(_import);
 	
-	var _Flummox2 = __webpack_require__(32);
+	var _Flummox2 = __webpack_require__(33);
 	
 	var _Flummox3 = _interopRequireDefault(_Flummox2);
 	
@@ -88938,63 +88516,6 @@
 /* 174 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule mapObject
-	 */
-	
-	'use strict';
-	
-	var hasOwnProperty = Object.prototype.hasOwnProperty;
-	
-	/**
-	 * Executes the provided `callback` once for each enumerable own property in the
-	 * object and constructs a new object from the results. The `callback` is
-	 * invoked with three arguments:
-	 *
-	 *  - the property value
-	 *  - the property name
-	 *  - the object being traversed
-	 *
-	 * Properties that are added after the call to `mapObject` will not be visited
-	 * by `callback`. If the values of existing properties are changed, the value
-	 * passed to `callback` will be the value at the time `mapObject` visits them.
-	 * Properties that are deleted before being visited are not visited.
-	 *
-	 * @grep function objectMap()
-	 * @grep function objMap()
-	 *
-	 * @param {?object} object
-	 * @param {function} callback
-	 * @param {*} context
-	 * @return {?object}
-	 */
-	function mapObject(object, callback, context) {
-	  if (!object) {
-	    return null;
-	  }
-	  var result = {};
-	  for (var name in object) {
-	    if (hasOwnProperty.call(object, name)) {
-	      result[name] = callback.call(context, object[name], name, object);
-	    }
-	  }
-	  return result;
-	}
-	
-	module.exports = mapObject;
-
-
-/***/ },
-/* 175 */
-/***/ function(module, exports, __webpack_require__) {
-
 	/* WEBPACK VAR INJECTION */(function(process) {/**
 	 * Copyright 2013-2015, Facebook, Inc.
 	 * All rights reserved.
@@ -89009,10 +88530,10 @@
 	
 	'use strict';
 	
-	var DOMProperty = __webpack_require__(207);
+	var DOMProperty = __webpack_require__(206);
 	
-	var quoteAttributeValueForBrowser = __webpack_require__(229);
-	var warning = __webpack_require__(162);
+	var quoteAttributeValueForBrowser = __webpack_require__(228);
+	var warning = __webpack_require__(161);
 	
 	function shouldIgnoreValue(name, value) {
 	  return value == null ||
@@ -89184,10 +88705,10 @@
 	
 	module.exports = DOMPropertyOperations;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 176 */
+/* 175 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -89205,8 +88726,8 @@
 	
 	'use strict';
 	
-	var ReactDOMIDOperations = __webpack_require__(191);
-	var ReactMount = __webpack_require__(134);
+	var ReactDOMIDOperations = __webpack_require__(190);
+	var ReactMount = __webpack_require__(133);
 	
 	/**
 	 * Abstracts away all functionality of the reconciler that requires knowledge of
@@ -89238,7 +88759,7 @@
 
 
 /***/ },
-/* 177 */
+/* 176 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -89257,22 +88778,22 @@
 	
 	'use strict';
 	
-	var CSSPropertyOperations = __webpack_require__(230);
-	var DOMProperty = __webpack_require__(207);
-	var DOMPropertyOperations = __webpack_require__(175);
-	var ReactBrowserEventEmitter = __webpack_require__(208);
+	var CSSPropertyOperations = __webpack_require__(229);
+	var DOMProperty = __webpack_require__(206);
+	var DOMPropertyOperations = __webpack_require__(174);
+	var ReactBrowserEventEmitter = __webpack_require__(207);
 	var ReactComponentBrowserEnvironment =
-	  __webpack_require__(176);
-	var ReactMount = __webpack_require__(134);
-	var ReactMultiChild = __webpack_require__(231);
-	var ReactPerf = __webpack_require__(135);
+	  __webpack_require__(175);
+	var ReactMount = __webpack_require__(133);
+	var ReactMultiChild = __webpack_require__(230);
+	var ReactPerf = __webpack_require__(134);
 	
-	var assign = __webpack_require__(139);
-	var escapeTextContentForBrowser = __webpack_require__(178);
-	var invariant = __webpack_require__(158);
-	var isEventSupported = __webpack_require__(232);
+	var assign = __webpack_require__(138);
+	var escapeTextContentForBrowser = __webpack_require__(177);
+	var invariant = __webpack_require__(157);
+	var isEventSupported = __webpack_require__(231);
 	var keyOf = __webpack_require__(170);
-	var warning = __webpack_require__(162);
+	var warning = __webpack_require__(161);
 	
 	var deleteListener = ReactBrowserEventEmitter.deleteListener;
 	var listenTo = ReactBrowserEventEmitter.listenTo;
@@ -89748,10 +89269,10 @@
 	
 	module.exports = ReactDOMComponent;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 178 */
+/* 177 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -89795,7 +89316,7 @@
 
 
 /***/ },
-/* 179 */
+/* 178 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -89812,12 +89333,12 @@
 	
 	'use strict';
 	
-	var EventConstants = __webpack_require__(157);
-	var EventPropagators = __webpack_require__(234);
-	var ExecutionEnvironment = __webpack_require__(142);
-	var FallbackCompositionState = __webpack_require__(237);
-	var SyntheticCompositionEvent = __webpack_require__(238);
-	var SyntheticInputEvent = __webpack_require__(239);
+	var EventConstants = __webpack_require__(156);
+	var EventPropagators = __webpack_require__(232);
+	var ExecutionEnvironment = __webpack_require__(141);
+	var FallbackCompositionState = __webpack_require__(233);
+	var SyntheticCompositionEvent = __webpack_require__(234);
+	var SyntheticInputEvent = __webpack_require__(235);
 	
 	var keyOf = __webpack_require__(170);
 	
@@ -90294,7 +89815,7 @@
 
 
 /***/ },
-/* 180 */
+/* 179 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -90310,15 +89831,15 @@
 	
 	'use strict';
 	
-	var EventConstants = __webpack_require__(157);
-	var EventPluginHub = __webpack_require__(233);
-	var EventPropagators = __webpack_require__(234);
-	var ExecutionEnvironment = __webpack_require__(142);
-	var ReactUpdates = __webpack_require__(211);
-	var SyntheticEvent = __webpack_require__(235);
+	var EventConstants = __webpack_require__(156);
+	var EventPluginHub = __webpack_require__(236);
+	var EventPropagators = __webpack_require__(232);
+	var ExecutionEnvironment = __webpack_require__(141);
+	var ReactUpdates = __webpack_require__(210);
+	var SyntheticEvent = __webpack_require__(237);
 	
-	var isEventSupported = __webpack_require__(232);
-	var isTextInputElement = __webpack_require__(236);
+	var isEventSupported = __webpack_require__(231);
+	var isTextInputElement = __webpack_require__(238);
 	var keyOf = __webpack_require__(170);
 	
 	var topLevelTypes = EventConstants.topLevelTypes;
@@ -90680,7 +90201,7 @@
 
 
 /***/ },
-/* 181 */
+/* 180 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -90709,7 +90230,7 @@
 
 
 /***/ },
-/* 182 */
+/* 181 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -90752,7 +90273,7 @@
 
 
 /***/ },
-/* 183 */
+/* 182 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -90769,11 +90290,11 @@
 	
 	'use strict';
 	
-	var EventConstants = __webpack_require__(157);
-	var EventPropagators = __webpack_require__(234);
-	var SyntheticMouseEvent = __webpack_require__(240);
+	var EventConstants = __webpack_require__(156);
+	var EventPropagators = __webpack_require__(232);
+	var SyntheticMouseEvent = __webpack_require__(239);
 	
-	var ReactMount = __webpack_require__(134);
+	var ReactMount = __webpack_require__(133);
 	var keyOf = __webpack_require__(170);
 	
 	var topLevelTypes = EventConstants.topLevelTypes;
@@ -90896,7 +90417,7 @@
 
 
 /***/ },
-/* 184 */
+/* 183 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -90914,8 +90435,8 @@
 	
 	'use strict';
 	
-	var DOMProperty = __webpack_require__(207);
-	var ExecutionEnvironment = __webpack_require__(142);
+	var DOMProperty = __webpack_require__(206);
+	var ExecutionEnvironment = __webpack_require__(141);
 	
 	var MUST_USE_ATTRIBUTE = DOMProperty.injection.MUST_USE_ATTRIBUTE;
 	var MUST_USE_PROPERTY = DOMProperty.injection.MUST_USE_PROPERTY;
@@ -91111,7 +90632,7 @@
 
 
 /***/ },
-/* 185 */
+/* 184 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -91128,9 +90649,9 @@
 	
 	'use strict';
 	
-	var EventConstants = __webpack_require__(157);
+	var EventConstants = __webpack_require__(156);
 	
-	var emptyFunction = __webpack_require__(217);
+	var emptyFunction = __webpack_require__(216);
 	
 	var topLevelTypes = EventConstants.topLevelTypes;
 	
@@ -91173,7 +90694,7 @@
 
 
 /***/ },
-/* 186 */
+/* 185 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -91189,7 +90710,7 @@
 	
 	'use strict';
 	
-	var findDOMNode = __webpack_require__(140);
+	var findDOMNode = __webpack_require__(139);
 	
 	var ReactBrowserComponentMixin = {
 	  /**
@@ -91208,7 +90729,7 @@
 
 
 /***/ },
-/* 187 */
+/* 186 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -91224,11 +90745,11 @@
 	
 	'use strict';
 	
-	var ReactUpdates = __webpack_require__(211);
-	var Transaction = __webpack_require__(241);
+	var ReactUpdates = __webpack_require__(210);
+	var Transaction = __webpack_require__(240);
 	
-	var assign = __webpack_require__(139);
-	var emptyFunction = __webpack_require__(217);
+	var assign = __webpack_require__(138);
+	var emptyFunction = __webpack_require__(216);
 	
 	var RESET_BATCHED_UPDATES = {
 	  initialize: emptyFunction,
@@ -91285,7 +90806,7 @@
 
 
 /***/ },
-/* 188 */
+/* 187 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -91301,10 +90822,10 @@
 	
 	'use strict';
 	
-	var AutoFocusMixin = __webpack_require__(242);
-	var ReactBrowserComponentMixin = __webpack_require__(186);
-	var ReactClass = __webpack_require__(125);
-	var ReactElement = __webpack_require__(128);
+	var AutoFocusMixin = __webpack_require__(241);
+	var ReactBrowserComponentMixin = __webpack_require__(185);
+	var ReactClass = __webpack_require__(124);
+	var ReactElement = __webpack_require__(127);
 	
 	var keyMirror = __webpack_require__(169);
 	
@@ -91353,7 +90874,7 @@
 
 
 /***/ },
-/* 189 */
+/* 188 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -91369,11 +90890,11 @@
 	
 	'use strict';
 	
-	var EventConstants = __webpack_require__(157);
-	var LocalEventTrapMixin = __webpack_require__(243);
-	var ReactBrowserComponentMixin = __webpack_require__(186);
-	var ReactClass = __webpack_require__(125);
-	var ReactElement = __webpack_require__(128);
+	var EventConstants = __webpack_require__(156);
+	var LocalEventTrapMixin = __webpack_require__(242);
+	var ReactBrowserComponentMixin = __webpack_require__(185);
+	var ReactClass = __webpack_require__(124);
+	var ReactElement = __webpack_require__(127);
 	
 	var form = ReactElement.createFactory('form');
 	
@@ -91406,7 +90927,7 @@
 
 
 /***/ },
-/* 190 */
+/* 189 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -91422,11 +90943,11 @@
 	
 	'use strict';
 	
-	var EventConstants = __webpack_require__(157);
-	var LocalEventTrapMixin = __webpack_require__(243);
-	var ReactBrowserComponentMixin = __webpack_require__(186);
-	var ReactClass = __webpack_require__(125);
-	var ReactElement = __webpack_require__(128);
+	var EventConstants = __webpack_require__(156);
+	var LocalEventTrapMixin = __webpack_require__(242);
+	var ReactBrowserComponentMixin = __webpack_require__(185);
+	var ReactClass = __webpack_require__(124);
+	var ReactElement = __webpack_require__(127);
 	
 	var img = ReactElement.createFactory('img');
 	
@@ -91456,7 +90977,7 @@
 
 
 /***/ },
-/* 191 */
+/* 190 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -91475,14 +90996,14 @@
 	
 	'use strict';
 	
-	var CSSPropertyOperations = __webpack_require__(230);
-	var DOMChildrenOperations = __webpack_require__(244);
-	var DOMPropertyOperations = __webpack_require__(175);
-	var ReactMount = __webpack_require__(134);
-	var ReactPerf = __webpack_require__(135);
+	var CSSPropertyOperations = __webpack_require__(229);
+	var DOMChildrenOperations = __webpack_require__(243);
+	var DOMPropertyOperations = __webpack_require__(174);
+	var ReactMount = __webpack_require__(133);
+	var ReactPerf = __webpack_require__(134);
 	
-	var invariant = __webpack_require__(158);
-	var setInnerHTML = __webpack_require__(215);
+	var invariant = __webpack_require__(157);
+	var setInnerHTML = __webpack_require__(214);
 	
 	/**
 	 * Errors for properties that should not be updated with `updatePropertyById()`.
@@ -91624,10 +91145,10 @@
 	
 	module.exports = ReactDOMIDOperations;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 192 */
+/* 191 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -91643,11 +91164,11 @@
 	
 	'use strict';
 	
-	var EventConstants = __webpack_require__(157);
-	var LocalEventTrapMixin = __webpack_require__(243);
-	var ReactBrowserComponentMixin = __webpack_require__(186);
-	var ReactClass = __webpack_require__(125);
-	var ReactElement = __webpack_require__(128);
+	var EventConstants = __webpack_require__(156);
+	var LocalEventTrapMixin = __webpack_require__(242);
+	var ReactBrowserComponentMixin = __webpack_require__(185);
+	var ReactClass = __webpack_require__(124);
+	var ReactElement = __webpack_require__(127);
 	
 	var iframe = ReactElement.createFactory('iframe');
 	
@@ -91676,7 +91197,7 @@
 
 
 /***/ },
-/* 193 */
+/* 192 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -91692,17 +91213,17 @@
 	
 	'use strict';
 	
-	var AutoFocusMixin = __webpack_require__(242);
-	var DOMPropertyOperations = __webpack_require__(175);
-	var LinkedValueUtils = __webpack_require__(245);
-	var ReactBrowserComponentMixin = __webpack_require__(186);
-	var ReactClass = __webpack_require__(125);
-	var ReactElement = __webpack_require__(128);
-	var ReactMount = __webpack_require__(134);
-	var ReactUpdates = __webpack_require__(211);
+	var AutoFocusMixin = __webpack_require__(241);
+	var DOMPropertyOperations = __webpack_require__(174);
+	var LinkedValueUtils = __webpack_require__(244);
+	var ReactBrowserComponentMixin = __webpack_require__(185);
+	var ReactClass = __webpack_require__(124);
+	var ReactElement = __webpack_require__(127);
+	var ReactMount = __webpack_require__(133);
+	var ReactUpdates = __webpack_require__(210);
 	
-	var assign = __webpack_require__(139);
-	var invariant = __webpack_require__(158);
+	var assign = __webpack_require__(138);
+	var invariant = __webpack_require__(157);
 	
 	var input = ReactElement.createFactory('input');
 	
@@ -91853,10 +91374,10 @@
 	
 	module.exports = ReactDOMInput;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 194 */
+/* 193 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -91872,11 +91393,11 @@
 	
 	'use strict';
 	
-	var ReactBrowserComponentMixin = __webpack_require__(186);
-	var ReactClass = __webpack_require__(125);
-	var ReactElement = __webpack_require__(128);
+	var ReactBrowserComponentMixin = __webpack_require__(185);
+	var ReactClass = __webpack_require__(124);
+	var ReactElement = __webpack_require__(127);
 	
-	var warning = __webpack_require__(162);
+	var warning = __webpack_require__(161);
 	
 	var option = ReactElement.createFactory('option');
 	
@@ -91908,10 +91429,10 @@
 	
 	module.exports = ReactDOMOption;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 195 */
+/* 194 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -91927,14 +91448,14 @@
 	
 	'use strict';
 	
-	var AutoFocusMixin = __webpack_require__(242);
-	var LinkedValueUtils = __webpack_require__(245);
-	var ReactBrowserComponentMixin = __webpack_require__(186);
-	var ReactClass = __webpack_require__(125);
-	var ReactElement = __webpack_require__(128);
-	var ReactUpdates = __webpack_require__(211);
+	var AutoFocusMixin = __webpack_require__(241);
+	var LinkedValueUtils = __webpack_require__(244);
+	var ReactBrowserComponentMixin = __webpack_require__(185);
+	var ReactClass = __webpack_require__(124);
+	var ReactElement = __webpack_require__(127);
+	var ReactUpdates = __webpack_require__(210);
 	
-	var assign = __webpack_require__(139);
+	var assign = __webpack_require__(138);
 	
 	var select = ReactElement.createFactory('select');
 	
@@ -92093,7 +91614,7 @@
 
 
 /***/ },
-/* 196 */
+/* 195 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -92109,18 +91630,18 @@
 	
 	'use strict';
 	
-	var AutoFocusMixin = __webpack_require__(242);
-	var DOMPropertyOperations = __webpack_require__(175);
-	var LinkedValueUtils = __webpack_require__(245);
-	var ReactBrowserComponentMixin = __webpack_require__(186);
-	var ReactClass = __webpack_require__(125);
-	var ReactElement = __webpack_require__(128);
-	var ReactUpdates = __webpack_require__(211);
+	var AutoFocusMixin = __webpack_require__(241);
+	var DOMPropertyOperations = __webpack_require__(174);
+	var LinkedValueUtils = __webpack_require__(244);
+	var ReactBrowserComponentMixin = __webpack_require__(185);
+	var ReactClass = __webpack_require__(124);
+	var ReactElement = __webpack_require__(127);
+	var ReactUpdates = __webpack_require__(210);
 	
-	var assign = __webpack_require__(139);
-	var invariant = __webpack_require__(158);
+	var assign = __webpack_require__(138);
+	var invariant = __webpack_require__(157);
 	
-	var warning = __webpack_require__(162);
+	var warning = __webpack_require__(161);
 	
 	var textarea = ReactElement.createFactory('textarea');
 	
@@ -92233,10 +91754,10 @@
 	
 	module.exports = ReactDOMTextarea;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 197 */
+/* 196 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -92253,16 +91774,16 @@
 	
 	'use strict';
 	
-	var EventListener = __webpack_require__(246);
-	var ExecutionEnvironment = __webpack_require__(142);
-	var PooledClass = __webpack_require__(159);
-	var ReactInstanceHandles = __webpack_require__(133);
-	var ReactMount = __webpack_require__(134);
-	var ReactUpdates = __webpack_require__(211);
+	var EventListener = __webpack_require__(245);
+	var ExecutionEnvironment = __webpack_require__(141);
+	var PooledClass = __webpack_require__(158);
+	var ReactInstanceHandles = __webpack_require__(132);
+	var ReactMount = __webpack_require__(133);
+	var ReactUpdates = __webpack_require__(210);
 	
-	var assign = __webpack_require__(139);
-	var getEventTarget = __webpack_require__(247);
-	var getUnboundedScrollPosition = __webpack_require__(248);
+	var assign = __webpack_require__(138);
+	var getEventTarget = __webpack_require__(246);
+	var getUnboundedScrollPosition = __webpack_require__(247);
 	
 	/**
 	 * Finds the parent React component of `node`.
@@ -92423,7 +91944,7 @@
 
 
 /***/ },
-/* 198 */
+/* 197 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -92439,17 +91960,17 @@
 	
 	'use strict';
 	
-	var DOMProperty = __webpack_require__(207);
-	var EventPluginHub = __webpack_require__(233);
-	var ReactComponentEnvironment = __webpack_require__(249);
-	var ReactClass = __webpack_require__(125);
-	var ReactEmptyComponent = __webpack_require__(209);
-	var ReactBrowserEventEmitter = __webpack_require__(208);
+	var DOMProperty = __webpack_require__(206);
+	var EventPluginHub = __webpack_require__(236);
+	var ReactComponentEnvironment = __webpack_require__(248);
+	var ReactClass = __webpack_require__(124);
+	var ReactEmptyComponent = __webpack_require__(208);
+	var ReactBrowserEventEmitter = __webpack_require__(207);
 	var ReactNativeComponent = __webpack_require__(172);
-	var ReactDOMComponent = __webpack_require__(177);
-	var ReactPerf = __webpack_require__(135);
-	var ReactRootIndex = __webpack_require__(206);
-	var ReactUpdates = __webpack_require__(211);
+	var ReactDOMComponent = __webpack_require__(176);
+	var ReactPerf = __webpack_require__(134);
+	var ReactRootIndex = __webpack_require__(205);
+	var ReactUpdates = __webpack_require__(210);
 	
 	var ReactInjection = {
 	  Component: ReactComponentEnvironment.injection,
@@ -92469,7 +91990,7 @@
 
 
 /***/ },
-/* 199 */
+/* 198 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -92486,14 +92007,14 @@
 	
 	'use strict';
 	
-	var CallbackQueue = __webpack_require__(250);
-	var PooledClass = __webpack_require__(159);
-	var ReactBrowserEventEmitter = __webpack_require__(208);
-	var ReactInputSelection = __webpack_require__(251);
-	var ReactPutListenerQueue = __webpack_require__(252);
-	var Transaction = __webpack_require__(241);
+	var CallbackQueue = __webpack_require__(249);
+	var PooledClass = __webpack_require__(158);
+	var ReactBrowserEventEmitter = __webpack_require__(207);
+	var ReactInputSelection = __webpack_require__(250);
+	var ReactPutListenerQueue = __webpack_require__(251);
+	var Transaction = __webpack_require__(240);
 	
-	var assign = __webpack_require__(139);
+	var assign = __webpack_require__(138);
 	
 	/**
 	 * Ensures that, when possible, the selection range (currently selected text
@@ -92649,7 +92170,7 @@
 
 
 /***/ },
-/* 200 */
+/* 199 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -92665,15 +92186,15 @@
 	
 	'use strict';
 	
-	var EventConstants = __webpack_require__(157);
-	var EventPropagators = __webpack_require__(234);
-	var ReactInputSelection = __webpack_require__(251);
-	var SyntheticEvent = __webpack_require__(235);
+	var EventConstants = __webpack_require__(156);
+	var EventPropagators = __webpack_require__(232);
+	var ReactInputSelection = __webpack_require__(250);
+	var SyntheticEvent = __webpack_require__(237);
 	
-	var getActiveElement = __webpack_require__(253);
-	var isTextInputElement = __webpack_require__(236);
+	var getActiveElement = __webpack_require__(252);
+	var isTextInputElement = __webpack_require__(238);
 	var keyOf = __webpack_require__(170);
-	var shallowEqual = __webpack_require__(254);
+	var shallowEqual = __webpack_require__(253);
 	
 	var topLevelTypes = EventConstants.topLevelTypes;
 	
@@ -92848,7 +92369,7 @@
 
 
 /***/ },
-/* 201 */
+/* 200 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -92883,7 +92404,7 @@
 
 
 /***/ },
-/* 202 */
+/* 201 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -92899,24 +92420,24 @@
 	
 	'use strict';
 	
-	var EventConstants = __webpack_require__(157);
-	var EventPluginUtils = __webpack_require__(122);
-	var EventPropagators = __webpack_require__(234);
-	var SyntheticClipboardEvent = __webpack_require__(256);
-	var SyntheticEvent = __webpack_require__(235);
-	var SyntheticFocusEvent = __webpack_require__(257);
-	var SyntheticKeyboardEvent = __webpack_require__(258);
-	var SyntheticMouseEvent = __webpack_require__(240);
-	var SyntheticDragEvent = __webpack_require__(255);
-	var SyntheticTouchEvent = __webpack_require__(259);
-	var SyntheticUIEvent = __webpack_require__(260);
-	var SyntheticWheelEvent = __webpack_require__(261);
+	var EventConstants = __webpack_require__(156);
+	var EventPluginUtils = __webpack_require__(121);
+	var EventPropagators = __webpack_require__(232);
+	var SyntheticClipboardEvent = __webpack_require__(255);
+	var SyntheticEvent = __webpack_require__(237);
+	var SyntheticFocusEvent = __webpack_require__(256);
+	var SyntheticKeyboardEvent = __webpack_require__(257);
+	var SyntheticMouseEvent = __webpack_require__(239);
+	var SyntheticDragEvent = __webpack_require__(254);
+	var SyntheticTouchEvent = __webpack_require__(258);
+	var SyntheticUIEvent = __webpack_require__(259);
+	var SyntheticWheelEvent = __webpack_require__(260);
 	
-	var getEventCharCode = __webpack_require__(262);
+	var getEventCharCode = __webpack_require__(261);
 	
-	var invariant = __webpack_require__(158);
+	var invariant = __webpack_require__(157);
 	var keyOf = __webpack_require__(170);
-	var warning = __webpack_require__(162);
+	var warning = __webpack_require__(161);
 	
 	var topLevelTypes = EventConstants.topLevelTypes;
 	
@@ -93311,10 +92832,10 @@
 	
 	module.exports = SimpleEventPlugin;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 203 */
+/* 202 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -93332,7 +92853,7 @@
 	
 	'use strict';
 	
-	var DOMProperty = __webpack_require__(207);
+	var DOMProperty = __webpack_require__(206);
 	
 	var MUST_USE_ATTRIBUTE = DOMProperty.injection.MUST_USE_ATTRIBUTE;
 	
@@ -93412,7 +92933,7 @@
 
 
 /***/ },
-/* 204 */
+/* 203 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -93430,10 +92951,10 @@
 	'use strict';
 	
 	// Defeat circular references by requiring this directly.
-	var ReactClass = __webpack_require__(125);
-	var ReactElement = __webpack_require__(128);
+	var ReactClass = __webpack_require__(124);
+	var ReactElement = __webpack_require__(127);
 	
-	var invariant = __webpack_require__(158);
+	var invariant = __webpack_require__(157);
 	
 	/**
 	 * Create a component that will throw an exception when unmounted.
@@ -93474,10 +92995,10 @@
 	
 	module.exports = createFullPageComponent;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 205 */
+/* 204 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -93494,12 +93015,12 @@
 	
 	'use strict';
 	
-	var DOMProperty = __webpack_require__(207);
-	var ReactDefaultPerfAnalysis = __webpack_require__(263);
-	var ReactMount = __webpack_require__(134);
-	var ReactPerf = __webpack_require__(135);
+	var DOMProperty = __webpack_require__(206);
+	var ReactDefaultPerfAnalysis = __webpack_require__(262);
+	var ReactMount = __webpack_require__(133);
+	var ReactPerf = __webpack_require__(134);
 	
-	var performanceNow = __webpack_require__(264);
+	var performanceNow = __webpack_require__(263);
 	
 	function roundFloat(val) {
 	  return Math.floor(val * 100) / 100;
@@ -93747,7 +93268,7 @@
 
 
 /***/ },
-/* 206 */
+/* 205 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -93782,7 +93303,7 @@
 
 
 /***/ },
-/* 207 */
+/* 206 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -93801,7 +93322,7 @@
 	
 	'use strict';
 	
-	var invariant = __webpack_require__(158);
+	var invariant = __webpack_require__(157);
 	
 	function checkMask(value, bitmask) {
 	  return (value & bitmask) === bitmask;
@@ -94081,10 +93602,10 @@
 	
 	module.exports = DOMProperty;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 208 */
+/* 207 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -94101,14 +93622,14 @@
 	
 	'use strict';
 	
-	var EventConstants = __webpack_require__(157);
-	var EventPluginHub = __webpack_require__(233);
-	var EventPluginRegistry = __webpack_require__(265);
-	var ReactEventEmitterMixin = __webpack_require__(266);
-	var ViewportMetrics = __webpack_require__(267);
+	var EventConstants = __webpack_require__(156);
+	var EventPluginHub = __webpack_require__(236);
+	var EventPluginRegistry = __webpack_require__(264);
+	var ReactEventEmitterMixin = __webpack_require__(265);
+	var ViewportMetrics = __webpack_require__(266);
 	
-	var assign = __webpack_require__(139);
-	var isEventSupported = __webpack_require__(232);
+	var assign = __webpack_require__(138);
+	var isEventSupported = __webpack_require__(231);
 	
 	/**
 	 * Summary of `ReactBrowserEventEmitter` event handling:
@@ -94441,7 +93962,7 @@
 
 
 /***/ },
-/* 209 */
+/* 208 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -94457,10 +93978,10 @@
 	
 	'use strict';
 	
-	var ReactElement = __webpack_require__(128);
+	var ReactElement = __webpack_require__(127);
 	var ReactInstanceMap = __webpack_require__(166);
 	
-	var invariant = __webpack_require__(158);
+	var invariant = __webpack_require__(157);
 	
 	var component;
 	// This registry keeps track of the React IDs of the components that rendered to
@@ -94536,10 +94057,10 @@
 	
 	module.exports = ReactEmptyComponent;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 210 */
+/* 209 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -94555,7 +94076,7 @@
 	
 	'use strict';
 	
-	var adler32 = __webpack_require__(268);
+	var adler32 = __webpack_require__(267);
 	
 	var ReactMarkupChecksum = {
 	  CHECKSUM_ATTR_NAME: 'data-react-checksum',
@@ -94591,7 +94112,7 @@
 
 
 /***/ },
-/* 211 */
+/* 210 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -94607,16 +94128,16 @@
 	
 	'use strict';
 	
-	var CallbackQueue = __webpack_require__(250);
-	var PooledClass = __webpack_require__(159);
-	var ReactCurrentOwner = __webpack_require__(127);
-	var ReactPerf = __webpack_require__(135);
-	var ReactReconciler = __webpack_require__(137);
-	var Transaction = __webpack_require__(241);
+	var CallbackQueue = __webpack_require__(249);
+	var PooledClass = __webpack_require__(158);
+	var ReactCurrentOwner = __webpack_require__(126);
+	var ReactPerf = __webpack_require__(134);
+	var ReactReconciler = __webpack_require__(136);
+	var Transaction = __webpack_require__(240);
 	
-	var assign = __webpack_require__(139);
-	var invariant = __webpack_require__(158);
-	var warning = __webpack_require__(162);
+	var assign = __webpack_require__(138);
+	var invariant = __webpack_require__(157);
+	var warning = __webpack_require__(161);
 	
 	var dirtyComponents = [];
 	var asapCallbackQueue = CallbackQueue.getPooled();
@@ -94873,10 +94394,10 @@
 	
 	module.exports = ReactUpdates;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 212 */
+/* 211 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -94891,7 +94412,7 @@
 	 * @typechecks
 	 */
 	
-	var isTextNode = __webpack_require__(269);
+	var isTextNode = __webpack_require__(268);
 	
 	/*jslint bitwise:true */
 	
@@ -94924,7 +94445,7 @@
 
 
 /***/ },
-/* 213 */
+/* 212 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -94963,7 +94484,7 @@
 
 
 /***/ },
-/* 214 */
+/* 213 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -94980,13 +94501,13 @@
 	
 	'use strict';
 	
-	var ReactCompositeComponent = __webpack_require__(270);
-	var ReactEmptyComponent = __webpack_require__(209);
+	var ReactCompositeComponent = __webpack_require__(269);
+	var ReactEmptyComponent = __webpack_require__(208);
 	var ReactNativeComponent = __webpack_require__(172);
 	
-	var assign = __webpack_require__(139);
-	var invariant = __webpack_require__(158);
-	var warning = __webpack_require__(162);
+	var assign = __webpack_require__(138);
+	var invariant = __webpack_require__(157);
+	var warning = __webpack_require__(161);
 	
 	// To avoid a cyclic dependency, we create the final class in this module
 	var ReactCompositeComponentWrapper = function() { };
@@ -95101,10 +94622,10 @@
 	
 	module.exports = instantiateReactComponent;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 215 */
+/* 214 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -95122,7 +94643,7 @@
 	
 	'use strict';
 	
-	var ExecutionEnvironment = __webpack_require__(142);
+	var ExecutionEnvironment = __webpack_require__(141);
 	
 	var WHITESPACE_TEST = /^[ \r\n\t\f]/;
 	var NONVISIBLE_TEST = /<(!--|link|noscript|meta|script|style)[ \r\n\t\f\/>]/;
@@ -95197,7 +94718,7 @@
 
 
 /***/ },
-/* 216 */
+/* 215 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -95214,7 +94735,7 @@
 	
 	'use strict';
 	
-	var warning = __webpack_require__(162);
+	var warning = __webpack_require__(161);
 	
 	/**
 	 * Given a `prevElement` and `nextElement`, determines if the existing
@@ -95301,10 +94822,10 @@
 	
 	module.exports = shouldUpdateReactComponent;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 217 */
+/* 216 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -95342,82 +94863,7 @@
 
 
 /***/ },
-/* 218 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule ReactRef
-	 */
-	
-	'use strict';
-	
-	var ReactOwner = __webpack_require__(271);
-	
-	var ReactRef = {};
-	
-	function attachRef(ref, component, owner) {
-	  if (typeof ref === 'function') {
-	    ref(component.getPublicInstance());
-	  } else {
-	    // Legacy ref
-	    ReactOwner.addComponentAsRefTo(component, ref, owner);
-	  }
-	}
-	
-	function detachRef(ref, component, owner) {
-	  if (typeof ref === 'function') {
-	    ref(null);
-	  } else {
-	    // Legacy ref
-	    ReactOwner.removeComponentAsRefFrom(component, ref, owner);
-	  }
-	}
-	
-	ReactRef.attachRefs = function(instance, element) {
-	  var ref = element.ref;
-	  if (ref != null) {
-	    attachRef(ref, instance, element._owner);
-	  }
-	};
-	
-	ReactRef.shouldUpdateRefs = function(prevElement, nextElement) {
-	  // If either the owner or a `ref` has changed, make sure the newest owner
-	  // has stored a reference to `this`, and the previous owner (if different)
-	  // has forgotten the reference to `this`. We use the element instead
-	  // of the public this.props because the post processing cannot determine
-	  // a ref. The ref conceptually lives on the element.
-	
-	  // TODO: Should this even be possible? The owner cannot change because
-	  // it's forbidden by shouldUpdateReactComponent. The ref can change
-	  // if you swap the keys of but not the refs. Reconsider where this check
-	  // is made. It probably belongs where the key checking and
-	  // instantiateReactComponent is done.
-	
-	  return (
-	    nextElement._owner !== prevElement._owner ||
-	    nextElement.ref !== prevElement.ref
-	  );
-	};
-	
-	ReactRef.detachRefs = function(instance, element) {
-	  var ref = element.ref;
-	  if (ref != null) {
-	    detachRef(ref, instance, element._owner);
-	  }
-	};
-	
-	module.exports = ReactRef;
-
-
-/***/ },
-/* 219 */
+/* 217 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -95434,13 +94880,13 @@
 	
 	'use strict';
 	
-	var PooledClass = __webpack_require__(159);
-	var CallbackQueue = __webpack_require__(250);
-	var ReactPutListenerQueue = __webpack_require__(252);
-	var Transaction = __webpack_require__(241);
+	var PooledClass = __webpack_require__(158);
+	var CallbackQueue = __webpack_require__(249);
+	var ReactPutListenerQueue = __webpack_require__(251);
+	var Transaction = __webpack_require__(240);
 	
-	var assign = __webpack_require__(139);
-	var emptyFunction = __webpack_require__(217);
+	var assign = __webpack_require__(138);
+	var emptyFunction = __webpack_require__(216);
 	
 	/**
 	 * Provides a `CallbackQueue` queue for collecting `onDOMReady` callbacks
@@ -95534,7 +94980,82 @@
 
 
 /***/ },
-/* 220 */
+/* 218 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule ReactRef
+	 */
+	
+	'use strict';
+	
+	var ReactOwner = __webpack_require__(270);
+	
+	var ReactRef = {};
+	
+	function attachRef(ref, component, owner) {
+	  if (typeof ref === 'function') {
+	    ref(component.getPublicInstance());
+	  } else {
+	    // Legacy ref
+	    ReactOwner.addComponentAsRefTo(component, ref, owner);
+	  }
+	}
+	
+	function detachRef(ref, component, owner) {
+	  if (typeof ref === 'function') {
+	    ref(null);
+	  } else {
+	    // Legacy ref
+	    ReactOwner.removeComponentAsRefFrom(component, ref, owner);
+	  }
+	}
+	
+	ReactRef.attachRefs = function(instance, element) {
+	  var ref = element.ref;
+	  if (ref != null) {
+	    attachRef(ref, instance, element._owner);
+	  }
+	};
+	
+	ReactRef.shouldUpdateRefs = function(prevElement, nextElement) {
+	  // If either the owner or a `ref` has changed, make sure the newest owner
+	  // has stored a reference to `this`, and the previous owner (if different)
+	  // has forgotten the reference to `this`. We use the element instead
+	  // of the public this.props because the post processing cannot determine
+	  // a ref. The ref conceptually lives on the element.
+	
+	  // TODO: Should this even be possible? The owner cannot change because
+	  // it's forbidden by shouldUpdateReactComponent. The ref can change
+	  // if you swap the keys of but not the refs. Reconsider where this check
+	  // is made. It probably belongs where the key checking and
+	  // instantiateReactComponent is done.
+	
+	  return (
+	    nextElement._owner !== prevElement._owner ||
+	    nextElement.ref !== prevElement.ref
+	  );
+	};
+	
+	ReactRef.detachRefs = function(instance, element) {
+	  var ref = element.ref;
+	  if (ref != null) {
+	    detachRef(ref, instance, element._owner);
+	  }
+	};
+	
+	module.exports = ReactRef;
+
+
+/***/ },
+/* 219 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -95565,7 +95086,7 @@
 
 
 /***/ },
-/* 221 */
+/* 220 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {
@@ -95573,8 +95094,8 @@
 	 * Module dependencies.
 	 */
 	
-	var parseuri = __webpack_require__(277);
-	var debug = __webpack_require__(272)('socket.io-client:url');
+	var parseuri = __webpack_require__(276);
+	var debug = __webpack_require__(271)('socket.io-client:url');
 	
 	/**
 	 * Module exports.
@@ -95645,7 +95166,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 222 */
+/* 221 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -95653,17 +95174,17 @@
 	 * Module dependencies.
 	 */
 	
-	var url = __webpack_require__(221);
-	var eio = __webpack_require__(278);
-	var Socket = __webpack_require__(223);
-	var Emitter = __webpack_require__(279);
-	var parser = __webpack_require__(228);
-	var on = __webpack_require__(273);
-	var bind = __webpack_require__(280);
-	var object = __webpack_require__(281);
-	var debug = __webpack_require__(272)('socket.io-client:manager');
-	var indexOf = __webpack_require__(282);
-	var Backoff = __webpack_require__(283);
+	var url = __webpack_require__(220);
+	var eio = __webpack_require__(277);
+	var Socket = __webpack_require__(222);
+	var Emitter = __webpack_require__(278);
+	var parser = __webpack_require__(226);
+	var on = __webpack_require__(272);
+	var bind = __webpack_require__(279);
+	var object = __webpack_require__(280);
+	var debug = __webpack_require__(271)('socket.io-client:manager');
+	var indexOf = __webpack_require__(281);
+	var Backoff = __webpack_require__(282);
 	
 	/**
 	 * Module exports
@@ -96154,7 +95675,7 @@
 
 
 /***/ },
-/* 223 */
+/* 222 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -96162,13 +95683,13 @@
 	 * Module dependencies.
 	 */
 	
-	var parser = __webpack_require__(228);
-	var Emitter = __webpack_require__(279);
-	var toArray = __webpack_require__(284);
-	var on = __webpack_require__(273);
-	var bind = __webpack_require__(280);
-	var debug = __webpack_require__(272)('socket.io-client:socket');
-	var hasBin = __webpack_require__(285);
+	var parser = __webpack_require__(226);
+	var Emitter = __webpack_require__(278);
+	var toArray = __webpack_require__(283);
+	var on = __webpack_require__(272);
+	var bind = __webpack_require__(279);
+	var debug = __webpack_require__(271)('socket.io-client:socket');
+	var hasBin = __webpack_require__(284);
 	
 	/**
 	 * Module exports.
@@ -96545,15 +96066,7 @@
 
 
 /***/ },
-/* 224 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// 19.1.3.1 Object.assign(target, source)
-	var $def = __webpack_require__(274);
-	$def($def.S, 'Object', {assign: __webpack_require__(275)});
-
-/***/ },
-/* 225 */
+/* 223 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -96605,7 +96118,7 @@
 	  return it;
 	}
 	
-	var $ = module.exports = __webpack_require__(276)({
+	var $ = module.exports = __webpack_require__(273)({
 	  g: global,
 	  core: core,
 	  html: global.document && document.documentElement,
@@ -96661,10 +96174,18 @@
 	if(typeof __g != 'undefined')__g = global;
 
 /***/ },
-/* 226 */
+/* 224 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $        = __webpack_require__(225)
+	// 19.1.3.1 Object.assign(target, source)
+	var $def = __webpack_require__(274);
+	$def($def.S, 'Object', {assign: __webpack_require__(275)});
+
+/***/ },
+/* 225 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var $        = __webpack_require__(223)
 	  , $def     = __webpack_require__(274)
 	  , isObject = $.isObject
 	  , toObject = $.toObject;
@@ -96704,263 +96225,7 @@
 	wrapObjectMethod('getOwnPropertyNames');
 
 /***/ },
-/* 227 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/*
-	 * Copyright (c) 2014, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule Dispatcher
-	 * @typechecks
-	 */
-	
-	"use strict";
-	
-	var invariant = __webpack_require__(286);
-	
-	var _lastID = 1;
-	var _prefix = 'ID_';
-	
-	/**
-	 * Dispatcher is used to broadcast payloads to registered callbacks. This is
-	 * different from generic pub-sub systems in two ways:
-	 *
-	 *   1) Callbacks are not subscribed to particular events. Every payload is
-	 *      dispatched to every registered callback.
-	 *   2) Callbacks can be deferred in whole or part until other callbacks have
-	 *      been executed.
-	 *
-	 * For example, consider this hypothetical flight destination form, which
-	 * selects a default city when a country is selected:
-	 *
-	 *   var flightDispatcher = new Dispatcher();
-	 *
-	 *   // Keeps track of which country is selected
-	 *   var CountryStore = {country: null};
-	 *
-	 *   // Keeps track of which city is selected
-	 *   var CityStore = {city: null};
-	 *
-	 *   // Keeps track of the base flight price of the selected city
-	 *   var FlightPriceStore = {price: null}
-	 *
-	 * When a user changes the selected city, we dispatch the payload:
-	 *
-	 *   flightDispatcher.dispatch({
-	 *     actionType: 'city-update',
-	 *     selectedCity: 'paris'
-	 *   });
-	 *
-	 * This payload is digested by `CityStore`:
-	 *
-	 *   flightDispatcher.register(function(payload) {
-	 *     if (payload.actionType === 'city-update') {
-	 *       CityStore.city = payload.selectedCity;
-	 *     }
-	 *   });
-	 *
-	 * When the user selects a country, we dispatch the payload:
-	 *
-	 *   flightDispatcher.dispatch({
-	 *     actionType: 'country-update',
-	 *     selectedCountry: 'australia'
-	 *   });
-	 *
-	 * This payload is digested by both stores:
-	 *
-	 *    CountryStore.dispatchToken = flightDispatcher.register(function(payload) {
-	 *     if (payload.actionType === 'country-update') {
-	 *       CountryStore.country = payload.selectedCountry;
-	 *     }
-	 *   });
-	 *
-	 * When the callback to update `CountryStore` is registered, we save a reference
-	 * to the returned token. Using this token with `waitFor()`, we can guarantee
-	 * that `CountryStore` is updated before the callback that updates `CityStore`
-	 * needs to query its data.
-	 *
-	 *   CityStore.dispatchToken = flightDispatcher.register(function(payload) {
-	 *     if (payload.actionType === 'country-update') {
-	 *       // `CountryStore.country` may not be updated.
-	 *       flightDispatcher.waitFor([CountryStore.dispatchToken]);
-	 *       // `CountryStore.country` is now guaranteed to be updated.
-	 *
-	 *       // Select the default city for the new country
-	 *       CityStore.city = getDefaultCityForCountry(CountryStore.country);
-	 *     }
-	 *   });
-	 *
-	 * The usage of `waitFor()` can be chained, for example:
-	 *
-	 *   FlightPriceStore.dispatchToken =
-	 *     flightDispatcher.register(function(payload) {
-	 *       switch (payload.actionType) {
-	 *         case 'country-update':
-	 *           flightDispatcher.waitFor([CityStore.dispatchToken]);
-	 *           FlightPriceStore.price =
-	 *             getFlightPriceStore(CountryStore.country, CityStore.city);
-	 *           break;
-	 *
-	 *         case 'city-update':
-	 *           FlightPriceStore.price =
-	 *             FlightPriceStore(CountryStore.country, CityStore.city);
-	 *           break;
-	 *     }
-	 *   });
-	 *
-	 * The `country-update` payload will be guaranteed to invoke the stores'
-	 * registered callbacks in order: `CountryStore`, `CityStore`, then
-	 * `FlightPriceStore`.
-	 */
-	
-	  function Dispatcher() {
-	    this.$Dispatcher_callbacks = {};
-	    this.$Dispatcher_isPending = {};
-	    this.$Dispatcher_isHandled = {};
-	    this.$Dispatcher_isDispatching = false;
-	    this.$Dispatcher_pendingPayload = null;
-	  }
-	
-	  /**
-	   * Registers a callback to be invoked with every dispatched payload. Returns
-	   * a token that can be used with `waitFor()`.
-	   *
-	   * @param {function} callback
-	   * @return {string}
-	   */
-	  Dispatcher.prototype.register=function(callback) {
-	    var id = _prefix + _lastID++;
-	    this.$Dispatcher_callbacks[id] = callback;
-	    return id;
-	  };
-	
-	  /**
-	   * Removes a callback based on its token.
-	   *
-	   * @param {string} id
-	   */
-	  Dispatcher.prototype.unregister=function(id) {
-	    invariant(
-	      this.$Dispatcher_callbacks[id],
-	      'Dispatcher.unregister(...): `%s` does not map to a registered callback.',
-	      id
-	    );
-	    delete this.$Dispatcher_callbacks[id];
-	  };
-	
-	  /**
-	   * Waits for the callbacks specified to be invoked before continuing execution
-	   * of the current callback. This method should only be used by a callback in
-	   * response to a dispatched payload.
-	   *
-	   * @param {array<string>} ids
-	   */
-	  Dispatcher.prototype.waitFor=function(ids) {
-	    invariant(
-	      this.$Dispatcher_isDispatching,
-	      'Dispatcher.waitFor(...): Must be invoked while dispatching.'
-	    );
-	    for (var ii = 0; ii < ids.length; ii++) {
-	      var id = ids[ii];
-	      if (this.$Dispatcher_isPending[id]) {
-	        invariant(
-	          this.$Dispatcher_isHandled[id],
-	          'Dispatcher.waitFor(...): Circular dependency detected while ' +
-	          'waiting for `%s`.',
-	          id
-	        );
-	        continue;
-	      }
-	      invariant(
-	        this.$Dispatcher_callbacks[id],
-	        'Dispatcher.waitFor(...): `%s` does not map to a registered callback.',
-	        id
-	      );
-	      this.$Dispatcher_invokeCallback(id);
-	    }
-	  };
-	
-	  /**
-	   * Dispatches a payload to all registered callbacks.
-	   *
-	   * @param {object} payload
-	   */
-	  Dispatcher.prototype.dispatch=function(payload) {
-	    invariant(
-	      !this.$Dispatcher_isDispatching,
-	      'Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch.'
-	    );
-	    this.$Dispatcher_startDispatching(payload);
-	    try {
-	      for (var id in this.$Dispatcher_callbacks) {
-	        if (this.$Dispatcher_isPending[id]) {
-	          continue;
-	        }
-	        this.$Dispatcher_invokeCallback(id);
-	      }
-	    } finally {
-	      this.$Dispatcher_stopDispatching();
-	    }
-	  };
-	
-	  /**
-	   * Is this Dispatcher currently dispatching.
-	   *
-	   * @return {boolean}
-	   */
-	  Dispatcher.prototype.isDispatching=function() {
-	    return this.$Dispatcher_isDispatching;
-	  };
-	
-	  /**
-	   * Call the callback stored with the given id. Also do some internal
-	   * bookkeeping.
-	   *
-	   * @param {string} id
-	   * @internal
-	   */
-	  Dispatcher.prototype.$Dispatcher_invokeCallback=function(id) {
-	    this.$Dispatcher_isPending[id] = true;
-	    this.$Dispatcher_callbacks[id](this.$Dispatcher_pendingPayload);
-	    this.$Dispatcher_isHandled[id] = true;
-	  };
-	
-	  /**
-	   * Set up bookkeeping needed when dispatching.
-	   *
-	   * @param {object} payload
-	   * @internal
-	   */
-	  Dispatcher.prototype.$Dispatcher_startDispatching=function(payload) {
-	    for (var id in this.$Dispatcher_callbacks) {
-	      this.$Dispatcher_isPending[id] = false;
-	      this.$Dispatcher_isHandled[id] = false;
-	    }
-	    this.$Dispatcher_pendingPayload = payload;
-	    this.$Dispatcher_isDispatching = true;
-	  };
-	
-	  /**
-	   * Clear bookkeeping used for dispatching.
-	   *
-	   * @internal
-	   */
-	  Dispatcher.prototype.$Dispatcher_stopDispatching=function() {
-	    this.$Dispatcher_pendingPayload = null;
-	    this.$Dispatcher_isDispatching = false;
-	  };
-	
-	
-	module.exports = Dispatcher;
-
-
-/***/ },
-/* 228 */
+/* 226 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -96968,12 +96233,12 @@
 	 * Module dependencies.
 	 */
 	
-	var debug = __webpack_require__(272)('socket.io-parser');
-	var json = __webpack_require__(309);
-	var isArray = __webpack_require__(307);
-	var Emitter = __webpack_require__(279);
-	var binary = __webpack_require__(287);
-	var isBuf = __webpack_require__(288);
+	var debug = __webpack_require__(271)('socket.io-parser');
+	var json = __webpack_require__(308);
+	var isArray = __webpack_require__(306);
+	var Emitter = __webpack_require__(278);
+	var binary = __webpack_require__(285);
+	var isBuf = __webpack_require__(286);
 	
 	/**
 	 * Protocol version.
@@ -97366,7 +96631,263 @@
 
 
 /***/ },
-/* 229 */
+/* 227 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/*
+	 * Copyright (c) 2014, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule Dispatcher
+	 * @typechecks
+	 */
+	
+	"use strict";
+	
+	var invariant = __webpack_require__(287);
+	
+	var _lastID = 1;
+	var _prefix = 'ID_';
+	
+	/**
+	 * Dispatcher is used to broadcast payloads to registered callbacks. This is
+	 * different from generic pub-sub systems in two ways:
+	 *
+	 *   1) Callbacks are not subscribed to particular events. Every payload is
+	 *      dispatched to every registered callback.
+	 *   2) Callbacks can be deferred in whole or part until other callbacks have
+	 *      been executed.
+	 *
+	 * For example, consider this hypothetical flight destination form, which
+	 * selects a default city when a country is selected:
+	 *
+	 *   var flightDispatcher = new Dispatcher();
+	 *
+	 *   // Keeps track of which country is selected
+	 *   var CountryStore = {country: null};
+	 *
+	 *   // Keeps track of which city is selected
+	 *   var CityStore = {city: null};
+	 *
+	 *   // Keeps track of the base flight price of the selected city
+	 *   var FlightPriceStore = {price: null}
+	 *
+	 * When a user changes the selected city, we dispatch the payload:
+	 *
+	 *   flightDispatcher.dispatch({
+	 *     actionType: 'city-update',
+	 *     selectedCity: 'paris'
+	 *   });
+	 *
+	 * This payload is digested by `CityStore`:
+	 *
+	 *   flightDispatcher.register(function(payload) {
+	 *     if (payload.actionType === 'city-update') {
+	 *       CityStore.city = payload.selectedCity;
+	 *     }
+	 *   });
+	 *
+	 * When the user selects a country, we dispatch the payload:
+	 *
+	 *   flightDispatcher.dispatch({
+	 *     actionType: 'country-update',
+	 *     selectedCountry: 'australia'
+	 *   });
+	 *
+	 * This payload is digested by both stores:
+	 *
+	 *    CountryStore.dispatchToken = flightDispatcher.register(function(payload) {
+	 *     if (payload.actionType === 'country-update') {
+	 *       CountryStore.country = payload.selectedCountry;
+	 *     }
+	 *   });
+	 *
+	 * When the callback to update `CountryStore` is registered, we save a reference
+	 * to the returned token. Using this token with `waitFor()`, we can guarantee
+	 * that `CountryStore` is updated before the callback that updates `CityStore`
+	 * needs to query its data.
+	 *
+	 *   CityStore.dispatchToken = flightDispatcher.register(function(payload) {
+	 *     if (payload.actionType === 'country-update') {
+	 *       // `CountryStore.country` may not be updated.
+	 *       flightDispatcher.waitFor([CountryStore.dispatchToken]);
+	 *       // `CountryStore.country` is now guaranteed to be updated.
+	 *
+	 *       // Select the default city for the new country
+	 *       CityStore.city = getDefaultCityForCountry(CountryStore.country);
+	 *     }
+	 *   });
+	 *
+	 * The usage of `waitFor()` can be chained, for example:
+	 *
+	 *   FlightPriceStore.dispatchToken =
+	 *     flightDispatcher.register(function(payload) {
+	 *       switch (payload.actionType) {
+	 *         case 'country-update':
+	 *           flightDispatcher.waitFor([CityStore.dispatchToken]);
+	 *           FlightPriceStore.price =
+	 *             getFlightPriceStore(CountryStore.country, CityStore.city);
+	 *           break;
+	 *
+	 *         case 'city-update':
+	 *           FlightPriceStore.price =
+	 *             FlightPriceStore(CountryStore.country, CityStore.city);
+	 *           break;
+	 *     }
+	 *   });
+	 *
+	 * The `country-update` payload will be guaranteed to invoke the stores'
+	 * registered callbacks in order: `CountryStore`, `CityStore`, then
+	 * `FlightPriceStore`.
+	 */
+	
+	  function Dispatcher() {
+	    this.$Dispatcher_callbacks = {};
+	    this.$Dispatcher_isPending = {};
+	    this.$Dispatcher_isHandled = {};
+	    this.$Dispatcher_isDispatching = false;
+	    this.$Dispatcher_pendingPayload = null;
+	  }
+	
+	  /**
+	   * Registers a callback to be invoked with every dispatched payload. Returns
+	   * a token that can be used with `waitFor()`.
+	   *
+	   * @param {function} callback
+	   * @return {string}
+	   */
+	  Dispatcher.prototype.register=function(callback) {
+	    var id = _prefix + _lastID++;
+	    this.$Dispatcher_callbacks[id] = callback;
+	    return id;
+	  };
+	
+	  /**
+	   * Removes a callback based on its token.
+	   *
+	   * @param {string} id
+	   */
+	  Dispatcher.prototype.unregister=function(id) {
+	    invariant(
+	      this.$Dispatcher_callbacks[id],
+	      'Dispatcher.unregister(...): `%s` does not map to a registered callback.',
+	      id
+	    );
+	    delete this.$Dispatcher_callbacks[id];
+	  };
+	
+	  /**
+	   * Waits for the callbacks specified to be invoked before continuing execution
+	   * of the current callback. This method should only be used by a callback in
+	   * response to a dispatched payload.
+	   *
+	   * @param {array<string>} ids
+	   */
+	  Dispatcher.prototype.waitFor=function(ids) {
+	    invariant(
+	      this.$Dispatcher_isDispatching,
+	      'Dispatcher.waitFor(...): Must be invoked while dispatching.'
+	    );
+	    for (var ii = 0; ii < ids.length; ii++) {
+	      var id = ids[ii];
+	      if (this.$Dispatcher_isPending[id]) {
+	        invariant(
+	          this.$Dispatcher_isHandled[id],
+	          'Dispatcher.waitFor(...): Circular dependency detected while ' +
+	          'waiting for `%s`.',
+	          id
+	        );
+	        continue;
+	      }
+	      invariant(
+	        this.$Dispatcher_callbacks[id],
+	        'Dispatcher.waitFor(...): `%s` does not map to a registered callback.',
+	        id
+	      );
+	      this.$Dispatcher_invokeCallback(id);
+	    }
+	  };
+	
+	  /**
+	   * Dispatches a payload to all registered callbacks.
+	   *
+	   * @param {object} payload
+	   */
+	  Dispatcher.prototype.dispatch=function(payload) {
+	    invariant(
+	      !this.$Dispatcher_isDispatching,
+	      'Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch.'
+	    );
+	    this.$Dispatcher_startDispatching(payload);
+	    try {
+	      for (var id in this.$Dispatcher_callbacks) {
+	        if (this.$Dispatcher_isPending[id]) {
+	          continue;
+	        }
+	        this.$Dispatcher_invokeCallback(id);
+	      }
+	    } finally {
+	      this.$Dispatcher_stopDispatching();
+	    }
+	  };
+	
+	  /**
+	   * Is this Dispatcher currently dispatching.
+	   *
+	   * @return {boolean}
+	   */
+	  Dispatcher.prototype.isDispatching=function() {
+	    return this.$Dispatcher_isDispatching;
+	  };
+	
+	  /**
+	   * Call the callback stored with the given id. Also do some internal
+	   * bookkeeping.
+	   *
+	   * @param {string} id
+	   * @internal
+	   */
+	  Dispatcher.prototype.$Dispatcher_invokeCallback=function(id) {
+	    this.$Dispatcher_isPending[id] = true;
+	    this.$Dispatcher_callbacks[id](this.$Dispatcher_pendingPayload);
+	    this.$Dispatcher_isHandled[id] = true;
+	  };
+	
+	  /**
+	   * Set up bookkeeping needed when dispatching.
+	   *
+	   * @param {object} payload
+	   * @internal
+	   */
+	  Dispatcher.prototype.$Dispatcher_startDispatching=function(payload) {
+	    for (var id in this.$Dispatcher_callbacks) {
+	      this.$Dispatcher_isPending[id] = false;
+	      this.$Dispatcher_isHandled[id] = false;
+	    }
+	    this.$Dispatcher_pendingPayload = payload;
+	    this.$Dispatcher_isDispatching = true;
+	  };
+	
+	  /**
+	   * Clear bookkeeping used for dispatching.
+	   *
+	   * @internal
+	   */
+	  Dispatcher.prototype.$Dispatcher_stopDispatching=function() {
+	    this.$Dispatcher_pendingPayload = null;
+	    this.$Dispatcher_isDispatching = false;
+	  };
+	
+	
+	module.exports = Dispatcher;
+
+
+/***/ },
+/* 228 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -97382,7 +96903,7 @@
 	
 	'use strict';
 	
-	var escapeTextContentForBrowser = __webpack_require__(178);
+	var escapeTextContentForBrowser = __webpack_require__(177);
 	
 	/**
 	 * Escapes attribute value to prevent scripting attacks.
@@ -97398,7 +96919,7 @@
 
 
 /***/ },
-/* 230 */
+/* 229 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -97415,14 +96936,14 @@
 	
 	'use strict';
 	
-	var CSSProperty = __webpack_require__(289);
-	var ExecutionEnvironment = __webpack_require__(142);
+	var CSSProperty = __webpack_require__(288);
+	var ExecutionEnvironment = __webpack_require__(141);
 	
-	var camelizeStyleName = __webpack_require__(290);
-	var dangerousStyleValue = __webpack_require__(291);
-	var hyphenateStyleName = __webpack_require__(292);
-	var memoizeStringOnly = __webpack_require__(293);
-	var warning = __webpack_require__(162);
+	var camelizeStyleName = __webpack_require__(289);
+	var dangerousStyleValue = __webpack_require__(290);
+	var hyphenateStyleName = __webpack_require__(291);
+	var memoizeStringOnly = __webpack_require__(292);
+	var warning = __webpack_require__(161);
 	
 	var processStyleName = memoizeStringOnly(function(styleName) {
 	  return hyphenateStyleName(styleName);
@@ -97580,10 +97101,10 @@
 	
 	module.exports = CSSPropertyOperations;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 231 */
+/* 230 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -97600,11 +97121,11 @@
 	
 	'use strict';
 	
-	var ReactComponentEnvironment = __webpack_require__(249);
-	var ReactMultiChildUpdateTypes = __webpack_require__(294);
+	var ReactComponentEnvironment = __webpack_require__(248);
+	var ReactMultiChildUpdateTypes = __webpack_require__(293);
 	
-	var ReactReconciler = __webpack_require__(137);
-	var ReactChildReconciler = __webpack_require__(295);
+	var ReactReconciler = __webpack_require__(136);
+	var ReactChildReconciler = __webpack_require__(294);
 	
 	/**
 	 * Updating children of a component may trigger recursive updates. The depth is
@@ -98017,7 +97538,7 @@
 
 
 /***/ },
-/* 232 */
+/* 231 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -98033,7 +97554,7 @@
 	
 	'use strict';
 	
-	var ExecutionEnvironment = __webpack_require__(142);
+	var ExecutionEnvironment = __webpack_require__(141);
 	
 	var useHasFeature;
 	if (ExecutionEnvironment.canUseDOM) {
@@ -98086,7 +97607,346 @@
 
 
 /***/ },
+/* 232 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright 2013-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule EventPropagators
+	 */
+	
+	'use strict';
+	
+	var EventConstants = __webpack_require__(156);
+	var EventPluginHub = __webpack_require__(236);
+	
+	var accumulateInto = __webpack_require__(295);
+	var forEachAccumulated = __webpack_require__(296);
+	
+	var PropagationPhases = EventConstants.PropagationPhases;
+	var getListener = EventPluginHub.getListener;
+	
+	/**
+	 * Some event types have a notion of different registration names for different
+	 * "phases" of propagation. This finds listeners by a given phase.
+	 */
+	function listenerAtPhase(id, event, propagationPhase) {
+	  var registrationName =
+	    event.dispatchConfig.phasedRegistrationNames[propagationPhase];
+	  return getListener(id, registrationName);
+	}
+	
+	/**
+	 * Tags a `SyntheticEvent` with dispatched listeners. Creating this function
+	 * here, allows us to not have to bind or create functions for each event.
+	 * Mutating the event's members allows us to not have to create a wrapping
+	 * "dispatch" object that pairs the event with the listener.
+	 */
+	function accumulateDirectionalDispatches(domID, upwards, event) {
+	  if ("production" !== process.env.NODE_ENV) {
+	    if (!domID) {
+	      throw new Error('Dispatching id must not be null');
+	    }
+	  }
+	  var phase = upwards ? PropagationPhases.bubbled : PropagationPhases.captured;
+	  var listener = listenerAtPhase(domID, event, phase);
+	  if (listener) {
+	    event._dispatchListeners =
+	      accumulateInto(event._dispatchListeners, listener);
+	    event._dispatchIDs = accumulateInto(event._dispatchIDs, domID);
+	  }
+	}
+	
+	/**
+	 * Collect dispatches (must be entirely collected before dispatching - see unit
+	 * tests). Lazily allocate the array to conserve memory.  We must loop through
+	 * each event and perform the traversal for each one. We can not perform a
+	 * single traversal for the entire collection of events because each event may
+	 * have a different target.
+	 */
+	function accumulateTwoPhaseDispatchesSingle(event) {
+	  if (event && event.dispatchConfig.phasedRegistrationNames) {
+	    EventPluginHub.injection.getInstanceHandle().traverseTwoPhase(
+	      event.dispatchMarker,
+	      accumulateDirectionalDispatches,
+	      event
+	    );
+	  }
+	}
+	
+	
+	/**
+	 * Accumulates without regard to direction, does not look for phased
+	 * registration names. Same as `accumulateDirectDispatchesSingle` but without
+	 * requiring that the `dispatchMarker` be the same as the dispatched ID.
+	 */
+	function accumulateDispatches(id, ignoredDirection, event) {
+	  if (event && event.dispatchConfig.registrationName) {
+	    var registrationName = event.dispatchConfig.registrationName;
+	    var listener = getListener(id, registrationName);
+	    if (listener) {
+	      event._dispatchListeners =
+	        accumulateInto(event._dispatchListeners, listener);
+	      event._dispatchIDs = accumulateInto(event._dispatchIDs, id);
+	    }
+	  }
+	}
+	
+	/**
+	 * Accumulates dispatches on an `SyntheticEvent`, but only for the
+	 * `dispatchMarker`.
+	 * @param {SyntheticEvent} event
+	 */
+	function accumulateDirectDispatchesSingle(event) {
+	  if (event && event.dispatchConfig.registrationName) {
+	    accumulateDispatches(event.dispatchMarker, null, event);
+	  }
+	}
+	
+	function accumulateTwoPhaseDispatches(events) {
+	  forEachAccumulated(events, accumulateTwoPhaseDispatchesSingle);
+	}
+	
+	function accumulateEnterLeaveDispatches(leave, enter, fromID, toID) {
+	  EventPluginHub.injection.getInstanceHandle().traverseEnterLeave(
+	    fromID,
+	    toID,
+	    accumulateDispatches,
+	    leave,
+	    enter
+	  );
+	}
+	
+	
+	function accumulateDirectDispatches(events) {
+	  forEachAccumulated(events, accumulateDirectDispatchesSingle);
+	}
+	
+	
+	
+	/**
+	 * A small set of propagation patterns, each of which will accept a small amount
+	 * of information, and generate a set of "dispatch ready event objects" - which
+	 * are sets of events that have already been annotated with a set of dispatched
+	 * listener functions/ids. The API is designed this way to discourage these
+	 * propagation strategies from actually executing the dispatches, since we
+	 * always want to collect the entire set of dispatches before executing event a
+	 * single one.
+	 *
+	 * @constructor EventPropagators
+	 */
+	var EventPropagators = {
+	  accumulateTwoPhaseDispatches: accumulateTwoPhaseDispatches,
+	  accumulateDirectDispatches: accumulateDirectDispatches,
+	  accumulateEnterLeaveDispatches: accumulateEnterLeaveDispatches
+	};
+	
+	module.exports = EventPropagators;
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
+
+/***/ },
 /* 233 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule FallbackCompositionState
+	 * @typechecks static-only
+	 */
+	
+	'use strict';
+	
+	var PooledClass = __webpack_require__(158);
+	
+	var assign = __webpack_require__(138);
+	var getTextContentAccessor = __webpack_require__(297);
+	
+	/**
+	 * This helper class stores information about text content of a target node,
+	 * allowing comparison of content before and after a given event.
+	 *
+	 * Identify the node where selection currently begins, then observe
+	 * both its text content and its current position in the DOM. Since the
+	 * browser may natively replace the target node during composition, we can
+	 * use its position to find its replacement.
+	 *
+	 * @param {DOMEventTarget} root
+	 */
+	function FallbackCompositionState(root) {
+	  this._root = root;
+	  this._startText = this.getText();
+	  this._fallbackText = null;
+	}
+	
+	assign(FallbackCompositionState.prototype, {
+	  /**
+	   * Get current text of input.
+	   *
+	   * @return {string}
+	   */
+	  getText: function() {
+	    if ('value' in this._root) {
+	      return this._root.value;
+	    }
+	    return this._root[getTextContentAccessor()];
+	  },
+	
+	  /**
+	   * Determine the differing substring between the initially stored
+	   * text content and the current content.
+	   *
+	   * @return {string}
+	   */
+	  getData: function() {
+	    if (this._fallbackText) {
+	      return this._fallbackText;
+	    }
+	
+	    var start;
+	    var startValue = this._startText;
+	    var startLength = startValue.length;
+	    var end;
+	    var endValue = this.getText();
+	    var endLength = endValue.length;
+	
+	    for (start = 0; start < startLength; start++) {
+	      if (startValue[start] !== endValue[start]) {
+	        break;
+	      }
+	    }
+	
+	    var minEnd = startLength - start;
+	    for (end = 1; end <= minEnd; end++) {
+	      if (startValue[startLength - end] !== endValue[endLength - end]) {
+	        break;
+	      }
+	    }
+	
+	    var sliceTail = end > 1 ? 1 - end : undefined;
+	    this._fallbackText = endValue.slice(start, sliceTail);
+	    return this._fallbackText;
+	  }
+	});
+	
+	PooledClass.addPoolingTo(FallbackCompositionState);
+	
+	module.exports = FallbackCompositionState;
+
+
+/***/ },
+/* 234 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule SyntheticCompositionEvent
+	 * @typechecks static-only
+	 */
+	
+	'use strict';
+	
+	var SyntheticEvent = __webpack_require__(237);
+	
+	/**
+	 * @interface Event
+	 * @see http://www.w3.org/TR/DOM-Level-3-Events/#events-compositionevents
+	 */
+	var CompositionEventInterface = {
+	  data: null
+	};
+	
+	/**
+	 * @param {object} dispatchConfig Configuration used to dispatch this event.
+	 * @param {string} dispatchMarker Marker identifying the event target.
+	 * @param {object} nativeEvent Native browser event.
+	 * @extends {SyntheticUIEvent}
+	 */
+	function SyntheticCompositionEvent(
+	  dispatchConfig,
+	  dispatchMarker,
+	  nativeEvent) {
+	  SyntheticEvent.call(this, dispatchConfig, dispatchMarker, nativeEvent);
+	}
+	
+	SyntheticEvent.augmentClass(
+	  SyntheticCompositionEvent,
+	  CompositionEventInterface
+	);
+	
+	module.exports = SyntheticCompositionEvent;
+
+
+/***/ },
+/* 235 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule SyntheticInputEvent
+	 * @typechecks static-only
+	 */
+	
+	'use strict';
+	
+	var SyntheticEvent = __webpack_require__(237);
+	
+	/**
+	 * @interface Event
+	 * @see http://www.w3.org/TR/2013/WD-DOM-Level-3-Events-20131105
+	 *      /#events-inputevents
+	 */
+	var InputEventInterface = {
+	  data: null
+	};
+	
+	/**
+	 * @param {object} dispatchConfig Configuration used to dispatch this event.
+	 * @param {string} dispatchMarker Marker identifying the event target.
+	 * @param {object} nativeEvent Native browser event.
+	 * @extends {SyntheticUIEvent}
+	 */
+	function SyntheticInputEvent(
+	  dispatchConfig,
+	  dispatchMarker,
+	  nativeEvent) {
+	  SyntheticEvent.call(this, dispatchConfig, dispatchMarker, nativeEvent);
+	}
+	
+	SyntheticEvent.augmentClass(
+	  SyntheticInputEvent,
+	  InputEventInterface
+	);
+	
+	module.exports = SyntheticInputEvent;
+
+
+/***/ },
+/* 236 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -98102,12 +97962,12 @@
 	
 	'use strict';
 	
-	var EventPluginRegistry = __webpack_require__(265);
-	var EventPluginUtils = __webpack_require__(122);
+	var EventPluginRegistry = __webpack_require__(264);
+	var EventPluginUtils = __webpack_require__(121);
 	
-	var accumulateInto = __webpack_require__(296);
-	var forEachAccumulated = __webpack_require__(297);
-	var invariant = __webpack_require__(158);
+	var accumulateInto = __webpack_require__(295);
+	var forEachAccumulated = __webpack_require__(296);
+	var invariant = __webpack_require__(157);
 	
 	/**
 	 * Internal store for event listeners
@@ -98364,155 +98224,10 @@
 	
 	module.exports = EventPluginHub;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 234 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule EventPropagators
-	 */
-	
-	'use strict';
-	
-	var EventConstants = __webpack_require__(157);
-	var EventPluginHub = __webpack_require__(233);
-	
-	var accumulateInto = __webpack_require__(296);
-	var forEachAccumulated = __webpack_require__(297);
-	
-	var PropagationPhases = EventConstants.PropagationPhases;
-	var getListener = EventPluginHub.getListener;
-	
-	/**
-	 * Some event types have a notion of different registration names for different
-	 * "phases" of propagation. This finds listeners by a given phase.
-	 */
-	function listenerAtPhase(id, event, propagationPhase) {
-	  var registrationName =
-	    event.dispatchConfig.phasedRegistrationNames[propagationPhase];
-	  return getListener(id, registrationName);
-	}
-	
-	/**
-	 * Tags a `SyntheticEvent` with dispatched listeners. Creating this function
-	 * here, allows us to not have to bind or create functions for each event.
-	 * Mutating the event's members allows us to not have to create a wrapping
-	 * "dispatch" object that pairs the event with the listener.
-	 */
-	function accumulateDirectionalDispatches(domID, upwards, event) {
-	  if ("production" !== process.env.NODE_ENV) {
-	    if (!domID) {
-	      throw new Error('Dispatching id must not be null');
-	    }
-	  }
-	  var phase = upwards ? PropagationPhases.bubbled : PropagationPhases.captured;
-	  var listener = listenerAtPhase(domID, event, phase);
-	  if (listener) {
-	    event._dispatchListeners =
-	      accumulateInto(event._dispatchListeners, listener);
-	    event._dispatchIDs = accumulateInto(event._dispatchIDs, domID);
-	  }
-	}
-	
-	/**
-	 * Collect dispatches (must be entirely collected before dispatching - see unit
-	 * tests). Lazily allocate the array to conserve memory.  We must loop through
-	 * each event and perform the traversal for each one. We can not perform a
-	 * single traversal for the entire collection of events because each event may
-	 * have a different target.
-	 */
-	function accumulateTwoPhaseDispatchesSingle(event) {
-	  if (event && event.dispatchConfig.phasedRegistrationNames) {
-	    EventPluginHub.injection.getInstanceHandle().traverseTwoPhase(
-	      event.dispatchMarker,
-	      accumulateDirectionalDispatches,
-	      event
-	    );
-	  }
-	}
-	
-	
-	/**
-	 * Accumulates without regard to direction, does not look for phased
-	 * registration names. Same as `accumulateDirectDispatchesSingle` but without
-	 * requiring that the `dispatchMarker` be the same as the dispatched ID.
-	 */
-	function accumulateDispatches(id, ignoredDirection, event) {
-	  if (event && event.dispatchConfig.registrationName) {
-	    var registrationName = event.dispatchConfig.registrationName;
-	    var listener = getListener(id, registrationName);
-	    if (listener) {
-	      event._dispatchListeners =
-	        accumulateInto(event._dispatchListeners, listener);
-	      event._dispatchIDs = accumulateInto(event._dispatchIDs, id);
-	    }
-	  }
-	}
-	
-	/**
-	 * Accumulates dispatches on an `SyntheticEvent`, but only for the
-	 * `dispatchMarker`.
-	 * @param {SyntheticEvent} event
-	 */
-	function accumulateDirectDispatchesSingle(event) {
-	  if (event && event.dispatchConfig.registrationName) {
-	    accumulateDispatches(event.dispatchMarker, null, event);
-	  }
-	}
-	
-	function accumulateTwoPhaseDispatches(events) {
-	  forEachAccumulated(events, accumulateTwoPhaseDispatchesSingle);
-	}
-	
-	function accumulateEnterLeaveDispatches(leave, enter, fromID, toID) {
-	  EventPluginHub.injection.getInstanceHandle().traverseEnterLeave(
-	    fromID,
-	    toID,
-	    accumulateDispatches,
-	    leave,
-	    enter
-	  );
-	}
-	
-	
-	function accumulateDirectDispatches(events) {
-	  forEachAccumulated(events, accumulateDirectDispatchesSingle);
-	}
-	
-	
-	
-	/**
-	 * A small set of propagation patterns, each of which will accept a small amount
-	 * of information, and generate a set of "dispatch ready event objects" - which
-	 * are sets of events that have already been annotated with a set of dispatched
-	 * listener functions/ids. The API is designed this way to discourage these
-	 * propagation strategies from actually executing the dispatches, since we
-	 * always want to collect the entire set of dispatches before executing event a
-	 * single one.
-	 *
-	 * @constructor EventPropagators
-	 */
-	var EventPropagators = {
-	  accumulateTwoPhaseDispatches: accumulateTwoPhaseDispatches,
-	  accumulateDirectDispatches: accumulateDirectDispatches,
-	  accumulateEnterLeaveDispatches: accumulateEnterLeaveDispatches
-	};
-	
-	module.exports = EventPropagators;
-	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
-
-/***/ },
-/* 235 */
+/* 237 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -98529,11 +98244,11 @@
 	
 	'use strict';
 	
-	var PooledClass = __webpack_require__(159);
+	var PooledClass = __webpack_require__(158);
 	
-	var assign = __webpack_require__(139);
-	var emptyFunction = __webpack_require__(217);
-	var getEventTarget = __webpack_require__(247);
+	var assign = __webpack_require__(138);
+	var emptyFunction = __webpack_require__(216);
+	var getEventTarget = __webpack_require__(246);
 	
 	/**
 	 * @interface Event
@@ -98682,7 +98397,7 @@
 
 
 /***/ },
-/* 236 */
+/* 238 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -98729,201 +98444,7 @@
 
 
 /***/ },
-/* 237 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule FallbackCompositionState
-	 * @typechecks static-only
-	 */
-	
-	'use strict';
-	
-	var PooledClass = __webpack_require__(159);
-	
-	var assign = __webpack_require__(139);
-	var getTextContentAccessor = __webpack_require__(298);
-	
-	/**
-	 * This helper class stores information about text content of a target node,
-	 * allowing comparison of content before and after a given event.
-	 *
-	 * Identify the node where selection currently begins, then observe
-	 * both its text content and its current position in the DOM. Since the
-	 * browser may natively replace the target node during composition, we can
-	 * use its position to find its replacement.
-	 *
-	 * @param {DOMEventTarget} root
-	 */
-	function FallbackCompositionState(root) {
-	  this._root = root;
-	  this._startText = this.getText();
-	  this._fallbackText = null;
-	}
-	
-	assign(FallbackCompositionState.prototype, {
-	  /**
-	   * Get current text of input.
-	   *
-	   * @return {string}
-	   */
-	  getText: function() {
-	    if ('value' in this._root) {
-	      return this._root.value;
-	    }
-	    return this._root[getTextContentAccessor()];
-	  },
-	
-	  /**
-	   * Determine the differing substring between the initially stored
-	   * text content and the current content.
-	   *
-	   * @return {string}
-	   */
-	  getData: function() {
-	    if (this._fallbackText) {
-	      return this._fallbackText;
-	    }
-	
-	    var start;
-	    var startValue = this._startText;
-	    var startLength = startValue.length;
-	    var end;
-	    var endValue = this.getText();
-	    var endLength = endValue.length;
-	
-	    for (start = 0; start < startLength; start++) {
-	      if (startValue[start] !== endValue[start]) {
-	        break;
-	      }
-	    }
-	
-	    var minEnd = startLength - start;
-	    for (end = 1; end <= minEnd; end++) {
-	      if (startValue[startLength - end] !== endValue[endLength - end]) {
-	        break;
-	      }
-	    }
-	
-	    var sliceTail = end > 1 ? 1 - end : undefined;
-	    this._fallbackText = endValue.slice(start, sliceTail);
-	    return this._fallbackText;
-	  }
-	});
-	
-	PooledClass.addPoolingTo(FallbackCompositionState);
-	
-	module.exports = FallbackCompositionState;
-
-
-/***/ },
-/* 238 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule SyntheticCompositionEvent
-	 * @typechecks static-only
-	 */
-	
-	'use strict';
-	
-	var SyntheticEvent = __webpack_require__(235);
-	
-	/**
-	 * @interface Event
-	 * @see http://www.w3.org/TR/DOM-Level-3-Events/#events-compositionevents
-	 */
-	var CompositionEventInterface = {
-	  data: null
-	};
-	
-	/**
-	 * @param {object} dispatchConfig Configuration used to dispatch this event.
-	 * @param {string} dispatchMarker Marker identifying the event target.
-	 * @param {object} nativeEvent Native browser event.
-	 * @extends {SyntheticUIEvent}
-	 */
-	function SyntheticCompositionEvent(
-	  dispatchConfig,
-	  dispatchMarker,
-	  nativeEvent) {
-	  SyntheticEvent.call(this, dispatchConfig, dispatchMarker, nativeEvent);
-	}
-	
-	SyntheticEvent.augmentClass(
-	  SyntheticCompositionEvent,
-	  CompositionEventInterface
-	);
-	
-	module.exports = SyntheticCompositionEvent;
-
-
-/***/ },
 /* 239 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule SyntheticInputEvent
-	 * @typechecks static-only
-	 */
-	
-	'use strict';
-	
-	var SyntheticEvent = __webpack_require__(235);
-	
-	/**
-	 * @interface Event
-	 * @see http://www.w3.org/TR/2013/WD-DOM-Level-3-Events-20131105
-	 *      /#events-inputevents
-	 */
-	var InputEventInterface = {
-	  data: null
-	};
-	
-	/**
-	 * @param {object} dispatchConfig Configuration used to dispatch this event.
-	 * @param {string} dispatchMarker Marker identifying the event target.
-	 * @param {object} nativeEvent Native browser event.
-	 * @extends {SyntheticUIEvent}
-	 */
-	function SyntheticInputEvent(
-	  dispatchConfig,
-	  dispatchMarker,
-	  nativeEvent) {
-	  SyntheticEvent.call(this, dispatchConfig, dispatchMarker, nativeEvent);
-	}
-	
-	SyntheticEvent.augmentClass(
-	  SyntheticInputEvent,
-	  InputEventInterface
-	);
-	
-	module.exports = SyntheticInputEvent;
-
-
-/***/ },
-/* 240 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -98940,10 +98461,10 @@
 	
 	'use strict';
 	
-	var SyntheticUIEvent = __webpack_require__(260);
-	var ViewportMetrics = __webpack_require__(267);
+	var SyntheticUIEvent = __webpack_require__(259);
+	var ViewportMetrics = __webpack_require__(266);
 	
-	var getEventModifierState = __webpack_require__(299);
+	var getEventModifierState = __webpack_require__(298);
 	
 	/**
 	 * @interface MouseEvent
@@ -99008,7 +98529,7 @@
 
 
 /***/ },
-/* 241 */
+/* 240 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -99024,7 +98545,7 @@
 	
 	'use strict';
 	
-	var invariant = __webpack_require__(158);
+	var invariant = __webpack_require__(157);
 	
 	/**
 	 * `Transaction` creates a black box that is able to wrap any method such that
@@ -99249,10 +98770,10 @@
 	
 	module.exports = Transaction;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 242 */
+/* 241 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -99269,7 +98790,7 @@
 	
 	'use strict';
 	
-	var focusNode = __webpack_require__(300);
+	var focusNode = __webpack_require__(299);
 	
 	var AutoFocusMixin = {
 	  componentDidMount: function() {
@@ -99283,7 +98804,7 @@
 
 
 /***/ },
-/* 243 */
+/* 242 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -99299,11 +98820,11 @@
 	
 	'use strict';
 	
-	var ReactBrowserEventEmitter = __webpack_require__(208);
+	var ReactBrowserEventEmitter = __webpack_require__(207);
 	
-	var accumulateInto = __webpack_require__(296);
-	var forEachAccumulated = __webpack_require__(297);
-	var invariant = __webpack_require__(158);
+	var accumulateInto = __webpack_require__(295);
+	var forEachAccumulated = __webpack_require__(296);
+	var invariant = __webpack_require__(157);
 	
 	function remove(event) {
 	  event.remove();
@@ -99340,10 +98861,10 @@
 	
 	module.exports = LocalEventTrapMixin;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 244 */
+/* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -99360,11 +98881,11 @@
 	
 	'use strict';
 	
-	var Danger = __webpack_require__(301);
-	var ReactMultiChildUpdateTypes = __webpack_require__(294);
+	var Danger = __webpack_require__(300);
+	var ReactMultiChildUpdateTypes = __webpack_require__(293);
 	
-	var setTextContent = __webpack_require__(302);
-	var invariant = __webpack_require__(158);
+	var setTextContent = __webpack_require__(301);
+	var invariant = __webpack_require__(157);
 	
 	/**
 	 * Inserts `childNode` as a child of `parentNode` at the `index`.
@@ -99481,10 +99002,10 @@
 	
 	module.exports = DOMChildrenOperations;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 245 */
+/* 244 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -99501,9 +99022,9 @@
 	
 	'use strict';
 	
-	var ReactPropTypes = __webpack_require__(136);
+	var ReactPropTypes = __webpack_require__(135);
 	
-	var invariant = __webpack_require__(158);
+	var invariant = __webpack_require__(157);
 	
 	var hasReadOnlyValue = {
 	  'button': true,
@@ -99640,10 +99161,10 @@
 	
 	module.exports = LinkedValueUtils;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 246 */
+/* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -99665,7 +99186,7 @@
 	 * @typechecks
 	 */
 	
-	var emptyFunction = __webpack_require__(217);
+	var emptyFunction = __webpack_require__(216);
 	
 	/**
 	 * Upstream version of event listener. Does not take into account specific
@@ -99733,10 +99254,10 @@
 	
 	module.exports = EventListener;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 247 */
+/* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -99771,7 +99292,7 @@
 
 
 /***/ },
-/* 248 */
+/* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -99815,7 +99336,7 @@
 
 
 /***/ },
-/* 249 */
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -99831,7 +99352,7 @@
 	
 	'use strict';
 	
-	var invariant = __webpack_require__(158);
+	var invariant = __webpack_require__(157);
 	
 	var injected = false;
 	
@@ -99876,10 +99397,10 @@
 	
 	module.exports = ReactComponentEnvironment;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 250 */
+/* 249 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -99895,10 +99416,10 @@
 	
 	'use strict';
 	
-	var PooledClass = __webpack_require__(159);
+	var PooledClass = __webpack_require__(158);
 	
-	var assign = __webpack_require__(139);
-	var invariant = __webpack_require__(158);
+	var assign = __webpack_require__(138);
+	var invariant = __webpack_require__(157);
 	
 	/**
 	 * A specialized pseudo-event module to help keep track of components waiting to
@@ -99979,10 +99500,10 @@
 	
 	module.exports = CallbackQueue;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 251 */
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -99998,11 +99519,11 @@
 	
 	'use strict';
 	
-	var ReactDOMSelection = __webpack_require__(303);
+	var ReactDOMSelection = __webpack_require__(302);
 	
-	var containsNode = __webpack_require__(212);
-	var focusNode = __webpack_require__(300);
-	var getActiveElement = __webpack_require__(253);
+	var containsNode = __webpack_require__(211);
+	var focusNode = __webpack_require__(299);
+	var getActiveElement = __webpack_require__(252);
 	
 	function isInDocument(node) {
 	  return containsNode(document.documentElement, node);
@@ -100121,7 +99642,7 @@
 
 
 /***/ },
-/* 252 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -100137,10 +99658,10 @@
 	
 	'use strict';
 	
-	var PooledClass = __webpack_require__(159);
-	var ReactBrowserEventEmitter = __webpack_require__(208);
+	var PooledClass = __webpack_require__(158);
+	var ReactBrowserEventEmitter = __webpack_require__(207);
 	
-	var assign = __webpack_require__(139);
+	var assign = __webpack_require__(138);
 	
 	function ReactPutListenerQueue() {
 	  this.listenersToPut = [];
@@ -100181,7 +99702,7 @@
 
 
 /***/ },
-/* 253 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -100214,7 +99735,7 @@
 
 
 /***/ },
-/* 254 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -100262,7 +99783,7 @@
 
 
 /***/ },
-/* 255 */
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -100279,7 +99800,7 @@
 	
 	'use strict';
 	
-	var SyntheticMouseEvent = __webpack_require__(240);
+	var SyntheticMouseEvent = __webpack_require__(239);
 	
 	/**
 	 * @interface DragEvent
@@ -100305,7 +99826,7 @@
 
 
 /***/ },
-/* 256 */
+/* 255 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -100322,7 +99843,7 @@
 	
 	'use strict';
 	
-	var SyntheticEvent = __webpack_require__(235);
+	var SyntheticEvent = __webpack_require__(237);
 	
 	/**
 	 * @interface Event
@@ -100354,7 +99875,7 @@
 
 
 /***/ },
-/* 257 */
+/* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -100371,7 +99892,7 @@
 	
 	'use strict';
 	
-	var SyntheticUIEvent = __webpack_require__(260);
+	var SyntheticUIEvent = __webpack_require__(259);
 	
 	/**
 	 * @interface FocusEvent
@@ -100397,7 +99918,7 @@
 
 
 /***/ },
-/* 258 */
+/* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -100414,11 +99935,11 @@
 	
 	'use strict';
 	
-	var SyntheticUIEvent = __webpack_require__(260);
+	var SyntheticUIEvent = __webpack_require__(259);
 	
-	var getEventCharCode = __webpack_require__(262);
-	var getEventKey = __webpack_require__(304);
-	var getEventModifierState = __webpack_require__(299);
+	var getEventCharCode = __webpack_require__(261);
+	var getEventKey = __webpack_require__(303);
+	var getEventModifierState = __webpack_require__(298);
 	
 	/**
 	 * @interface KeyboardEvent
@@ -100488,7 +100009,7 @@
 
 
 /***/ },
-/* 259 */
+/* 258 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -100505,9 +100026,9 @@
 	
 	'use strict';
 	
-	var SyntheticUIEvent = __webpack_require__(260);
+	var SyntheticUIEvent = __webpack_require__(259);
 	
-	var getEventModifierState = __webpack_require__(299);
+	var getEventModifierState = __webpack_require__(298);
 	
 	/**
 	 * @interface TouchEvent
@@ -100540,7 +100061,7 @@
 
 
 /***/ },
-/* 260 */
+/* 259 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -100557,9 +100078,9 @@
 	
 	'use strict';
 	
-	var SyntheticEvent = __webpack_require__(235);
+	var SyntheticEvent = __webpack_require__(237);
 	
-	var getEventTarget = __webpack_require__(247);
+	var getEventTarget = __webpack_require__(246);
 	
 	/**
 	 * @interface UIEvent
@@ -100606,7 +100127,7 @@
 
 
 /***/ },
-/* 261 */
+/* 260 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -100623,7 +100144,7 @@
 	
 	'use strict';
 	
-	var SyntheticMouseEvent = __webpack_require__(240);
+	var SyntheticMouseEvent = __webpack_require__(239);
 	
 	/**
 	 * @interface WheelEvent
@@ -100671,7 +100192,7 @@
 
 
 /***/ },
-/* 262 */
+/* 261 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -100727,7 +100248,7 @@
 
 
 /***/ },
-/* 263 */
+/* 262 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -100741,7 +100262,7 @@
 	 * @providesModule ReactDefaultPerfAnalysis
 	 */
 	
-	var assign = __webpack_require__(139);
+	var assign = __webpack_require__(138);
 	
 	// Don't try to save users less than 1.2ms (a number I made up)
 	var DONT_CARE_THRESHOLD = 1.2;
@@ -100937,7 +100458,7 @@
 
 
 /***/ },
-/* 264 */
+/* 263 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -100952,7 +100473,7 @@
 	 * @typechecks
 	 */
 	
-	var performance = __webpack_require__(305);
+	var performance = __webpack_require__(304);
 	
 	/**
 	 * Detect if we can use `window.performance.now()` and gracefully fallback to
@@ -100969,7 +100490,7 @@
 
 
 /***/ },
-/* 265 */
+/* 264 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -100986,7 +100507,7 @@
 	
 	'use strict';
 	
-	var invariant = __webpack_require__(158);
+	var invariant = __webpack_require__(157);
 	
 	/**
 	 * Injectable ordering of event plugins.
@@ -101249,10 +100770,10 @@
 	
 	module.exports = EventPluginRegistry;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 266 */
+/* 265 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -101268,7 +100789,7 @@
 	
 	'use strict';
 	
-	var EventPluginHub = __webpack_require__(233);
+	var EventPluginHub = __webpack_require__(236);
 	
 	function runEventQueueInBatch(events) {
 	  EventPluginHub.enqueueEvents(events);
@@ -101306,7 +100827,7 @@
 
 
 /***/ },
-/* 267 */
+/* 266 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -101339,7 +100860,7 @@
 
 
 /***/ },
-/* 268 */
+/* 267 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -101377,7 +100898,7 @@
 
 
 /***/ },
-/* 269 */
+/* 268 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -101392,7 +100913,7 @@
 	 * @typechecks
 	 */
 	
-	var isNode = __webpack_require__(220);
+	var isNode = __webpack_require__(219);
 	
 	/**
 	 * @param {*} object The object to check.
@@ -101406,7 +100927,7 @@
 
 
 /***/ },
-/* 270 */
+/* 269 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -101422,25 +100943,25 @@
 	
 	'use strict';
 	
-	var ReactComponentEnvironment = __webpack_require__(249);
-	var ReactContext = __webpack_require__(126);
-	var ReactCurrentOwner = __webpack_require__(127);
-	var ReactElement = __webpack_require__(128);
-	var ReactElementValidator = __webpack_require__(129);
+	var ReactComponentEnvironment = __webpack_require__(248);
+	var ReactContext = __webpack_require__(125);
+	var ReactCurrentOwner = __webpack_require__(126);
+	var ReactElement = __webpack_require__(127);
+	var ReactElementValidator = __webpack_require__(128);
 	var ReactInstanceMap = __webpack_require__(166);
 	var ReactLifeCycle = __webpack_require__(167);
 	var ReactNativeComponent = __webpack_require__(172);
-	var ReactPerf = __webpack_require__(135);
+	var ReactPerf = __webpack_require__(134);
 	var ReactPropTypeLocations = __webpack_require__(168);
 	var ReactPropTypeLocationNames = __webpack_require__(164);
-	var ReactReconciler = __webpack_require__(137);
-	var ReactUpdates = __webpack_require__(211);
+	var ReactReconciler = __webpack_require__(136);
+	var ReactUpdates = __webpack_require__(210);
 	
-	var assign = __webpack_require__(139);
-	var emptyObject = __webpack_require__(171);
-	var invariant = __webpack_require__(158);
-	var shouldUpdateReactComponent = __webpack_require__(216);
-	var warning = __webpack_require__(162);
+	var assign = __webpack_require__(138);
+	var emptyObject = __webpack_require__(163);
+	var invariant = __webpack_require__(157);
+	var shouldUpdateReactComponent = __webpack_require__(215);
+	var warning = __webpack_require__(161);
 	
 	function getDeclarationErrorAddendum(component) {
 	  var owner = component._currentElement._owner || null;
@@ -102319,10 +101840,10 @@
 	
 	module.exports = ReactCompositeComponent;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 271 */
+/* 270 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -102338,7 +101859,7 @@
 	
 	'use strict';
 	
-	var invariant = __webpack_require__(158);
+	var invariant = __webpack_require__(157);
 	
 	/**
 	 * ReactOwners are capable of storing references to owned components.
@@ -102434,10 +101955,10 @@
 	
 	module.exports = ReactOwner;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 272 */
+/* 271 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -102580,7 +102101,7 @@
 
 
 /***/ },
-/* 273 */
+/* 272 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -102610,10 +102131,20 @@
 
 
 /***/ },
+/* 273 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = function($){
+	  $.FW   = false;
+	  $.path = $.core;
+	  return $;
+	};
+
+/***/ },
 /* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $          = __webpack_require__(225)
+	var $          = __webpack_require__(223)
 	  , global     = $.g
 	  , core       = $.core
 	  , isFunction = $.isFunction;
@@ -102664,8 +102195,8 @@
 /* 275 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $        = __webpack_require__(225)
-	  , enumKeys = __webpack_require__(306);
+	var $        = __webpack_require__(223)
+	  , enumKeys = __webpack_require__(305);
 	// 19.1.2.1 Object.assign(target, source, ...)
 	/* eslint-disable no-unused-vars */
 	module.exports = Object.assign || function assign(target, source){
@@ -102686,16 +102217,6 @@
 
 /***/ },
 /* 276 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = function($){
-	  $.FW   = false;
-	  $.path = $.core;
-	  return $;
-	};
-
-/***/ },
-/* 277 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -102726,15 +102247,15 @@
 
 
 /***/ },
-/* 278 */
+/* 277 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	module.exports =  __webpack_require__(308);
+	module.exports =  __webpack_require__(307);
 
 
 /***/ },
-/* 279 */
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -102904,7 +102425,7 @@
 
 
 /***/ },
-/* 280 */
+/* 279 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -102933,7 +102454,7 @@
 
 
 /***/ },
-/* 281 */
+/* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -103022,7 +102543,7 @@
 	};
 
 /***/ },
-/* 282 */
+/* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -103037,7 +102558,7 @@
 	};
 
 /***/ },
-/* 283 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -103128,7 +102649,7 @@
 
 
 /***/ },
-/* 284 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = toArray
@@ -103147,7 +102668,7 @@
 
 
 /***/ },
-/* 285 */
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {
@@ -103155,7 +102676,7 @@
 	 * Module requirements.
 	 */
 	
-	var isArray = __webpack_require__(316);
+	var isArray = __webpack_require__(315);
 	
 	/**
 	 * Module exports.
@@ -103212,66 +102733,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 286 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright (c) 2014, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule invariant
-	 */
-	
-	"use strict";
-	
-	/**
-	 * Use invariant() to assert state which your program assumes to be true.
-	 *
-	 * Provide sprintf-style format (only %s is supported) and arguments
-	 * to provide information about what broke and what you were
-	 * expecting.
-	 *
-	 * The invariant message will be stripped in production, but the invariant
-	 * will remain to ensure logic does not differ in production.
-	 */
-	
-	var invariant = function(condition, format, a, b, c, d, e, f) {
-	  if (false) {
-	    if (format === undefined) {
-	      throw new Error('invariant requires an error message argument');
-	    }
-	  }
-	
-	  if (!condition) {
-	    var error;
-	    if (format === undefined) {
-	      error = new Error(
-	        'Minified exception occurred; use the non-minified dev environment ' +
-	        'for the full error message and additional helpful warnings.'
-	      );
-	    } else {
-	      var args = [a, b, c, d, e, f];
-	      var argIndex = 0;
-	      error = new Error(
-	        'Invariant Violation: ' +
-	        format.replace(/%s/g, function() { return args[argIndex++]; })
-	      );
-	    }
-	
-	    error.framesToPop = 1; // we don't care about invariant's own frame
-	    throw error;
-	  }
-	};
-	
-	module.exports = invariant;
-
-
-/***/ },
-/* 287 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/*global Blob,File*/
@@ -103280,8 +102742,8 @@
 	 * Module requirements
 	 */
 	
-	var isArray = __webpack_require__(307);
-	var isBuf = __webpack_require__(288);
+	var isArray = __webpack_require__(306);
+	var isBuf = __webpack_require__(286);
 	
 	/**
 	 * Replaces every Buffer | ArrayBuffer in packet with a numbered placeholder.
@@ -103419,7 +102881,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 288 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {
@@ -103439,7 +102901,66 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 289 */
+/* 287 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright (c) 2014, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule invariant
+	 */
+	
+	"use strict";
+	
+	/**
+	 * Use invariant() to assert state which your program assumes to be true.
+	 *
+	 * Provide sprintf-style format (only %s is supported) and arguments
+	 * to provide information about what broke and what you were
+	 * expecting.
+	 *
+	 * The invariant message will be stripped in production, but the invariant
+	 * will remain to ensure logic does not differ in production.
+	 */
+	
+	var invariant = function(condition, format, a, b, c, d, e, f) {
+	  if (false) {
+	    if (format === undefined) {
+	      throw new Error('invariant requires an error message argument');
+	    }
+	  }
+	
+	  if (!condition) {
+	    var error;
+	    if (format === undefined) {
+	      error = new Error(
+	        'Minified exception occurred; use the non-minified dev environment ' +
+	        'for the full error message and additional helpful warnings.'
+	      );
+	    } else {
+	      var args = [a, b, c, d, e, f];
+	      var argIndex = 0;
+	      error = new Error(
+	        'Invariant Violation: ' +
+	        format.replace(/%s/g, function() { return args[argIndex++]; })
+	      );
+	    }
+	
+	    error.framesToPop = 1; // we don't care about invariant's own frame
+	    throw error;
+	  }
+	};
+	
+	module.exports = invariant;
+
+
+/***/ },
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -103568,7 +103089,7 @@
 
 
 /***/ },
-/* 290 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -103585,7 +103106,7 @@
 	
 	"use strict";
 	
-	var camelize = __webpack_require__(310);
+	var camelize = __webpack_require__(309);
 	
 	var msPattern = /^-ms-/;
 	
@@ -103614,7 +103135,7 @@
 
 
 /***/ },
-/* 291 */
+/* 290 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -103631,7 +103152,7 @@
 	
 	'use strict';
 	
-	var CSSProperty = __webpack_require__(289);
+	var CSSProperty = __webpack_require__(288);
 	
 	var isUnitlessNumber = CSSProperty.isUnitlessNumber;
 	
@@ -103676,7 +103197,7 @@
 
 
 /***/ },
-/* 292 */
+/* 291 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -103693,7 +103214,7 @@
 	
 	"use strict";
 	
-	var hyphenate = __webpack_require__(311);
+	var hyphenate = __webpack_require__(310);
 	
 	var msPattern = /^ms-/;
 	
@@ -103721,7 +103242,7 @@
 
 
 /***/ },
-/* 293 */
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -103758,7 +103279,7 @@
 
 
 /***/ },
-/* 294 */
+/* 293 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -103795,7 +103316,7 @@
 
 
 /***/ },
-/* 295 */
+/* 294 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -103812,11 +103333,11 @@
 	
 	'use strict';
 	
-	var ReactReconciler = __webpack_require__(137);
+	var ReactReconciler = __webpack_require__(136);
 	
-	var flattenChildren = __webpack_require__(312);
-	var instantiateReactComponent = __webpack_require__(214);
-	var shouldUpdateReactComponent = __webpack_require__(216);
+	var flattenChildren = __webpack_require__(311);
+	var instantiateReactComponent = __webpack_require__(213);
+	var shouldUpdateReactComponent = __webpack_require__(215);
 	
 	/**
 	 * ReactChildReconciler provides helpers for initializing or updating a set of
@@ -103926,7 +103447,7 @@
 
 
 /***/ },
-/* 296 */
+/* 295 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -103942,7 +103463,7 @@
 	
 	'use strict';
 	
-	var invariant = __webpack_require__(158);
+	var invariant = __webpack_require__(157);
 	
 	/**
 	 *
@@ -103992,10 +103513,10 @@
 	
 	module.exports = accumulateInto;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 297 */
+/* 296 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -104030,7 +103551,7 @@
 
 
 /***/ },
-/* 298 */
+/* 297 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -104046,7 +103567,7 @@
 	
 	'use strict';
 	
-	var ExecutionEnvironment = __webpack_require__(142);
+	var ExecutionEnvironment = __webpack_require__(141);
 	
 	var contentKey = null;
 	
@@ -104071,7 +103592,7 @@
 
 
 /***/ },
-/* 299 */
+/* 298 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -104122,7 +103643,7 @@
 
 
 /***/ },
-/* 300 */
+/* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -104155,7 +103676,7 @@
 
 
 /***/ },
-/* 301 */
+/* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -104174,12 +103695,12 @@
 	
 	'use strict';
 	
-	var ExecutionEnvironment = __webpack_require__(142);
+	var ExecutionEnvironment = __webpack_require__(141);
 	
-	var createNodesFromMarkup = __webpack_require__(313);
-	var emptyFunction = __webpack_require__(217);
-	var getMarkupWrap = __webpack_require__(314);
-	var invariant = __webpack_require__(158);
+	var createNodesFromMarkup = __webpack_require__(312);
+	var emptyFunction = __webpack_require__(216);
+	var getMarkupWrap = __webpack_require__(313);
+	var invariant = __webpack_require__(157);
 	
 	var OPEN_TAG_NAME_EXP = /^(<[^ \/>]+)/;
 	var RESULT_INDEX_ATTR = 'data-danger-index';
@@ -104342,10 +103863,10 @@
 	
 	module.exports = Danger;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 302 */
+/* 301 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -104361,9 +103882,9 @@
 	
 	'use strict';
 	
-	var ExecutionEnvironment = __webpack_require__(142);
-	var escapeTextContentForBrowser = __webpack_require__(178);
-	var setInnerHTML = __webpack_require__(215);
+	var ExecutionEnvironment = __webpack_require__(141);
+	var escapeTextContentForBrowser = __webpack_require__(177);
+	var setInnerHTML = __webpack_require__(214);
 	
 	/**
 	 * Set the textContent property of a node, ensuring that whitespace is preserved
@@ -104391,7 +103912,7 @@
 
 
 /***/ },
-/* 303 */
+/* 302 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -104407,10 +103928,10 @@
 	
 	'use strict';
 	
-	var ExecutionEnvironment = __webpack_require__(142);
+	var ExecutionEnvironment = __webpack_require__(141);
 	
-	var getNodeForCharacterOffset = __webpack_require__(315);
-	var getTextContentAccessor = __webpack_require__(298);
+	var getNodeForCharacterOffset = __webpack_require__(314);
+	var getTextContentAccessor = __webpack_require__(297);
 	
 	/**
 	 * While `isCollapsed` is available on the Selection object and `collapsed`
@@ -104608,7 +104129,7 @@
 
 
 /***/ },
-/* 304 */
+/* 303 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -104625,7 +104146,7 @@
 	
 	'use strict';
 	
-	var getEventCharCode = __webpack_require__(262);
+	var getEventCharCode = __webpack_require__(261);
 	
 	/**
 	 * Normalization of deprecated HTML5 `key` values
@@ -104717,7 +104238,7 @@
 
 
 /***/ },
-/* 305 */
+/* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -104734,7 +104255,7 @@
 	
 	"use strict";
 	
-	var ExecutionEnvironment = __webpack_require__(142);
+	var ExecutionEnvironment = __webpack_require__(141);
 	
 	var performance;
 	
@@ -104749,10 +104270,10 @@
 
 
 /***/ },
-/* 306 */
+/* 305 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $ = __webpack_require__(225);
+	var $ = __webpack_require__(223);
 	module.exports = function(it){
 	  var keys       = $.getKeys(it)
 	    , getDesc    = $.getDesc
@@ -104764,7 +104285,7 @@
 	};
 
 /***/ },
-/* 307 */
+/* 306 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = Array.isArray || function (arr) {
@@ -104773,11 +104294,11 @@
 
 
 /***/ },
-/* 308 */
+/* 307 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	module.exports = __webpack_require__(317);
+	module.exports = __webpack_require__(316);
 	
 	/**
 	 * Exports parser
@@ -104785,11 +104306,11 @@
 	 * @api public
 	 *
 	 */
-	module.exports.parser = __webpack_require__(321);
+	module.exports.parser = __webpack_require__(322);
 
 
 /***/ },
-/* 309 */
+/* 308 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*! JSON v3.2.6 | http://bestiejs.github.io/json3 | Copyright 2012-2013, Kit Cambridge | http://kit.mit-license.org */
@@ -104799,7 +104320,7 @@
 	
 	  // Detect the `define` function exposed by asynchronous module loaders. The
 	  // strict `define` check is necessary for compatibility with `r.js`.
-	  var isLoader = "function" === "function" && __webpack_require__(318);
+	  var isLoader = "function" === "function" && __webpack_require__(317);
 	
 	  // Detect native implementations.
 	  var nativeJSON = typeof JSON == "object" && JSON;
@@ -105656,7 +105177,7 @@
 
 
 /***/ },
-/* 310 */
+/* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -105692,7 +105213,7 @@
 
 
 /***/ },
-/* 311 */
+/* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -105729,7 +105250,7 @@
 
 
 /***/ },
-/* 312 */
+/* 311 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -105745,8 +105266,8 @@
 	
 	'use strict';
 	
-	var traverseAllChildren = __webpack_require__(161);
-	var warning = __webpack_require__(162);
+	var traverseAllChildren = __webpack_require__(160);
+	var warning = __webpack_require__(161);
 	
 	/**
 	 * @param {function} traverseContext Context passed through traversal.
@@ -105787,10 +105308,10 @@
 	
 	module.exports = flattenChildren;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 313 */
+/* 312 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -105807,11 +105328,11 @@
 	
 	/*jslint evil: true, sub: true */
 	
-	var ExecutionEnvironment = __webpack_require__(142);
+	var ExecutionEnvironment = __webpack_require__(141);
 	
-	var createArrayFromMixed = __webpack_require__(319);
-	var getMarkupWrap = __webpack_require__(314);
-	var invariant = __webpack_require__(158);
+	var createArrayFromMixed = __webpack_require__(318);
+	var getMarkupWrap = __webpack_require__(313);
+	var invariant = __webpack_require__(157);
 	
 	/**
 	 * Dummy container used to render all markup.
@@ -105880,10 +105401,10 @@
 	
 	module.exports = createNodesFromMarkup;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 314 */
+/* 313 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -105897,9 +105418,9 @@
 	 * @providesModule getMarkupWrap
 	 */
 	
-	var ExecutionEnvironment = __webpack_require__(142);
+	var ExecutionEnvironment = __webpack_require__(141);
 	
-	var invariant = __webpack_require__(158);
+	var invariant = __webpack_require__(157);
 	
 	/**
 	 * Dummy container used to detect which wraps are necessary.
@@ -106002,10 +105523,10 @@
 	
 	module.exports = getMarkupWrap;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
 
 /***/ },
-/* 315 */
+/* 314 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -106084,7 +105605,7 @@
 
 
 /***/ },
-/* 316 */
+/* 315 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = Array.isArray || function (arr) {
@@ -106093,21 +105614,21 @@
 
 
 /***/ },
-/* 317 */
+/* 316 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
 	 * Module dependencies.
 	 */
 	
-	var transports = __webpack_require__(322);
-	var Emitter = __webpack_require__(279);
-	var debug = __webpack_require__(327)('engine.io-client:socket');
-	var index = __webpack_require__(282);
-	var parser = __webpack_require__(321);
-	var parseuri = __webpack_require__(324);
-	var parsejson = __webpack_require__(325);
-	var parseqs = __webpack_require__(326);
+	var transports = __webpack_require__(320);
+	var Emitter = __webpack_require__(278);
+	var debug = __webpack_require__(326)('engine.io-client:socket');
+	var index = __webpack_require__(281);
+	var parser = __webpack_require__(322);
+	var parseuri = __webpack_require__(323);
+	var parsejson = __webpack_require__(324);
+	var parseqs = __webpack_require__(325);
 	
 	/**
 	 * Module exports.
@@ -106222,9 +105743,9 @@
 	 */
 	
 	Socket.Socket = Socket;
-	Socket.Transport = __webpack_require__(320);
-	Socket.transports = __webpack_require__(322);
-	Socket.parser = __webpack_require__(321);
+	Socket.Transport = __webpack_require__(319);
+	Socket.transports = __webpack_require__(320);
+	Socket.parser = __webpack_require__(322);
 	
 	/**
 	 * Creates transport of the given type.
@@ -106805,7 +106326,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 318 */
+/* 317 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {module.exports = __webpack_amd_options__;
@@ -106813,7 +106334,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, {}))
 
 /***/ },
-/* 319 */
+/* 318 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -106828,7 +106349,7 @@
 	 * @typechecks
 	 */
 	
-	var toArray = __webpack_require__(323);
+	var toArray = __webpack_require__(321);
 	
 	/**
 	 * Perform a heuristic test to determine if an object is "array-like".
@@ -106903,15 +106424,15 @@
 
 
 /***/ },
-/* 320 */
+/* 319 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Module dependencies.
 	 */
 	
-	var parser = __webpack_require__(321);
-	var Emitter = __webpack_require__(279);
+	var parser = __webpack_require__(322);
+	var Emitter = __webpack_require__(278);
 	
 	/**
 	 * Module exports.
@@ -107068,14 +106589,149 @@
 
 
 /***/ },
+/* 320 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(global) {/**
+	 * Module dependencies
+	 */
+	
+	var XMLHttpRequest = __webpack_require__(327);
+	var XHR = __webpack_require__(328);
+	var JSONP = __webpack_require__(329);
+	var websocket = __webpack_require__(330);
+	
+	/**
+	 * Export transports.
+	 */
+	
+	exports.polling = polling;
+	exports.websocket = websocket;
+	
+	/**
+	 * Polling transport polymorphic constructor.
+	 * Decides on xhr vs jsonp based on feature detection.
+	 *
+	 * @api private
+	 */
+	
+	function polling(opts){
+	  var xhr;
+	  var xd = false;
+	  var xs = false;
+	  var jsonp = false !== opts.jsonp;
+	
+	  if (global.location) {
+	    var isSSL = 'https:' == location.protocol;
+	    var port = location.port;
+	
+	    // some user agents have empty `location.port`
+	    if (!port) {
+	      port = isSSL ? 443 : 80;
+	    }
+	
+	    xd = opts.hostname != location.hostname || port != opts.port;
+	    xs = opts.secure != isSSL;
+	  }
+	
+	  opts.xdomain = xd;
+	  opts.xscheme = xs;
+	  xhr = new XMLHttpRequest(opts);
+	
+	  if ('open' in xhr && !opts.forceJSONP) {
+	    return new XHR(opts);
+	  } else {
+	    if (!jsonp) throw new Error('JSONP disabled');
+	    return new JSONP(opts);
+	  }
+	}
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
+
+/***/ },
 /* 321 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright 2014-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule toArray
+	 * @typechecks
+	 */
+	
+	var invariant = __webpack_require__(157);
+	
+	/**
+	 * Convert array-like objects to arrays.
+	 *
+	 * This API assumes the caller knows the contents of the data type. For less
+	 * well defined inputs use createArrayFromMixed.
+	 *
+	 * @param {object|function|filelist} obj
+	 * @return {array}
+	 */
+	function toArray(obj) {
+	  var length = obj.length;
+	
+	  // Some browse builtin objects can report typeof 'function' (e.g. NodeList in
+	  // old versions of Safari).
+	  ("production" !== process.env.NODE_ENV ? invariant(
+	    !Array.isArray(obj) &&
+	    (typeof obj === 'object' || typeof obj === 'function'),
+	    'toArray: Array-like object expected'
+	  ) : invariant(!Array.isArray(obj) &&
+	  (typeof obj === 'object' || typeof obj === 'function')));
+	
+	  ("production" !== process.env.NODE_ENV ? invariant(
+	    typeof length === 'number',
+	    'toArray: Object needs a length property'
+	  ) : invariant(typeof length === 'number'));
+	
+	  ("production" !== process.env.NODE_ENV ? invariant(
+	    length === 0 ||
+	    (length - 1) in obj,
+	    'toArray: Object should have keys for indices'
+	  ) : invariant(length === 0 ||
+	  (length - 1) in obj));
+	
+	  // Old IE doesn't give collections access to hasOwnProperty. Assume inputs
+	  // without method will throw during the slice call and skip straight to the
+	  // fallback.
+	  if (obj.hasOwnProperty) {
+	    try {
+	      return Array.prototype.slice.call(obj);
+	    } catch (e) {
+	      // IE < 9 does not support Array#slice on collections objects
+	    }
+	  }
+	
+	  // Fall back to copying key by key. This assumes all keys have a value,
+	  // so will not preserve sparsely populated inputs.
+	  var ret = Array(length);
+	  for (var ii = 0; ii < length; ii++) {
+	    ret[ii] = obj[ii];
+	  }
+	  return ret;
+	}
+	
+	module.exports = toArray;
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(150)))
+
+/***/ },
+/* 322 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
 	 * Module dependencies.
 	 */
 	
-	var keys = __webpack_require__(328);
+	var keys = __webpack_require__(331);
 	var hasBinary = __webpack_require__(333);
 	var sliceBuffer = __webpack_require__(334);
 	var base64encoder = __webpack_require__(338);
@@ -107669,142 +107325,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 322 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(global) {/**
-	 * Module dependencies
-	 */
-	
-	var XMLHttpRequest = __webpack_require__(329);
-	var XHR = __webpack_require__(330);
-	var JSONP = __webpack_require__(331);
-	var websocket = __webpack_require__(332);
-	
-	/**
-	 * Export transports.
-	 */
-	
-	exports.polling = polling;
-	exports.websocket = websocket;
-	
-	/**
-	 * Polling transport polymorphic constructor.
-	 * Decides on xhr vs jsonp based on feature detection.
-	 *
-	 * @api private
-	 */
-	
-	function polling(opts){
-	  var xhr;
-	  var xd = false;
-	  var xs = false;
-	  var jsonp = false !== opts.jsonp;
-	
-	  if (global.location) {
-	    var isSSL = 'https:' == location.protocol;
-	    var port = location.port;
-	
-	    // some user agents have empty `location.port`
-	    if (!port) {
-	      port = isSSL ? 443 : 80;
-	    }
-	
-	    xd = opts.hostname != location.hostname || port != opts.port;
-	    xs = opts.secure != isSSL;
-	  }
-	
-	  opts.xdomain = xd;
-	  opts.xscheme = xs;
-	  xhr = new XMLHttpRequest(opts);
-	
-	  if ('open' in xhr && !opts.forceJSONP) {
-	    return new XHR(opts);
-	  } else {
-	    if (!jsonp) throw new Error('JSONP disabled');
-	    return new JSONP(opts);
-	  }
-	}
-	
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
-
-/***/ },
 /* 323 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {/**
-	 * Copyright 2014-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule toArray
-	 * @typechecks
-	 */
-	
-	var invariant = __webpack_require__(158);
-	
-	/**
-	 * Convert array-like objects to arrays.
-	 *
-	 * This API assumes the caller knows the contents of the data type. For less
-	 * well defined inputs use createArrayFromMixed.
-	 *
-	 * @param {object|function|filelist} obj
-	 * @return {array}
-	 */
-	function toArray(obj) {
-	  var length = obj.length;
-	
-	  // Some browse builtin objects can report typeof 'function' (e.g. NodeList in
-	  // old versions of Safari).
-	  ("production" !== process.env.NODE_ENV ? invariant(
-	    !Array.isArray(obj) &&
-	    (typeof obj === 'object' || typeof obj === 'function'),
-	    'toArray: Array-like object expected'
-	  ) : invariant(!Array.isArray(obj) &&
-	  (typeof obj === 'object' || typeof obj === 'function')));
-	
-	  ("production" !== process.env.NODE_ENV ? invariant(
-	    typeof length === 'number',
-	    'toArray: Object needs a length property'
-	  ) : invariant(typeof length === 'number'));
-	
-	  ("production" !== process.env.NODE_ENV ? invariant(
-	    length === 0 ||
-	    (length - 1) in obj,
-	    'toArray: Object should have keys for indices'
-	  ) : invariant(length === 0 ||
-	  (length - 1) in obj));
-	
-	  // Old IE doesn't give collections access to hasOwnProperty. Assume inputs
-	  // without method will throw during the slice call and skip straight to the
-	  // fallback.
-	  if (obj.hasOwnProperty) {
-	    try {
-	      return Array.prototype.slice.call(obj);
-	    } catch (e) {
-	      // IE < 9 does not support Array#slice on collections objects
-	    }
-	  }
-	
-	  // Fall back to copying key by key. This assumes all keys have a value,
-	  // so will not preserve sparsely populated inputs.
-	  var ret = Array(length);
-	  for (var ii = 0; ii < length; ii++) {
-	    ret[ii] = obj[ii];
-	  }
-	  return ret;
-	}
-	
-	module.exports = toArray;
-	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(151)))
-
-/***/ },
-/* 324 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -107849,7 +107370,7 @@
 
 
 /***/ },
-/* 325 */
+/* 324 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
@@ -107887,7 +107408,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 326 */
+/* 325 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -107930,7 +107451,7 @@
 
 
 /***/ },
-/* 327 */
+/* 326 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -107940,7 +107461,7 @@
 	 * Expose `debug()` as the module.
 	 */
 	
-	exports = module.exports = __webpack_require__(337);
+	exports = module.exports = __webpack_require__(332);
 	exports.log = log;
 	exports.formatArgs = formatArgs;
 	exports.save = save;
@@ -108083,36 +107604,11 @@
 
 
 /***/ },
-/* 328 */
-/***/ function(module, exports, __webpack_require__) {
-
-	
-	/**
-	 * Gets the keys for an object.
-	 *
-	 * @return {Array} keys
-	 * @api private
-	 */
-	
-	module.exports = Object.keys || function keys (obj){
-	  var arr = [];
-	  var has = Object.prototype.hasOwnProperty;
-	
-	  for (var i in obj) {
-	    if (has.call(obj, i)) {
-	      arr.push(i);
-	    }
-	  }
-	  return arr;
-	};
-
-
-/***/ },
-/* 329 */
+/* 327 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// browser shim for xmlhttprequest module
-	var hasCORS = __webpack_require__(341);
+	var hasCORS = __webpack_require__(340);
 	
 	module.exports = function(opts) {
 	  var xdomain = opts.xdomain;
@@ -108150,18 +107646,18 @@
 
 
 /***/ },
-/* 330 */
+/* 328 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
 	 * Module requirements.
 	 */
 	
-	var XMLHttpRequest = __webpack_require__(329);
-	var Polling = __webpack_require__(340);
-	var Emitter = __webpack_require__(279);
-	var inherit = __webpack_require__(342);
-	var debug = __webpack_require__(327)('engine.io-client:polling-xhr');
+	var XMLHttpRequest = __webpack_require__(327);
+	var Polling = __webpack_require__(337);
+	var Emitter = __webpack_require__(278);
+	var inherit = __webpack_require__(341);
+	var debug = __webpack_require__(326)('engine.io-client:polling-xhr');
 	
 	/**
 	 * Module exports.
@@ -108541,7 +108037,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 331 */
+/* 329 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {
@@ -108549,8 +108045,8 @@
 	 * Module requirements.
 	 */
 	
-	var Polling = __webpack_require__(340);
-	var inherit = __webpack_require__(342);
+	var Polling = __webpack_require__(337);
+	var inherit = __webpack_require__(341);
 	
 	/**
 	 * Module exports.
@@ -108781,18 +108277,18 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 332 */
+/* 330 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Module dependencies.
 	 */
 	
-	var Transport = __webpack_require__(320);
-	var parser = __webpack_require__(321);
-	var parseqs = __webpack_require__(326);
-	var inherit = __webpack_require__(342);
-	var debug = __webpack_require__(327)('engine.io-client:websocket');
+	var Transport = __webpack_require__(319);
+	var parser = __webpack_require__(322);
+	var parseqs = __webpack_require__(325);
+	var inherit = __webpack_require__(341);
+	var debug = __webpack_require__(326)('engine.io-client:websocket');
 	
 	/**
 	 * `ws` exposes a WebSocket-compatible interface in
@@ -108800,7 +108296,7 @@
 	 * in the browser.
 	 */
 	
-	var WebSocket = __webpack_require__(343);
+	var WebSocket = __webpack_require__(342);
 	
 	/**
 	 * Module exports.
@@ -109025,6 +108521,234 @@
 
 
 /***/ },
+/* 331 */
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	/**
+	 * Gets the keys for an object.
+	 *
+	 * @return {Array} keys
+	 * @api private
+	 */
+	
+	module.exports = Object.keys || function keys (obj){
+	  var arr = [];
+	  var has = Object.prototype.hasOwnProperty;
+	
+	  for (var i in obj) {
+	    if (has.call(obj, i)) {
+	      arr.push(i);
+	    }
+	  }
+	  return arr;
+	};
+
+
+/***/ },
+/* 332 */
+/***/ function(module, exports, __webpack_require__) {
+
+	
+	/**
+	 * This is the common logic for both the Node.js and web browser
+	 * implementations of `debug()`.
+	 *
+	 * Expose `debug()` as the module.
+	 */
+	
+	exports = module.exports = debug;
+	exports.coerce = coerce;
+	exports.disable = disable;
+	exports.enable = enable;
+	exports.enabled = enabled;
+	exports.humanize = __webpack_require__(343);
+	
+	/**
+	 * The currently active debug mode names, and names to skip.
+	 */
+	
+	exports.names = [];
+	exports.skips = [];
+	
+	/**
+	 * Map of special "%n" handling functions, for the debug "format" argument.
+	 *
+	 * Valid key names are a single, lowercased letter, i.e. "n".
+	 */
+	
+	exports.formatters = {};
+	
+	/**
+	 * Previously assigned color.
+	 */
+	
+	var prevColor = 0;
+	
+	/**
+	 * Previous log timestamp.
+	 */
+	
+	var prevTime;
+	
+	/**
+	 * Select a color.
+	 *
+	 * @return {Number}
+	 * @api private
+	 */
+	
+	function selectColor() {
+	  return exports.colors[prevColor++ % exports.colors.length];
+	}
+	
+	/**
+	 * Create a debugger with the given `namespace`.
+	 *
+	 * @param {String} namespace
+	 * @return {Function}
+	 * @api public
+	 */
+	
+	function debug(namespace) {
+	
+	  // define the `disabled` version
+	  function disabled() {
+	  }
+	  disabled.enabled = false;
+	
+	  // define the `enabled` version
+	  function enabled() {
+	
+	    var self = enabled;
+	
+	    // set `diff` timestamp
+	    var curr = +new Date();
+	    var ms = curr - (prevTime || curr);
+	    self.diff = ms;
+	    self.prev = prevTime;
+	    self.curr = curr;
+	    prevTime = curr;
+	
+	    // add the `color` if not set
+	    if (null == self.useColors) self.useColors = exports.useColors();
+	    if (null == self.color && self.useColors) self.color = selectColor();
+	
+	    var args = Array.prototype.slice.call(arguments);
+	
+	    args[0] = exports.coerce(args[0]);
+	
+	    if ('string' !== typeof args[0]) {
+	      // anything else let's inspect with %o
+	      args = ['%o'].concat(args);
+	    }
+	
+	    // apply any `formatters` transformations
+	    var index = 0;
+	    args[0] = args[0].replace(/%([a-z%])/g, function(match, format) {
+	      // if we encounter an escaped % then don't increase the array index
+	      if (match === '%%') return match;
+	      index++;
+	      var formatter = exports.formatters[format];
+	      if ('function' === typeof formatter) {
+	        var val = args[index];
+	        match = formatter.call(self, val);
+	
+	        // now we need to remove `args[index]` since it's inlined in the `format`
+	        args.splice(index, 1);
+	        index--;
+	      }
+	      return match;
+	    });
+	
+	    if ('function' === typeof exports.formatArgs) {
+	      args = exports.formatArgs.apply(self, args);
+	    }
+	    var logFn = enabled.log || exports.log || console.log.bind(console);
+	    logFn.apply(self, args);
+	  }
+	  enabled.enabled = true;
+	
+	  var fn = exports.enabled(namespace) ? enabled : disabled;
+	
+	  fn.namespace = namespace;
+	
+	  return fn;
+	}
+	
+	/**
+	 * Enables a debug mode by namespaces. This can include modes
+	 * separated by a colon and wildcards.
+	 *
+	 * @param {String} namespaces
+	 * @api public
+	 */
+	
+	function enable(namespaces) {
+	  exports.save(namespaces);
+	
+	  var split = (namespaces || '').split(/[\s,]+/);
+	  var len = split.length;
+	
+	  for (var i = 0; i < len; i++) {
+	    if (!split[i]) continue; // ignore empty strings
+	    namespaces = split[i].replace(/\*/g, '.*?');
+	    if (namespaces[0] === '-') {
+	      exports.skips.push(new RegExp('^' + namespaces.substr(1) + '$'));
+	    } else {
+	      exports.names.push(new RegExp('^' + namespaces + '$'));
+	    }
+	  }
+	}
+	
+	/**
+	 * Disable debug output.
+	 *
+	 * @api public
+	 */
+	
+	function disable() {
+	  exports.enable('');
+	}
+	
+	/**
+	 * Returns true if the given mode name is enabled, false otherwise.
+	 *
+	 * @param {String} name
+	 * @return {Boolean}
+	 * @api public
+	 */
+	
+	function enabled(name) {
+	  var i, len;
+	  for (i = 0, len = exports.skips.length; i < len; i++) {
+	    if (exports.skips[i].test(name)) {
+	      return false;
+	    }
+	  }
+	  for (i = 0, len = exports.names.length; i < len; i++) {
+	    if (exports.names[i].test(name)) {
+	      return true;
+	    }
+	  }
+	  return false;
+	}
+	
+	/**
+	 * Coerce `val`.
+	 *
+	 * @param {Mixed} val
+	 * @return {Mixed}
+	 * @api private
+	 */
+	
+	function coerce(val) {
+	  if (val instanceof Error) return val.stack || val.message;
+	  return val;
+	}
+
+
+/***/ },
 /* 333 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -109218,203 +108942,251 @@
 /* 337 */
 /***/ function(module, exports, __webpack_require__) {
 
+	/**
+	 * Module dependencies.
+	 */
+	
+	var Transport = __webpack_require__(319);
+	var parseqs = __webpack_require__(325);
+	var parser = __webpack_require__(322);
+	var inherit = __webpack_require__(341);
+	var debug = __webpack_require__(326)('engine.io-client:polling');
 	
 	/**
-	 * This is the common logic for both the Node.js and web browser
-	 * implementations of `debug()`.
+	 * Module exports.
+	 */
+	
+	module.exports = Polling;
+	
+	/**
+	 * Is XHR2 supported?
+	 */
+	
+	var hasXHR2 = (function() {
+	  var XMLHttpRequest = __webpack_require__(327);
+	  var xhr = new XMLHttpRequest({ xdomain: false });
+	  return null != xhr.responseType;
+	})();
+	
+	/**
+	 * Polling interface.
 	 *
-	 * Expose `debug()` as the module.
-	 */
-	
-	exports = module.exports = debug;
-	exports.coerce = coerce;
-	exports.disable = disable;
-	exports.enable = enable;
-	exports.enabled = enabled;
-	exports.humanize = __webpack_require__(345);
-	
-	/**
-	 * The currently active debug mode names, and names to skip.
-	 */
-	
-	exports.names = [];
-	exports.skips = [];
-	
-	/**
-	 * Map of special "%n" handling functions, for the debug "format" argument.
-	 *
-	 * Valid key names are a single, lowercased letter, i.e. "n".
-	 */
-	
-	exports.formatters = {};
-	
-	/**
-	 * Previously assigned color.
-	 */
-	
-	var prevColor = 0;
-	
-	/**
-	 * Previous log timestamp.
-	 */
-	
-	var prevTime;
-	
-	/**
-	 * Select a color.
-	 *
-	 * @return {Number}
+	 * @param {Object} opts
 	 * @api private
 	 */
 	
-	function selectColor() {
-	  return exports.colors[prevColor++ % exports.colors.length];
+	function Polling(opts){
+	  var forceBase64 = (opts && opts.forceBase64);
+	  if (!hasXHR2 || forceBase64) {
+	    this.supportsBinary = false;
+	  }
+	  Transport.call(this, opts);
 	}
 	
 	/**
-	 * Create a debugger with the given `namespace`.
-	 *
-	 * @param {String} namespace
-	 * @return {Function}
-	 * @api public
+	 * Inherits from Transport.
 	 */
 	
-	function debug(namespace) {
+	inherit(Polling, Transport);
 	
-	  // define the `disabled` version
-	  function disabled() {
+	/**
+	 * Transport name.
+	 */
+	
+	Polling.prototype.name = 'polling';
+	
+	/**
+	 * Opens the socket (triggers polling). We write a PING message to determine
+	 * when the transport is open.
+	 *
+	 * @api private
+	 */
+	
+	Polling.prototype.doOpen = function(){
+	  this.poll();
+	};
+	
+	/**
+	 * Pauses polling.
+	 *
+	 * @param {Function} callback upon buffers are flushed and transport is paused
+	 * @api private
+	 */
+	
+	Polling.prototype.pause = function(onPause){
+	  var pending = 0;
+	  var self = this;
+	
+	  this.readyState = 'pausing';
+	
+	  function pause(){
+	    debug('paused');
+	    self.readyState = 'paused';
+	    onPause();
 	  }
-	  disabled.enabled = false;
 	
-	  // define the `enabled` version
-	  function enabled() {
+	  if (this.polling || !this.writable) {
+	    var total = 0;
 	
-	    var self = enabled;
-	
-	    // set `diff` timestamp
-	    var curr = +new Date();
-	    var ms = curr - (prevTime || curr);
-	    self.diff = ms;
-	    self.prev = prevTime;
-	    self.curr = curr;
-	    prevTime = curr;
-	
-	    // add the `color` if not set
-	    if (null == self.useColors) self.useColors = exports.useColors();
-	    if (null == self.color && self.useColors) self.color = selectColor();
-	
-	    var args = Array.prototype.slice.call(arguments);
-	
-	    args[0] = exports.coerce(args[0]);
-	
-	    if ('string' !== typeof args[0]) {
-	      // anything else let's inspect with %o
-	      args = ['%o'].concat(args);
+	    if (this.polling) {
+	      debug('we are currently polling - waiting to pause');
+	      total++;
+	      this.once('pollComplete', function(){
+	        debug('pre-pause polling complete');
+	        --total || pause();
+	      });
 	    }
 	
-	    // apply any `formatters` transformations
-	    var index = 0;
-	    args[0] = args[0].replace(/%([a-z%])/g, function(match, format) {
-	      // if we encounter an escaped % then don't increase the array index
-	      if (match === '%%') return match;
-	      index++;
-	      var formatter = exports.formatters[format];
-	      if ('function' === typeof formatter) {
-	        var val = args[index];
-	        match = formatter.call(self, val);
-	
-	        // now we need to remove `args[index]` since it's inlined in the `format`
-	        args.splice(index, 1);
-	        index--;
-	      }
-	      return match;
-	    });
-	
-	    if ('function' === typeof exports.formatArgs) {
-	      args = exports.formatArgs.apply(self, args);
+	    if (!this.writable) {
+	      debug('we are currently writing - waiting to pause');
+	      total++;
+	      this.once('drain', function(){
+	        debug('pre-pause writing complete');
+	        --total || pause();
+	      });
 	    }
-	    var logFn = enabled.log || exports.log || console.log.bind(console);
-	    logFn.apply(self, args);
+	  } else {
+	    pause();
 	  }
-	  enabled.enabled = true;
-	
-	  var fn = exports.enabled(namespace) ? enabled : disabled;
-	
-	  fn.namespace = namespace;
-	
-	  return fn;
-	}
+	};
 	
 	/**
-	 * Enables a debug mode by namespaces. This can include modes
-	 * separated by a colon and wildcards.
+	 * Starts polling cycle.
 	 *
-	 * @param {String} namespaces
 	 * @api public
 	 */
 	
-	function enable(namespaces) {
-	  exports.save(namespaces);
+	Polling.prototype.poll = function(){
+	  debug('polling');
+	  this.polling = true;
+	  this.doPoll();
+	  this.emit('poll');
+	};
 	
-	  var split = (namespaces || '').split(/[\s,]+/);
-	  var len = split.length;
+	/**
+	 * Overloads onData to detect payloads.
+	 *
+	 * @api private
+	 */
 	
-	  for (var i = 0; i < len; i++) {
-	    if (!split[i]) continue; // ignore empty strings
-	    namespaces = split[i].replace(/\*/g, '.*?');
-	    if (namespaces[0] === '-') {
-	      exports.skips.push(new RegExp('^' + namespaces.substr(1) + '$'));
-	    } else {
-	      exports.names.push(new RegExp('^' + namespaces + '$'));
+	Polling.prototype.onData = function(data){
+	  var self = this;
+	  debug('polling got data %s', data);
+	  var callback = function(packet, index, total) {
+	    // if its the first message we consider the transport open
+	    if ('opening' == self.readyState) {
+	      self.onOpen();
 	    }
-	  }
-	}
 	
-	/**
-	 * Disable debug output.
-	 *
-	 * @api public
-	 */
-	
-	function disable() {
-	  exports.enable('');
-	}
-	
-	/**
-	 * Returns true if the given mode name is enabled, false otherwise.
-	 *
-	 * @param {String} name
-	 * @return {Boolean}
-	 * @api public
-	 */
-	
-	function enabled(name) {
-	  var i, len;
-	  for (i = 0, len = exports.skips.length; i < len; i++) {
-	    if (exports.skips[i].test(name)) {
+	    // if its a close packet, we close the ongoing requests
+	    if ('close' == packet.type) {
+	      self.onClose();
 	      return false;
 	    }
-	  }
-	  for (i = 0, len = exports.names.length; i < len; i++) {
-	    if (exports.names[i].test(name)) {
-	      return true;
+	
+	    // otherwise bypass onData and handle the message
+	    self.onPacket(packet);
+	  };
+	
+	  // decode payload
+	  parser.decodePayload(data, this.socket.binaryType, callback);
+	
+	  // if an event did not trigger closing
+	  if ('closed' != this.readyState) {
+	    // if we got data we're not polling
+	    this.polling = false;
+	    this.emit('pollComplete');
+	
+	    if ('open' == this.readyState) {
+	      this.poll();
+	    } else {
+	      debug('ignoring poll - transport state "%s"', this.readyState);
 	    }
 	  }
-	  return false;
-	}
+	};
 	
 	/**
-	 * Coerce `val`.
+	 * For polling, send a close packet.
 	 *
-	 * @param {Mixed} val
-	 * @return {Mixed}
 	 * @api private
 	 */
 	
-	function coerce(val) {
-	  if (val instanceof Error) return val.stack || val.message;
-	  return val;
-	}
+	Polling.prototype.doClose = function(){
+	  var self = this;
+	
+	  function close(){
+	    debug('writing close packet');
+	    self.write([{ type: 'close' }]);
+	  }
+	
+	  if ('open' == this.readyState) {
+	    debug('transport open - closing');
+	    close();
+	  } else {
+	    // in case we're trying to close while
+	    // handshaking is in progress (GH-164)
+	    debug('transport not open - deferring close');
+	    this.once('open', close);
+	  }
+	};
+	
+	/**
+	 * Writes a packets payload.
+	 *
+	 * @param {Array} data packets
+	 * @param {Function} drain callback
+	 * @api private
+	 */
+	
+	Polling.prototype.write = function(packets){
+	  var self = this;
+	  this.writable = false;
+	  var callbackfn = function() {
+	    self.writable = true;
+	    self.emit('drain');
+	  };
+	
+	  var self = this;
+	  parser.encodePayload(packets, this.supportsBinary, function(data) {
+	    self.doWrite(data, callbackfn);
+	  });
+	};
+	
+	/**
+	 * Generates uri for connection.
+	 *
+	 * @api private
+	 */
+	
+	Polling.prototype.uri = function(){
+	  var query = this.query || {};
+	  var schema = this.secure ? 'https' : 'http';
+	  var port = '';
+	
+	  // cache busting is forced
+	  if (false !== this.timestampRequests) {
+	    query[this.timestampParam] = +new Date + '-' + Transport.timestamps++;
+	  }
+	
+	  if (!this.supportsBinary && !query.sid) {
+	    query.b64 = 1;
+	  }
+	
+	  query = parseqs.encode(query);
+	
+	  // avoid port if default for schema
+	  if (this.port && (('https' == schema && this.port != 443) ||
+	     ('http' == schema && this.port != 80))) {
+	    port = ':' + this.port;
+	  }
+	
+	  // prepend ? to query
+	  if (query.length) {
+	    query = '?' + query;
+	  }
+	
+	  return schema + '://' + this.hostname + port + this.path + query;
+	};
 
 
 /***/ },
@@ -109724,269 +109496,18 @@
 	
 	}(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(35)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(34)(module), (function() { return this; }())))
 
 /***/ },
 /* 340 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/**
-	 * Module dependencies.
-	 */
-	
-	var Transport = __webpack_require__(320);
-	var parseqs = __webpack_require__(326);
-	var parser = __webpack_require__(321);
-	var inherit = __webpack_require__(342);
-	var debug = __webpack_require__(327)('engine.io-client:polling');
-	
-	/**
-	 * Module exports.
-	 */
-	
-	module.exports = Polling;
-	
-	/**
-	 * Is XHR2 supported?
-	 */
-	
-	var hasXHR2 = (function() {
-	  var XMLHttpRequest = __webpack_require__(329);
-	  var xhr = new XMLHttpRequest({ xdomain: false });
-	  return null != xhr.responseType;
-	})();
-	
-	/**
-	 * Polling interface.
-	 *
-	 * @param {Object} opts
-	 * @api private
-	 */
-	
-	function Polling(opts){
-	  var forceBase64 = (opts && opts.forceBase64);
-	  if (!hasXHR2 || forceBase64) {
-	    this.supportsBinary = false;
-	  }
-	  Transport.call(this, opts);
-	}
-	
-	/**
-	 * Inherits from Transport.
-	 */
-	
-	inherit(Polling, Transport);
-	
-	/**
-	 * Transport name.
-	 */
-	
-	Polling.prototype.name = 'polling';
-	
-	/**
-	 * Opens the socket (triggers polling). We write a PING message to determine
-	 * when the transport is open.
-	 *
-	 * @api private
-	 */
-	
-	Polling.prototype.doOpen = function(){
-	  this.poll();
-	};
-	
-	/**
-	 * Pauses polling.
-	 *
-	 * @param {Function} callback upon buffers are flushed and transport is paused
-	 * @api private
-	 */
-	
-	Polling.prototype.pause = function(onPause){
-	  var pending = 0;
-	  var self = this;
-	
-	  this.readyState = 'pausing';
-	
-	  function pause(){
-	    debug('paused');
-	    self.readyState = 'paused';
-	    onPause();
-	  }
-	
-	  if (this.polling || !this.writable) {
-	    var total = 0;
-	
-	    if (this.polling) {
-	      debug('we are currently polling - waiting to pause');
-	      total++;
-	      this.once('pollComplete', function(){
-	        debug('pre-pause polling complete');
-	        --total || pause();
-	      });
-	    }
-	
-	    if (!this.writable) {
-	      debug('we are currently writing - waiting to pause');
-	      total++;
-	      this.once('drain', function(){
-	        debug('pre-pause writing complete');
-	        --total || pause();
-	      });
-	    }
-	  } else {
-	    pause();
-	  }
-	};
-	
-	/**
-	 * Starts polling cycle.
-	 *
-	 * @api public
-	 */
-	
-	Polling.prototype.poll = function(){
-	  debug('polling');
-	  this.polling = true;
-	  this.doPoll();
-	  this.emit('poll');
-	};
-	
-	/**
-	 * Overloads onData to detect payloads.
-	 *
-	 * @api private
-	 */
-	
-	Polling.prototype.onData = function(data){
-	  var self = this;
-	  debug('polling got data %s', data);
-	  var callback = function(packet, index, total) {
-	    // if its the first message we consider the transport open
-	    if ('opening' == self.readyState) {
-	      self.onOpen();
-	    }
-	
-	    // if its a close packet, we close the ongoing requests
-	    if ('close' == packet.type) {
-	      self.onClose();
-	      return false;
-	    }
-	
-	    // otherwise bypass onData and handle the message
-	    self.onPacket(packet);
-	  };
-	
-	  // decode payload
-	  parser.decodePayload(data, this.socket.binaryType, callback);
-	
-	  // if an event did not trigger closing
-	  if ('closed' != this.readyState) {
-	    // if we got data we're not polling
-	    this.polling = false;
-	    this.emit('pollComplete');
-	
-	    if ('open' == this.readyState) {
-	      this.poll();
-	    } else {
-	      debug('ignoring poll - transport state "%s"', this.readyState);
-	    }
-	  }
-	};
-	
-	/**
-	 * For polling, send a close packet.
-	 *
-	 * @api private
-	 */
-	
-	Polling.prototype.doClose = function(){
-	  var self = this;
-	
-	  function close(){
-	    debug('writing close packet');
-	    self.write([{ type: 'close' }]);
-	  }
-	
-	  if ('open' == this.readyState) {
-	    debug('transport open - closing');
-	    close();
-	  } else {
-	    // in case we're trying to close while
-	    // handshaking is in progress (GH-164)
-	    debug('transport not open - deferring close');
-	    this.once('open', close);
-	  }
-	};
-	
-	/**
-	 * Writes a packets payload.
-	 *
-	 * @param {Array} data packets
-	 * @param {Function} drain callback
-	 * @api private
-	 */
-	
-	Polling.prototype.write = function(packets){
-	  var self = this;
-	  this.writable = false;
-	  var callbackfn = function() {
-	    self.writable = true;
-	    self.emit('drain');
-	  };
-	
-	  var self = this;
-	  parser.encodePayload(packets, this.supportsBinary, function(data) {
-	    self.doWrite(data, callbackfn);
-	  });
-	};
-	
-	/**
-	 * Generates uri for connection.
-	 *
-	 * @api private
-	 */
-	
-	Polling.prototype.uri = function(){
-	  var query = this.query || {};
-	  var schema = this.secure ? 'https' : 'http';
-	  var port = '';
-	
-	  // cache busting is forced
-	  if (false !== this.timestampRequests) {
-	    query[this.timestampParam] = +new Date + '-' + Transport.timestamps++;
-	  }
-	
-	  if (!this.supportsBinary && !query.sid) {
-	    query.b64 = 1;
-	  }
-	
-	  query = parseqs.encode(query);
-	
-	  // avoid port if default for schema
-	  if (this.port && (('https' == schema && this.port != 443) ||
-	     ('http' == schema && this.port != 80))) {
-	    port = ':' + this.port;
-	  }
-	
-	  // prepend ? to query
-	  if (query.length) {
-	    query = '?' + query;
-	  }
-	
-	  return schema + '://' + this.hostname + port + this.path + query;
-	};
-
-
-/***/ },
-/* 341 */
-/***/ function(module, exports, __webpack_require__) {
-
 	
 	/**
 	 * Module dependencies.
 	 */
 	
-	var global = __webpack_require__(346);
+	var global = __webpack_require__(345);
 	
 	/**
 	 * Module exports.
@@ -110007,7 +109528,7 @@
 
 
 /***/ },
-/* 342 */
+/* 341 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -110019,7 +109540,7 @@
 	};
 
 /***/ },
-/* 343 */
+/* 342 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -110068,16 +109589,7 @@
 
 
 /***/ },
-/* 344 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = Array.isArray || function (arr) {
-	  return Object.prototype.toString.call(arr) == '[object Array]';
-	};
-
-
-/***/ },
-/* 345 */
+/* 343 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -110194,7 +109706,16 @@
 
 
 /***/ },
-/* 346 */
+/* 344 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = Array.isArray || function (arr) {
+	  return Object.prototype.toString.call(arr) == '[object Array]';
+	};
+
+
+/***/ },
+/* 345 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -110205,6 +109726,494 @@
 	 */
 	
 	module.exports = (function () { return this; })();
+
+
+/***/ },
+/* 346 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/*! Moment Duration Format v1.3.0
+	 *  https://github.com/jsmreese/moment-duration-format 
+	 *  Date: 2014-07-15
+	 *
+	 *  Duration format plugin function for the Moment.js library
+	 *  http://momentjs.com/
+	 *
+	 *  Copyright 2014 John Madhavan-Reese
+	 *  Released under the MIT license
+	 */
+	
+	(function (root, undefined) {
+	
+		// repeatZero(qty)
+		// returns "0" repeated qty times
+		function repeatZero(qty) {
+			var result = "";
+			
+			// exit early
+			// if qty is 0 or a negative number
+			// or doesn't coerce to an integer
+			qty = parseInt(qty, 10);
+			if (!qty || qty < 1) { return result; }
+			
+			while (qty) {
+				result += "0";
+				qty -= 1;
+			}
+			
+			return result;
+		}
+		
+		// padZero(str, len [, isRight])
+		// pads a string with zeros up to a specified length
+		// will not pad a string if its length is aready
+		// greater than or equal to the specified length
+		// default output pads with zeros on the left
+		// set isRight to `true` to pad with zeros on the right
+		function padZero(str, len, isRight) {
+			if (str == null) { str = ""; }
+			str = "" + str;
+			
+			return (isRight ? str : "") + repeatZero(len - str.length) + (isRight ? "" : str);
+		}
+		
+		// isArray
+		function isArray(array) {
+			return Object.prototype.toString.call(array) === "[object Array]";
+		}
+		
+		// isObject
+		function isObject(obj) {
+			return Object.prototype.toString.call(obj) === "[object Object]";
+		}
+		
+		// findLast
+		function findLast(array, callback) {
+			var index = array.length;
+	
+			while (index -= 1) {
+				if (callback(array[index])) { return array[index]; }
+			}
+		}
+	
+		// find
+		function find(array, callback) {
+			var index = 0,
+				max = array.length,
+				match;
+				
+			if (typeof callback !== "function") {
+				match = callback;
+				callback = function (item) {
+					return item === match;
+				};
+			}
+	
+			while (index < max) {
+				if (callback(array[index])) { return array[index]; }
+				index += 1;
+			}
+		}
+		
+		// each
+		function each(array, callback) {
+			var index = 0,
+				max = array.length;
+				
+			if (!array || !max) { return; }
+	
+			while (index < max) {
+				if (callback(array[index], index) === false) { return; }
+				index += 1;
+			}
+		}
+		
+		// map
+		function map(array, callback) {
+			var index = 0,
+				max = array.length,
+				ret = [];
+	
+			if (!array || !max) { return ret; }
+					
+			while (index < max) {
+				ret[index] = callback(array[index], index);
+				index += 1;
+			}
+			
+			return ret;
+		}
+		
+		// pluck
+		function pluck(array, prop) {
+			return map(array, function (item) {
+				return item[prop];
+			});
+		}
+		
+		// compact
+		function compact(array) {
+			var ret = [];
+			
+			each(array, function (item) {
+				if (item) { ret.push(item); }
+			});
+			
+			return ret;
+		}
+		
+		// unique
+		function unique(array) {
+			var ret = [];
+			
+			each(array, function (_a) {
+				if (!find(ret, _a)) { ret.push(_a); }
+			});
+			
+			return ret;
+		}
+		
+		// intersection
+		function intersection(a, b) {
+			var ret = [];
+			
+			each(a, function (_a) {
+				each(b, function (_b) {
+					if (_a === _b) { ret.push(_a); }
+				});
+			});
+			
+			return unique(ret);
+		}
+		
+		// rest
+		function rest(array, callback) {
+			var ret = [];
+			
+			each(array, function (item, index) {
+				if (!callback(item)) {
+					ret = array.slice(index);
+					return false;
+				}
+			});
+			
+			return ret;
+		}
+	
+		// initial
+		function initial(array, callback) {
+			var reversed = array.slice().reverse();
+			
+			return rest(reversed, callback).reverse();
+		}
+		
+		// extend
+		function extend(a, b) {
+			for (var key in b) {
+				if (b.hasOwnProperty(key)) { a[key] = b[key]; }
+			}
+			
+			return a;
+		}
+				
+		// define internal moment reference
+		var moment;
+	
+		if (true) {
+			try { moment = __webpack_require__(15); } 
+			catch (e) {}
+		} 
+		
+		if (!moment && root.moment) {
+			moment = root.moment;
+		}
+		
+		if (!moment) {
+			throw "Moment Duration Format cannot find Moment.js";
+		}
+		
+		// moment.duration.format([template] [, precision] [, settings])
+		moment.duration.fn.format = function () {
+	
+			var tokenizer, tokens, types, typeMap, momentTypes, foundFirst, trimIndex,
+				args = [].slice.call(arguments),
+				settings = extend({}, this.format.defaults),
+				// keep a shadow copy of this moment for calculating remainders
+				remainder = moment.duration(this);
+	
+			// add a reference to this duration object to the settings for use
+			// in a template function
+			settings.duration = this;
+	
+			// parse arguments
+			each(args, function (arg) {
+				if (typeof arg === "string" || typeof arg === "function") {
+					settings.template = arg;
+					return;
+				}
+	
+				if (typeof arg === "number") {
+					settings.precision = arg;
+					return;
+				}
+	
+				if (isObject(arg)) {
+					extend(settings, arg);
+				}
+			});
+	
+			// types
+			types = settings.types = (isArray(settings.types) ? settings.types : settings.types.split(" "));
+	
+			// template
+			if (typeof settings.template === "function") {
+				settings.template = settings.template.apply(settings);
+			}
+	
+			// tokenizer regexp
+			tokenizer = new RegExp(map(types, function (type) {
+				return settings[type].source;
+			}).join("|"), "g");
+	
+			// token type map function
+			typeMap = function (token) {
+				return find(types, function (type) {
+					return settings[type].test(token);
+				});
+			};
+	
+			// tokens array
+			tokens = map(settings.template.match(tokenizer), function (token, index) {
+				var type = typeMap(token),
+					length = token.length;
+	
+				return {
+					index: index,
+					length: length,
+	
+					// replace escaped tokens with the non-escaped token text
+					token: (type === "escape" ? token.replace(settings.escape, "$1") : token),
+	
+					// ignore type on non-moment tokens
+					type: ((type === "escape" || type === "general") ? null : type)
+	
+					// calculate base value for all moment tokens
+					//baseValue: ((type === "escape" || type === "general") ? null : this.as(type))
+				};
+			}, this);
+	
+			// unique moment token types in the template (in order of descending magnitude)
+			momentTypes = intersection(types, unique(compact(pluck(tokens, "type"))));
+	
+			// exit early if there are no momentTypes
+			if (!momentTypes.length) {
+				return pluck(tokens, "token").join("");
+			}
+	
+			// calculate values for each token type in the template
+			each(momentTypes, function (momentType, index) {
+				var value, wholeValue, decimalValue, isLeast, isMost;
+	
+				// calculate integer and decimal value portions
+				value = remainder.as(momentType);
+				wholeValue = (value > 0 ? Math.floor(value) : Math.ceil(value));
+				decimalValue = value - wholeValue;
+	
+				// is this the least-significant moment token found?
+				isLeast = ((index + 1) === momentTypes.length);
+	
+				// is this the most-significant moment token found?
+				isMost = (!index);
+	
+				// update tokens array
+				// using this algorithm to not assume anything about
+				// the order or frequency of any tokens
+				each(tokens, function (token) {
+					if (token.type === momentType) {
+						extend(token, {
+							value: value,
+							wholeValue: wholeValue,
+							decimalValue: decimalValue,
+							isLeast: isLeast,
+							isMost: isMost
+						});
+	
+						if (isMost) {
+							// note the length of the most-significant moment token:
+							// if it is greater than one and forceLength is not set, default forceLength to `true`
+							if (settings.forceLength == null && token.length > 1) {
+								settings.forceLength = true;
+							}
+	
+							// rationale is this:
+							// if the template is "h:mm:ss" and the moment value is 5 minutes, the user-friendly output is "5:00", not "05:00"
+							// shouldn't pad the `minutes` token even though it has length of two
+							// if the template is "hh:mm:ss", the user clearly wanted everything padded so we should output "05:00"
+							// if the user wanted the full padded output, they can set `{ trim: false }` to get "00:05:00"
+						}
+					}
+				});
+	
+				// update remainder
+				remainder.subtract(wholeValue, momentType);
+			});
+		
+			// trim tokens array
+			if (settings.trim) {
+				tokens = (settings.trim === "left" ? rest : initial)(tokens, function (token) {
+					// return `true` if:
+					// the token is not the least moment token (don't trim the least moment token)
+					// the token is a moment token that does not have a value (don't trim moment tokens that have a whole value)
+					return !(token.isLeast || (token.type != null && token.wholeValue));
+				});
+			}
+			
+			
+			// build output
+	
+			// the first moment token can have special handling
+			foundFirst = false;
+	
+			// run the map in reverse order if trimming from the right
+			if (settings.trim === "right") {
+				tokens.reverse();
+			}
+	
+			tokens = map(tokens, function (token) {
+				var val,
+					decVal;
+	
+				if (!token.type) {
+					// if it is not a moment token, use the token as its own value
+					return token.token;
+				}
+	
+				// apply negative precision formatting to the least-significant moment token
+				if (token.isLeast && (settings.precision < 0)) {
+					val = (Math.floor(token.wholeValue * Math.pow(10, settings.precision)) * Math.pow(10, -settings.precision)).toString();
+				} else {
+					val = token.wholeValue.toString();
+				}
+				
+				// remove negative sign from the beginning
+				val = val.replace(/^\-/, "");
+	
+				// apply token length formatting
+				// special handling for the first moment token that is not the most significant in a trimmed template
+				if (token.length > 1 && (foundFirst || token.isMost || settings.forceLength)) {
+					val = padZero(val, token.length);
+				}
+	
+				// add decimal value if precision > 0
+				if (token.isLeast && (settings.precision > 0)) {
+					decVal = token.decimalValue.toString().replace(/^\-/, "").split(/\.|e\-/);
+					switch (decVal.length) {
+						case 1:
+							val += "." + padZero(decVal[0], settings.precision, true).slice(0, settings.precision);
+							break;
+							
+						case 2:
+							val += "." + padZero(decVal[1], settings.precision, true).slice(0, settings.precision);		
+							break;
+							
+						case 3:
+							val += "." + padZero(repeatZero((+decVal[2]) - 1) + (decVal[0] || "0") + decVal[1], settings.precision, true).slice(0, settings.precision);		
+							break;
+						
+						default:
+							throw "Moment Duration Format: unable to parse token decimal value.";
+					}
+				}
+				
+				// add a negative sign if the value is negative and token is most significant
+				if (token.isMost && token.value < 0) {
+					val = "-" + val;
+				}
+	
+				foundFirst = true;
+	
+				return val;
+			});
+	
+			// undo the reverse if trimming from the right
+			if (settings.trim === "right") {
+				tokens.reverse();
+			}
+	
+			return tokens.join("");
+		};
+	
+		moment.duration.fn.format.defaults = {
+			// token definitions
+			escape: /\[(.+?)\]/,
+			years: /[Yy]+/,
+			months: /M+/,
+			weeks: /[Ww]+/,
+			days: /[Dd]+/,
+			hours: /[Hh]+/,
+			minutes: /m+/,
+			seconds: /s+/,
+			milliseconds: /S+/,
+			general: /.+?/,
+	
+			// token type names
+			// in order of descending magnitude
+			// can be a space-separated token name list or an array of token names
+			types: "escape years months weeks days hours minutes seconds milliseconds general",
+	
+			// format options
+	
+			// trim
+			// "left" - template tokens are trimmed from the left until the first moment token that has a value >= 1
+			// "right" - template tokens are trimmed from the right until the first moment token that has a value >= 1
+			// (the final moment token is not trimmed, regardless of value)
+			// `false` - template tokens are not trimmed
+			trim: "left",
+	
+			// precision
+			// number of decimal digits to include after (to the right of) the decimal point (positive integer)
+			// or the number of digits to truncate to 0 before (to the left of) the decimal point (negative integer)
+			precision: 0,
+	
+			// force first moment token with a value to render at full length even when template is trimmed and first moment token has length of 1
+			forceLength: null,
+	
+			// template used to format duration
+			// may be a function or a string
+			// template functions are executed with the `this` binding of the settings object
+			// so that template strings may be dynamically generated based on the duration object
+			// (accessible via `this.duration`)
+			// or any of the other settings
+			template: function () {
+				var types = this.types,
+					dur = this.duration,
+					lastType = findLast(types, function (type) {
+						return dur._data[type];
+					});
+	
+				// default template strings for each duration dimension type
+				switch (lastType) {
+					case "seconds":
+						return "h:mm:ss";
+					case "minutes":
+						return "d[d] h:mm";
+					case "hours":
+						return "d[d] h[h]";
+					case "days":
+						return "M[m] d[d]";
+					case "weeks":
+						return "y[y] w[w]";
+					case "months":
+						return "y[y] M[m]";
+					case "years":
+						return "y[y]";
+					default:
+						return "y[y] M[m] d[d] h:mm:ss";
+				}
+			}
+		};
+	
+	})(this);
 
 
 /***/ }
