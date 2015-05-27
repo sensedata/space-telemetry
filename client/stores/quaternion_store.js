@@ -9,7 +9,7 @@ class QuaternionStore extends Store {
 
     this.props = props;
     this.euler = new THREE.Euler();
-    this.quaternion=  new THREE.Quaternion();
+    this.quaternion = new THREE.Quaternion();
 
     _.keys(this.props.axialActions).forEach(a => {
       this.register(this.props.axialActions[a], d => {
@@ -26,7 +26,7 @@ class QuaternionStore extends Store {
     const latest = this.latest(data);
 
     this.quaternion[axis] = latest.v;
-    this.eauler.setFromQuaternion(this.quaternion);
+    this.euler.setFromQuaternion(this.quaternion);
 
     this.setState({latest: latest});
   }
