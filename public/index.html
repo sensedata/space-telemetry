@@ -18,26 +18,33 @@
         <div class="row">
           <div class="col-sm-9">
             <h1>International Space Station</h1>
+            <h2>
+              Station Mode:
+              <span class="readout text" data-telemetry-id="USLAB000086"></span>
+            </h2>
+
           </div>
           <div class="col-sm-3">
             <dl class="dl-horizontal station-metadata">
-              <dt>Station Status:</dt>
-              <dd class="readout text" data-telemetry-id="USLAB000086"></dd>
-
-              <dt>Station Clock:</dt>
-              <dd class="readout timestamp" data-telemetry-id="TIME_000001"></dd>
+              <dt>Telemetry Network:</dt>
+              <dd class="readout text" data-telemetry-id="STATUS"></dd>
             </dl>
 
             <dl class="dl-horizontal station-metadata">
-              <dt>Telemetry Status:</dt>
-              <dd class="readout text" data-telemetry-id="STATUS"></dd>
+              <dt>Station Time:</dt>
+              <dd class="readout timestamp" data-telemetry-id="TIME_000001"></dd>
 
-              <dt>Telemetry Transmitted:</dt>
+              <dt>Last Transmission:</dt>
               <dd id="telemetry-transmitted" class="readout timestamp"></dd>
+            </dl>
 
-              <dt>Telemetry Delay:</dt>
+
+            <dl class="dl-horizontal station-metadata">
+              <dt>Local Time:</dt>
+              <dd id="local-time" class="readout timestamp"></dd>
+
+              <dt>Telemetry Transit:</dt>
               <dd id="telemetry-delay" class="readout interval"></dd>
-
             </dl>
           </div>
         </div>

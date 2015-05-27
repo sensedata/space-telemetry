@@ -67,7 +67,7 @@ class App extends Flummox {
       }
 
       // TODO use a real time limit instead of 0
-      this.socket.emit(telemetryNumber, 0, preload || -1);
+      this.socket.emit(telemetryNumber, null, preload || -1);
     }
   }
 }
