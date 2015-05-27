@@ -5,6 +5,12 @@ import React from "react";
 import ListeningView from "./listening_view.js";
 
 class TransmissionDelay extends ListeningView {
+  componentDidMount() {
+    super.componentDidMount();
+
+    window.setInterval(() => {this.forceUpdate();}, 1000);
+  }
+
   render() {
     const unixTime = this.state.data.length > 0 ? this.state.data[0].t : 0;
     const time = Moment.unix(unixTime).utc();
