@@ -43,11 +43,13 @@ class App extends Flummox {
     let store = this.getStore(quaternionId);
     if (typeof store === "undefined") {
       _.values(axialTelemetryIds).forEach(id => {this.listenToServer(id);});
-      store = this.createStore(quaternionId, QuaternionStore, this, {
-        x: this.getHistoricalStore(axialTelemetryIds.x),
-        y: this.getHistoricalStore(axialTelemetryIds.y),
-        z: this.getHistoricalStore(axialTelemetryIds.z),
-        w: this.getHistoricalStore(axialTelemetryIds.w)
+      store = this.createStore(quaternionId, QuaternionStore, {
+        axialActions: {
+          x: this.getActions(axialTelemetryIds.x).relay,
+          y: this.getActions(axialTelemetryIds.y).relay,
+          z: this.getActions(axialTelemetryIds.z).relay,
+          w: this.getActions(axialTelemetryIds.w).relay
+        }
       });
     }
 

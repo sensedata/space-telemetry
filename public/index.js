@@ -25938,7 +25938,7 @@
 	      var latest = this.latest(data);
 	
 	      this.quaternion[axis] = latest.v;
-	      this.eauler.setFromQuaternion(this.quaternion);
+	      this.euler.setFromQuaternion(this.quaternion);
 	
 	      this.setState({ latest: latest });
 	    }
@@ -25967,11 +25967,15 @@
 	  value: true
 	});
 	
-	// According to https://github.com/acdlite/flummox/pull/176, class support will
-	// likely soon be deprecated.
+	// import TelemetryIndex from "../telemetry_index.js";
+	// import _ from "lodash";
 	
 	var TelemetryActions = {
 	  relay: function relay(telemetry) {
+	    // if (telemetry[0].k === TelemetryIndex.number("STATUS")) {
+	    //   console.log("status event", _.map(telemetry, (d) => {return d.v;}));
+	    // }
+	
 	    return telemetry;
 	  }
 	};
@@ -88894,11 +88898,13 @@
 	        _import2["default"].values(axialTelemetryIds).forEach(function (id) {
 	          _this.listenToServer(id);
 	        });
-	        store = this.createStore(quaternionId, _QuaternionStore2["default"], this, {
-	          x: this.getHistoricalStore(axialTelemetryIds.x),
-	          y: this.getHistoricalStore(axialTelemetryIds.y),
-	          z: this.getHistoricalStore(axialTelemetryIds.z),
-	          w: this.getHistoricalStore(axialTelemetryIds.w)
+	        store = this.createStore(quaternionId, _QuaternionStore2["default"], {
+	          axialActions: {
+	            x: this.getActions(axialTelemetryIds.x).relay,
+	            y: this.getActions(axialTelemetryIds.y).relay,
+	            z: this.getActions(axialTelemetryIds.z).relay,
+	            w: this.getActions(axialTelemetryIds.w).relay
+	          }
 	        });
 	      }
 	
