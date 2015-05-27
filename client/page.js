@@ -12,6 +12,7 @@ import SparklineChart from "./views/sparkline_chart.jsx";
 
 import DecimalReadout from "./views/readouts/decimal_readout.jsx";
 import IntegerReadout from "./views/readouts/integer_readout.jsx";
+import LocalTimeReadout from "./views/readouts/local_time_readout.jsx";
 import TextReadout from "./views/readouts/text_readout.jsx";
 import TimestampReadout from "./views/readouts/timestamp_readout.jsx";
 import TransmittedAt from "./views/transmitted_at.jsx";
@@ -86,6 +87,14 @@ _.forEach(document.getElementsByClassName("status"), e => {
   app.socket.emit(telemetryNumber, -1, 1);
 });
 
+app.socket.on("disconnect", (d) => {
+  app.getActions("STATUS").relay([{t: Moment.unix(), v: 0}]);
+});
+
+app.socket.on("reconnect", () => {
+  app.socket.emit(TelemetryIndex.number("STATUS"), null, -1);
+});
+
 React.render(
   React.createFactory(TransmittedAt)({store: app.getStore("latest")}),
   document.getElementById("telemetry-transmitted")
@@ -94,6 +103,10 @@ React.render(
 React.render(
   React.createFactory(TransmissionDelay)({store: app.getStore("latest")}),
   document.getElementById("telemetry-delay")
+);
+
+React.render(
+  React.createFactory(LocalTimeReadout)(), document.getElementById("local-time")
 );
 
 window.setInterval(() => {

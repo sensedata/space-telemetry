@@ -217,7 +217,15 @@ html {
 
 .jumbotron h1 {
   font-size: 26px;
-  text-align: center;
+  text-align: left;
+}
+
+.jumbotron h2 {
+  font-weight: normal;
+}
+
+.jumbotron h2 .readout{
+  font-family: inherit;
 }
 
 @media (min-width: 768px) {
