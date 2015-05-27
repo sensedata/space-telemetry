@@ -57,14 +57,14 @@ describe("SparklineChart", () => {
     assert.equal($("svg").attr("width"), ui.props.width);
   });
 
-  it("renders a correct qualitative range", () => {
-    const ui = sparkUI();
-    ui.React.render(ui.view, document.body);
-    const now = Moment().unix();
-    const data = _.times(4, (n) => {return {t: now - n, v: n * 10};});
-
-    ui.action.relay(data);
-    assert.equal($("svg path").attr("d"), "x");
-  });
+  it("renders a correct qualitative range");//, () => {
+  //   const ui = sparkUI();
+  //   ui.React.render(ui.view, document.body);
+  //   const now = Moment().unix();
+  //   const data = _.times(4, (n) => {return {t: now - n, v: n * 10};});
+  //
+  //   ui.action.relay(data);
+  //   assert.equal($("svg path").attr("d"), "x");
+  // });
 
 });
