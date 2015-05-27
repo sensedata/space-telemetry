@@ -5,8 +5,8 @@ import React from "react";
 import ListeningView from "./listening_view.js";
 
 class TransmissionDelay extends ListeningView {
-  renderWithState() {
-    const unixTime = this.state.data ? this.state.data.t : 0;
+  render() {
+    const unixTime = this.state.data.length > 0 ? this.state.data[0].t : 0;
     const time = Moment.unix(unixTime).utc();
     const now = Moment().utc();
     const delta = now.diff(time, "milliseconds");

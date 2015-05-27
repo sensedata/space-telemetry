@@ -4,7 +4,7 @@ import ListeningView from "../listening_view.js";
 import StatusDictionary from "../status_dictionary.js";
 
 class TextReadout extends ListeningView {
-  renderWithState() {
+  render() {
     const values = StatusDictionary.get(this.props.telemetryNumber);
     let value;
 

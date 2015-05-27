@@ -13,7 +13,7 @@ describe("TimestampReadout", () => {
 
   let ui;
 
-  beforeEach("setup for TextReadout", () => {
+  beforeEach("setup for TimestampReadout", () => {
     ui = TestHelper.buildUI("readouts/timestamp_readout.jsx");
   });
 

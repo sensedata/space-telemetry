@@ -51,6 +51,7 @@
     "jsdom": "5.4.x",
     "mocha": "2.2.x",
     "mocha-loader": "0.7.x",
+    "svg-path-parser": "^1.0.1",
     "webpack": "1.9.x"
   }
 }
