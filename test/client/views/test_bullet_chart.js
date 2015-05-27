@@ -12,7 +12,7 @@ const assert = Chai.assert;
 describe("BulletChart", () => {
   let $;
 
-  beforeEach("setup for TextReadout", (done) => {
+  beforeEach("setup for BulletChart", (done) => {
     // jQuery can't be loaded until window and document are present.
     $ = require("jquery");
     $(() => {done();});
@@ -40,7 +40,7 @@ describe("BulletChart", () => {
     const ui = bulletUI();
     ui.React.render(ui.view, document.body);
 
-    assert.match(document.body.innerHTML, new RegExp("<noscript.*</noscript>"));
+    assert.match(document.body.innerHTML, new RegExp("\\s*<noscript.*></noscript>\\s*"));
   });
 
   it("renders the full-range element with measure and static capacity", () => {

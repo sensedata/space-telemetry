@@ -1,10 +1,10 @@
 import _ from "lodash";
+import $ from "jquery";
 import Moment from "moment";
 import React from "react";
 
 import App from "./app.js";
 
-import SimpleStore from "./stores/simple_store.js";
 import TelemetryIndex from "./telemetry_index.js";
 
 import BulletChart from "./views/bullet_chart.jsx";
@@ -14,7 +14,6 @@ import DecimalReadout from "./views/readouts/decimal_readout.jsx";
 import IntegerReadout from "./views/readouts/integer_readout.jsx";
 import TextReadout from "./views/readouts/text_readout.jsx";
 import TimestampReadout from "./views/readouts/timestamp_readout.jsx";
-
 import TransmittedAt from "./views/transmitted_at.jsx";
 import TransmissionDelay from "./views/transmission_delay.jsx";
 
@@ -29,14 +28,15 @@ const viewFactories = {
   "sparkline-chart": React.createFactory(SparklineChart)
 };
 
-const sparkLineCharts = [];
+const timeSeriesCharts = [];
 
 _.forEach(viewFactories, (viewFactory, className) => {
   _.forEach(document.getElementsByClassName(className), e => {
+    const je = $(e);
     const props = {
-      height: e.offsetHeight,
+      height: je.height(),
       target: e,
-      width: e.offsetWidth
+      width: je.width()
     };
 
     Object.assign(props, e.dataset);
@@ -64,11 +64,10 @@ _.forEach(viewFactories, (viewFactory, className) => {
     if (typeof props.store !== "undefined") {
       const view = React.render(viewFactory(props), e);
       if (e.classList.contains("sparkline-chart")) {
-        sparkLineCharts.push(view);
+        timeSeriesCharts.push(view);
       }
     }
   });
-
 });
 
 _.forEach(document.getElementsByClassName("status"), e => {
@@ -87,25 +86,21 @@ _.forEach(document.getElementsByClassName("status"), e => {
   app.socket.emit(telemetryNumber, -1, 1);
 });
 
-// const latestProps = {
-//   store: new SimpleStore({dispatcher: this.dispatcher})
-// };
-//
-// React.render(
-//   React.createFactory(TransmittedAt)(latestProps),
-//   document.getElementById("telemetry-transmitted")
-// );
-//
-// const delayView = React.render(
-//   React.createFactory(TransmissionDelay)(latestProps),
-//   document.getElementById("telemetry-delay")
-// );
+React.render(
+  React.createFactory(TransmittedAt)({store: app.getStore("latest")}),
+  document.getElementById("telemetry-transmitted")
+);
+
+React.render(
+  React.createFactory(TransmissionDelay)({store: app.getStore("latest")}),
+  document.getElementById("telemetry-delay")
+);
 
 window.setInterval(() => {
   const now = Moment().unix();
 
   // delayView.forceUpdate();
-  sparkLineCharts.forEach(c => {
+  timeSeriesCharts.forEach(c => {
     if (now - c.lastUpdate > 1) {
       c.forceUpdate();
     }

@@ -1,7 +1,7 @@
 module.exports = {
   devtool: "#source-map",
 
-  entry: "./client/index.js",
+  entry: "./client/page.js",
 
   module: {
     loaders: [{

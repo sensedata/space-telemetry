@@ -21,16 +21,6 @@ class BulletChart extends ListeningView {
     }
   }
 
-  componentWillUnmount() {
-    super.componentWillUnmount();
-
-    if (typeof this.props.capacityStore !== "undefined") {
-      this.props.capacityStore.removeListener(
-        "change", this.storeChanged.bind(this)
-      );
-    }
-  }
-
   storeChanged() {
     const measureData = this.props.store.get(1, -1);
 
@@ -46,7 +36,7 @@ class BulletChart extends ListeningView {
     this.setState(newState);
   }
 
-  renderWithState() {
+  render() {
     if (isNaN(this.state.capacity)) {
       return false;
     }

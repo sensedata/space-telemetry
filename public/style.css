@@ -52,6 +52,7 @@ th {
 
 .table td, .table th {
   border-color: #eee !important;
+  line-height: 0 !important; /* Non-zero line heights cause problems with SVG inside cells. */
 }
 
 
@@ -535,10 +536,6 @@ td, th {
   height: 23px !important;
 }
 
-.cmg .bullet-chart .bullet {
-  position: relative; top: 2.5px;
-}
-
 .cmg .bullet-chart .measure {
   stroke-width: 5px;
 }
@@ -625,7 +622,6 @@ td, th {
 
 .tristate {
   display: inline-block;
-  position: relative; top: 1.5px;
 }
 
 .readout {

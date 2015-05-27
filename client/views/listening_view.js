@@ -14,22 +14,10 @@ class ListeningView extends React.Component {
     );
   }
 
-  componentWillUnmount() {
-    this.props.store.removeListener(
-      "change", this.storeChanged.bind(this)
-    );
-  }
-
   storeChanged() {
     this.setState({
       data: this.props.store.get()
     });
-  }
-
-  render() {
-    if (this.props.target && this.props.target.offsetParent === null) {return false;}
-    if (!this.state) {return false;}
-    return this.renderWithState();
   }
 }
 
