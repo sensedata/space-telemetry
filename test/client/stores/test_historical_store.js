@@ -31,10 +31,10 @@ describe("HistoricalStore", () => {
     assert.deepEqual(_.map(store.get(3), "t"), [2, 1, 0]);
   });
 
-  it("prunes oldest data when overloaded", () => {
+  it("prunes data in FIFO order when overloaded", () => {
     action.relay([{t: 1}, {t: 0}, {t: 2}, {t: 3}]);
 
-    assert.deepEqual(_.map(store.get(3), "t"), [3, 2, 1]);
+    assert.deepEqual(_.map(store.get(4), "t"), [3, 2, 0]);
   });
 
 });

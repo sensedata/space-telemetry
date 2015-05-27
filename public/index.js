@@ -22626,7 +22626,7 @@
 	      this.indexDimension.filter(function (i) {
 	        return i < _this.crossfilter.size() - _this.props.maxSize;
 	      });
-	      this.indexDimension.remove();
+	      this.crossfilter.remove();
 	      this.indexDimension.filterAll();
 	    }
 	  }]);
