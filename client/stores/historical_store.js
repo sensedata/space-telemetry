@@ -40,7 +40,7 @@ class HistoricalStore extends Store {
     this.indexDimension.filter(i => {
       return i < this.crossfilter.size() - this.props.maxSize;
     });
-    this.indexDimension.remove();
+    this.crossfilter.remove();
     this.indexDimension.filterAll();
   }
 }
