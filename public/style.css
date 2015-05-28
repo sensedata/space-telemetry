@@ -203,11 +203,11 @@ html {
 @media (min-width: 1200px) {
   .footer {
     font-size: 16px;
-    height: 85px;
+    height: 100px;
   }
 
   .has-footer {
-    margin-bottom: 100px;
+    margin-bottom: 110px;
   }
 }
 
