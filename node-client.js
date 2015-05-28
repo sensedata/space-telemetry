@@ -18,7 +18,7 @@ socket.on('connect', function () {
   // socket.emit(dd.hash.STATUS, 5000, 50);
   // query for STATUS -  most recent record (seconds ago param must be null)
   // socket.emit(dd.hash.STATUS, null, -1);
-  // socket.emit(dd.hash.TIME_000001, 9999, 100);
+  socket.emit(dd.hash.TIME_000001, 9999, 100);
 });
 
 // listen for feed status

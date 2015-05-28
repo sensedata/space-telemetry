@@ -36,6 +36,8 @@ var ls = require('./lightstreamer');
 
 var db = require('./db');
 
+require('./db-maintenance');
+
 // 'stopper' function to prevent stats calcs if no clients connected
 function ioHasClients(data) {
 

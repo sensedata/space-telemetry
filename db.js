@@ -103,8 +103,7 @@ function selectStatsByIdx(idx, cb) {
       return cb(err);
     }
 
-    client.query('select avg(a) as a, avg(sd) as sd ' +
-      'from get_telemetry_time_interval_avg_stddev($1)',
+    client.query('select * from telemetry_stats_view where idx = $1',
       [idx],
       function (err2, res) {
 
@@ -193,8 +192,8 @@ exports.addCurrentStats = function (data, next) {
 
     if (res.rows.length > 0 && previousTime) {
 
-      avg = res.rows[0].a;
-      stddev = res.rows[0].sd;
+      avg = res.rows[0].lag_avg;
+      stddev = res.rows[0].lag_stddev;
       sdd = utils.calcStandardDeviationDistance(data.t - previousTime, avg, stddev);
     }
 
@@ -295,11 +294,11 @@ exports.addStats = function (idx) {
       if (interval !== null && res.rows.length > 0) {
 
         standardDeviation = utils.calcStandardDeviationDistance(
-          interval, res.rows[0].a, res.rows[0].sd);
+          interval, res.rows[0].lag_avg, res.rows[0].lag_stddev);
 
         data.forEach(function (d) {
           d.d = standardDeviation;
-          d.m = res.rows[0].a;
+          d.m = res.rows[0].lag_avg;
         });
 
       }
@@ -310,3 +309,26 @@ exports.addStats = function (idx) {
 };
 
 exports.selectStatsByIdx = selectStatsByIdx;
+
+
+function refreshMaterializedView(viewName, cb) {
+
+  pg.connect(psql, function (err, client, done) {
+
+    if (err) {
+
+      console.error('Error requesting postgres client', err);
+      return cb(err);
+    }
+
+    client.query('refresh materialized view concurrently ' + viewName,
+      [],
+      function (err2, res) {
+
+        done();
+        cb(err2, res);
+      });
+  });
+}
+
+exports.refreshMaterializedView = refreshMaterializedView;
