@@ -93,4 +93,13 @@ io.on('connection', function (socket) {
 
     bindDataHandler(socket, i);
   }
+
+  // broadcast the latest status on connection
+  _([{intervalAgo: 0, count: -1}])
+  .flatMap(db.getTelemetryData('297'))
+  .flatMap(db.addStats('297')).each(
+    function (data) {
+
+      socket.emit(297, data);
+    });
 });
