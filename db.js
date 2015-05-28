@@ -310,8 +310,8 @@ exports.addStats = function (idx) {
           interval, res.rows[0].lag_avg, res.rows[0].lag_stddev);
 
         data.forEach(function (d) {
-          d.d = lag_sd;
-          d.m = res.rows[0].lag_avg;
+          d.d = lag_sd || 0;
+          d.m = res.rows[0].lag_avg || 0;
         });
 
       }
