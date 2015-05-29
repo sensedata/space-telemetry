@@ -1,15 +1,14 @@
 # Space Telemetry
-This is the source code for <http://www.telemetry.space>. We maintain a Trello
-board to track what we're thinking about and working on at
-<https://trello.com/b/0c4U0mDg/space-telemetry>.
+This is the source code for <http://www.telemetry.space>.
 
-We welcome pull requests here on GitHub and your ideas over on the
-[Trello board](https://trello.com/b/0c4U0mDg/space-telemetry).
+We maintain a
+[Trello board](https://trello.com/b/0c4U0mDg/space-telemetry)
+to track what we're thinking about and working on, a
+[Slack team](http://slack.telemetry.space) for telemetry and development discussions, and welcome [pull requests](https://help.github.com/articles/using-pull-requests/) here on GitHub.
+
 Below are the instructions for getting a copy of the source code
-setup for development on your computer.
-
-If you have any issues with getting these instructions to work for you, let us know on
-[Trello](https://trello.com/b/0c4U0mDg/space-telemetry).
+setup for development on your computer. If you run into any issues getting these instructions to work for you, let us know on
+[Trello](https://trello.com/b/0c4U0mDg/space-telemetry) or [Slack](http://slack.telemetry.space).
 
 # Automation Status
 
@@ -30,7 +29,7 @@ or just write it into this README.md and send a pull request._
 
 ### XCode
 
-Install Xcode <http://developer.apple.com/xcode/> and it's command line tools.
+Install Xcode <http://developer.apple.com/xcode/> and it's command line tools. We also recommend the nicely packaged [Postgres.app](http://postgresapp.com), though any method of installation should work.
 
 
 ## Windows
@@ -47,7 +46,7 @@ Install io.js from: <https://iojs.org> and Foreman to run the application in the
 
 ## PostgreSQL:
 
-1. Download and install 9.4.x, e.g., <http://postgresapp.com>.
+1. Download and install 9.4.x: <http://www.postgresql.org/download/>.
 2. Be sure to set your PATH to use the binaries in Postgres.app if using it.
 3. Setup a user and two databases in PostgreSQL (the names can be changed if
 you like):
@@ -73,7 +72,8 @@ the test DB, for example:
 
 ## Space Telemetry
 
-1. Checkout the "develop" branch.
+1. Checkout the "develop" or "master" branches as you prefer; master is what you
+see at <http://www.telemetry.space> and develop is what we're working on.
 
         $ git checkout develop
 
@@ -93,13 +93,12 @@ in the node version of Foreman is fixed:
     $ nf start
 
 To automatically recompile the client files whenever you save changes to them,
-keep the following running:
+keep the following running (omit the watch flag to compile once and exit):
 
     $ npm run-script webpack -- --watch
 
-Omit the watch flag to compile only once.
-
-To run all the tests and generate code coverage (reported in detail in `coverage/lcov-report/index.html`):
+To run all the tests and generate code coverage (reported in detail in
+`coverage/lcov-report/index.html`):
 
     $ npm test
 
@@ -109,10 +108,10 @@ To run all the tests and generate code coverage (reported in detail in `coverage
 
 2. Fork this repository.
 
-3. Create a topic branch (in your fork) from the tip of develop for your current work, for
-example:
+3. Create a topic branch (in your fork) from the tip of the develop branch, for
+example if your adding a fancy feature, you'd create your topic branch from develop by running:
 
-        $ git checkout -b add-some-fancy-feature
+        $ git checkout -b add-some-fancy-feature develop
 
 4. Add tests to test/client or test/server for all your changes and use the coverage report to hunt for any dead code or missing tests.
 
