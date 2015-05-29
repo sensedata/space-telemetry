@@ -1,7 +1,7 @@
 var dd = require('./data_dictionary');
 
 // connect to a local dev server
-var socket = require('socket.io-client')('http://0.0.0.0:6001');
+var socket = require('socket.io-client')('http://0.0.0.0:5000');
 
 // listen for when a connection is established
 socket.on('connect', function () {
