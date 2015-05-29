@@ -174,7 +174,7 @@
 	      e.classList.add("off");
 	    }
 	  });
-	  app.socket.emit(telemetryNumber, -1, 1);
+	  app.socket.emit(telemetryNumber, null, -1);
 	});
 	
 	app.socket.on("disconnect", function (d) {
@@ -53581,8 +53581,8 @@
 	          this.getStore("latest").register(actions.relay, this.getStore("latest").update);
 	        }
 	
-	        // TODO use a real time limit instead of 0
-	        this.socket.emit(telemetryNumber, null, preload || -1);
+	        var timeLimit = preload ? preload * 3 : null;
+	        this.socket.emit(telemetryNumber, timeLimit, preload || -1);
 	      }
 	    }
 	  }]);
