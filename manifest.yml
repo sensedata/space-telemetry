@@ -1,8 +1,0 @@
-applications:
-- disk_quota: 1024M
-  host: iss-telemetry-challenge
-  name: iss-telemetry-challenge
-  path: .
-  domain: mybluemix.net
-  instances: 1
-  memory: 256M
