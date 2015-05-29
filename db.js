@@ -103,8 +103,7 @@ function selectStatsByIdx(idx, cb) {
       return cb(err);
     }
 
-    client.query('select avg(a) as a, avg(sd) as sd ' +
-      'from get_telemetry_time_interval_avg_stddev($1)',
+    client.query('select * from telemetry_stats_view where idx = $1',
       [idx],
       function (err2, res) {
 
@@ -177,15 +176,20 @@ var previousIdxTimeHash = {};
 exports.addCurrentStats = function (data, next) {
 
   selectStatsByIdx(data.k, function (err, res) {
-    var avg = 0,
-    stddev = 0,
+    var lag_avg = 0,
+    lag_stddev = 0,
+    val_avg = 0,
+    val_stddev = 0,
     previousTime = previousIdxTimeHash[data.k],
-    sdd = 0;
+    lag_sd = 0,
+    val_sd = 0;
 
     if (err) {
       // keep chugging along, even if there was an error
       data.m = 0;
       data.d = 0;
+      data.vm = 0;
+      data.vd = 0;
 
       next(null, [data]);
       return;
@@ -193,16 +197,22 @@ exports.addCurrentStats = function (data, next) {
 
     if (res.rows.length > 0 && previousTime) {
 
-      avg = res.rows[0].a;
-      stddev = res.rows[0].sd;
-      sdd = utils.calcStandardDeviationDistance(data.t - previousTime, avg, stddev);
+      lag_avg = res.rows[0].lag_avg;
+      lag_stddev = res.rows[0].lag_stddev;
+      val_avg = res.rows[0].val_avg;
+      val_stddev = res.rows[0].val_sd;
+      lag_sd = utils.calcStandardDeviationDistance(data.t - previousTime, lag_avg, lag_stddev);
+      val_sd = utils.calcStandardDeviationDistance(data.v, val_avg, val_stddev);
     }
 
     previousIdxTimeHash[data.k] = data.t;
 
-    data.m = avg || 0;
+    data.m = lag_avg || 0;
     // check for Infinity (div by zero)
-    data.d = sdd === Infinity ? 0 : sdd;
+    data.d = lag_sd === Infinity ? 0 : lag_sd;
+
+    data.vm = val_avg;
+    data.vd = val_sd === Infinity ? 0 : val_sd;
 
     next(null, [data]);
   });
@@ -274,7 +284,9 @@ exports.addStats = function (idx) {
         t: r.ts.getTime() / 1000 | 0,
         s: r.status,
         m: 0,
-        d: 0
+        d: 0,
+        vm: 0,
+        vd: 0
       };
     });
 
@@ -284,7 +296,7 @@ exports.addStats = function (idx) {
     }
 
     selectStatsByIdx(idx, function (err, res) {
-      var standardDeviation;
+      var lag_sd, val_sd;
 
       if (err) {
 
@@ -294,15 +306,23 @@ exports.addStats = function (idx) {
 
       if (interval !== null && res.rows.length > 0) {
 
-        standardDeviation = utils.calcStandardDeviationDistance(
-          interval, res.rows[0].a, res.rows[0].sd);
+        lag_sd = utils.calcStandardDeviationDistance(
+          interval, res.rows[0].lag_avg, res.rows[0].lag_stddev);
 
         data.forEach(function (d) {
-          d.d = standardDeviation;
-          d.m = res.rows[0].a;
+          d.d = lag_sd || 0;
+          d.m = res.rows[0].lag_avg || 0;
         });
 
       }
+
+      val_sd = utils.calcStandardDeviationDistance(
+        data[0].v, res.rows[0].val_avg, res.rows[0].val_sd);
+
+      data.forEach(function (d) {
+        d.vd = val_sd;
+        d.vm = res.rows[0].val_avg;
+      });
 
       next(null, data);
     });
@@ -310,3 +330,26 @@ exports.addStats = function (idx) {
 };
 
 exports.selectStatsByIdx = selectStatsByIdx;
+
+
+function refreshMaterializedView(viewName, cb) {
+
+  pg.connect(psql, function (err, client, done) {
+
+    if (err) {
+
+      console.error('Error requesting postgres client', err);
+      return cb(err);
+    }
+
+    client.query('refresh materialized view concurrently ' + viewName,
+      [],
+      function (err2, res) {
+
+        done();
+        cb(err2, res);
+      });
+  });
+}
+
+exports.refreshMaterializedView = refreshMaterializedView;

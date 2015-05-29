@@ -36,6 +36,8 @@ var ls = require('./lightstreamer');
 
 var db = require('./db');
 
+require('./db-maintenance');
+
 // 'stopper' function to prevent stats calcs if no clients connected
 function ioHasClients(data) {
 
@@ -91,4 +93,13 @@ io.on('connection', function (socket) {
 
     bindDataHandler(socket, i);
   }
+
+  // broadcast the latest status on connection
+  _([{intervalAgo: 0, count: -1}])
+  .flatMap(db.getTelemetryData('297'))
+  .flatMap(db.addStats('297')).each(
+    function (data) {
+
+      socket.emit(297, data);
+    });
 });
