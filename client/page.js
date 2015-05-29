@@ -84,7 +84,7 @@ _.forEach(document.getElementsByClassName("status"), e => {
       e.classList.add("off");
     }
   });
-  app.socket.emit(telemetryNumber, -1, 1);
+  app.socket.emit(telemetryNumber, null, -1);
 });
 
 app.socket.on("disconnect", (d) => {
