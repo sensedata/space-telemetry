@@ -8,7 +8,7 @@ function execRefreshMaterializedView(viewName, cb) {
   console.log('started execRefreshMaterializedView:', viewName, Date.now());
   db.refreshMaterializedView(viewName, function (err, res) {
 
-    console.log('finshed execRefreshMaterializedView:', viewName, Date.now(), err || 'success');
+    console.log('finished execRefreshMaterializedView:', viewName, Date.now(), err || 'success');
 
     cb(err, res);
   });
