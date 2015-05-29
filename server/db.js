@@ -28,7 +28,7 @@ function selectMostRecentByIdx(idx, cb) {
       return cb(err);
     }
 
-    client.query('select * from telemetry where idx = $1 order by ts desc limit 1',
+    client.query('select * from telemetry where idx = $1 order by ts desc, status desc limit 1',
       [idx],
       function (err2, res) {
 
@@ -68,7 +68,7 @@ function selectMostRecentByIdxIntervalAgoCount(idx, intervalAgo, count, cb) {
 
     client.query('with top_x as (select * ' +
       'from telemetry where idx = $1 and ts >= to_timestamp($2) ' +
-      'order by ts desc limit $3) select * from top_x order by ts asc',
+      'order by ts desc, status desc limit $3) select * from top_x order by ts asc',
       [idx, now - intervalAgo, count],
       function (err2, res) {
 
