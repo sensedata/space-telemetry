@@ -23,7 +23,7 @@ var server = exports.server = require('http').createServer(app);
 var io = exports.io = require('socket.io')(server);
 
 // serve the files out of ./public as our main files
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/../public'));
 
 // start server on the specified port and binding host
 server.listen(port, host, function () {

@@ -7,28 +7,13 @@ var ls = require('./lightstreamer');
 var utils = require('./utils');
 
 // Postgres confg
-var psql;
+var psql = process.env.DATABASE_URL;
 
 if (utils.isReadOnly()) {
   console.log('Running in read-only mode.');
 
 } else {
   console.log('Running in READ-WRITE mode.');
-}
-
-if (!!process.env.DATABASE_URL) {
-  psql = process.env.DATABASE_URL;
-
-} else {
-  // or locally
-  psql = {
-    database: 'iss_telemetry',
-    host: '0.0.0.0',
-    port: 5432,
-    user: '',
-    password: '',
-    ssl: false
-  };
 }
 
 console.log('Connecting to', psql);

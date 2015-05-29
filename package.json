@@ -7,13 +7,15 @@
   ],
   "version": "0.0.1",
   "description": "A view of telementry from space vehicles; so far only the International Space Station.",
-  "main": "server.js",
+  "main": "server/server.js",
   "engines": {
     "iojs": "2.0.x"
   },
   "scripts": {
-    "start": "iojs server.js",
-    "test": "./node_modules/.bin/babel-node ./node_modules/.bin/isparta cover ./node_modules/.bin/_mocha -- --compilers js:babel/register test --recursive",
+    "jscs": "./node_modules/.bin/jscs client server",
+    "jshint": "./node_modules/.bin/jshint client server",
+    "start": "iojs server/server.js",
+    "test": "./node_modules/.bin/babel-node ./node_modules/.bin/isparta cover ./node_modules/.bin/_mocha -- --compilers js:babel/register test/** --recursive",
     "webpack": "./node_modules/webpack/bin/webpack.js"
   },
   "dependencies": {
@@ -45,9 +47,12 @@
     "babel": "5.4.x",
     "chai": "2.3.x",
     "codeclimate-test-reporter": "0.0.x",
+    "dotenv": "1.1.x",
     "isparta": "3.0.x",
     "istanbul": "0.3.x",
+    "jscs": "1.13.x",
     "jsdom": "5.4.x",
+    "jshint": "2.7.x",
     "mocha": "2.2.x",
     "mocha-loader": "0.7.x",
     "svg-path-parser": "^1.0.1",

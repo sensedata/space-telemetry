@@ -1,5 +1,3 @@
--- Assumes a database named 'iss_telemetry' exists already
-
 -- create status table
 create table if not exists status(connected smallint not null, ts timestamp without time zone not null);
 

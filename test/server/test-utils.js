@@ -3,7 +3,7 @@
 var expect = require('chai').expect;
 var assert = require('chai').assert;
 
-var utils = require('../utils');
+var utils = require('../../server/utils');
 
 describe('Operational Environment', function () {
 
