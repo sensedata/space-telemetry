@@ -172,23 +172,23 @@ html {
 
 @media (min-width: 768px) {
   .footer {
-    height: 110px;
+    height: 130px;
     position: absolute; bottom: 0;
   }
 
   .has-footer {
-    margin-bottom: 125px;
+    margin-bottom: 140px;
   }
 
 }
 
 @media (min-width: 992px) {
   .footer {
-    height: 110px;
+    height: 120px;
   }
 
   .has-footer {
-    margin-bottom: 110px;
+    margin-bottom: 130px;
   }
 
   .touch .footer {
@@ -203,11 +203,11 @@ html {
 @media (min-width: 1200px) {
   .footer {
     font-size: 16px;
-    height: 100px;
+    height: 120px;
   }
 
   .has-footer {
-    margin-bottom: 110px;
+    margin-bottom: 130px;
   }
 }
 
