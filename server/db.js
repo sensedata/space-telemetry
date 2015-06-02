@@ -102,7 +102,6 @@ var previousSessionId = 0;
 
 ls.dataStream.fork().each(function (data) {
 
-  // do not add any values if in IBM Bluemix env
   // skip over TIME_000001 values
   if (!utils.isReadOnly()) {
 
