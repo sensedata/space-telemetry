@@ -1,8 +1,6 @@
-
-// VCAP_* indicated IBM BlueMix
 // process.env.PORT indicates Heroku
-var port = process.env.VCAP_APP_PORT || process.env.PORT || 6001;
-var host = process.env.VCAP_APP_HOST || '0.0.0.0';
+var port = process.env.PORT || 5000;
+var host = '0.0.0.0';
 
 var dd = require('./data_dictionary');
 

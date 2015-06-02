@@ -1,15 +1,6 @@
-// are we operating in the IBM BlueMix env?
-exports.isBluemix = function () {
-  return !!process.env.VCAP_APP_PORT;
-};
-
+// are we operating in a read-only env?
 exports.isReadOnly = function () {
-  return exports.isBluemix() || !!process.env.READ_ONLY;
-};
-
-// are we operating in Heroku env?
-exports.isHeroku = function () {
-  return !!process.env.PORT;
+  return !!process.env.READ_ONLY;
 };
 
 // return pseudo UUID based on time
