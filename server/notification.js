@@ -24,7 +24,9 @@ slack.info = slack.extend({
 
 exports.error = function (error) {
 
-  var fields = {};
+  var fields = {
+    Time: (new Date()).toUTCString()
+  };
 
   if (!(error instanceof Error)) {
 
@@ -54,12 +56,14 @@ exports.error = function (error) {
 exports.info = function (info) {
 
   var fields = {
+    Time: (new Date()).toUTCString(),
     Message: info
   };
 
   if (isProductionEnv) {
 
     slack.info({
+
       fallback: fields.Message,
       fields: fields
     });
