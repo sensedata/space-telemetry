@@ -6,6 +6,8 @@ var ls = require('./lightstreamer');
 
 var utils = require('./utils');
 
+var notify = require('./notification');
+
 // Postgres confg
 var psql = process.env.DATABASE_URL;
 
@@ -25,6 +27,9 @@ function selectMostRecentByIdx(idx, cb) {
     if (err) {
 
       console.error('Error requesting postgres client', err);
+
+      notify.error(err);
+
       return cb(err);
     }
 
@@ -47,6 +52,9 @@ function selectMostRecentByIdxIntervalAgoCount(idx, intervalAgo, count, cb) {
     if (err) {
 
       console.error('Error requesting postgres client', err);
+
+      notify.error(err);
+
       return cb(err);
     }
 
@@ -85,6 +93,9 @@ function selectStatsByIdx(idx, cb) {
     if (err) {
 
       console.error('Error requesting postgres client', err);
+
+      notify.error(err);
+
       return cb(err);
     }
 
@@ -109,6 +120,8 @@ ls.dataStream.fork().each(function (data) {
 
       if (err) {
 
+        notify.error(err);
+
         return console.error('Error requesting postgres client', err);
       }
 
@@ -124,6 +137,9 @@ ls.dataStream.fork().each(function (data) {
           if (err2 && err2.code !== '23505') {
 
             done();
+
+            notify.error(err2);
+
             return console.error('Error inserting data', err2);
           }
 
@@ -139,6 +155,8 @@ ls.dataStream.fork().each(function (data) {
               previousSessionId = data.sid;
 
               if (err3 && err3.code !== '23505') {
+
+                notify.error(err3);
 
                 return console.error('Error inserting data', err3);
               }
@@ -323,6 +341,9 @@ function refreshMaterializedView(viewName, cb) {
     if (err) {
 
       console.error('Error requesting postgres client', err);
+
+      notify.error(err);
+
       return cb(err);
     }
 

@@ -3,6 +3,11 @@ exports.isReadOnly = function () {
   return !!process.env.READ_ONLY;
 };
 
+// is this a production environment?
+exports.isProductionEnv = function () {
+  return process.env.NODE_ENV === 'production';
+};
+
 // return pseudo UUID based on time
 exports.getTimeBasedId = function () {
   return Date.now();
