@@ -1,5 +1,6 @@
 /*jshint mocha:true*/
 
+require('dotenv').load({path: '.env.test'});
 var expect = require('chai').expect;
 var assert = require('chai').assert;
 

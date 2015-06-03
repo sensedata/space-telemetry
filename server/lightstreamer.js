@@ -5,6 +5,8 @@ var EventEmitter = require('events').EventEmitter;
 
 var utils = require('./utils');
 
+var notify = require('./notification');
+
 var emitter = new EventEmitter();
 
 exports.dataStream = _('data', emitter);
