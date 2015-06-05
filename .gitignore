@@ -26,3 +26,4 @@ node_modules
 
 # SSL keys
 .ssl
+index.js
