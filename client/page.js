@@ -31,6 +31,8 @@ const viewFactories = {
 
 const timeSeriesCharts = [];
 
+require("./styles/common.scss");
+
 _.forEach(viewFactories, (viewFactory, className) => {
   _.forEach(document.getElementsByClassName(className), e => {
     const je = $(e);
