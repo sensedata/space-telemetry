@@ -27,6 +27,10 @@ body {
   font-size: 12px;
 }
 
+.atmosphere th {
+  text-align: right;
+}
+
 @media (min-width: 1200px) {
   h2 {
     font-size: 20px;
@@ -416,11 +420,11 @@ td, th {
 
 @font-face {
   font-family: 'iec_unicoderegular';
-  src: url('fonts/Unicode_IEC_symbol.eot');
-  src: url('fonts/Unicode_IEC_symbol.eot?#iefix') format('embedded-opentype'),
-       url('fonts/Unicode_IEC_symbol.woff') format('woff'),
-       url('fonts/Unicode_IEC_symbol.ttf') format('truetype'),
-       url('fonts/Unicode_IEC_symbol.svg#iec_symbols_unicoderegular') format('svg');
+  src: url('../fonts/Unicode_IEC_symbol.eot');
+  src: url('../fonts/Unicode_IEC_symbol.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/Unicode_IEC_symbol.woff') format('woff'),
+       url('../fonts/Unicode_IEC_symbol.ttf') format('truetype'),
+       url('../fonts/Unicode_IEC_symbol.svg#iec_symbols_unicoderegular') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -464,6 +468,10 @@ td, th {
 
 @media (min-width: 992px) {
   .attitude.table:not(.first) .column-header {
+    width: 0;
+  }
+
+  .atmosphere.table:not(.first) .column-header {
     width: 0;
   }
 
@@ -693,6 +701,10 @@ td, th {
 
 .readout.newton-meter-second:after {
   content: " N⋅m⋅s";
+}
+
+.readout.pressure:after {
+  content: " mmHg";
 }
 
 .readout.radians:after {
