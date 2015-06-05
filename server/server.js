@@ -1,8 +1,17 @@
-
-// VCAP_* indicated IBM BlueMix
 // process.env.PORT indicates Heroku
-var port = process.env.VCAP_APP_PORT || process.env.PORT || 6001;
-var host = process.env.VCAP_APP_HOST || '0.0.0.0';
+var port = process.env.PORT || 5000;
+var host = '0.0.0.0';
+
+var notify = require('./notification');
+
+process.on('uncaughtException', function (err) {
+  // log error
+  console.error(err.stack || err);
+  // notify error
+  notify.error(err);
+  // exit the process since we are now in a unknown state
+  process.exit(1);
+});
 
 var dd = require('./data_dictionary');
 
@@ -30,6 +39,8 @@ server.listen(port, host, function () {
 
   // print a message when the server starts listening
   console.log('server starting on host: ' + host + ', port: ' + port);
+
+  notify.info('server started');
 });
 
 var ls = require('./lightstreamer');

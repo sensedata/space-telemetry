@@ -2,13 +2,22 @@
 
 var db = require('./db');
 
+var notify = require('./notification');
+
 var oneDay = 1000 * 60 * 60 * 24;
 
 function execRefreshMaterializedView(viewName, cb) {
+
   console.log('started execRefreshMaterializedView:', viewName, Date.now());
+
   db.refreshMaterializedView(viewName, function (err, res) {
 
     console.log('finished execRefreshMaterializedView:', viewName, Date.now(), err || 'success');
+
+    if (err) {
+
+      notify.error(err);
+    }
 
     cb(err, res);
   });
