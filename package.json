@@ -38,6 +38,7 @@
     "pg": "4.3.x",
     "react": "0.13.x",
     "sass-loader": "1.0.x",
+    "slack-notify": "0.1.x",
     "socket.io": "1.3.x",
     "socket.io-client": "1.3.x",
     "style-loader": "0.12.x",
