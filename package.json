@@ -54,6 +54,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "babel": "5.5.x",
     "chai": "2.3.x",
     "codeclimate-test-reporter": "0.0.x",
     "dotenv": "1.1.x",
