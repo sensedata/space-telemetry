@@ -339,6 +339,105 @@ function getTelemetrySessionStatsGaps(cb) {
 
 exports.getTelemetrySessionStatsGaps = getTelemetrySessionStatsGaps;
 
+// function getTelemetrySessionStatsBySessionIdIdx(sessionId, idx, cb) {
+//
+//   pg.connect(psql, function (err, client, done) {
+//
+//     if (err) {
+//
+//       console.error('Error requesting postgres client', err);
+//
+//       notify.error(err);
+//
+//       return cb(err);
+//     }
+//
+//     client.query('select * from get_telemetry_session_stats($1, $2)',
+//       [sessionId, idx],
+//       function (err2, res) {
+//
+//         done();
+//         cb(err2, res);
+//       });
+//   });
+// }
+
+
+var telemetrySessionStatsQuery =
+    'with ' +
+    'time_series as ( ' +
+      'select sec ' +
+      'from generate_series( ' +
+        '(select min(ts) from telemetry where session_id = $1 and idx = $2 and status = 24), ' +
+        '(select max(ts) from telemetry where session_id = $1 and idx = $2 and status = 24), ' +
+        '\'1 sec\' ' +
+      ') as sec ' +
+    '), ' +
+    'telemetry_change_values as ( ' +
+      'select ' +
+        'date_trunc(\'sec\', ts) as sec, ' +
+        'value ' +
+      'from telemetry ' +
+      'where session_id = $1 and idx = $2 and status = 24 ' +
+    '), ' +
+    'telemetry_filled_values as ( ' +
+      'select ' +
+        'time_series.sec as sec, ' +
+        '(select telemetry_change_values.value ' +
+         'from telemetry_change_values ' +
+         'where telemetry_change_values.sec <= time_series.sec ' +
+         'order by telemetry_change_values.sec DESC ' +
+         'limit 1) ' +
+      'from ' +
+        'time_series left outer join telemetry_change_values ' +
+          'on telemetry_change_values.sec = time_series.sec ' +
+        'order by time_series.sec ' +
+    '), ' +
+    'telemetry_session_value_stats as ( ' +
+      'select ' +
+        '$2 as idx, ' +
+        'min(value) as value_min, ' +
+        'max(value) as value_max, ' +
+        'avg(value) as value_avg, ' +
+        'stddev_samp(value) as value_stddev ' +
+      'from telemetry_filled_values ' +
+    '), ' +
+    'telemetry_session_lag_stats as ( ' +
+      'select ' +
+        '$2 as idx, ' +
+        'count(*) as value_count, ' +
+        'min(lag) as lag_min, ' +
+        'max(lag) as lag_max, ' +
+        'avg(lag) as lag_avg, ' +
+        'stddev_samp(lag) as lag_stddev, ' +
+        'min(ts) as ts_min, ' +
+        'max(ts) as ts_max ' +
+      'from ( ' +
+        'select ' +
+          'extract(epoch from (ts - lag(ts) over (partition by idx, session_id order by idx, session_id, ts))) as lag, ' +
+          'ts ' +
+        'from telemetry ' +
+          'where session_id = $1 and idx = $2 and status = 24 ' +
+      ') as temp_lag ' +
+    ') ' +
+    'select ' +
+    '$1 as session_id, ' +
+    '$2 as idx, ' +
+    'coalesce(l.value_count, 0) as value_count, ' +
+    'v.value_min as value_min, ' +
+    'v.value_max as value_min, ' +
+    'v.value_avg as value_avg, ' +
+    'v.value_stddev as value_stddev, ' +
+    'l.lag_min as lag_min, ' +
+    'l.lag_max as lag_max, ' +
+    'l.lag_avg as lag_avg, ' +
+    'l.lag_stddev as lag_stddev, ' +
+    'l.ts_min as ts_min, ' +
+    'l.ts_max as ts_max ' +
+    'from telemetry_session_value_stats v inner join telemetry_session_lag_stats l ' +
+  'on v.idx = l.idx';
+
+
 function getTelemetrySessionStatsBySessionIdIdx(sessionId, idx, cb) {
 
   pg.connect(psql, function (err, client, done) {
@@ -352,15 +451,17 @@ function getTelemetrySessionStatsBySessionIdIdx(sessionId, idx, cb) {
       return cb(err);
     }
 
-    client.query('select * from get_telemetry_session_stats($1, $2)',
+    client.query(telemetrySessionStatsQuery,
       [sessionId, idx],
       function (err2, res) {
-
+        console.log(res.rows[0]);
         done();
         cb(err2, res);
       });
   });
 }
+
+
 
 exports.getTelemetrySessionStatsBySessionIdIdx = getTelemetrySessionStatsBySessionIdIdx;
 
