@@ -99,7 +99,9 @@ function selectStatsByIdx(idx, cb) {
       return cb(err);
     }
 
-    client.query('select * from telemetry_stats_view where idx = $1',
+    client.query('select avg(lag_avg) as lag_avg,' +
+      ' avg(lag_stddev) as lag_stddev, avg(value_avg) as val_avg,' +
+      ' avg(value_stddev) as val_sd from telemetry_session_stats where idx = $1',
       [idx],
       function (err2, res) {
 
@@ -113,7 +115,6 @@ var previousSessionId = 0;
 
 ls.dataStream.fork().each(function (data) {
 
-  // skip over TIME_000001 values
   if (!utils.isReadOnly()) {
 
     pg.connect(psql, function (err, client, done) {
@@ -334,7 +335,7 @@ exports.addStats = function (idx) {
 exports.selectStatsByIdx = selectStatsByIdx;
 
 
-function refreshMaterializedView(viewName, cb) {
+function getTelemetrySessionStatsGaps(cb) {
 
   pg.connect(psql, function (err, client, done) {
 
@@ -347,7 +348,7 @@ function refreshMaterializedView(viewName, cb) {
       return cb(err);
     }
 
-    client.query('refresh materialized view concurrently ' + viewName,
+    client.query('select * from get_telemetry_session_stats_gaps()',
       [],
       function (err2, res) {
 
@@ -357,4 +358,86 @@ function refreshMaterializedView(viewName, cb) {
   });
 }
 
-exports.refreshMaterializedView = refreshMaterializedView;
+exports.getTelemetrySessionStatsGaps = getTelemetrySessionStatsGaps;
+
+function getTelemetrySessionStatsBySessionIdIdx(sessionId, idx, cb) {
+
+  pg.connect(psql, function (err, client, done) {
+
+    if (err) {
+
+      console.error('Error requesting postgres client', err);
+
+      notify.error(err);
+
+      return cb(err);
+    }
+
+    client.query('select * from get_telemetry_session_stats($1, $2)',
+      [sessionId, idx],
+      function (err2, res) {
+
+        done();
+        cb(err2, res);
+      });
+  });
+}
+
+exports.getTelemetrySessionStatsBySessionIdIdx = getTelemetrySessionStatsBySessionIdIdx;
+
+function saveTelemetrySessionStatsBySessionIdIdx(
+    session_id,
+    idx,
+    value_count,
+    value_min,
+    value_max,
+    value_avg,
+    value_stddev,
+    lag_min,
+    lag_max,
+    lag_avg,
+    lag_stddev,
+    ts_min,
+    ts_max,
+    cb) {
+
+  pg.connect(psql, function (err, client, done) {
+
+    if (err) {
+
+      console.error('Error requesting postgres client', err);
+
+      notify.error(err);
+
+      return cb(err);
+    }
+
+    client.query('insert into telemetry_session_stats(' +
+    'idx, session_id, value_count, value_min, value_max,' +
+    'value_avg, value_stddev, lag_min, lag_max, lag_avg,' +
+    'lag_stddev, ts_min, ts_max) values ($1, $2, $3, $4,' +
+    '$5, $6, $7, $8, $9, $10, $11, $12, $13)',
+    [
+      idx,
+      session_id,
+      value_count,
+      value_min,
+      value_max,
+      value_avg,
+      value_stddev,
+      lag_min,
+      lag_max,
+      lag_avg,
+      lag_stddev,
+      ts_min,
+      ts_max
+    ],
+    function (err2, res) {
+
+      done();
+      cb(err2, res);
+    });
+  });
+}
+
+exports.saveTelemetrySessionStatsBySessionIdIdx = saveTelemetrySessionStatsBySessionIdIdx;
