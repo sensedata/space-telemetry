@@ -1,34 +1,91 @@
 'use strict';
 
+var _ = require('highland');
+
 var db = require('./db');
 
 var notify = require('./notification');
 
+
 var oneDay = 1000 * 60 * 60 * 24;
 
-function execRefreshMaterializedView(viewName, cb) {
+function getTelemetrySessionStatsBySessionIdIdxWrapper(params, next) {
 
-  console.log('started execRefreshMaterializedView:', viewName, Date.now());
-
-  db.refreshMaterializedView(viewName, function (err, res) {
-
-    console.log('finished execRefreshMaterializedView:', viewName, Date.now(), err || 'success');
+  db.getTelemetrySessionStatsBySessionIdIdx(params.session_id, params.idx, function (err, res) {
 
     if (err) {
 
-      notify.error(err);
+      next(err);
+      return;
     }
 
-    cb(err, res);
+    next(null, res.rows[0]);
   });
 }
 
-function refreshTelemetryStatsView(interval) {
+function saveTelemetrySessionStatsBySessionIdIdxWrapper(params, next) {
 
-  execRefreshMaterializedView('telemetry_stats_view', function (err, res) {
+  db.saveTelemetrySessionStatsBySessionIdIdx(
+    params.session_id,
+    params.idx,
+    params.value_count,
+    params.value_min,
+    params.value_max,
+    params.value_avg,
+    params.value_stddev,
+    params.lag_min,
+    params.lag_max,
+    params.lag_avg,
+    params.lag_stddev,
+    params.ts_min,
+    params.ts_max,
+    function (err, res) {
 
-    setTimeout(function () { refreshTelemetryStatsView(interval); }, interval);
+      if (err) {
+
+        next(err);
+        return;
+      }
+
+      next(null);
+    });
+}
+
+function execBuildTelemetrySessionStats(cb) {
+
+  db.getTelemetrySessionStatsGaps(function (err, res) {
+
+    if (err) {
+
+      return notify.error(err);
+    }
+
+    _(res.rows)
+    .flatMap(_.wrapCallback(getTelemetrySessionStatsBySessionIdIdxWrapper))
+    .flatMap(_.wrapCallback(saveTelemetrySessionStatsBySessionIdIdxWrapper))
+    .stopOnError(function (err2) {
+
+      cb(err2, res);
+    })
+    .done(function () {
+
+      cb(err, res);
+
+    });
   });
 }
 
-refreshTelemetryStatsView(oneDay);
+function buildTelemetrySessionStats(interval) {
+
+  console.log('started buildTelemetrySessionStats:', Date.now());
+
+  execBuildTelemetrySessionStats(function (err, res) {
+
+    console.log('finished execTelemetrySessionStatsBuilder:', Date.now(), err || 'success');
+
+    setTimeout(function () { buildTelemetrySessionStats(interval); }, interval);
+  });
+}
+
+buildTelemetrySessionStats(oneDay);
+
