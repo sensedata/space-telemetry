@@ -1,5 +1,3 @@
-var webpack = require("webpack");
-
 module.exports = {
   devtool: "#source-map",
 
@@ -22,10 +20,6 @@ module.exports = {
       }
     ]
   },
-
-  plugins: [
-    new webpack.optimize.UglifyJsPlugin()
-  ],
 
   output: {
     path: "./public",
