@@ -93,4 +93,3 @@ if (!utils.isReadOnly()) {
 
   buildTelemetrySessionStats(oneDay);
 }
-
