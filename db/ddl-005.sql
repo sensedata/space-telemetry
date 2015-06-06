@@ -118,7 +118,6 @@ create or replace function get_telemetry_session_stats( _session_id bigint, _idx
     on v.idx = l.idx
 $$ language sql stable;
 
-
 -- create stats gaps function
 create or replace function get_telemetry_session_stats_gaps(_series_max int)
   returns table(
@@ -153,4 +152,3 @@ create or replace function get_telemetry_session_stats_gaps(_series_max int)
     where tss_sid is null and tss_idx is null
     order by ais_sid, ais_idx
 $$ language sql stable;
-
