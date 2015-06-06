@@ -53,23 +53,23 @@ function saveTelemetrySessionStatsBySessionIdIdxWrapper(params, next) {
 
 function execBuildTelemetrySessionStats(cb) {
 
-  db.getTelemetrySessionStatsGaps(function (err, res) {
+  db.getTelemetrySessionStatsGaps(function (err, stream) {
 
     if (err) {
 
       return notify.error(err);
     }
 
-    _(res.rows)
+    _(stream)
     .flatMap(_.wrapCallback(getTelemetrySessionStatsBySessionIdIdxWrapper))
     .flatMap(_.wrapCallback(saveTelemetrySessionStatsBySessionIdIdxWrapper))
     .stopOnError(function (err2) {
 
-      cb(err2, res);
+      cb(err2);
     })
     .done(function () {
 
-      cb(err, res);
+      cb(err);
 
     });
   });
@@ -81,7 +81,7 @@ function buildTelemetrySessionStats(interval) {
 
   execBuildTelemetrySessionStats(function (err, res) {
 
-    console.log('finished execTelemetrySessionStatsBuilder:', Date.now(), err || 'success');
+    console.log('finished buildTelemetrySessionStats:', Date.now(), err || 'success');
 
     setTimeout(function () { buildTelemetrySessionStats(interval); }, interval);
   });
