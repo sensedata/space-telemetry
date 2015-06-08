@@ -13,24 +13,32 @@ class DecimalReadout extends ListeningView {
     } else {
       const current = this.state.data[0];
 
-      if (typeof this.props.target.dataset.quaternionId !== "undefined") {
-        formatted = current[this.props.target.dataset.eulerAxis];
+      if (typeof this.props.quaternionId !== "undefined") {
+        formatted = current[this.props.eulerAxis];
 
       } else {
         formatted = current.v;
       }
 
-      if (typeof this.props.target.dataset.scale !== "undefined") {
-        formatted = formatted.toFixed(this.props.target.dataset.scale);
+      if (typeof this.props.conversion !== "undefined") {
+        formatted *= parseFloat(this.props.conversion);
+      }
+
+      if (typeof this.props.scale !== "undefined") {
+        formatted = formatted.toFixed(this.props.scale);
 
       } else {
         formatted = formatted.toString();
       }
 
-      if (typeof this.props.target.dataset.precision !== "undefined") {
+      if (typeof this.props.precision !== "undefined") {
         const integer = parseInt(formatted);
-        const padded = _.padLeft(integer, this.props.target.dataset.precision, "0");
+        const padded = _.padLeft(integer, this.props.precision, "0");
         formatted = formatted.replace(new RegExp("^" + integer), padded);
+      }
+
+      if (this.props.negativePad === "true") {
+        formatted = formatted.replace(/^([^\-])/, "\u00A0$1");
       }
     }
 

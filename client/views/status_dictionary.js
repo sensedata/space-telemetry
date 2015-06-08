@@ -18,6 +18,16 @@ const gpsStatuses = {
 };
 
 const statusById = {
+  "NODE3000010": {
+    1: "Process",
+    2: "Standby",
+    3: "Shutdown",
+    4: "Stop",
+    5: "Vent Dome",
+    6: "Inert Dome",
+    7: "Fast Shutdown",
+    8: "N2 Purge Shutdown"
+  },
   "STATUS": {
     0: "Disconnected",
     1: "Connected"

@@ -8,13 +8,9 @@ const assert = Chai.assert;
 
 describe("DecimalReadout", () => {
   const payload = [{t: 0, v: 9.7816348761234}];
-  let ui;
-
-  beforeEach("setup for DecimalReadout", () => {
-    ui = TestHelper.buildUI("readouts/decimal_readout.jsx");
-  });
 
   it("renders data received before mounting", () => {
+    const ui = TestHelper.buildUI("readouts/decimal_readout.jsx");
     ui.action.relay(payload);
     ui.React.render(ui.view, document.body);
 
@@ -22,6 +18,7 @@ describe("DecimalReadout", () => {
   });
 
   it("renders data received after mounting", () => {
+    const ui = TestHelper.buildUI("readouts/decimal_readout.jsx");
     ui.React.render(ui.view, document.body);
     ui.action.relay(payload);
 
@@ -29,13 +26,15 @@ describe("DecimalReadout", () => {
   });
 
   it("renders a dash when it doesn't have data", () => {
+    const ui = TestHelper.buildUI("readouts/decimal_readout.jsx");
     ui.React.render(ui.view, document.body);
     assert.match(document.body.innerHTML, TestHelper.wrap("-"));
   });
 
   it("renders the euler axis of quaternions", () => {
-    document.body.dataset.eulerAxis = "w";
-    document.body.dataset.quaternionId = "test";
+    const ui = TestHelper.buildUI(
+      "readouts/decimal_readout.jsx", {eulerAxis: "w", quaternionId: "test"}
+    );
     ui.React.render(ui.view, document.body);
     ui.action.relay([{w: "1234"}]);
 
@@ -43,7 +42,7 @@ describe("DecimalReadout", () => {
   });
 
   it("rounds to scale", () => {
-    document.body.dataset.scale = "3";
+    const ui = TestHelper.buildUI("readouts/decimal_readout.jsx", {scale: 3});
     ui.React.render(ui.view, document.body);
     ui.action.relay(payload);
 
@@ -51,7 +50,7 @@ describe("DecimalReadout", () => {
   });
 
   it("pads to the left with zeros with precision", () => {
-    document.body.dataset.precision = "3";
+    const ui = TestHelper.buildUI("readouts/decimal_readout.jsx", {precision: 3});
     ui.React.render(ui.view, document.body);
     ui.action.relay(payload);
 
@@ -59,8 +58,7 @@ describe("DecimalReadout", () => {
   });
 
   it("rounds and pads together", () => {
-    document.body.dataset.precision = "3";
-    document.body.dataset.scale = "3";
+    const ui = TestHelper.buildUI("readouts/decimal_readout.jsx", {precision: 3, scale: 3});
     ui.React.render(ui.view, document.body);
     ui.action.relay(payload);
 

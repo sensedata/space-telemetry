@@ -1,0 +1,29 @@
+.bullet-chart {
+  height: 20px;
+
+  .range-0 {
+    fill: #eee;
+  }
+
+  .range-1 {
+    fill: #ddd;
+  }
+
+  .range-2 {
+    fill: #ccc;
+  }
+
+  .range-3 {
+    fill: #bbb;
+  }
+
+  .measure {
+    stroke: #444;
+    stroke-width: 6px;
+  }
+
+  .marker {
+    stroke: #777;
+    stroke-width: 1px;
+  }
+}
