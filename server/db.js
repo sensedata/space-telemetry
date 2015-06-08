@@ -1,3 +1,5 @@
+'use strict';
+
 var _ = require('highland');
 
 var pg = require('pg');
@@ -36,7 +38,8 @@ function selectMostRecentByIdx(idx, cb) {
       return cb(err);
     }
 
-    client.query('select * from telemetry where idx = $1 and ts = (select max(ts) from telemetry where idx = $1) order by status desc',
+    client.query('select * from telemetry where idx = $1 and ts = ' +
+      '(select max(ts) from telemetry where idx = $1) order by status desc',
       [idx],
       function (err2, res) {
 
@@ -104,7 +107,7 @@ function selectStatsByIdx(idx, cb) {
 
     client.query('select avg(lag_avg) as lag_avg,' +
       ' avg(lag_stddev) as lag_stddev, avg(value_avg) as val_avg,' +
-      ' avg(value_stddev) as val_sd from telemetry_session_stats where idx = $1',
+      ' avg(value_stddev) as val_stddev from telemetry_session_stats where idx = $1',
       [idx],
       function (err2, res) {
 
@@ -113,6 +116,8 @@ function selectStatsByIdx(idx, cb) {
       });
   });
 }
+
+exports.selectStatsByIdx = selectStatsByIdx;
 
 var previousSessionId = 0;
 
@@ -177,54 +182,56 @@ ls.dataStream.fork().each(function (data) {
   }
 });
 
-var previousIdxTimeHash = {};
+function addTelemetryStats(data, cb) {
 
-exports.addCurrentStats = function (data, next) {
+  if (!Array.isArray(data)) {
 
-  selectStatsByIdx(data.k, function (err, res) {
-    var lag_avg = 0,
-    lag_stddev = 0,
-    val_avg = 0,
-    val_stddev = 0,
-    previousTime = previousIdxTimeHash[data.k],
-    lag_sd = 0,
-    val_sd = 0;
+    data = [data];
+  }
 
-    if (err) {
+  selectStatsByIdx(data[0].k, function (err, res) {
+
+    if (err || res.rows.length === 0) {
       // keep chugging along, even if there was an error
-      data.m = 0;
-      data.d = 0;
-      data.vm = 0;
-      data.vd = 0;
+      data = data.map(function (d) {
 
-      next(null, [data]);
-      return;
+        d.lm = 0;
+        d.ld = 0;
+        d.vm = 0;
+        d.vd = 0;
+
+        return d;
+      });
+
+      if (err) {
+
+        console.error(err);
+
+        notify.error(err);
+      }
+
+      return cb(null, data);
     }
 
-    if (res.rows.length > 0 && previousTime) {
+    data = data.map(function (d) {
 
-      lag_avg = res.rows[0].lag_avg;
-      lag_stddev = res.rows[0].lag_stddev;
-      val_avg = res.rows[0].val_avg;
-      val_stddev = res.rows[0].val_sd;
-      lag_sd = utils.calcStandardDeviationDistance(data.t - previousTime, lag_avg, lag_stddev);
-      val_sd = utils.calcStandardDeviationDistance(data.v, val_avg, val_stddev);
-    }
+      d.lm = res.rows[0].lag_avg || 0;
+      d.ld = res.rows[0].lag_stddev || 0;
+      d.vm = res.rows[0].val_avg || 0;
+      d.vd = res.rows[0].val_stddev || 0;
 
-    previousIdxTimeHash[data.k] = data.t;
+      return d;
+    });
 
-    data.m = lag_avg || 0;
-    // check for Infinity (div by zero)
-    data.d = lag_sd === Infinity ? 0 : lag_sd;
-
-    data.vm = val_avg;
-    data.vd = val_sd === Infinity ? 0 : val_sd;
-
-    next(null, [data]);
+    cb(null, data);
   });
-};
 
-exports.getTelemetryData = function (idx) {
+}
+
+exports.addTelemetryStats = addTelemetryStats;
+
+
+function getTelemetryData(idx) {
 
   return _.wrapCallback(function (params, next) {
 
@@ -274,68 +281,32 @@ exports.getTelemetryData = function (idx) {
         });
     }
   });
-};
+}
 
-exports.addStats = function (idx) {
+exports.getTelemetryData = getTelemetryData;
+
+function addStats(idx) {
 
   return _.wrapCallback(function (rows, next) {
 
-    var data;
-    var interval = null;
-
-    data = rows.map(function (r) {
+    var data = rows.map(function (r) {
       return {
         k: idx,
         v: r.value,
         t: r.ts.getTime() / 1000 | 0,
         s: r.status,
-        m: 0,
-        d: 0,
+        lm: 0,
+        ld: 0,
         vm: 0,
         vd: 0
       };
     });
 
-    if (data.length >= 2) {
-
-      interval = data[data.length - 1].t - data[data.length - 2].t;
-    }
-
-    selectStatsByIdx(idx, function (err, res) {
-      var lag_sd, val_sd;
-
-      if (err) {
-
-        next(err);
-        return;
-      }
-
-      if (interval !== null && res.rows.length > 0) {
-
-        lag_sd = utils.calcStandardDeviationDistance(
-          interval, res.rows[0].lag_avg, res.rows[0].lag_stddev);
-
-        data.forEach(function (d) {
-          d.d = lag_sd || 0;
-          d.m = res.rows[0].lag_avg || 0;
-        });
-
-      }
-
-      val_sd = utils.calcStandardDeviationDistance(
-        data[0].v, res.rows[0].val_avg, res.rows[0].val_sd);
-
-      data.forEach(function (d) {
-        d.vd = val_sd;
-        d.vm = res.rows[0].val_avg;
-      });
-
-      next(null, data);
-    });
+    addTelemetryStats(data, next);
   });
-};
+}
 
-exports.selectStatsByIdx = selectStatsByIdx;
+exports.addStats = addStats;
 
 function getTelemetrySessionStatsGaps(cb) {
 
@@ -353,7 +324,7 @@ function getTelemetrySessionStatsGaps(cb) {
     }
 
     query = new QueryStream('select * from get_telemetry_session_stats_gaps($1)',
-    [dd.list.length - 1]);
+      [dd.list.length - 1]);
 
     stream = client.query(query);
     stream.on('end', done);
@@ -405,43 +376,46 @@ function saveTelemetrySessionStatsBySessionIdIdx(
     ts_max,
     cb) {
 
-  pg.connect(psql, function (err, client, done) {
+  if (!utils.isReadOnly()) {
 
-    if (err) {
+    pg.connect(psql, function (err, client, done) {
 
-      console.error('Error requesting postgres client', err);
+      if (err) {
 
-      notify.error(err);
+        console.error('Error requesting postgres client', err);
 
-      return cb(err);
-    }
+        notify.error(err);
 
-    client.query('insert into telemetry_session_stats(' +
-    'idx, session_id, value_count, value_min, value_max,' +
-    'value_avg, value_stddev, lag_min, lag_max, lag_avg,' +
-    'lag_stddev, ts_min, ts_max) values ($1, $2, $3, $4,' +
-    '$5, $6, $7, $8, $9, $10, $11, $12, $13)',
-    [
-      idx,
-      session_id,
-      value_count,
-      value_min,
-      value_max,
-      value_avg,
-      value_stddev,
-      lag_min,
-      lag_max,
-      lag_avg,
-      lag_stddev,
-      ts_min,
-      ts_max
-    ],
-    function (err2, res) {
+        return cb(err);
+      }
 
-      done();
-      cb(err2, res);
+      client.query('insert into telemetry_session_stats(' +
+      'idx, session_id, value_count, value_min, value_max,' +
+      'value_avg, value_stddev, lag_min, lag_max, lag_avg,' +
+      'lag_stddev, ts_min, ts_max) values ($1, $2, $3, $4,' +
+      '$5, $6, $7, $8, $9, $10, $11, $12, $13)',
+      [
+        idx,
+        session_id,
+        value_count,
+        value_min,
+        value_max,
+        value_avg,
+        value_stddev,
+        lag_min,
+        lag_max,
+        lag_avg,
+        lag_stddev,
+        ts_min,
+        ts_max
+      ],
+      function (err2, res) {
+
+        done();
+        cb(err2, res);
+      });
     });
-  });
+  }
 }
 
 exports.saveTelemetrySessionStatsBySessionIdIdx = saveTelemetrySessionStatsBySessionIdIdx;
