@@ -39,7 +39,8 @@ function selectMostRecentByIdx(idx, cb) {
     }
 
     client.query('select * from telemetry where idx = $1 and ts = ' +
-      '(select max(ts) from telemetry where idx = $1) order by status desc',
+      '(select max(ts) from telemetry where idx = $1) ' +
+      'order by status desc limit 1',
       [idx],
       function (err2, res) {
 
