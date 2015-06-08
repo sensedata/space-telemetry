@@ -23,16 +23,16 @@ class AveragingStore extends Store {
       return;
     }
 
-    this.latest[data[0].k] = _.max(data, "t");
-    const averager = (newState, newData, i) => {
-      if (!_.includes(newState.k, newData.k)) {
-        newState.k.push(newData.k);
-      }
-      newState.v = newState.v + (newData.v - newState.v) / i;
-      return newState;
-    };
+    this.latest[data[0].k] = _.max(data, "t").v;
+    let n = 0, s = 0;
+    const keys = [];
+    for (let k in this.latest) {
+      n++;
+      s += this.latest[k];
+      keys.push(parseInt(k));
+    }
 
-    this.setState(_.reduce(this.latest, averager, {k: [], v: 0}));
+    this.setState({k: keys, v: s / n});
   }
 }
 
