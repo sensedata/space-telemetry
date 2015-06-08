@@ -120,14 +120,14 @@ $$ language sql stable;
 
 
 -- create stats gaps function
-create or replace function get_telemetry_session_stats_gaps()
+create or replace function get_telemetry_session_stats_gaps(_series_max int)
   returns table(
     session_id bigint,
     idx int
     ) AS $$
     with
     idx_series as (
-       select idx from generate_series(0,297,1) as idx
+       select idx from generate_series(0, $1 ,1) as idx
     ),
     all_idx_session as (
       select
@@ -152,5 +152,5 @@ create or replace function get_telemetry_session_stats_gaps()
     from session_idx_join
     where tss_sid is null and tss_idx is null
     order by ais_sid, ais_idx
-$$ language sql;
+$$ language sql stable;
 
