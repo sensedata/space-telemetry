@@ -48,8 +48,8 @@ create or replace function get_telemetry_session_stats( _session_id bigint, _idx
     time_series as (
       select sec
       from generate_series(
-        (select min(ts) from telemetry where session_id = $1 and idx = $2 and status = 24),
-        (select max(ts) from telemetry where session_id = $1 and idx = $2 and status = 24),
+        (select min(coalesce(ts, date '1970-01-01')) from telemetry where session_id = $1 and idx = $2 and status = 24 and ts > '2015-01-01'),
+        (select max(coalesce(ts, date '1970-01-01')) from telemetry where session_id = $1 and idx = $2 and status = 24 and ts > '2015-01-01'),
         '1 sec'
       ) as sec
     ),
@@ -58,7 +58,7 @@ create or replace function get_telemetry_session_stats( _session_id bigint, _idx
         date_trunc('sec', ts) as sec,
         value
       from telemetry
-      where session_id = $1 and idx = $2 and status = 24
+      where session_id = $1 and idx = $2 and status = 24 and ts > '2015-01-01'
     ),
     telemetry_filled_values as (
       select
@@ -97,7 +97,7 @@ create or replace function get_telemetry_session_stats( _session_id bigint, _idx
           extract(epoch from (ts - lag(ts) over (partition by idx, session_id order by idx, session_id, ts))) as lag,
           ts
         from telemetry
-          where session_id = $1 and idx = $2 and status = 24
+          where session_id = $1 and idx = $2 and status = 24 and ts > '2015-01-01'
       ) as temp_lag
     )
     select
@@ -116,7 +116,7 @@ create or replace function get_telemetry_session_stats( _session_id bigint, _idx
     l.ts_max as ts_max
     from telemetry_session_value_stats v inner join telemetry_session_lag_stats l
     on v.idx = l.idx
-$$ language sql;
+$$ language sql stable;
 
 
 -- create stats gaps function
