@@ -2,9 +2,9 @@ import Moment from "moment";
 import "moment-duration-format";
 import React from "react";
 
-import ListeningView from "./listening_view.js";
+import ListeningView from "../listening_view.js";
 
-class TransmissionDelay extends ListeningView {
+class TransmissionDelayReadout extends ListeningView {
   componentDidMount() {
     super.componentDidMount();
 
@@ -23,4 +23,4 @@ class TransmissionDelay extends ListeningView {
   }
 }
 
-export {TransmissionDelay as default};
+export {TransmissionDelayReadout as default};

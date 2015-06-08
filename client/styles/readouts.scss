@@ -1,0 +1,65 @@
+th .readout {
+  font-family: inherit;
+  font-weight: normal;
+}
+
+.readout {
+  font-family: Consolas, "Lucida Console", monospace;
+  font-weight: bold;
+  text-align: right;
+  overflow: hidden;
+  white-space: nowrap;
+
+  &:after {
+    font-weight: normal;
+    color: #999;
+  }
+
+  &.amps:after {
+    content: " A";
+  }
+
+  &.celsius:after {
+    content: " C";
+  }
+
+  &.degrees:after {
+    content: " deg";
+  }
+
+  &.degrees-per-second:after {
+    content: " deg/s";
+  }
+
+  &.newton-meters:after {
+    content: " N⋅m";
+  }
+
+  &.g-force:after {
+    content: " G";
+  }
+
+  &.milligrams-per-second:after {
+    content: " mg/s";
+  }
+
+  &.newton-meter-second:after {
+    content: " N⋅m⋅s";
+  }
+
+  &.pressure:after {
+    content: " mmHg";
+  }
+
+  &.radians:after {
+    content: " rad";
+  }
+
+  &.radians-per-second:after {
+    content: " rad/s"
+  }
+
+  &.rotations-per-minute:after {
+    content: " rpm"
+  }
+}

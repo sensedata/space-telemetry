@@ -1,10 +1,10 @@
 import Chai from "chai";
 
-import HistoricalStore from "../../../client/stores/historical_store.js";
-import TelemetryActions from "../../../client/actions/telemetry_actions.js";
+import HistoricalStore from "../../../../client/stores/historical_store.js";
+import TelemetryActions from "../../../../client/actions/telemetry_actions.js";
 
-import "../dom_setup.js";
-import TestHelper from "../test_helper.js";
+import "../../dom_setup.js";
+import TestHelper from "../../test_helper.js";
 
 const assert = Chai.assert;
 
@@ -20,7 +20,7 @@ describe("BulletChart", () => {
 
   const bulletUI = function (props) {
     const viewProps = Object.assign({height: 10, width: 100}, props);
-    return TestHelper.buildUI("bullet_chart.jsx", viewProps);
+    return TestHelper.buildUI("charts/bullet_chart.jsx", viewProps);
   };
 
   const renderBullet = function (props) {
@@ -32,7 +32,7 @@ describe("BulletChart", () => {
     ui.view = ui.React.createFactory(ui.viewClass)(ui.props);
     ui.React.render(ui.view, document.body);
 
-    ui.action.relay([{t: 0, v: 1}]);
+    ui.action.relay([{t: 0, v: 1, vm: 0.5}]);
     capacityAction.relay([{t: 0, v: 2}]);
     return ui;
   };
@@ -74,20 +74,26 @@ describe("BulletChart", () => {
     assert.equal($("svg line.measure").attr("x2"), ui.props.width * 0.75);
   });
 
-  it("renders the marker element at 90% if unspecified", () => {
-    const ui = renderBullet();
+  it("renders the marker element at the mean if unspecified", () => {
+    renderBullet();
 
     ["x1", "x2"].forEach((a) => {
-      assert.equal($("svg line.marker").attr(a), ui.props.width * 0.9);
+      assert.equal($("svg line.marker").attr(a), 25);
     });
   });
 
   it("renders the marker element as specified", () => {
-    const ui = renderBullet({marker: "0.75"});
+    renderBullet({marker: "0.75"});
 
     ["x1", "x2"].forEach((a) => {
-      assert.equal($("svg line.marker").attr(a), ui.props.width * 0.75);
+      assert.equal($("svg line.marker").attr(a), 37.5);
     });
+  });
+
+  it("applies the conversion to the measure", () => {
+    const ui = renderBullet({conversion: 2});
+
+    assert.equal($("svg line.measure").attr("x2"), ui.props.width);
   });
 
 });

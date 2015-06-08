@@ -6,8 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>ISS Telemetry</title>
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
   </head>
 
   <body class="has-footer">
@@ -37,7 +35,6 @@
               <dd id="telemetry-transmitted" class="readout timestamp"></dd>
             </dl>
 
-
             <dl class="dl-horizontal station-metadata">
               <dt>Local Time:</dt>
               <dd id="local-time" class="readout timestamp"></dd>
@@ -51,242 +48,482 @@
     </div>
 
     <div class="container main">
-      <div class="row">
-        <div class="col-sm-12">
-          <div class="row">
-            <div class="col-sm-10">
-              <h2 class="sub-header attitude-header">Attitude Control</h2>
+      <div class="atmosphere">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="row">
+              <div class="col-sm-12">
+                <h2 class="atmosphere-header sub-header">Atmosphere</h2>
+              </div>
             </div>
-            <div class="col-sm-2 attitude-alarms-col">
-              <ul class="attitude-alarms">
-                <li class="status" data-telemetry-id="USLAB000042" data-status-on-value="1">
-                  <span class="status-symbol alarm"></span>
-                  Station Alarm
-                </li>
+            <hr class="header-rule">
+            <div class="row atmosphere-tables">
+              <div class="col col-sm-4">
+                <table class="folding table atmosphere-table first">
+                  <colgroup>
+                    <col class="column-header">
+                    <col class="column-microchart">
+                    <col class="column-pressure">
+                  </colgroup>
 
-                <li class="status" data-telemetry-id="USLAB000041" data-status-on-value="1">
-                  <span class="status-symbol alarm"></span>
-                  Gyro Alarm
-                </li>
-              </ul>
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th colspan="2">Oxygen Partial Pressure</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr class="mean">
+                      <th>Mean</th>
+                      <td class="microchart bullet-chart" data-telemetry-ids="USLAB000053,NODE3000001"></td>
+                      <td class="readout pressure decimal" data-scale="1" data-telemetry-ids="USLAB000053,NODE3000001"></td>
+                    </tr>
+
+                    <tr>
+                      <th>Destiny</th>
+                      <td class="microchart sparkline-chart" data-telemetry-id="USLAB000053"></td>
+                      <td class="readout pressure decimal" data-scale="1" data-telemetry-id="USLAB000053"></td>
+                    </tr>
+
+                    <tr>
+                      <th>Tranquility</th>
+                      <td class="microchart sparkline-chart" data-telemetry-id="NODE3000001"></td>
+                      <td class="readout pressure decimal" data-scale="1" data-telemetry-id="NODE3000001"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="col col-sm-4">
+                <table class="folding table atmosphere-table second">
+                  <colgroup>
+                    <col class="column-header">
+                    <col class="column-microchart">
+                    <col class="column-pressure">
+                  </colgroup>
+
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th colspan="2">Carbon Dioxide Partial Pressure</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr class="mean">
+                      <th>Mean</th>
+                      <td class="microchart bullet-chart" data-telemetry-ids="USLAB000055,NODE3000003"></td>
+                      <td class="readout pressure decimal" data-scale="1" data-telemetry-ids="USLAB000055,NODE3000003"></td>
+                    </tr>
+
+                    <tr>
+                      <th>Destiny</th>
+                      <td class="microchart sparkline-chart" data-telemetry-id="USLAB000055"></td>
+                      <td class="readout pressure decimal" data-scale="1" data-telemetry-id="USLAB000055"></td>
+                    </tr>
+
+                    <tr>
+                      <th>Tranquility</th>
+                      <td class="microchart sparkline-chart" data-telemetry-id="NODE3000003"></td>
+                      <td class="readout pressure decimal" data-scale="1" data-telemetry-id="NODE3000003"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="col col-sm-4">
+                <table class="folding table atmosphere-table third">
+                  <colgroup>
+                    <col class="column-header">
+                    <col class="column-microchart">
+                    <col class="column-pressure">
+                  </colgroup>
+
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th colspan="2">Nitrogen Partial Pressure</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr class="mean">
+                      <th>Mean</th>
+                      <td class="microchart bullet-chart" data-telemetry-ids="USLAB000054,NODE3000002"></td>
+                      <td class="readout pressure decimal" data-scale="1" data-telemetry-ids="USLAB000054,NODE3000002"></td>
+                    </tr>
+
+                    <tr>
+                      <th>Destiny</th>
+                      <td class="microchart sparkline-chart" data-telemetry-id="USLAB000054"></td>
+                      <td class="readout pressure decimal" data-scale="1" data-telemetry-id="USLAB000054"></td>
+                    </tr>
+
+                    <tr>
+                      <th>Tranquility</th>
+                      <td class="microchart sparkline-chart" data-telemetry-id="NODE3000002"></td>
+                      <td class="readout pressure decimal" data-scale="1" data-telemetry-id="NODE3000002"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
-          <hr>
-          <div class="row">
-            <div class="col-sm-4">
-              <div class="row">
-                <div class="col-sm-12">
-                  <dl class="dl-horizontal attitude-settings">
-                    <dt>Reference Frame:</dt>
-                    <dd class="readout text" data-telemetry-id="USLAB000017"></dd>
+        </div>
 
-                    <dt>Mode:</dt>
-                    <dd class="readout text" data-telemetry-id="USLAB000012"></dd>
+        <div class="row oxygen-generator">
+          <div class="col-sm-12">
+            <hr class="inner-rule">
+            <dl class="dl-horizontal">
+              <dt>Oxygen Generator</dt>
+              <dd>
+                <span class="oxygen-generator-rate readout decimal milligrams-per-second" data-telemetry-id="NODE3000011" data-conversion="11.5740740741" data-scale="1"></span>
+                <div class="microchart bullet-chart" data-telemetry-id="NODE3000011" data-conversion="11.5740740741" data-capacity="107.060185185"></div>
+                <dl class="dl-horizontal oxygen-generator-state">
+                  <dt>State:</dt>
+                  <dd class="readout text" data-telemetry-id="NODE3000010"></dd>
+                </dl>
+              </dd>
+            </dl>
+          </div>
+        </div>
+      </div>
 
-                    <dt>Type:</dt>
-                    <dd class="readout text" data-telemetry-id="USLAB000016"></dd>
-                  </dl>
+      <div class="attitude">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="row">
+              <div class="col-sm-12">
+                <h2 class="sub-header attitude-header">Attitude Control</h2>
+              </div>
+            </div>
+            <hr class="header-rule">
+            <div class="row">
+              <div class="col-sm-3">
+                <ul class="attitude-alarms">
+                  <li class="status" data-telemetry-id="USLAB000042" data-status-on-value="1">
+                    <span class="status-symbol alarm"></span>
+                    Station Attitude Alarm
+                  </li>
+
+                  <li class="status" data-telemetry-id="USLAB000041" data-status-on-value="1">
+                    <span class="status-symbol alarm"></span>
+                    Gyro Attitude Alarm
+                  </li>
+                </ul>
+              </div>
+
+              <div class="col-sm-3">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <dl class="dl-horizontal attitude-settings">
+                      <!--
+                      <dt>Reference Frame:</dt>
+                      <dd class="readout text" data-telemetry-id="USLAB000017"></dd>
+                      -->
+                      <dt>Mode:</dt>
+                      <dd class="readout text" data-telemetry-id="USLAB000012"></dd>
+
+                      <dt>Type:</dt>
+                      <dd class="readout text" data-telemetry-id="USLAB000016"></dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-3">
+                <div class="row">
+                  <div class="col-sm-12">
+                    <dl class="dl-horizontal attitude-settings gps">
+                      <dt>GPS 1:</dt>
+                      <dd class="readout text" data-telemetry-id="USLAB000043"></dd>
+
+                      <dt>GPS 2:</dt>
+                      <dd class="readout text" data-telemetry-id="USLAB000044"></dd>
+                    </dl>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div class="col-sm-6">
-              <div class="row">
-                <div class="col-sm-12">
-                  <dl class="dl-horizontal attitude-settings gps">
-                    <dt>GPS 1:</dt>
-                    <dd class="readout text" data-telemetry-id="USLAB000043"></dd>
+            <div class="row">
+              <div class="col-md-12">
+                <hr class="inner-rule attitude-settings">
+              </div>
+            </div>
 
-                    <dt>GPS 2:</dt>
-                    <dd class="readout text" data-telemetry-id="USLAB000044"></dd>
-                  </dl>
+            <div class="row attitude-tables">
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <table class="folding table attitude-table first">
+                      <colgroup>
+                        <col class="column-header">
+                        <col class="column-euler">
+                        <col class="column-euler">
+                      </colgroup>
+
+                      <thead>
+                        <tr>
+                          <th colspan="2">Actual (<span class="readout text" data-telemetry-id="USLAB000017"></span> - <span class="readout text" data-telemetry-id="USLAB000013"></span>)</th>
+                          <th>Command</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <tr>
+                          <th>Roll</th>
+                          <td class="readout degrees decimal attitude actual" data-scale="3" data-quaternion-id="attitude-actual" data-euler-axis="x" data-telemetry-id-x="USLAB000018" data-telemetry-id-y="USLAB000019" data-telemetry-id-z="USLAB000020" data-telemetry-id-w="USLAB000021"></td>
+                          <td class="readout degrees decimal attitude command" data-scale="3" data-quaternion-id="attitude-command" data-euler-axis="x" data-telemetry-id-x="USLAB000028" data-telemetry-id-y="USLAB000029" data-telemetry-id-z="USLAB000030" data-telemetry-id-w="USLAB000031"></td>
+                        </tr>
+
+                        <tr>
+                          <th>Pitch</th>
+                          <td class="readout degrees decimal attitude actual" data-scale="3" data-quaternion-id="attitude-actual" data-euler-axis="y" data-telemetry-id-x="USLAB000018" data-telemetry-id-y="USLAB000019" data-telemetry-id-z="USLAB000020" data-telemetry-id-w="USLAB000021"></td>
+                          <td class="readout degrees decimal attitude command" data-scale="3" data-quaternion-id="attitude-command" data-euler-axis="y" data-telemetry-id-x="USLAB000028" data-telemetry-id-y="USLAB000029" data-telemetry-id-z="USLAB000030" data-telemetry-id-w="USLAB000031"></td>
+                        </tr>
+
+                        <tr>
+                          <th>Yaw</th>
+                          <td class="readout degrees decimal attitude actual" data-scale="3" data-quaternion-id="attitude-actual" data-euler-axis="z" data-telemetry-id-x="USLAB000018" data-telemetry-id-y="USLAB000019" data-telemetry-id-z="USLAB000020" data-telemetry-id-w="USLAB000021"></td>
+                          <td class="readout degrees decimal attitude command" data-scale="3" data-quaternion-id="attitude-command" data-euler-axis="z" data-telemetry-id-x="USLAB000028" data-telemetry-id-y="USLAB000029" data-telemetry-id-z="USLAB000030" data-telemetry-id-w="USLAB000031"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="col-sm-6">
+                    <table class="folding table attitude-table second">
+                      <colgroup>
+                        <col class="column-header">
+                        <col class="column-sparkline">
+                        <col class="column-sparkline-value">
+                      </colgroup>
+
+                      <thead>
+                        <tr>
+                          <th></th>
+                          <th colspan="2">Error</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <tr>
+                          <th>Roll</th>
+                          <td class="microchart sparkline-chart" data-telemetry-id="USLAB000022"></td>
+                          <td class="readout degrees decimal" data-negative-pad="true" data-telemetry-id="USLAB000022" data-scale="3"></td>
+                        </tr>
+
+                        <tr>
+                          <th>Pitch</th>
+                          <td class="microchart sparkline-chart" data-telemetry-id="USLAB000023"></td>
+                          <td class="readout degrees decimal" data-negative-pad="true" data-telemetry-id="USLAB000023" data-scale="3"></td>
+                        </tr>
+
+                        <tr>
+                          <th>Yaw</th>
+                          <td class="microchart sparkline-chart" data-telemetry-id="USLAB000024"></td>
+                          <td class="readout degrees decimal" data-negative-pad="true" data-telemetry-id="USLAB000024" data-scale="3"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <table class="folding table attitude-table third">
+                      <colgroup>
+                        <col class="column-header">
+                        <col class="column-sparkline">
+                        <col class="column-sparkline-value">
+                      </colgroup>
+
+                      <thead>
+                        <tr>
+                          <th></th>
+                          <th colspan="2">Rate of Change (<span class="readout text" data-telemetry-id="USLAB000014"></span>)</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <tr>
+                          <th>Roll</th>
+                          <td class="microchart sparkline-chart" data-telemetry-id="USLAB000025"></td>
+                          <td class="readout degrees-per-second decimal" data-negative-pad="true" data-telemetry-id="USLAB000025" data-scale="3"></td>
+                        </tr>
+
+                        <tr>
+                          <th>Pitch</th>
+                          <td class="microchart sparkline-chart" data-telemetry-id="USLAB000026"></td>
+                          <td class="readout degrees-per-second decimal" data-negative-pad="true" data-telemetry-id="USLAB000026" data-scale="3"></td>
+                        </tr>
+
+                        <tr>
+                          <th>Yaw</th>
+                          <td class="microchart sparkline-chart" data-telemetry-id="USLAB000027"></td>
+                          <td class="readout degrees-per-second decimal" data-negative-pad="true" data-telemetry-id="USLAB000027" data-scale="3"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="col-sm-6">
+                    <table class="folding table attitude-table fourth">
+                      <colgroup>
+                        <col class="column-header">
+                        <col class="column-sparkline">
+                        <col class="column-sparkline-value">
+                      </colgroup>
+
+                      <thead>
+                        <tr>
+                          <th></th>
+                          <th colspan="2">Command Torque</th>
+                        </tr>
+                      </thead>
+
+                      <tbody>
+                        <tr>
+                          <th>Roll</th>
+                          <td class="microchart sparkline-chart" data-telemetry-id="USLAB000006"></td>
+                          <td class="readout newton-meters decimal" data-negative-pad="true" data-telemetry-id="USLAB000006" data-scale="3"></td>
+                        </tr>
+
+                        <tr>
+                          <th>Pitch</th>
+                          <td class="microchart sparkline-chart" data-telemetry-id="USLAB000007"></td>
+                          <td class="readout newton-meters decimal" data-negative-pad="true" data-telemetry-id="USLAB000007" data-scale="3"></td>
+                        </tr>
+
+                        <tr>
+                          <th>Yaw</th>
+                          <td class="microchart sparkline-chart" data-telemetry-id="USLAB000008"></td>
+                          <td class="readout newton-meters decimal" data-negative-pad="true" data-telemetry-id="USLAB000008" data-scale="3"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div class="row attitude-tables">
-            <div class="col-md-6">
-              <div class="row">
-                <div class="col-sm-6">
-                  <table class="table attitude first">
-                    <colgroup>
-                      <col class="column-header">
-                      <col class="column-euler">
-                      <col class="column-euler">
-                    </colgroup>
-
-                    <thead>
-                      <tr>
-                        <th></th>
-                        <th>LVLH Actual<!-- (<span id="attitude-actual-source" data-record="SLAB000013"></span>)--></th>
-                        <th>Command</th>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                      <tr>
-                        <th>Roll</th>
-                        <td class="readout degrees decimal attitude actual" data-scale="3" data-quaternion-id="attitude-actual" data-euler-axis="x" data-telemetry-id-x="USLAB000018" data-telemetry-id-y="USLAB000019" data-telemetry-id-z="USLAB000020" data-telemetry-id-w="USLAB000021"></td>
-                        <td class="readout degrees decimal attitude command" data-scale="3" data-quaternion-id="attitude-command" data-euler-axis="x" data-telemetry-id-x="USLAB000028" data-telemetry-id-y="USLAB000029" data-telemetry-id-z="USLAB000030" data-telemetry-id-w="USLAB000031"></td>
-                      </tr>
-
-                      <tr>
-                        <th>Pitch</th>
-                        <td class="readout degrees decimal attitude actual" data-scale="3" data-quaternion-id="attitude-actual" data-euler-axis="y" data-telemetry-id-x="USLAB000018" data-telemetry-id-y="USLAB000019" data-telemetry-id-z="USLAB000020" data-telemetry-id-w="USLAB000021"></td>
-                        <td class="readout degrees decimal attitude command" data-scale="3" data-quaternion-id="attitude-command" data-euler-axis="y" data-telemetry-id-x="USLAB000028" data-telemetry-id-y="USLAB000029" data-telemetry-id-z="USLAB000030" data-telemetry-id-w="USLAB000031"></td>
-                      </tr>
-
-                      <tr>
-                        <th>Yaw</th>
-                        <td class="readout degrees decimal attitude actual" data-scale="3" data-quaternion-id="attitude-actual" data-euler-axis="z" data-telemetry-id-x="USLAB000018" data-telemetry-id-y="USLAB000019" data-telemetry-id-z="USLAB000020" data-telemetry-id-w="USLAB000021"></td>
-                        <td class="readout degrees decimal attitude command" data-scale="3" data-quaternion-id="attitude-command" data-euler-axis="z" data-telemetry-id-x="USLAB000028" data-telemetry-id-y="USLAB000029" data-telemetry-id-z="USLAB000030" data-telemetry-id-w="USLAB000031"></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <div class="col-sm-6">
-                  <table class="table attitude second">
-                    <colgroup>
-                      <col class="column-header">
-                      <col class="column-sparkline">
-                      <col class="column-sparkline-value">
-                    </colgroup>
-
-                    <thead>
-                      <tr>
-                        <th></th>
-                        <th colspan="2">Error</th>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                      <tr>
-                        <th>Roll</th>
-                        <td class="microchart sparkline-chart" data-telemetry-id="USLAB000022"></td>
-                        <td class="readout degrees decimal" data-telemetry-id="USLAB000022" data-scale="3"></td>
-                      </tr>
-
-                      <tr>
-                        <th>Pitch</th>
-                        <td class="microchart sparkline-chart" data-telemetry-id="USLAB000023"></td>
-                        <td class="readout degrees decimal" data-telemetry-id="USLAB000023" data-scale="3"></td>
-                      </tr>
-
-                      <tr>
-                        <th>Yaw</th>
-                        <td class="microchart sparkline-chart" data-telemetry-id="USLAB000024"></td>
-                        <td class="readout degrees decimal" data-telemetry-id="USLAB000024" data-scale="3"></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+            <div class="row">
+              <div class="col-md-12">
+                <hr class="inner-rule">
               </div>
             </div>
-            <div class="col-md-6">
-              <div class="row">
-                <div class="col-sm-6">
-                  <table class="table attitude third">
-                    <colgroup>
-                      <col class="column-header">
-                      <col class="column-sparkline">
-                      <col class="column-sparkline-value">
-                    </colgroup>
 
-                    <thead>
-                      <tr>
-                        <th></th>
-                        <th colspan="2">Rate of Change<!-- (<span id="attitude-change-source" data-record="USLAB000014"></span>)--></th>
-                      </tr>
-                    </thead>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-sm-6 status cmg" data-telemetry-id="USLAB000001" data-status-on-value="1">
+                    <h3><span class="status-symbol power"></span> Control Moment Gyroscope 1</h3>
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <table class="table">
+                          <colgroup>
+                            <col class="column-header">
+                            <col class="column-sparkline-chart">
+                            <col class="column-sparkline-value">
+                          </colgroup>
 
-                    <tbody>
-                      <tr>
-                        <th>Roll</th>
-                        <td class="microchart sparkline-chart" data-telemetry-id="USLAB000025"></td>
-                        <td class="readout degrees-per-second decimal" data-telemetry-id="USLAB000025" data-scale="3"></td>
-                      </tr>
+                          <tbody>
+                            <tr>
+                              <td class="readout rotations-per-minute integer" data-telemetry-id="Z1000009"></td>
+                              <td colspan="2" class="microchart bullet-chart" data-telemetry-id="Z1000009" data-capacity="7000" data-marker="6600"></td>
+                            </tr>
 
-                      <tr>
-                        <th>Pitch</th>
-                        <td class="microchart sparkline-chart" data-telemetry-id="USLAB000026"></td>
-                        <td class="readout degrees-per-second decimal" data-telemetry-id="USLAB000026" data-scale="3"></td>
-                      </tr>
+                            <tr>
+                              <td class="readout amps decimal" data-telemetry-id="Z1000005" data-scale="3"></td>
+                              <td colspan="2" class="microchart bullet-chart" data-telemetry-id="Z1000005" data-capacity="1"></td>
+                            </tr>
 
-                      <tr>
-                        <th>Yaw</th>
-                        <td class="microchart sparkline-chart" data-telemetry-id="USLAB000027"></td>
-                        <td class="readout degrees-per-second decimal" data-telemetry-id="USLAB000027" data-scale="3"></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <div class="col-sm-6">
-                  <table class="table attitude fourth">
-                    <colgroup>
-                      <col class="column-header">
-                      <col class="column-sparkline">
-                      <col class="column-sparkline-value">
-                    </colgroup>
+                            <tr>
+                              <th>Hall Resolver</th>
+                              <td class="microchart sparkline-chart" data-telemetry-id="USLAB000049"></td>
+                              <td class="readout celsius decimal" data-telemetry-id="USLAB000049" data-scale="1"></td>
+                            </tr>
 
-                    <thead>
-                      <tr>
-                        <th></th>
-                        <th colspan="2">Command Torque</th>
-                      </tr>
-                    </thead>
+                            <tr>
+                              <th>Spin Motor</th>
+                              <td class="microchart sparkline-chart" data-telemetry-id="USLAB000045"></td>
+                              <td class="readout celsius decimal" data-telemetry-id="USLAB000045" data-scale="1"></td>
+                            </tr>
 
-                    <tbody>
-                      <tr>
-                        <th>Roll</th>
-                        <td class="microchart sparkline-chart" data-telemetry-id="USLAB000006"></td>
-                        <td class="readout newton-meters decimal" data-telemetry-id="USLAB000006" data-scale="3"></td>
-                      </tr>
+                            <tr>
+                              <th>
+                                Vibration
+                                <span class="status" data-telemetry-id="Z1000001" data-status-on-value="1">
+                                  <span class="status-symbol alarm"></span>
+                                </span>
+                              </th>
+                              <td class="microchart sparkline-chart" data-telemetry-id="Z1000001"></td>
+                              <td class="readout g-force decimal" data-telemetry-id="Z1000001" data-scale="3"></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
 
-                      <tr>
-                        <th>Pitch</th>
-                        <td class="microchart sparkline-chart" data-telemetry-id="USLAB000007"></td>
-                        <td class="readout newton-meters decimal" data-telemetry-id="USLAB000007" data-scale="3"></td>
-                      </tr>
+                  <div class="col-sm-6 status cmg" data-telemetry-id="USLAB000002" data-status-on-value="1">
+                    <h3><span class="status-symbol power"></span> Control Moment Gyroscope 2</h3>
 
-                      <tr>
-                        <th>Yaw</th>
-                        <td class="microchart sparkline-chart" data-telemetry-id="USLAB000008"></td>
-                        <td class="readout newton-meters decimal" data-telemetry-id="USLAB000008" data-scale="3"></td>
-                      </tr>
-                    </tbody>
-                  </table>
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <table class="table">
+                          <colgroup>
+                            <col class="column-header">
+                            <col class="column-sparkline-chart">
+                            <col class="column-sparkline-value">
+                          </colgroup>
+
+                          <tbody>
+                            <tr>
+                              <td class="readout rotations-per-minute integer" data-telemetry-id="Z1000010"></td>
+                              <td colspan="2" class="microchart bullet-chart" data-telemetry-id="Z1000010" data-capacity="7000" data-marker="6600"></td>
+                            </tr>
+
+                            <tr>
+                              <td class="readout amps decimal" data-telemetry-id="Z1000006" data-scale="3"></td>
+                              <td colspan="2" class="microchart bullet-chart" data-telemetry-id="Z1000006" data-capacity="1"></td>
+                            </tr>
+
+                            <tr>
+                              <th>Hall Resolver</th>
+                              <td class="microchart sparkline-chart" data-telemetry-id="USLAB000050"></td>
+                              <td class="readout celsius decimal" data-telemetry-id="USLAB000050" data-scale="1"></td>
+                            </tr>
+
+                            <tr>
+                              <th>Spin Motor</th>
+                              <td class="microchart sparkline-chart" data-telemetry-id="USLAB000046"></td>
+                              <td class="readout celsius decimal" data-telemetry-id="USLAB000046" data-scale="1"></td>
+                            </tr>
+
+                            <tr>
+                              <th>
+                                Vibration
+                                <span class="status off" data-telemetry-id="Z1000002" data-status-on-value="1">
+                                  <span class="status-symbol alarm"></span>
+                                </span>
+                              </th>
+                              <td class="microchart sparkline-chart" data-telemetry-id="Z1000002"></td>
+                              <td class="readout g-force decimal" data-telemetry-id="Z1000002" data-scale="3"></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
 
-          <div class="row momentum">
-            <div class="col-sm-3 momentum-readout-col">
-              <dl>
-                <dt>Momentum</dt>
-                <dd>
-                  <span class="readout newton-meter-second" data-telemetry-id="USLAB000009" data-scale="3"></span>
-                </dd>
-              </dl>
-            </div>
-            <div class="col-sm-5 microchart bullet-chart" data-telemetry-id="USLAB000009" data-capacity-id="USLAB000038">
-            </div>
-            <div class="col-sm-4">
-              <span class="status USLAB000011 desaturation" data-status-on-value="1">
-                <span class="status-symbol power"></span>
-                Desaturation thrusters
-                <span class="text-on">enabled</span>
-                <span class="text-off">inhibited</span>
-              </span>
-            </div>
-          </div>
+              <div class="col-md-6">
+                <div class="col-sm-6 status cmg" data-telemetry-id="USLAB000003" data-status-on-value="1">
+                  <h3><span class="status-symbol power"></span> Control Moment Gyroscope 3</h3>
 
-          <div class="row">
-            <div class="col-md-6">
-              <div class="row">
-                <div class="col-sm-6 status cmg" data-telemetry-id="USLAB000001" data-status-on-value="1">
-                  <h3><span class="status-symbol power"></span> Control Moment Gyroscope 1</h3>
                   <div class="row">
                     <div class="col-sm-12">
                       <table class="table">
@@ -298,36 +535,36 @@
 
                         <tbody>
                           <tr>
-                            <td class="readout rotations-per-minute integer" data-telemetry-id="Z1000009"></td>
-                            <td colspan="2" class="microchart bullet-chart" data-telemetry-id="Z1000009" data-capacity="7000" data-marker="6600"></td>
+                            <td class="readout rotations-per-minute integer" data-telemetry-id="Z1000011"></td>
+                            <td colspan="2" class="microchart bullet-chart" data-telemetry-id="Z1000011" data-capacity="7000" data-marker="6600"></td>
                           </tr>
 
                           <tr>
-                            <td class="readout amps decimal" data-telemetry-id="Z1000005" data-scale="3"></td>
-                            <td colspan="2" class="microchart bullet-chart" data-telemetry-id="Z1000005" data-capacity="1" data-marker="0.6"></td>
+                            <td class="readout amps decimal" data-telemetry-id="Z1000007" data-scale="3"></td>
+                            <td colspan="2" class="microchart bullet-chart" data-telemetry-id="Z1000007" data-capacity="1"></td>
                           </tr>
 
                           <tr>
                             <th>Hall Resolver</th>
-                            <td class="microchart sparkline-chart" data-telemetry-id="USLAB000049"></td>
-                            <td class="readout celsius decimal" data-telemetry-id="USLAB000049" data-scale="1"></td>
+                            <td class="microchart sparkline-chart" data-telemetry-id="USLAB000051"></td>
+                            <td class="readout celsius decimal" data-telemetry-id="USLAB000051" data-scale="1"></td>
                           </tr>
 
                           <tr>
                             <th>Spin Motor</th>
-                            <td class="microchart sparkline-chart" data-telemetry-id="USLAB000045"></td>
-                            <td class="readout celsius decimal" data-telemetry-id="USLAB000045" data-scale="1"></td>
+                            <td class="microchart sparkline-chart" data-telemetry-id="USLAB000047"></td>
+                            <td class="readout celsius decimal" data-telemetry-id="USLAB000047" data-scale="1"></td>
                           </tr>
 
                           <tr>
                             <th>
                               Vibration
-                              <span class="status" data-telemetry-id="Z1000001" data-status-on-value="1">
+                              <span class="status off" data-telemetry-id="Z1000003" data-status-on-value="1">
                                 <span class="status-symbol alarm"></span>
                               </span>
                             </th>
-                            <td class="microchart sparkline-chart" data-telemetry-id="Z1000001"></td>
-                            <td class="readout g-force decimal" data-telemetry-id="Z1000001" data-scale="3"></td>
+                            <td class="microchart sparkline-chart" data-telemetry-id="Z1000003"></td>
+                            <td class="readout g-force decimal" data-telemetry-id="Z1000003" data-scale="3"></td>
                           </tr>
                         </tbody>
                       </table>
@@ -335,8 +572,8 @@
                   </div>
                 </div>
 
-                <div class="col-sm-6 status cmg" data-telemetry-id="USLAB000002" data-status-on-value="1">
-                  <h3><span class="status-symbol power"></span> Control Moment Gyroscope 2</h3>
+                <div class="col-sm-6 status cmg" data-telemetry-id="USLAB000004" data-status-on-value="1">
+                  <h3><span class="status-symbol power"></span> Control Moment Gyroscope 4</h3>
 
                   <div class="row">
                     <div class="col-sm-12">
@@ -349,36 +586,36 @@
 
                         <tbody>
                           <tr>
-                            <td class="readout rotations-per-minute integer" data-telemetry-id="Z1000010"></td>
-                            <td colspan="2" class="microchart bullet-chart" data-telemetry-id="Z1000010" data-capacity="7000" data-marker="6600"></td>
+                            <td class="readout rotations-per-minute integer" data-telemetry-id="Z1000012"></td>
+                            <td colspan="2" class="microchart bullet-chart" data-telemetry-id="Z1000012" data-capacity="7000" data-marker="6600"></td>
                           </tr>
 
                           <tr>
-                            <td class="readout amps decimal" data-telemetry-id="Z1000006" data-scale="3"></td>
-                            <td colspan="2" class="microchart bullet-chart" data-telemetry-id="Z1000006" data-capacity="1" data-marker="0.6"></td>
+                            <td class="readout amps decimal" data-telemetry-id="Z1000008" data-scale="3"></td>
+                            <td colspan="2" class="microchart bullet-chart" data-telemetry-id="Z1000008" data-capacity="1"></td>
                           </tr>
 
                           <tr>
                             <th>Hall Resolver</th>
-                            <td class="microchart sparkline-chart" data-telemetry-id="USLAB000050"></td>
-                            <td class="readout celsius decimal" data-telemetry-id="USLAB000050" data-scale="1"></td>
+                            <td class="microchart sparkline-chart" data-telemetry-id="USLAB000052"></td>
+                            <td class="readout celsius decimal" data-telemetry-id="USLAB000052" data-scale="1"></td>
                           </tr>
 
                           <tr>
                             <th>Spin Motor</th>
-                            <td class="microchart sparkline-chart" data-telemetry-id="USLAB000046"></td>
-                            <td class="readout celsius decimal" data-telemetry-id="USLAB000046" data-scale="1"></td>
+                            <td class="microchart sparkline-chart" data-telemetry-id="USLAB000048"></td>
+                            <td class="readout celsius decimal" data-telemetry-id="USLAB000048" data-scale="1"></td>
                           </tr>
 
                           <tr>
                             <th>
                               Vibration
-                              <span class="status off" data-telemetry-id="Z1000002" data-status-on-value="1">
+                              <span class="status off" data-telemetry-id="Z1000004" data-status-on-value="1">
                                 <span class="status-symbol alarm"></span>
                               </span>
                             </th>
-                            <td class="microchart sparkline-chart" data-telemetry-id="Z1000002"></td>
-                            <td class="readout g-force decimal" data-telemetry-id="Z1000002" data-scale="3"></td>
+                            <td class="microchart sparkline-chart" data-telemetry-id="Z1000004"></td>
+                            <td class="readout g-force decimal" data-telemetry-id="Z1000004" data-scale="3"></td>
                           </tr>
                         </tbody>
                       </table>
@@ -388,107 +625,30 @@
               </div>
             </div>
 
-            <div class="col-md-6">
-              <div class="col-sm-6 status cmg" data-telemetry-id="USLAB000003" data-status-on-value="1">
-                <h3><span class="status-symbol power"></span> Control Moment Gyroscope 3</h3>
-
-                <div class="row">
-                  <div class="col-sm-12">
-                    <table class="table">
-                      <colgroup>
-                        <col class="column-header">
-                        <col class="column-sparkline-chart">
-                        <col class="column-sparkline-value">
-                      </colgroup>
-
-                      <tbody>
-                        <tr>
-                          <td class="readout rotations-per-minute integer" data-telemetry-id="Z1000011"></td>
-                          <td colspan="2" class="microchart bullet-chart" data-telemetry-id="Z1000011" data-capacity="7000" data-marker="6600"></td>
-                        </tr>
-
-                        <tr>
-                          <td class="readout amps decimal" data-telemetry-id="Z1000007" data-scale="3"></td>
-                          <td colspan="2" class="microchart bullet-chart" data-telemetry-id="Z1000007" data-capacity="1" data-marker="0.6"></td>
-                        </tr>
-
-                        <tr>
-                          <th>Hall Resolver</th>
-                          <td class="microchart sparkline-chart" data-telemetry-id="USLAB000051"></td>
-                          <td class="readout celsius decimal" data-telemetry-id="USLAB000051" data-scale="1"></td>
-                        </tr>
-
-                        <tr>
-                          <th>Spin Motor</th>
-                          <td class="microchart sparkline-chart" data-telemetry-id="USLAB000047"></td>
-                          <td class="readout celsius decimal" data-telemetry-id="USLAB000047" data-scale="1"></td>
-                        </tr>
-
-                        <tr>
-                          <th>
-                            Vibration
-                            <span class="status off" data-telemetry-id="Z1000003" data-status-on-value="1">
-                              <span class="status-symbol alarm"></span>
-                            </span>
-                          </th>
-                          <td class="microchart sparkline-chart" data-telemetry-id="Z1000003"></td>
-                          <td class="readout g-force decimal" data-telemetry-id="Z1000003" data-scale="3"></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
+            <div class="row">
+              <div class="col-md-12">
+                <hr class="inner-rule">
               </div>
+            </div>
 
-              <div class="col-sm-6 status cmg" data-telemetry-id="USLAB000004" data-status-on-value="1">
-                <h3><span class="status-symbol power"></span> Control Moment Gyroscope 4</h3>
-
-                <div class="row">
-                  <div class="col-sm-12">
-                    <table class="table">
-                      <colgroup>
-                        <col class="column-header">
-                        <col class="column-sparkline-chart">
-                        <col class="column-sparkline-value">
-                      </colgroup>
-
-                      <tbody>
-                        <tr>
-                          <td class="readout rotations-per-minute integer" data-telemetry-id="Z1000012"></td>
-                          <td colspan="2" class="microchart bullet-chart" data-telemetry-id="Z1000012" data-capacity="7000" data-marker="6600"></td>
-                        </tr>
-
-                        <tr>
-                          <td class="readout amps decimal" data-telemetry-id="Z1000008" data-scale="3"></td>
-                          <td colspan="2" class="microchart bullet-chart" data-telemetry-id="Z1000008" data-capacity="1" data-marker="0.6"></td>
-                        </tr>
-
-                        <tr>
-                          <th>Hall Resolver</th>
-                          <td class="microchart sparkline-chart" data-telemetry-id="USLAB000052"></td>
-                          <td class="readout celsius decimal" data-telemetry-id="USLAB000052" data-scale="1"></td>
-                        </tr>
-
-                        <tr>
-                          <th>Spin Motor</th>
-                          <td class="microchart sparkline-chart" data-telemetry-id="USLAB000048"></td>
-                          <td class="readout celsius decimal" data-telemetry-id="USLAB000048" data-scale="1"></td>
-                        </tr>
-
-                        <tr>
-                          <th>
-                            Vibration
-                            <span class="status off" data-telemetry-id="Z1000004" data-status-on-value="1">
-                              <span class="status-symbol alarm"></span>
-                            </span>
-                          </th>
-                          <td class="microchart sparkline-chart" data-telemetry-id="Z1000004"></td>
-                          <td class="readout g-force decimal" data-telemetry-id="Z1000004" data-scale="3"></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
+            <div class="row saturation">
+              <div class="col-sm-4 saturation-readout-col">
+                <dl class="dl-horizontal">
+                  <dt>Total Gyroscope Saturation</dt>
+                  <dd>
+                    <span class="readout decimal newton-meter-second" data-telemetry-id="USLAB000009" data-scale="3"></span>
+                  </dd>
+                </dl>
+              </div>
+              <div class="col-sm-2 microchart bullet-chart" data-telemetry-id="USLAB000009" data-capacity-id="USLAB000038">
+              </div>
+              <div class="col-sm-3">
+                <span class="status USLAB000011 desaturation" data-status-on-value="1">
+                  <span class="status-symbol power"></span>
+                  Desaturation thrusters
+                  <span class="text-on">enabled</span>
+                  <span class="text-off">inhibited</span>
+                </span>
               </div>
             </div>
           </div>
