@@ -6,6 +6,7 @@ var db = require('./db');
 
 var notify = require('./notification');
 
+var utils = require('./utils');
 
 var oneDay = 1000 * 60 * 60 * 24;
 
@@ -87,5 +88,8 @@ function buildTelemetrySessionStats(interval) {
   });
 }
 
-buildTelemetrySessionStats(oneDay);
+if (!utils.isReadOnly()) {
+
+  buildTelemetrySessionStats(oneDay);
+}
 
