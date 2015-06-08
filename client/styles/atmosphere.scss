@@ -1,0 +1,89 @@
+.atmosphere {
+
+  .atmosphere-header {
+    margin: 0;
+    position: relative; top: 10px;
+  }
+
+  .atmosphere-tables > div {
+    padding: 0;
+  }
+
+  .column-header {
+    width: 20%;
+  }
+
+  .column-microchart {
+    text-align: right;
+    width: 50%;
+  }
+
+  .column-pressure {
+    width: 20%;
+  }
+
+  .oxygen-generator {
+    .bullet-chart {
+      margin-right: 15px;
+      width: 135px;
+    }
+  }
+
+  .oxygen-generator-rate {
+    position: relative;
+    top: -5px;
+    margin: 0 5px 0 15px;
+  }
+
+  .oxygen-generator-state {
+    display: inline-block;
+
+    dt {
+      display: inline;
+      width: auto;
+    }
+
+    dd {
+      margin-left: 0;
+      padding-left: 10px;
+    }
+  }
+
+  .table {
+    margin: 0 auto;
+    table-layout: fixed;
+    width: 100%;
+
+    thead th {
+      text-align: center;
+    }
+
+    tbody {
+      text-align: right;
+    }
+
+    tr:nth-child(2) {
+      th, td {
+        border-top-color: #bbb !important;
+      }
+    }
+  }
+}
+
+@media (min-width: 922px) {
+  .atmosphere {
+    .col:first-child {
+      width: 40%;
+    }
+
+    .col:not(:first-child) {
+      width: 30%
+    }
+
+    .atmosphere-table:not(.first) {
+      .column-header {
+        width: 0;
+      }
+    }
+  }
+}

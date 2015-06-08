@@ -1,0 +1,43 @@
+@media (min-width: 992px) {
+  .folding.table {
+    margin: 15px 0;
+
+    &:not(.first) {
+      .column-header {
+        width: 0;
+      }
+
+      th:first-child {
+       visibility: collapse;
+      }
+    }
+
+    .first {
+      position: relative; left: 4px;
+    }
+
+    .second {
+      position: relative; left: 1px;
+    }
+
+    .third {
+      position: relative; left: -1px;
+    }
+
+    .fourth {
+      position: relative; left: -4px;
+    }
+  }
+}
+
+@media (min-width: 1200px) {
+  .folding.table {
+    .second {
+      position: relative; left: 2px;
+    }
+
+    .fourth {
+      position: relative; left: -3px;
+    }
+  }
+}
