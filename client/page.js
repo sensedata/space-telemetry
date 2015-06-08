@@ -7,16 +7,16 @@ import App from "./app.js";
 
 import TelemetryIndex from "./telemetry_index.js";
 
-import BulletChart from "./views/bullet_chart.jsx";
-import SparklineChart from "./views/sparkline_chart.jsx";
+import BulletChart from "./views/charts/bullet_chart.jsx";
+import SparklineChart from "./views/charts/sparkline_chart.jsx";
 
 import DecimalReadout from "./views/readouts/decimal_readout.jsx";
 import IntegerReadout from "./views/readouts/integer_readout.jsx";
+import LastTransmissionReadout from "./views/readouts/last_transmission_readout.jsx";
 import LocalTimeReadout from "./views/readouts/local_time_readout.jsx";
 import TextReadout from "./views/readouts/text_readout.jsx";
 import TimestampReadout from "./views/readouts/timestamp_readout.jsx";
-import TransmittedAt from "./views/transmitted_at.jsx";
-import TransmissionDelay from "./views/transmission_delay.jsx";
+import TransmissionDelayReadout from "./views/readouts/transmission_delay_readout.jsx";
 
 const app = new App();
 
@@ -31,7 +31,7 @@ const viewFactories = {
 
 const timeSeriesCharts = [];
 
-require("./styles/common.scss");
+require("./styles/page.scss");
 
 _.forEach(viewFactories, (viewFactory, className) => {
   _.forEach(document.getElementsByClassName(className), e => {
@@ -58,6 +58,9 @@ _.forEach(viewFactories, (viewFactory, className) => {
     } else if (typeof e.dataset.telemetryId !== "undefined") {
       props.store = app.getHistoricalStore(e.dataset.telemetryId);
       props.telemetryNumber = TelemetryIndex.number(e.dataset.telemetryId);
+
+    } else if (typeof e.dataset.telemetryIds !== "undefined") {
+      props.store = app.getAveragingStore(e.dataset.telemetryIds.split(","))
     }
 
     if (typeof e.dataset.capacityId !== "undefined") {
@@ -98,12 +101,12 @@ app.socket.on("reconnect", () => {
 });
 
 React.render(
-  React.createFactory(TransmittedAt)({store: app.getStore("latest")}),
+  React.createFactory(LastTransmissionReadout)({store: app.getStore("latest")}),
   document.getElementById("telemetry-transmitted")
 );
 
 React.render(
-  React.createFactory(TransmissionDelay)({store: app.getStore("latest")}),
+  React.createFactory(TransmissionDelayReadout)({store: app.getStore("latest")}),
   document.getElementById("telemetry-delay")
 );
 

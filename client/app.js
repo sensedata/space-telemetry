@@ -4,6 +4,7 @@ import IO from "socket.io-client";
 
 import TelemetryIndex from "./telemetry_index.js";
 
+import AveragingStore from "./stores/averaging_store.js";
 import HistoricalStore from "./stores/historical_store.js";
 import LatestStore from "./stores/latest_store.js";
 import QuaternionStore from "./stores/quaternion_store.js";
@@ -25,6 +26,19 @@ class App extends Flummox {
 
   storeAction(telemetryId) {
     return this.getActions(telemetryId).relay;
+  }
+
+  getAveragingStore(telemetryIds) {
+    let store = this.getStore(telemetryIds);
+    if (typeof store === "undefined") {
+      const actions = telemetryIds.map(i => {
+        this.listenToServer(i);
+        return this.storeAction(i);
+      });
+      store = this.createStore(telemetryIds, AveragingStore, actions);
+    }
+
+    return store;
   }
 
   getHistoricalStore(telemetryId) {
@@ -62,6 +76,7 @@ class App extends Flummox {
     if (typeof this.listeners[telemetryNumber] === "undefined") {
       const actions = this.createActions(telemetryId, TelemetryActions);
       this.listeners[telemetryNumber] = this.socket.on(telemetryNumber, actions.relay);
+
       if (telemetryNumber < TelemetryIndex.number("TIME_000001")) {
         this.getStore("latest").register(
           actions.relay, this.getStore("latest").update

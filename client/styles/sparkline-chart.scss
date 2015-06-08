@@ -1,0 +1,21 @@
+.sparkline {
+  path {
+    fill: none;
+    stroke: #333;
+    stroke-width: 0.5px;
+  }
+
+  circle {
+    fill: #f00;
+    stroke: none;
+  }
+
+  .qualitative {
+    fill: #eee;
+  }
+}
+
+td.sparkline-chart {
+  padding-left: 18px !important;
+  padding-right: 0 !important;
+}
