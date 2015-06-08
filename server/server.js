@@ -58,32 +58,18 @@ function ioHasClients(data) {
 //
 ls.dataStream.fork().filter(ioHasClients).each(function (data) {
 
-  var temp;
+  db.addTelemetryStats(data, function (err, data1) {
 
-  db.addCurrentStats(data, function (err, data1) {
+    data1 = data1.map(function (v) {
 
-    if (Array.isArray(data1)) {
-
-      data1 = data1.map(function (v) {
-
-        var cpy = utils.clone(v);
-        // prune unnecessary for client data
-        delete cpy.cv;
-        delete cpy.sid;
-        return cpy;
-      });
-
-      io.emit(data1[0].k, data1);
-
-    } else {
-
-      temp = utils.clone(data1);
+      var cpy = utils.clone(v);
       // prune unnecessary for client data
-      delete temp.cv;
-      delete temp.sid;
+      delete cpy.cv;
+      delete cpy.sid;
+      return cpy;
+    });
 
-      io.emit(temp.k, [temp]);
-    }
+    io.emit(data1[0].k, data1);
   });
 });
 
