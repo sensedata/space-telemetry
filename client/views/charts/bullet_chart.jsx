@@ -1,3 +1,4 @@
+import _ from "lodash";
 import D3 from "d3";
 import React from "react";
 
@@ -22,15 +23,17 @@ class BulletChart extends ListeningView {
   }
 
   storeChanged() {
-    const measureData = this.props.store.get(1, -1);
-
     const newState = {
-      measure: measureData[0]
+      measure: _.max(this.props.store.get(), "t")
     };
 
+    if (newState.measure === -Infinity) {
+      return;
+    }
+
     if (this.props.capacityStore) {
-      const capacityData = this.props.capacityStore.get(1, -1);
-      newState.capacity = capacityData[0] ? capacityData[0].v : undefined;
+      const capacityData = this.props.capacityStore.get();
+      newState.capacity = capacityData.length > 0 ? _.max(capacityData, "t").v : null;
     }
 
     this.setState(newState);

@@ -1,3 +1,4 @@
+import _ from "lodash";
 import React from "react";
 
 
@@ -5,7 +6,7 @@ class ListeningView extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {data: props.store.get()};
+    this.state = this.getStoreState();
   }
 
   componentDidMount() {
@@ -15,9 +16,11 @@ class ListeningView extends React.Component {
   }
 
   storeChanged() {
-    this.setState({
-      data: this.props.store.get()
-    });
+    this.setState(this.getStoreState());
+  }
+
+  getStoreState() {
+    return {data: this.props.store.get()};
   }
 }
 

@@ -7,7 +7,7 @@ class AveragingStore extends Store {
     super();
 
     this.latest = {};
-    this.state = {k: [], v: 0};
+    this.state = {data: [{k: [], v: 0}]};
 
     actions.forEach(a => {
       this.register(a, this.update.bind(this));
@@ -15,7 +15,7 @@ class AveragingStore extends Store {
   }
 
   get() {
-    return [this.state];
+    return this.state.data;
   }
 
   update(data) {
@@ -23,16 +23,25 @@ class AveragingStore extends Store {
       return;
     }
 
-    this.latest[data[0].k] = _.max(data, "t").v;
-    let n = 0, s = 0;
-    const keys = [];
-    for (let k in this.latest) {
-      n++;
-      s += this.latest[k];
-      keys.push(parseInt(k));
-    }
+    const sorted = _.sortBy(data, "t");
+    const averages = _.map(sorted, d => {
+      let n = 0, sm = 0, sv = 0, t = 0;
+      let keys = [];
 
-    this.setState({k: keys, v: s / n});
+      this.latest[d.k] = d;
+      for (let k in this.latest) {
+        n++;
+        sm += this.latest[k].vm;
+        // TODO This should be a weighted average, not simple.
+        sv += this.latest[k].v;
+        t = this.latest[k].t > t ? this.latest[k].t : t;
+        keys.push(parseInt(k));
+      }
+
+      return {k: keys, v: sv / n, vm: sm / n, t: t};
+    });
+
+    this.setState({data: averages});
   }
 }
 
