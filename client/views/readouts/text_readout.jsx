@@ -1,3 +1,4 @@
+import _ from "lodash";
 import React from "react";
 
 import ListeningView from "../listening_view.js";
@@ -12,7 +13,7 @@ class TextReadout extends ListeningView {
       value = "-";
 
     } else if (values) {
-      value = values[this.state.data[0].v];
+      value = values[_.max(this.state.data, "t").v];
     }
 
     if (typeof value === "undefined") {

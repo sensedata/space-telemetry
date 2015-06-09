@@ -56,7 +56,7 @@ _.forEach(viewFactories, (viewFactory, className) => {
       );
 
     } else if (typeof e.dataset.telemetryId !== "undefined") {
-      props.store = app.getHistoricalStore(e.dataset.telemetryId);
+      props.store = app.getSimpleStore(e.dataset.telemetryId);
       props.telemetryNumber = TelemetryIndex.number(e.dataset.telemetryId);
 
     } else if (typeof e.dataset.telemetryIds !== "undefined") {
@@ -64,7 +64,7 @@ _.forEach(viewFactories, (viewFactory, className) => {
     }
 
     if (typeof e.dataset.capacityId !== "undefined") {
-      props.capacityStore = app.getHistoricalStore(e.dataset.capacityId);
+      props.capacityStore = app.getSimpleStore(e.dataset.capacityId);
     }
 
     if (typeof props.store !== "undefined") {

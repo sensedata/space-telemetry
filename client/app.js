@@ -5,10 +5,9 @@ import IO from "socket.io-client";
 import TelemetryIndex from "./telemetry_index.js";
 
 import AveragingStore from "./stores/averaging_store.js";
-import HistoricalStore from "./stores/historical_store.js";
 import LatestStore from "./stores/latest_store.js";
 import QuaternionStore from "./stores/quaternion_store.js";
-
+import SimpleStore from "./stores/simple_store.js";
 import TelemetryActions from "./actions/telemetry_actions.js";
 
 class App extends Flummox {
@@ -41,12 +40,12 @@ class App extends Flummox {
     return store;
   }
 
-  getHistoricalStore(telemetryId) {
+  getSimpleStore(telemetryId) {
     let store = this.getStore(telemetryId);
     if (typeof store === "undefined") {
       this.listenToServer(telemetryId, 150);
       store = this.createStore(
-        telemetryId, HistoricalStore, this.storeAction(telemetryId), {maxSize: 200}
+        telemetryId, SimpleStore, this.storeAction(telemetryId)
       );
     }
 

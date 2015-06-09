@@ -26,6 +26,7 @@
     .bullet-chart {
       margin-right: 15px;
       width: 135px;
+      height: 16px !important;
     }
   }
 
@@ -60,6 +61,10 @@
 
     tbody {
       text-align: right;
+    }
+
+    td.bullet-chart {
+      padding: 6px 0 6px 20px !important;
     }
 
     tr:nth-child(2) {
