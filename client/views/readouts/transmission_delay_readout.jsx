@@ -12,7 +12,7 @@ class TransmissionDelayReadout extends ListeningView {
   }
 
   render() {
-    const unixTime = this.state.data.length > 0 ? this.state.data[0].t : 0;
+    const unixTime = this.state.data ? this.state.data.t : 0;
     const time = Moment.unix(unixTime).utc();
     const now = Moment().utc();
     const delta = now.diff(time, "milliseconds");
