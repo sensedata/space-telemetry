@@ -1,5 +1,4 @@
 .bullet-chart {
-  height: 20px;
 
   .range-0 {
     fill: #eee;
@@ -19,11 +18,16 @@
 
   .measure {
     stroke: #444;
-    stroke-width: 6px;
+    stroke-width: 4px;
   }
 
   .marker {
     stroke: #777;
     stroke-width: 1px;
   }
+}
+
+td.bullet-chart {
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
 }
