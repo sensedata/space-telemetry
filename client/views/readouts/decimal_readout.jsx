@@ -7,17 +7,18 @@ class DecimalReadout extends ListeningView {
   render() {
     let formatted;
 
-    if (this.state.data.length <= 0) {
+    if (typeof this.state.data === "undefined" || this.state.data.length === 0) {
       formatted = "-";
 
     } else {
-      const current = this.state.data[0];
-
       if (typeof this.props.quaternionId !== "undefined") {
-        formatted = current[this.props.eulerAxis];
+        formatted = this.state.data[0][this.props.eulerAxis];
+
+      } else if (this.state.data.length > 1) {
+        formatted = _.max(this.state.data, "t").v;
 
       } else {
-        formatted = current.v;
+        formatted = this.state.data[0].v;
       }
 
       if (typeof this.props.conversion !== "undefined") {
