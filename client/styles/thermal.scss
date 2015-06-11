@@ -1,0 +1,92 @@
+.thermal {
+  margin-bottom: 35px;
+
+  .thermal-header {
+    margin: 0;
+    position: relative; top: 10px;
+  }
+
+  .thermal-tables > div {
+    padding: 0;
+  }
+
+  .column-header {
+    width: 40%;
+  }
+
+  .column-microchart {
+    text-align: right;
+    width: 60%;
+  }
+
+  .column-readout {
+    width: 30%;
+  }
+
+  .radiator-col {
+    border-right: 1px solid #aaa;
+    padding-right: 15px;
+  }
+
+  .first .radiator-loop-table {
+    .column-header {
+      width: 120px;
+    }
+
+    .column-microchart {
+      width: 100px;
+    }
+
+    td.sparkline-chart {
+      padding: 4px 8px !important;
+    }
+  }
+
+  .radiator-loop-table {
+    .column-readout {
+      width: 35%;
+    }
+  }
+
+  .table {
+    margin: 0 auto;
+    table-layout: fixed;
+    width: 100%;
+
+    thead th {
+      text-align: center;
+    }
+
+    tr:nth-child(3) {
+      td, th {
+        border-top: 1px solid #bbb !important;
+      }
+    }
+  }
+}
+
+@media (min-width: 922px) {
+  .thermal {
+    .col:first-child {
+      width: 30%;
+
+      .column-header {
+        width: 50%;
+      }
+
+      td.microchart {
+        position: relative; left: 12px;
+      }
+    }
+
+    .col:not(:first-child) {
+      width: 20%
+    }
+
+    .thermal-table:not(.first) {
+      .column-header {
+        width: 0;
+      }
+    }
+  }
+}
