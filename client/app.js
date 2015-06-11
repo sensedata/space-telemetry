@@ -31,7 +31,7 @@ class App extends Flummox {
     let store = this.getStore(telemetryIds);
     if (typeof store === "undefined") {
       const actions = telemetryIds.map(i => {
-        this.listenToServer(i);
+        this.listenToServer(i, 150);
         return this.storeAction(i);
       });
       store = this.createStore(telemetryIds, AveragingStore, actions);
