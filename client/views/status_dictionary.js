@@ -18,6 +18,38 @@ const gpsStatuses = {
 };
 
 const statusById = {
+  "NODE3000004": {
+    2: "Stop",
+    4: "Shutdown",
+    8: "Maintenance",
+    16: "Normal",
+    32: "Standby",
+    64: "Idle",
+    128: "System Initialized"
+  },
+
+  "NODE3000006": {
+    1: "Stop",
+    2: "Shutdown",
+    3: "Standby",
+    4: "Process",
+    5: "Hot Service",
+    6: "Flush",
+    7: "Warm Shutdown"
+  },
+
+  "NODE3000007": {
+    0: "None",
+    1: "Vent",
+    2: "Heatup",
+    3: "Purge",
+    4: "Flow",
+    5: "Test",
+    6: "Test SV 1",
+    7: "Test SV 2",
+    8: "Service"
+  },
+
   "NODE3000010": {
     1: "Process",
     2: "Standby",
