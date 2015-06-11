@@ -7,6 +7,7 @@ import App from "./app.js";
 
 import TelemetryIndex from "./telemetry_index.js";
 
+import BarChart from "./views/charts/bar_chart.jsx";
 import BulletChart from "./views/charts/bullet_chart.jsx";
 import SparklineChart from "./views/charts/sparkline_chart.jsx";
 
@@ -21,6 +22,7 @@ import TransmissionDelayReadout from "./views/readouts/transmission_delay_readou
 const app = new App();
 
 const viewFactories = {
+  "bar-chart":  React.createFactory(BarChart),
   "bullet-chart":  React.createFactory(BulletChart),
   "readout decimal": React.createFactory(DecimalReadout),
   "readout integer": React.createFactory(IntegerReadout),

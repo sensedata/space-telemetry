@@ -1,0 +1,15 @@
+.bar-chart {
+  .bar {
+    fill: #aaa;
+  }
+
+  .real-point {
+    fill: #333;
+  }
+}
+
+td.bar-chart {
+  padding-left: 18px !important;
+  padding-right: 0 !important;
+  position: relative; top: -4px;
+}
