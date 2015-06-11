@@ -1,0 +1,87 @@
+.water {
+  margin-bottom: 35px;
+
+  .water-header {
+    margin: 0;
+    position: relative; top: 10px;
+  }
+
+  .water-tables > div {
+    padding: 0;
+  }
+
+  .water-table.first {
+    td.microchart {
+      position: relative; left: -13px;
+    }
+  }
+
+  .water-table:not(.first) {
+    td.microchart {
+      position: relative; left: 15px;
+    }
+  }
+
+  .column-header {
+    width: 35%;
+  }
+
+  .column-microchart {
+    text-align: right;
+    width: 60%;
+  }
+
+  .column-readout {
+    width: 20%;
+  }
+
+  .table {
+    margin: 0 auto;
+    table-layout: fixed;
+    width: 100%;
+
+    thead th {
+      text-align: center;
+    }
+  }
+
+  .urine-processor {
+    dt {
+      margin-left: 118px;
+      width: 110px;
+    }
+
+    dd {
+      margin-left: 110px;
+      width: 70px;
+    }
+  }
+
+  .water-processor {
+    dt {
+      margin-left: 29px;
+      width: 120px;
+    }
+
+    dd {
+      margin-left: 120px;
+      width: 200px;
+    }
+  }
+}
+
+@media (min-width: 922px) {
+  .water {
+    .col:first-child {
+      .column-header {
+        width: 35%;
+      }
+    }
+
+    .water-table:not(.first) {
+      .column-header {
+        width: 0;
+      }
+    }
+  }
+}
