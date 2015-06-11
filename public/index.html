@@ -360,7 +360,122 @@
 
             <hr class="inner-rule">
             <div class="row">
-              <div class="col-sm-3">
+              <div class="col-sm-3 radiator-col">
+                <table class="table radiator-table">
+                  <colgroup>
+                    <col class="column-header">
+                    <col class="column-readout">
+                  </colgroup>
+
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>Rotation</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <th>Port Radiator</th>
+                      <td class="readout decimal degrees" data-telemetry-id="S0000002" data-scale="2"></td>
+                    </tr>
+                    <tr>
+                      <th>Starboard Radiator</th>
+                      <td class="readout decimal degrees" data-telemetry-id="S0000001" data-scale="2"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="col-sm-3 first">
+                <table class="folding table radiator-loop-table first">
+                  <colgroup>
+                    <col class="column-header">
+                    <col class="column-microchart">
+                    <col class="column-readout">
+                  </colgroup>
+
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th colspan="2">Out Temperature</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <th>A Radiator Loop</th>
+                      <td class="microchart sparkline-chart" data-telemetry-id="S1000003"></td>
+                      <td class="readout celsius decimal" data-scale="2" data-telemetry-id="S1000003"></td>
+                    </tr>
+
+                    <tr>
+                      <th>B Radiator Loop</th>
+                      <td class="microchart sparkline-chart" data-telemetry-id="P1000003"></td>
+                      <td class="readout celsius decimal" data-scale="2" data-telemetry-id="P1000003"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="col-sm-3 second ">
+                <table class="folding table radiator-loop-table second">
+                  <colgroup>
+                    <col class="column-header">
+                    <col class="column-microchart">
+                    <col class="column-readout">
+                  </colgroup>
+
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th colspan="2">Pressure</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <th>A Radiator Loop</th>
+                      <td class="microchart sparkline-chart" data-telemetry-id="S1000002"></td>
+                      <td class="readout pressure decimal" data-scale="1" data-telemetry-id="S1000002"></td>
+                    </tr>
+
+                    <tr>
+                      <th>B Radiator Loop</th>
+                      <td class="microchart sparkline-chart" data-telemetry-id="P1000002"></td>
+                      <td class="readout pressure decimal" data-scale="1" data-telemetry-id="P1000002"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="col-sm-3 last">
+                <table class="folding table radiator-loop-table last">
+                  <colgroup>
+                    <col class="column-header">
+                    <col class="column-microchart">
+                    <col class="column-readout">
+                  </colgroup>
+
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th colspan="2">Flow Rate</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <th>A Radiator Loop</th>
+                      <td class="microchart sparkline-chart" data-telemetry-id="S1000001" conversion="277.777778"></td>
+                      <td class="readout milligrams-per-second decimal" data-scale="1" data-telemetry-id="S1000001" conversion="277.777778"></td>
+                    </tr>
+
+                    <tr>
+                      <th>B Radiator Loop</th>
+                      <td class="microchart sparkline-chart" data-telemetry-id="P1000001" conversion="277.777778"></td>
+                      <td class="readout milligrams-per-second decimal" data-scale="1" data-telemetry-id="P1000001" conversion="277.777778"></td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>

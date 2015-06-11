@@ -1,6 +1,6 @@
 .thermal {
-  margin-bottom: 30px;
-  
+  margin-bottom: 35px;
+
   .thermal-header {
     margin: 0;
     position: relative; top: 10px;
@@ -21,6 +21,31 @@
 
   .column-readout {
     width: 30%;
+  }
+
+  .radiator-col {
+    border-right: 1px solid #aaa;
+    padding-right: 15px;
+  }
+
+  .first .radiator-loop-table {
+    .column-header {
+      width: 120px;
+    }
+
+    .column-microchart {
+      width: 100px;
+    }
+
+    td.sparkline-chart {
+      padding: 4px 8px !important;
+    }
+  }
+
+  .radiator-loop-table {
+    .column-readout {
+      width: 35%;
+    }
   }
 
   .table {
