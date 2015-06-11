@@ -190,6 +190,298 @@
         </div>
       </div>
 
+      <div class="thermal">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="row">
+              <div class="col-sm-12">
+                <h2 class="sub-header thermal-header">Thermal Regulation</h2>
+              </div>
+            </div>
+            <hr class="header-rule">
+            <div class="row thermal-tables">
+              <div class="col col-sm-3">
+                <table class="folding table thermal-table first">
+                  <colgroup>
+                    <col class="column-header">
+                    <col class="column-microchart">
+                    <col class="column-readout">
+                  </colgroup>
+
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th colspan="2">Mean Temperature</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <th>Air Coolant</th>
+                      <td class="microchart bullet-chart" data-telemetry-ids="USLAB000061,NODE2000006,NODE3000013" data-capacity="20"></td>
+                      <td class="readout decimal celsius" data-telemetry-ids="USLAB000061,NODE2000006,NODE3000013" data-scale="1"></td>
+                    </tr>
+                    <tr>
+                      <th>Avionics Coolant</th>
+                      <td class="microchart bullet-chart" data-telemetry-ids="USLAB000060,NODE2000007,NODE3000012" data-capacity="20"></td>
+                      <td class="readout decimal celsius" data-telemetry-ids="USLAB000060,NODE2000007,NODE3000012" data-scale="1"></td>
+                    </tr>
+                    <tr>
+                      <th>Low Temp Loop</th>
+                      <td class="microchart bullet-chart" data-telemetry-ids="USLAB000056,NODE2000002,NODE3000019" data-capacity="100"></td>
+                      <td class="readout decimal percentage" data-telemetry-ids="USLAB000056,NODE2000002,NODE3000019" data-scale="1"></td>
+                    </tr>
+                    <tr>
+                      <th>Med Temp Loop</th>
+                      <td class="microchart bullet-chart" data-telemetry-ids="USLAB000057,NODE2000001,NODE3000017" data-capacity="100"></td>
+                      <td class="readout decimal percentage" data-telemetry-ids="USLAB000057,NODE2000001,NODE3000017" data-scale="1"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="col col-sm-3">
+                <table class="folding table thermal-table second">
+                  <colgroup>
+                    <col class="column-header">
+                    <col class="column-microchart">
+                    <col class="column-readout">
+                  </colgroup>
+
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th colspan="2">Destiny</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <th>Air Coolant</th>
+                      <td class="microchart sparkline-chart" data-telemetry-id="USLAB000061"></td>
+                      <td class="readout decimal celsius" data-telemetry-id="USLAB000061" data-scale="2"></td>
+                    </tr>
+                    <tr>
+                      <th>Avionics Coolant</th>
+                      <td class="microchart sparkline-chart" data-telemetry-id="USLAB000060"></td>
+                      <td class="readout decimal celsius" data-telemetry-id="USLAB000060" data-scale="2"></td>
+                    </tr>
+                    <tr>
+                      <th>Low Temp Loop</th>
+                      <td class="microchart bar-chart" data-telemetry-id="USLAB000056" data-min="0" data-max="100"></td>
+                      <td class="readout decimal percentage" data-telemetry-id="USLAB000056" data-scale="2"></td>
+                    </tr>
+                    <tr>
+                      <th>Med Temp Loop</th>
+                      <td class="microchart bar-chart" data-telemetry-id="USLAB000057" data-min="0" data-max="100"></td>
+                      <td class="readout decimal percentage" data-telemetry-id="USLAB000057" data-scale="2"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="col col-sm-3">
+                <table class="folding table thermal-table third">
+                  <colgroup>
+                    <col class="column-header">
+                    <col class="column-microchart">
+                    <col class="column-readout">
+                  </colgroup>
+
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th colspan="2">Harmony</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <th>Air Coolant</th>
+                      <td class="microchart sparkline-chart" data-telemetry-id="NODE2000006"></td>
+                      <td class="readout decimal celsius" data-telemetry-id="NODE2000006" data-scale="2"></td>
+                    </tr>
+                    <tr>
+                      <th>Avionics Coolant</th>
+                      <td class="microchart sparkline-chart" data-telemetry-id="NODE2000007"></td>
+                      <td class="readout decimal celsius" data-telemetry-id="NODE2000007" data-scale="2"></td>
+                    </tr>
+                    <tr>
+                      <th>Low Temp Loop</th>
+                      <td class="microchart bar-chart" data-telemetry-id="NODE2000002" data-min="0" data-max="100"></td>
+                      <td class="readout decimal percentage" data-telemetry-id="NODE2000002" data-scale="2"></td>
+                    </tr>
+                    <tr>
+                      <th>Med Temp Loop</th>
+                      <td class="microchart bar-chart" data-telemetry-id="NODE2000001" data-min="0" data-max="100"></td>
+                      <td class="readout decimal percentage" data-telemetry-id="NODE2000001" data-scale="2"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="col col-sm-3">
+                <table class="folding table thermal-table fourth">
+                  <colgroup>
+                    <col class="column-header">
+                    <col class="column-microchart">
+                    <col class="column-readout">
+                  </colgroup>
+
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th colspan="2">Tranquility</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <th>Air Coolant</th>
+                      <td class="microchart sparkline-chart" data-telemetry-id="NODE3000013"></td>
+                      <td class="readout decimal celsius" data-telemetry-id="NODE3000013" data-scale="2"></td>
+                    </tr>
+                    <tr>
+                      <th>Avionics Coolant</th>
+                      <td class="microchart sparkline-chart" data-telemetry-id="NODE3000012"></td>
+                      <td class="readout decimal celsius" data-telemetry-id="NODE3000012" data-scale="2"></td>
+                    </tr>
+                    <tr>
+                      <th>Low Temp Loop</th>
+                      <td class="microchart bar-chart" data-telemetry-id="NODE3000019" data-min="0" data-max="100"></td>
+                      <td class="readout decimal percentage" data-telemetry-id="NODE3000019" data-scale="2"></td>
+                    </tr>
+                    <tr>
+                      <th>Med Temp Loop</th>
+                      <td class="microchart bar-chart" data-telemetry-id="NODE3000017" data-min="0" data-max="100"></td>
+                      <td class="readout decimal percentage" data-telemetry-id="NODE3000017" data-scale="2"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <hr class="inner-rule">
+            <div class="row">
+              <div class="col-sm-3 radiator-col">
+                <table class="table radiator-table">
+                  <colgroup>
+                    <col class="column-header">
+                    <col class="column-readout">
+                  </colgroup>
+
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>Rotation</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <th>Port Radiator</th>
+                      <td class="readout decimal degrees" data-telemetry-id="S0000002" data-scale="2"></td>
+                    </tr>
+                    <tr>
+                      <th>Starboard Radiator</th>
+                      <td class="readout decimal degrees" data-telemetry-id="S0000001" data-scale="2"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="col-sm-3 first">
+                <table class="folding table radiator-loop-table first">
+                  <colgroup>
+                    <col class="column-header">
+                    <col class="column-microchart">
+                    <col class="column-readout">
+                  </colgroup>
+
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th colspan="2">Out Temperature</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <th>A Radiator Loop</th>
+                      <td class="microchart sparkline-chart" data-telemetry-id="S1000003"></td>
+                      <td class="readout celsius decimal" data-scale="2" data-telemetry-id="S1000003"></td>
+                    </tr>
+
+                    <tr>
+                      <th>B Radiator Loop</th>
+                      <td class="microchart sparkline-chart" data-telemetry-id="P1000003"></td>
+                      <td class="readout celsius decimal" data-scale="2" data-telemetry-id="P1000003"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="col-sm-3 second ">
+                <table class="folding table radiator-loop-table second">
+                  <colgroup>
+                    <col class="column-header">
+                    <col class="column-microchart">
+                    <col class="column-readout">
+                  </colgroup>
+
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th colspan="2">Pressure</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <th>A Radiator Loop</th>
+                      <td class="microchart sparkline-chart" data-telemetry-id="S1000002"></td>
+                      <td class="readout pressure decimal" data-scale="1" data-telemetry-id="S1000002"></td>
+                    </tr>
+
+                    <tr>
+                      <th>B Radiator Loop</th>
+                      <td class="microchart sparkline-chart" data-telemetry-id="P1000002"></td>
+                      <td class="readout pressure decimal" data-scale="1" data-telemetry-id="P1000002"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="col-sm-3 last">
+                <table class="folding table radiator-loop-table last">
+                  <colgroup>
+                    <col class="column-header">
+                    <col class="column-microchart">
+                    <col class="column-readout">
+                  </colgroup>
+
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th colspan="2">Flow Rate</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <th>A Radiator Loop</th>
+                      <td class="microchart sparkline-chart" data-telemetry-id="S1000001" conversion="277.777778"></td>
+                      <td class="readout milligrams-per-second decimal" data-scale="1" data-telemetry-id="S1000001" conversion="277.777778"></td>
+                    </tr>
+
+                    <tr>
+                      <th>B Radiator Loop</th>
+                      <td class="microchart sparkline-chart" data-telemetry-id="P1000001" conversion="277.777778"></td>
+                      <td class="readout milligrams-per-second decimal" data-scale="1" data-telemetry-id="P1000001" conversion="277.777778"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="attitude">
         <div class="row">
           <div class="col-sm-12">
@@ -218,10 +510,6 @@
                 <div class="row">
                   <div class="col-sm-12">
                     <dl class="dl-horizontal attitude-settings">
-                      <!--
-                      <dt>Reference Frame:</dt>
-                      <dd class="readout text" data-telemetry-id="USLAB000017"></dd>
-                      -->
                       <dt>Mode:</dt>
                       <dd class="readout text" data-telemetry-id="USLAB000012"></dd>
 

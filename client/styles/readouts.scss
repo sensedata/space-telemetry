@@ -47,6 +47,10 @@ th .readout {
     content: " N⋅m⋅s";
   }
 
+  &.percentage:after {
+    content: " %";
+  }
+
   &.pressure:after {
     content: " mmHg";
   }
