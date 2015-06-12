@@ -5,8 +5,6 @@ var EventEmitter = require('events').EventEmitter;
 
 var utils = require('./utils');
 
-var notify = require('./notification');
-
 var emitter = new EventEmitter();
 
 exports.dataStream = _('data', emitter);
@@ -29,50 +27,40 @@ var telemetrySub = new ls.Subscription('MERGE', dd.list, SCHEMA);
 var timeSub = new ls.Subscription('MERGE', 'TIME_000001', ['Status.Class']);
 
 var statusIdx = dd.hash.STATUS;
+
 var telemetrySessionId;
 
-// interpret status based on our connection health with lightstreamer
-function statusUpdate() {
+var lastStatus;
 
-  var cs = lsClient.getStatus(),
+var time00001Timeout;
 
-  resolvedStatus = 0,
+function statusUpdate(connected) {
 
-  isSubscribed = telemetrySub.isSubscribed(),
-
-  now = Date.now() / 1000 | 0,
-
-  data;
-
-  if (cs.indexOf('CONNECTED') > -1 && isSubscribed) {
-
-    resolvedStatus = 1;
-
-  } else {
-
-    resolvedStatus = 0;
-  }
+  var now = Date.now() / 1000 | 0, data;
 
   data = {
-    k: statusIdx,
-    v: resolvedStatus,
+    k: statusIdx.toString(),
+    v: connected ? 1 : 0,
     t: now,
-    s: resolvedStatus === 1 ? 24 : 2,  // 24 and 2 are values from telemetry
+    s: connected ? 24 : 2,  // 24 and 2 are values from telemetry
     sid: now
   };
 
-  // console.log(data);
+  if (!lastStatus) {
 
-  emitter.emit('data', data);
-}
+    console.log(data);
 
-lsClient.addListener({
+    emitter.emit('data', data);
 
-  onStatusChange: function (status) {
+  } else if (lastStatus && lastStatus.s !== data.s) {
 
-    statusUpdate();
+    console.log(data);
+
+    emitter.emit('data', data);
   }
-});
+
+  lastStatus = data;
+}
 
 lsClient.subscribe(timeSub);
 lsClient.connect();
@@ -108,7 +96,7 @@ timeSub.addListener({
 
         lsClient.unsubscribe(telemetrySub);
 
-      }, 20000);
+      }, 10000);
     }
   }
 });
@@ -119,12 +107,10 @@ telemetrySub.addListener({
   onSubscription: function () {
 
     telemetrySessionId = utils.getTimeBasedId();
-    statusUpdate();
-  },
 
-  onUnsubscription: function () {
-
-    statusUpdate();
+    // setup a timeout to notify clients if data is not streaming
+    clearTimeout(time00001Timeout);
+    time00001Timeout = setTimeout(function () { statusUpdate(false); }, 10000);
   },
 
   onItemUpdate: function (update) {
@@ -163,6 +149,12 @@ telemetrySub.addListener({
     if (idx === 296) {
       // in this case utilize the timestamp for the value
       fValue = fTimeStamp;
+
+      // data is streaming, notify clients
+      statusUpdate(true);
+      // setup a timeout to notify clients if stops streaming
+      clearTimeout(time00001Timeout);
+      time00001Timeout = setTimeout(function () { statusUpdate(false); }, 10000);
     }
 
     var data = {
