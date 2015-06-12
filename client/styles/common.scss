@@ -81,12 +81,15 @@ th {
   width: 160px;
 }
 
-.station-metadata dd {
-  margin-left: 170px;
-  position: relative; top: 1px;
-  text-align: left;
-}
+.station-metadata {
+  dd {
+    margin-left: 170px;
+    position: relative; top: 0.5px;
+    text-align: left;
+    overflow: visible;
+  }
 
+}
 
 hr {
   margin: 15px 0 10px;
