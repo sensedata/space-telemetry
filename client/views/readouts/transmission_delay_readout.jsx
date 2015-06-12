@@ -13,6 +13,9 @@ class TransmissionDelayReadout extends ListeningView {
 
   render() {
     const unixTime = this.state.data ? this.state.data.t : 0;
+    if (typeof unixTime === "undefined") {
+      return <span className="time-alarm">-</span>;
+    }
     const time = Moment.unix(unixTime).utc();
     const now = Moment().utc();
     const delta = now.diff(time, "milliseconds");
