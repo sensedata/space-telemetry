@@ -107,7 +107,7 @@ function selectStatsByIdx(idx, cb) {
     }
 
     client.query('select avg(lag_avg) as lag_avg,' +
-      ' avg(lag_stddev) as lag_stddev, avg(value_avg) as val_avg,' +
+      ' avg(lag_stddev) as lag_stddev, sum(tick_count) as tick_count, avg(value_avg) as val_avg,' +
       ' avg(value_stddev) as val_stddev from telemetry_session_stats where idx = $1',
       [idx],
       function (err2, res) {
@@ -198,6 +198,7 @@ function addTelemetryStats(data, cb) {
 
         d.lm = 0;
         d.ld = 0;
+        d.vc = 0;
         d.vm = 0;
         d.vd = 0;
 
@@ -218,6 +219,7 @@ function addTelemetryStats(data, cb) {
 
       d.lm = res.rows[0].lag_avg || 0;
       d.ld = res.rows[0].lag_stddev || 0;
+      d.vc = res.rows[0].tick_count || 0;
       d.vm = res.rows[0].val_avg || 0;
       d.vd = res.rows[0].val_stddev || 0;
 
@@ -298,6 +300,7 @@ function addStats(idx) {
         s: r.status,
         lm: 0,
         ld: 0,
+        vc: 0,
         vm: 0,
         vd: 0
       };
@@ -364,7 +367,10 @@ exports.getTelemetrySessionStatsBySessionIdIdx = getTelemetrySessionStatsBySessi
 function saveTelemetrySessionStatsBySessionIdIdx(
     session_id,
     idx,
-    value_count,
+    tick_count,
+    delta_count,
+    delta_ts_min,
+    delta_ts_max,
     value_min,
     value_max,
     value_avg,
@@ -373,8 +379,6 @@ function saveTelemetrySessionStatsBySessionIdIdx(
     lag_max,
     lag_avg,
     lag_stddev,
-    ts_min,
-    ts_max,
     cb) {
 
   if (!utils.isReadOnly()) {
@@ -391,14 +395,18 @@ function saveTelemetrySessionStatsBySessionIdIdx(
       }
 
       client.query('insert into telemetry_session_stats(' +
-      'idx, session_id, value_count, value_min, value_max,' +
-      'value_avg, value_stddev, lag_min, lag_max, lag_avg,' +
-      'lag_stddev, ts_min, ts_max) values ($1, $2, $3, $4,' +
-      '$5, $6, $7, $8, $9, $10, $11, $12, $13)',
+      'idx, session_id, tick_count, delta_count, delta_ts_min, ' +
+      'delta_ts_max, value_min, value_max, ' +
+      'value_avg, value_stddev, lag_min, lag_max, lag_avg, ' +
+      'lag_stddev) values ($1, $2, $3, $4, ' +
+      '$5, $6, $7, $8, $9, $10, $11, $12, $13, $14)',
       [
         idx,
         session_id,
-        value_count,
+        tick_count,
+        delta_count,
+        delta_ts_min,
+        delta_ts_max,
         value_min,
         value_max,
         value_avg,
@@ -406,9 +414,7 @@ function saveTelemetrySessionStatsBySessionIdIdx(
         lag_min,
         lag_max,
         lag_avg,
-        lag_stddev,
-        ts_min,
-        ts_max
+        lag_stddev
       ],
       function (err2, res) {
 
