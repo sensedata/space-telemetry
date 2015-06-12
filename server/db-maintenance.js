@@ -29,7 +29,10 @@ function saveTelemetrySessionStatsBySessionIdIdxWrapper(params, next) {
   db.saveTelemetrySessionStatsBySessionIdIdx(
     params.session_id,
     params.idx,
-    params.value_count,
+    params.tick_count,
+    params.delta_count,
+    params.delta_ts_min,
+    params.delta_ts_max,
     params.value_min,
     params.value_max,
     params.value_avg,
@@ -38,8 +41,6 @@ function saveTelemetrySessionStatsBySessionIdIdxWrapper(params, next) {
     params.lag_max,
     params.lag_avg,
     params.lag_stddev,
-    params.ts_min,
-    params.ts_max,
     function (err, res) {
 
       if (err) {
