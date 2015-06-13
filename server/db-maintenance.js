@@ -8,6 +8,8 @@ var notify = require('./notification');
 
 var utils = require('./utils');
 
+var statsCache = require('./stats-cache');
+
 var oneDay = 1000 * 60 * 60 * 24;
 
 function getTelemetrySessionStatsBySessionIdIdxWrapper(params, next) {
@@ -85,6 +87,9 @@ function buildTelemetrySessionStats(interval) {
 
     console.log('finished buildTelemetrySessionStats:', Date.now(), err || 'success');
 
+    // stats are now updated in db, flush local cache
+    statsCache.flush();
+
     setTimeout(function () { buildTelemetrySessionStats(interval); }, interval);
   });
 }
@@ -92,4 +97,10 @@ function buildTelemetrySessionStats(interval) {
 if (!utils.isReadOnly()) {
 
   buildTelemetrySessionStats(oneDay);
+
+} else {
+  // if the server instance is read-only
+  // take a guess as when to flush stats cache
+
+  setInterval(function () { statsCache.flush(); }, oneDay);
 }
