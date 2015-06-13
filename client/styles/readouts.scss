@@ -66,4 +66,8 @@ th .readout {
   &.rotations-per-minute:after {
     content: " rpm"
   }
+
+  &.volts:after {
+    content: " V";
+  }
 }
