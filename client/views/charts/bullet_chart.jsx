@@ -56,7 +56,7 @@ class BulletChart extends ListeningView {
     scale.range([0, this.props.width]);
     scale.domain([0, this.state.capacity]);
 
-    let measure = this.state.measure.v;
+    let measure = Math.abs(this.state.measure.v);
     if (this.props.conversion) {
       measure *= parseFloat(this.props.conversion);
     }
