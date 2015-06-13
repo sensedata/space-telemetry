@@ -13,6 +13,8 @@ var notify = require('./notification');
 
 var dd = require('./data_dictionary');
 
+var statsCache = require('./stats-cache');
+
 // Postgres confg
 var psql = process.env.DATABASE_URL;
 
@@ -185,50 +187,74 @@ ls.dataStream.fork().each(function (data) {
 
 function addTelemetryStats(data, cb) {
 
+  var cachedStats;
+
   if (!Array.isArray(data)) {
 
     data = [data];
   }
 
-  selectStatsByIdx(data[0].k, function (err, res) {
+  cachedStats = statsCache.get(data[0].k);
 
-    if (err || res.rows.length === 0) {
-      // keep chugging along, even if there was an error
+  if (cachedStats) {
+
+    data = data.map(function (d) {
+
+      return utils.merge(d, cachedStats);
+    });
+
+    cb(null, data);
+
+  } else {
+
+    selectStatsByIdx(data[0].k, function (err, res) {
+
+      if (err || res.rows.length === 0) {
+        // keep chugging along, even if there was an error
+        data = data.map(function (d) {
+
+          d.lm = 0;
+          d.ld = 0;
+          d.vc = 0;
+          d.vm = 0;
+          d.vd = 0;
+
+          return d;
+        });
+
+        if (err) {
+
+          console.error(err);
+
+          notify.error(err);
+        }
+
+        return cb(null, data);
+      }
+
       data = data.map(function (d) {
 
-        d.lm = 0;
-        d.ld = 0;
-        d.vc = 0;
-        d.vm = 0;
-        d.vd = 0;
+        d.lm = res.rows[0].lag_avg || 0;
+        d.ld = res.rows[0].lag_stddev || 0;
+        d.vc = res.rows[0].tick_count || 0;
+        d.vm = res.rows[0].val_avg || 0;
+        d.vd = res.rows[0].val_stddev || 0;
 
         return d;
       });
 
-      if (err) {
+      statsCache.put(data[0].k, {
 
-        console.error(err);
+        lm: res.rows[0].lag_avg || 0,
+        ld: res.rows[0].lag_stddev || 0,
+        vc: res.rows[0].tick_count || 0,
+        vm: res.rows[0].val_avg || 0,
+        vd: res.rows[0].val_stddev || 0
+      });
 
-        notify.error(err);
-      }
-
-      return cb(null, data);
-    }
-
-    data = data.map(function (d) {
-
-      d.lm = res.rows[0].lag_avg || 0;
-      d.ld = res.rows[0].lag_stddev || 0;
-      d.vc = res.rows[0].tick_count || 0;
-      d.vm = res.rows[0].val_avg || 0;
-      d.vd = res.rows[0].val_stddev || 0;
-
-      return d;
+      cb(null, data);
     });
-
-    cb(null, data);
-  });
-
+  }
 }
 
 exports.addTelemetryStats = addTelemetryStats;

@@ -88,3 +88,19 @@ describe('Object Hash Clone', function () {
     expect(obj1).to.not.deep.equal(obj2);
   });
 });
+
+describe('Object Hash Merge', function () {
+
+  it('merge', function () {
+
+    var obj1 = { one: 1, two: 'two', three: 3 };
+
+    var obj2 = { one: 2, four: 4 };
+
+    var obj3 = utils.merge(obj1, obj2);
+
+    var obj4 = { one: 2, two: 'two', three: 3, four: 4 }
+
+    expect(obj3).to.deep.equal(obj4);
+  });
+});
