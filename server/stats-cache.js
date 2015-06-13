@@ -1,7 +1,7 @@
 var cache = {};
 
 function get(key) {
-  console.log(key, cache[key]);
+
   return cache[key];
 }
 
@@ -18,6 +18,3 @@ function flush() {
 exports.get = get;
 exports.put = put;
 exports.flush = flush;
-
-
-setInterval(function () { flush();}, 8000);
