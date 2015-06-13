@@ -1,0 +1,92 @@
+.photovoltaic {
+  margin-bottom: 35px;
+
+  .photovoltaic-header {
+    margin: 0;
+    position: relative; top: 10px;
+  }
+
+  .photovoltaic-tables > div {
+    padding: 0;
+  }
+
+  .column-header {
+    width: 40%;
+  }
+
+  .column-microchart {
+    text-align: right;
+    width: 60%;
+  }
+
+  .column-readout {
+    width: 55%;
+  }
+
+  .channel-table {
+    .column-microchart, td.sparkline-chart {
+      width: 100px !important;
+    }
+
+    .column-readout, td.readout {
+      width: 100px !important;
+    }
+
+    &.first .column-header, tbody th {
+      position: relative; left: 15px;
+      text-align: right;
+      width: 25px;
+    }
+  }
+
+  .table {
+    margin: 0 auto;
+    table-layout: fixed;
+    width: 100%;
+
+    thead th {
+      text-align: center;
+    }
+
+    tr:nth-child(3), tr:nth-child(5) {
+      td, th {
+        border-top: 1px solid #bbb !important;
+      }
+    }
+  }
+}
+
+@media (min-width: 922px) {
+  .photovoltaic {
+    .col:first-child {
+      border-right: 1px solid #aaa;
+      margin-right: 10px;
+      padding-right: 10px;
+      width: 25% !important;
+
+      .column-header {
+        width: 50%;
+      }
+    }
+
+    .col {
+      margin: 0;
+    }
+
+    .col.first {
+      width: 250px;
+    }
+
+    .col:not(.first) {
+      width: 200px;
+    }
+
+    .photovoltaic-table:not(.first) {
+      width: 200px;
+
+      .column-header {
+        width: 0;
+      }
+    }
+  }
+}

@@ -61,8 +61,11 @@ _.forEach(viewFactories, (viewFactory, className) => {
       props.store = app.getSimpleStore(e.dataset.telemetryId);
       props.telemetryNumber = TelemetryIndex.number(e.dataset.telemetryId);
 
-    } else if (typeof e.dataset.telemetryIds !== "undefined") {
-      props.store = app.getAveragingStore(e.dataset.telemetryIds.split(","))
+    } else if (e.dataset.combine === "average") {
+      props.store = app.getAveragingStore(e.dataset.telemetryIds.split(","));
+
+    } else if (e.dataset.combine === "sum") {
+      props.store = app.getSummingStore(e.dataset.telemetryIds.split(","));
     }
 
     if (typeof e.dataset.capacityId !== "undefined") {

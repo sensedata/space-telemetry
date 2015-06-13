@@ -8,6 +8,7 @@ import AveragingStore from "./stores/averaging_store.js";
 import LatestStore from "./stores/latest_store.js";
 import QuaternionStore from "./stores/quaternion_store.js";
 import SimpleStore from "./stores/simple_store.js";
+import SummingStore from "./stores/summing_store.js";
 import TelemetryActions from "./actions/telemetry_actions.js";
 
 class App extends Flummox {
@@ -28,13 +29,14 @@ class App extends Flummox {
   }
 
   getAveragingStore(telemetryIds) {
-    let store = this.getStore(telemetryIds);
+    const key = "average" + telemetryIds.sort().join();
+    let store = this.getStore(key);
     if (typeof store === "undefined") {
       const actions = telemetryIds.map(i => {
         this.listenToServer(i, 150);
         return this.storeAction(i);
       });
-      store = this.createStore(telemetryIds, AveragingStore, actions);
+      store = this.createStore(key, AveragingStore, actions);
     }
 
     return store;
@@ -47,6 +49,20 @@ class App extends Flummox {
       store = this.createStore(
         telemetryId, SimpleStore, this.storeAction(telemetryId)
       );
+    }
+
+    return store;
+  }
+
+  getSummingStore(telemetryIds) {
+    const key = "sum" + telemetryIds.sort().join();
+    let store = this.getStore(key);
+    if (typeof store === "undefined") {
+      const actions = telemetryIds.map(i => {
+        this.listenToServer(i, 150);
+        return this.storeAction(i);
+      });
+      store = this.createStore(key, SummingStore, actions);
     }
 
     return store;
