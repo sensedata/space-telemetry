@@ -62,6 +62,16 @@ function statusUpdate(connected) {
   lastStatus = data;
 }
 
+lsClient.addListener({
+
+  onStatusChange: function (status) {
+
+    // setup a timeout to notify clients if data is not streaming
+    clearTimeout(time00001Timeout);
+    time00001Timeout = setTimeout(function () { statusUpdate(false); }, 15000);
+  }
+});
+
 lsClient.subscribe(timeSub);
 lsClient.connect();
 
