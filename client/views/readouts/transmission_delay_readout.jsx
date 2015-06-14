@@ -12,8 +12,10 @@ class TransmissionDelayReadout extends ListeningView {
   }
 
   render() {
-    const unixTime = this.state.data ? this.state.data.t : 0;
-    const time = Moment.unix(unixTime).utc();
+    if (!this.state.data || this.state.data.length <= 0) {
+      return <span className="time-alarm">-</span>;
+    }
+    const time = Moment.unix(this.state.data[0].t).utc();
     const now = Moment().utc();
     const delta = now.diff(time, "milliseconds");
     const rangeAlarm = Math.abs(delta) > 30000;
