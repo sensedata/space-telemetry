@@ -1,0 +1,61 @@
+.eva {
+  margin-bottom: 35px;
+
+  .eva-header {
+    margin: 0;
+    position: relative; top: 10px;
+  }
+
+  .eva-tables > div {
+    padding: 0;
+  }
+
+  .column-header {
+    width: 40%;
+  }
+
+  .column-microchart {
+    text-align: right;
+    width: 60%;
+  }
+
+  .column-readout {
+    width: 30%;
+  }
+
+  .table {
+    margin: 0 auto;
+    table-layout: fixed;
+    width: 100%;
+
+    thead th {
+      text-align: center;
+    }
+  }
+}
+
+@media (min-width: 922px) {
+  .eva {
+    .col:first-child {
+      width: 30%;
+
+      .column-header {
+        width: 60%;
+      }
+
+      td.microchart {
+        position: relative; left: 12px;
+      }
+    }
+
+    .col:not(:first-child) {
+      width: 20%
+    }
+
+    .eva-table:not(.first) {
+      .column-header, tbody th {
+        width: 0;
+      }
+    }
+  }
+}
