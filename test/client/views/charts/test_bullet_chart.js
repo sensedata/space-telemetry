@@ -82,6 +82,23 @@ describe("BulletChart", () => {
     });
   });
 
+  it("renders the marker element at negative mean", () => {
+    const ui = bulletUI();
+    const capacityAction = ui.app.createActions("testcap", TelemetryActions);
+    ui.props.capacityStore = ui.app.createStore(
+      "testcap", HistoricalStore, capacityAction.relay, {maxSize: 200}
+    );
+    ui.view = ui.React.createFactory(ui.viewClass)(ui.props);
+    ui.React.render(ui.view, document.body);
+
+    ui.action.relay([{t: 0, v: 1, vm: -0.5}]);
+    capacityAction.relay([{t: 0, v: 2}]);
+
+    ["x1", "x2"].forEach((a) => {
+      assert.equal($("svg line.marker").attr(a), 25);
+    });
+  });
+
   it("renders the marker element as specified", () => {
     renderBullet({marker: "0.75"});
 
@@ -94,6 +111,22 @@ describe("BulletChart", () => {
     const ui = renderBullet({conversion: 2});
 
     assert.equal($("svg line.measure").attr("x2"), ui.props.width);
+  });
+
+  it("renders a negative measure", () => {
+    const ui = bulletUI();
+    const capacityAction = ui.app.createActions("testcap", TelemetryActions);
+    ui.props.capacityStore = ui.app.createStore(
+      "testcap", HistoricalStore, capacityAction.relay, {maxSize: 200}
+    );
+    ui.view = ui.React.createFactory(ui.viewClass)(ui.props);
+    ui.React.render(ui.view, document.body);
+
+    ui.action.relay([{t: 0, v: -1, vm: 0.5}]);
+    capacityAction.relay([{t: 0, v: 2}]);
+
+    assert.equal($("svg line.measure").attr("x1"), 0);
+    assert.equal($("svg line.measure").attr("x2"), ui.props.width / 2);
   });
 
 });
