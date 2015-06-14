@@ -1,14 +1,13 @@
 @media (min-width: 992px) {
   .folding.table {
-    margin: 15px 0;
+    margin: 15px auto;
+    table-layout: fixed;
+    width: 100%;
 
     &:not(.first) {
-      .column-header {
-        width: 0;
-      }
-
-      tbody th:first-child {
+      .column-header, tbody th:first-child {
        visibility: collapse;
+       width: 0;
       }
     }
 
