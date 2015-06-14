@@ -1053,287 +1053,804 @@
         <div class="row">
           <div class="col-sm-12">
             <div class="row">
-              <div class="col-sm-12">
-                <h2 class="photovoltaic-header sub-header">Photovoltaic</h2>
-              </div>
+              <h2 class="photovoltaic-header sub-header">Photovoltaic</h2>
             </div>
             <hr class="header-rule">
-            <div class="row photovoltaic-tables">
-              <div class="col col-sm-3 first">
-                <table class="folding table photovoltaic-table first">
-                  <colgroup>
-                    <col class="column-header">
-                    <col class="column-microchart">
-                    <col class="column-readout">
-                  </colgroup>
+          </div>
+        </div>
 
-                  <thead>
-                    <tr>
-                      <th></th>
-                      <th colspan="2">Total - All Channels</th>
-                    </tr>
-                  </thead>
+        <div class="row photovoltaic-tables totals">
+          <div class="col col-sm-4 col-aggregate col-first">
+            <h4>&nbsp;</h4>
+            <table class="folding table photovoltaic-table first">
+              <colgroup>
+                <col class="column-header">
+                <col class="column-microchart">
+                <col class="column-readout">
+              </colgroup>
 
-                  <tbody>
-                    <tr>
-                      <th>All</th>
-                      <td class="microchart bullet-chart" data-combine="sum" data-telemetry-ids="S4000002,S6000005,P4000002,P6000005,S4000005,S6000002,P4000005,P6000002" data-capacity="500"></td>
-                      <td class="readout amps decimal" data-combine="sum" data-telemetry-ids="S4000002,S6000005,P4000002,P6000005,S4000005,S6000002,P4000005,P6000002" data-scale="2"></td>
-                    </tr>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th colspan="2">Total</th>
+                </tr>
+              </thead>
 
-                    <tr>
-                      <th>All</th>
-                      <td class="microchart bullet-chart" data-combine="sum" data-telemetry-ids="S4000001,S6000004,P4000001,P6000004,S4000004,S6000001,P4000004,P6000001" data-capacity="1500"></td>
-                      <td class="readout volts decimal" data-combine="sum" data-telemetry-ids="S4000001,S6000004,P4000001,P6000004,S4000004,S6000001,P4000004,P6000001" data-scale="2"></td>
-                    </tr>
+              <tbody>
+                <tr>
+                  <th>Current - All</th>
+                  <td class="microchart bullet-chart" data-combine="sum" data-telemetry-ids="S4000002,S6000005,P4000002,P6000005,S4000005,S6000002,P4000005,P6000002" data-capacity="500"></td>
+                  <td class="readout amps decimal" data-combine="sum" data-telemetry-ids="S4000002,S6000005,P4000002,P6000005,S4000005,S6000002,P4000005,P6000002" data-scale="2"></td>
+                </tr>
 
-                    <tr>
-                      <th>A 1–4</th>
-                      <td class="microchart bullet-chart" data-combine="sum" data-telemetry-ids="S4000002,P4000002,S4000005,P4000005" data-capacity="500"></td>
-                      <td class="readout amps decimal" data-combine="sum" data-telemetry-ids="S4000002,P4000002,S4000005,P4000005" data-scale="2"></td>
-                    </tr>
+                <tr>
+                  <th>Pressure - All</th>
+                  <td class="microchart bullet-chart" data-combine="sum" data-telemetry-ids="S4000001,S6000004,P4000001,P6000004,S4000004,S6000001,P4000004,P6000001" data-capacity="1500"></td>
+                  <td class="readout volts decimal" data-combine="sum" data-telemetry-ids="S4000001,S6000004,P4000001,P6000004,S4000004,S6000001,P4000004,P6000001" data-scale="2"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
-                    <tr>
-                      <th>A 1–4</th>
-                      <td class="microchart bullet-chart" data-combine="sum" data-telemetry-ids="S4000001,P4000001,S4000004,P4000004" data-capacity="1500"></td>
-                      <td class="readout volts decimal" data-combine="sum" data-telemetry-ids="S4000001,P4000001,S4000004,P4000004" data-scale="2"></td>
-                    </tr>
+          <div class="col col-sm-2 col-channel">
+            <h4>Port</h4>
+            <table class="folding table photovoltaic-table">
+              <colgroup>
+                <col class="column-header">
+                <col class="column-microchart">
+                <col class="column-readout">
+              </colgroup>
 
-                    <tr>
-                      <th>B 1–4</th>
-                      <td class="microchart bullet-chart" data-combine="sum" data-telemetry-ids="S6000005,P6000005,S6000002,P6000002" data-capacity="500"></td>
-                      <td class="readout amps decimal" data-combine="sum" data-telemetry-ids="S6000005,P6000005,S6000002,P6000002" data-scale="2"></td>
-                    </tr>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th colspan="2">Channel 1</th>
+                </tr>
+              </thead>
 
-                    <tr>
-                      <th>B 1-4</th>
-                      <td class="microchart bullet-chart" data-combine="sum" data-telemetry-ids="S6000004,P6000004,S6000001,P6000001" data-capacity="1500"></td>
-                      <td class="readout volts decimal" data-combine="sum" data-telemetry-ids="S6000004,P6000004,S6000001,P6000001" data-scale="2"></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+              <tbody>
+                <tr>
+                  <th>Current</th>
+                  <td class="microchart sparkline-chart" data-combine="sum" data-telemetry-ids="S4000002,S6000005" data-capacity="100"></td>
+                  <td class="readout amps decimal" data-combine="sum" data-telemetry-ids="S4000002,S6000005" data-scale="2"></td>
+                </tr>
 
-              <div class="col col-sm-3 second">
-                <table class="folding table photovoltaic-table channel-table second">
-                  <colgroup>
-                    <col class="column-header">
-                    <col class="column-microchart">
-                    <col class="column-readout">
-                  </colgroup>
+                <tr>
+                  <th>Pressure</th>
+                  <td class="microchart sparkline-chart" data-combine="sum" data-telemetry-ids="S4000001,S6000004" data-capacity="100"></td>
+                  <td class="readout volts decimal" data-combine="sum" data-telemetry-ids="S4000001,S6000004" data-scale="2"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
-                  <thead>
-                    <tr>
-                      <th></th>
-                      <th colspan="2">Channel 1</th>
-                    </tr>
-                  </thead>
+          <div class="col col-sm-2 col-channel">
+            <h4>Port</h4>
+            <table class="folding table photovoltaic-table">
+              <colgroup>
+                <col class="column-header">
+                <col class="column-microchart">
+                <col class="column-readout">
+              </colgroup>
 
-                  <tbody>
-                    <tr>
-                      <th></th>
-                      <td class="microchart sparkline-chart" data-combine="sum" data-telemetry-ids="S4000002,S6000005" data-capacity="100"></td>
-                      <td class="readout amps decimal" data-combine="sum" data-telemetry-ids="S4000002,S6000005" data-scale="2"></td>
-                    </tr>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th colspan="2">Channel 3</th>
+                </tr>
+              </thead>
 
-                    <tr>
-                      <th></th>
-                      <td class="microchart sparkline-chart" data-combine="sum" data-telemetry-ids="S4000001,S6000004" data-capacity="100"></td>
-                      <td class="readout volts decimal" data-combine="sum" data-telemetry-ids="S4000001,S6000004" data-scale="2"></td>
-                    </tr>
+              <tbody>
+                <tr>
+                  <th>Current</th>
+                  <td class="microchart sparkline-chart" data-combine="sum" data-telemetry-ids="S4000005,S6000002" data-capacity="100"></td>
+                  <td class="readout amps decimal" data-combine="sum" data-telemetry-ids="S4000005,S6000002" data-scale="2"></td>
+                </tr>
 
-                    <tr>
-                      <th>A</th>
-                      <td class="microchart sparkline-chart" data-telemetry-id="S4000002" data-capacity="100"></td>
-                      <td class="readout amps decimal" data-telemetry-id="S4000002" data-scale="2"></td>
-                    </tr>
+                <tr>
+                  <th>Pressure</th>
+                  <td class="microchart sparkline-chart" data-combine="sum" data-telemetry-ids="S4000004,S6000001" data-capacity="100"></td>
+                  <td class="readout volts decimal" data-combine="sum" data-telemetry-ids="S4000004,S6000001" data-scale="2"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
-                    <tr>
-                      <th>A</th>
-                      <td class="microchart sparkline-chart" data-telemetry-id="S4000001" data-capacity="100"></td>
-                      <td class="readout volts decimal" data-telemetry-id="S4000001" data-scale="2"></td>
-                    </tr>
+          <div class="col col-sm-2 col-channel">
+            <h4>Starboard</h4>
+            <table class="folding table photovoltaic-table">
+              <colgroup>
+                <col class="column-header">
+                <col class="column-microchart">
+                <col class="column-readout">
+              </colgroup>
 
-                    <tr>
-                      <th>B </th>
-                      <td class="microchart sparkline-chart" data-telemetry-id="S6000005" data-capacity="100"></td>
-                      <td class="readout amps decimal" data-telemetry-id="S6000005" data-scale="2"></td>
-                    </tr>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th colspan="2">Channel 2</th>
+                </tr>
+              </thead>
 
-                    <tr>
-                      <th>B</th>
-                      <td class="microchart sparkline-chart" data-telemetry-id="S6000004" data-capacity="100"></td>
-                      <td class="readout volts decimal" data-telemetry-id="S6000004" data-scale="2"></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+              <tbody>
+                <tr>
+                  <th>Current</th>
+                  <td class="microchart sparkline-chart" data-combine="sum" data-telemetry-ids="P4000002,P6000005" data-capacity="100"></td>
+                  <td class="readout amps decimal" data-combine="sum" data-telemetry-ids="P4000002,P6000005" data-scale="2"></td>
+                </tr>
 
-              <div class="col col-sm-2 second">
-                <table class="folding table photovoltaic-table channel-table second">
-                  <colgroup>
-                    <col class="column-header">
-                    <col class="column-microchart">
-                    <col class="column-readout">
-                  </colgroup>
+                <tr>
+                  <th>Pressure</th>
+                  <td class="microchart sparkline-chart" data-combine="sum" data-telemetry-ids="P4000001,P6000004" data-capacity="100"></td>
+                  <td class="readout volts decimal" data-combine="sum" data-telemetry-ids="P4000001,P6000004" data-scale="2"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
-                  <thead>
-                    <tr>
-                      <th></th>
-                      <th colspan="2">Channel 2</th>
-                    </tr>
-                  </thead>
+          <div class="col col-sm-2 col-channel">
+            <h4>Starboard</h4>
+            <table class="folding table photovoltaic-table">
+              <colgroup>
+                <col class="column-header">
+                <col class="column-microchart">
+                <col class="column-readout">
+              </colgroup>
 
-                  <tbody>
-                    <tr>
-                      <th>Current</th>
-                      <td class="microchart sparkline-chart" data-combine="sum" data-telemetry-ids="P4000002,P6000005" data-capacity="100"></td>
-                      <td class="readout amps decimal" data-combine="sum" data-telemetry-ids="P4000002,P6000005" data-scale="2"></td>
-                    </tr>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th colspan="2">Channel 4</th>
+                </tr>
+              </thead>
 
-                    <tr>
-                      <th>Voltage</th>
-                      <td class="microchart sparkline-chart" data-combine="sum" data-telemetry-ids="P4000001,P6000004" data-capacity="100"></td>
-                      <td class="readout volts decimal" data-combine="sum" data-telemetry-ids="P4000001,P6000004" data-scale="2"></td>
-                    </tr>
+              <tbody>
+                <tr>
+                  <th>Current</th>
+                  <td class="microchart sparkline-chart" data-combine="sum" data-telemetry-ids="P4000005,P6000002" data-capacity="100"></td>
+                  <td class="readout amps decimal" data-combine="sum" data-telemetry-ids="P4000005,P6000002" data-scale="2"></td>
+                </tr>
 
-                    <tr>
-                      <th>Current 2 A</th>
-                      <td class="microchart sparkline-chart" data-telemetry-id="P4000002" data-capacity="100"></td>
-                      <td class="readout amps decimal" data-telemetry-id="P4000002" data-scale="2"></td>
-                    </tr>
+                <tr>
+                  <th>Pressure</th>
+                  <td class="microchart sparkline-chart" data-combine="sum" data-telemetry-ids="P4000004,P6000001" data-capacity="100"></td>
+                  <td class="readout volts decimal" data-combine="sum" data-telemetry-ids="P4000004,P6000001" data-scale="2"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
 
-                    <tr>
-                      <th>Voltage 2 A</th>
-                      <td class="microchart sparkline-chart" data-telemetry-id="P4000001" data-capacity="100"></td>
-                      <td class="readout volts decimal" data-telemetry-id="P4000001" data-scale="2"></td>
-                    </tr>
+        <hr class="inner-rule">
 
-                    <tr>
-                      <th>Current 2 B </th>
-                      <td class="microchart sparkline-chart" data-telemetry-id="P6000005" data-capacity="100"></td>
-                      <td class="readout amps decimal" data-telemetry-id="P6000005" data-scale="2"></td>
-                    </tr>
+        <div class="row photovoltaic-tables power">
+          <div class="col col-sm-4 col-first col-aggregate">
+            <table class="folding table photovoltaic-table first">
+              <colgroup>
+                <col class="column-header">
+                <col class="column-microchart">
+                <col class="column-readout">
+              </colgroup>
 
-                    <tr>
-                      <th>Voltage 2 B</th>
-                      <td class="microchart sparkline-chart" data-telemetry-id="P6000004" data-capacity="100"></td>
-                      <td class="readout volts decimal" data-telemetry-id="P6000004" data-scale="2"></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+              <thead>
+                <th></th>
+                <th colspan="2">Total</th>
+              </thead>
 
-              <div class="col col-sm-2 third">
-                <table class="folding table photovoltaic-table channel-table third">
-                  <colgroup>
-                    <col class="column-header">
-                    <col class="column-microchart">
-                    <col class="column-readout">
-                  </colgroup>
+              <tbody>
+                <tr>
+                  <th>Current - A</th>
+                  <td class="microchart bullet-chart" data-combine="sum" data-telemetry-ids="S4000002,P4000002,S4000005,P4000005" data-capacity="500"></td>
+                  <td class="readout amps decimal" data-combine="sum" data-telemetry-ids="S4000002,P4000002,S4000005,P4000005" data-scale="2"></td>
+                </tr>
 
-                  <thead>
-                    <tr>
-                      <th></th>
-                      <th colspan="2">Channel 3</th>
-                    </tr>
-                  </thead>
+                <tr>
+                  <th>Pressure - A</th>
+                  <td class="microchart bullet-chart" data-combine="sum" data-telemetry-ids="S4000001,P4000001,S4000004,P4000004" data-capacity="1500"></td>
+                  <td class="readout volts decimal" data-combine="sum" data-telemetry-ids="S4000001,P4000001,S4000004,P4000004" data-scale="2"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
-                  <tbody>
-                    <tr>
-                      <th>Current</th>
-                      <td class="microchart sparkline-chart" data-combine="sum" data-telemetry-ids="S4000005,S6000002" data-capacity="100"></td>
-                      <td class="readout amps decimal" data-combine="sum" data-telemetry-ids="S4000005,S6000002" data-scale="2"></td>
-                    </tr>
+          <div class="col col-sm-2">
+            <table class="folding table photovoltaic-table channel-table">
+              <colgroup>
+                <col class="column-header">
+                <col class="column-microchart">
+                <col class="column-readout">
+              </colgroup>
 
-                    <tr>
-                      <th>Voltage</th>
-                      <td class="microchart sparkline-chart" data-combine="sum" data-telemetry-ids="S4000004,S6000001" data-capacity="100"></td>
-                      <td class="readout volts decimal" data-combine="sum" data-telemetry-ids="S4000004,S6000001" data-scale="2"></td>
-                    </tr>
+              <thead>
+                <th></th>
+                <th colspan="2">Channel 1</th>
+              </thead>
 
-                    <tr>
-                      <th>Current 3 A</th>
-                      <td class="microchart sparkline-chart" data-telemetry-id="S4000005" data-capacity="100"></td>
-                      <td class="readout amps decimal" data-telemetry-id="S4000005" data-scale="2"></td>
-                    </tr>
+              <tbody>
+                <tr>
+                  <th>Current</th>
+                  <td class="microchart sparkline-chart" data-telemetry-id="S4000002" data-capacity="100"></td>
+                  <td class="readout amps decimal" data-telemetry-id="S4000002" data-scale="2"></td>
+                </tr>
 
-                    <tr>
-                      <th>Voltage 3 A</th>
-                      <td class="microchart sparkline-chart" data-telemetry-id="S4000004" data-capacity="100"></td>
-                      <td class="readout volts decimal" data-telemetry-id="S4000004" data-scale="2"></td>
-                    </tr>
+                <tr>
+                  <th>Pressure</th>
+                  <td class="microchart sparkline-chart" data-telemetry-id="S4000001" data-capacity="100"></td>
+                  <td class="readout volts decimal" data-telemetry-id="S4000001" data-scale="2"></td>
+                </tr>
+              </tbody>
 
-                    <tr>
-                      <th>Current 3 B </th>
-                      <td class="microchart sparkline-chart" data-telemetry-id="S6000002" data-capacity="100"></td>
-                      <td class="readout amps decimal" data-telemetry-id="S6000002" data-scale="2"></td>
-                    </tr>
+            </table>
+          </div>
 
-                    <tr>
-                      <th>Voltage 3 B</th>
-                      <td class="microchart sparkline-chart" data-telemetry-id="S6000001" data-capacity="100"></td>
-                      <td class="readout volts decimal" data-telemetry-id="S6000001" data-scale="2"></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+          <div class="col col-sm-2">
+            <table class="folding table photovoltaic-table channel-table">
+              <colgroup>
+                <col class="column-header">
+                <col class="column-microchart">
+                <col class="column-readout">
+              </colgroup>
 
-              <div class="col col-sm-2 last">
-                <table class="folding table photovoltaic-table channel-table last">
-                  <colgroup>
-                    <col class="column-header">
-                    <col class="column-microchart">
-                    <col class="column-readout">
-                  </colgroup>
+              <thead>
+                <th></th>
+                <th colspan="2">Channel 3</th>
+              </thead>
 
-                  <thead>
-                    <tr>
-                      <th></th>
-                      <th colspan="2">Channel 4</th>
-                    </tr>
-                  </thead>
+              <tbody>
+                <tr>
+                  <th>Current</th>
+                  <td class="microchart sparkline-chart" data-telemetry-id="S4000005" data-capacity="100"></td>
+                  <td class="readout amps decimal" data-telemetry-id="S4000005" data-scale="2"></td>
+                </tr>
 
-                  <tbody>
-                    <tr>
-                      <th>Current</th>
-                      <td class="microchart sparkline-chart" data-combine="sum" data-telemetry-ids="P4000005,P6000002" data-capacity="100"></td>
-                      <td class="readout amps decimal" data-combine="sum" data-telemetry-ids="P4000005,P6000002" data-scale="2"></td>
-                    </tr>
+                <tr>
+                  <th>Pressure</th>
+                  <td class="microchart sparkline-chart" data-telemetry-id="S4000004" data-capacity="100"></td>
+                  <td class="readout volts decimal" data-telemetry-id="S4000004" data-scale="2"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
-                    <tr>
-                      <th>Voltage</th>
-                      <td class="microchart sparkline-chart" data-combine="sum" data-telemetry-ids="P4000004,P6000001" data-capacity="100"></td>
-                      <td class="readout volts decimal" data-combine="sum" data-telemetry-ids="P4000004,P6000001" data-scale="2"></td>
-                    </tr>
+          <div class="col col-sm-2">
+            <table class="folding table photovoltaic-table channel-table">
+              <colgroup>
+                <col class="column-header">
+                <col class="column-microchart">
+                <col class="column-readout">
+              </colgroup>
 
-                    <tr>
-                      <th>Current 4 A</th>
-                      <td class="microchart sparkline-chart" data-telemetry-id="P4000005" data-capacity="100"></td>
-                      <td class="readout amps decimal" data-telemetry-id="P4000005" data-scale="2"></td>
-                    </tr>
+              <thead>
+                <th></th>
+                <th colspan="2">Channel 2</th>
+              </thead>
 
-                    <tr>
-                      <th>Voltage 4 A</th>
-                      <td class="microchart sparkline-chart" data-telemetry-id="P4000004" data-capacity="100"></td>
-                      <td class="readout volts decimal" data-telemetry-id="P4000004" data-scale="2"></td>
-                    </tr>
+              <tbody>
+                <tr>
+                  <th>Current</th>
+                  <td class="microchart sparkline-chart" data-telemetry-id="P4000002" data-capacity="100"></td>
+                  <td class="readout amps decimal" data-telemetry-id="P4000002" data-scale="2"></td>
+                </tr>
 
-                    <tr>
-                      <th>Current 4 B </th>
-                      <td class="microchart sparkline-chart" data-telemetry-id="P6000002" data-capacity="100"></td>
-                      <td class="readout amps decimal" data-telemetry-id="P6000002" data-scale="2"></td>
-                    </tr>
+                <tr>
+                  <th>Pressure</th>
+                  <td class="microchart sparkline-chart" data-telemetry-id="P4000001" data-capacity="100"></td>
+                  <td class="readout volts decimal" data-telemetry-id="P4000001" data-scale="2"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
-                    <tr>
-                      <th>Voltage 4 B</th>
-                      <td class="microchart sparkline-chart" data-telemetry-id="P6000001" data-capacity="100"></td>
-                      <td class="readout volts decimal" data-telemetry-id="P6000001" data-scale="2"></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
+          <div class="col col-sm-2">
+            <table class="folding table photovoltaic-table channel-table">
+              <colgroup>
+                <col class="column-header">
+                <col class="column-microchart">
+                <col class="column-readout">
+              </colgroup>
+
+              <thead>
+                <th></th>
+                <th colspan="2">Channel 4</th>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <th>Current</th>
+                  <td class="microchart sparkline-chart" data-telemetry-id="P4000005" data-capacity="100"></td>
+                  <td class="readout amps decimal" data-telemetry-id="P4000005" data-scale="2"></td>
+                </tr>
+
+                <tr>
+                  <th>Pressure</th>
+                  <td class="microchart sparkline-chart" data-telemetry-id="P4000004" data-capacity="100"></td>
+                  <td class="readout volts decimal" data-telemetry-id="P4000004" data-scale="2"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="row photovoltaic-tables angles">
+          <div class="col col-sm-4 col-first">
+            <table class="folding table photovoltaic-table first">
+              <colgroup>
+                <col class="column-header">
+                <col class="column-microchart">
+                <col class="column-readout">
+              </colgroup>
+
+              <thead>
+                <th></th>
+                <th colspan="2">Mean</th>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <th>Rotation - A</th>
+                  <td class="microchart bullet-chart" data-combine="average" data-telemetry-ids="S4000007,P4000007,S4000008,P4000008" data-capacity="360"></td>
+                  <td class="readout degrees decimal" data-combine="average" data-telemetry-ids="S4000007,P4000007,S4000008,P4000008" data-scale="1"></td>
+                </tr>
+
+                <tr>
+                  <th>Incidence - A</th>
+                  <td class="microchart sparkline-chart" data-combine="average" data-telemetry-ids=""></td>
+                  <td class="readout degrees decimal" data-combine="average" data-telemetry-ids="" data-scale="1"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="col col-sm-2">
+            <table class="folding table photovoltaic-table channel-table">
+              <colgroup>
+                <col class="column-header">
+                <col class="column-microchart">
+                <col class="column-readout">
+              </colgroup>
+
+              <thead>
+                <th></th>
+                <th colspan="2">Channel 1</th>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <th>Rotation</th>
+                  <td class="microchart bullet-chart" data-telemetry-id="P4000007" data-capacity="360"></td>
+                  <td class="readout degrees decimal" data-telemetry-id="P4000007" data-scale="1"></td>
+                </tr>
+
+                <tr>
+                  <th>Incidence</th>
+                  <td class="microchart sparkline-chart" data-telemetry-id=""></td>
+                  <td class="readout degrees decimal" data-telemetry-id="" data-scale="1"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="col col-sm-2">
+            <table class="folding table photovoltaic-table channel-table">
+              <colgroup>
+                <col class="column-header">
+                <col class="column-microchart">
+                <col class="column-readout">
+              </colgroup>
+
+              <thead>
+                <th></th>
+                <th colspan="2">Channel 3</th>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <th>Rotation</th>
+                  <td class="microchart bullet-chart" data-telemetry-id="S4000007" data-capacity="360"></td>
+                  <td class="readout degrees decimal" data-telemetry-id="S4000007" data-scale="1"></td>
+                </tr>
+
+                <tr>
+                  <th>Incidence</th>
+                  <td class="microchart sparkline-chart" data-telemetry-id=""></td>
+                  <td class="readout degrees decimal" data-telemetry-id="" data-scale="1"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="col col-sm-2">
+            <table class="folding table photovoltaic-table channel-table">
+              <colgroup>
+                <col class="column-header">
+                <col class="column-microchart">
+                <col class="column-readout">
+              </colgroup>
+
+              <thead>
+                <th></th>
+                <th colspan="2">Channel 2</th>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <th>Rotation</th>
+                  <td class="microchart bullet-chart" data-telemetry-id="S4000008" data-capacity="360"></td>
+                  <td class="readout degrees decimal" data-telemetry-id="S4000008" data-scale="1"></td>
+                </tr>
+
+                <tr>
+                  <th>Incidence</th>
+                  <td class="microchart sparkline-chart" data-telemetry-id=""></td>
+                  <td class="readout degrees decimal" data-telemetry-id="" data-scale="1"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="col col-sm-2">
+            <table class="folding table photovoltaic-table channel-table">
+              <colgroup>
+                <col class="column-header">
+                <col class="column-microchart">
+                <col class="column-readout">
+              </colgroup>
+
+              <thead>
+                <th></th>
+                <th colspan="2">Channel 4</th>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <th>Rotation</th>
+                  <td class="microchart bullet-chart" data-telemetry-id="P4000008" data-capacity="360"></td>
+                  <td class="readout degrees decimal" data-telemetry-id="P4000008" data-scale="1"></td>
+                </tr>
+
+                <tr>
+                  <th>Incidence</th>
+                  <td class="microchart sparkline-chart" data-telemetry-id=""></td>
+                  <td class="readout degrees decimal" data-telemetry-id="" data-scale="1"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <hr class="inner-rule">
+
+        <div class="row photovoltaic-tables power">
+          <div class="col col-sm-4 col-first col-aggregate">
+            <table class="folding table photovoltaic-table first">
+              <colgroup>
+                <col class="column-header">
+                <col class="column-microchart">
+                <col class="column-readout">
+              </colgroup>
+
+              <thead>
+                <th></th>
+                <th colspan="2">Total</th>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <th>Current - B</th>
+                  <td class="microchart bullet-chart" data-combine="sum" data-telemetry-ids="S6000005,P6000005,S6000002,P6000002" data-capacity="500"></td>
+                  <td class="readout amps decimal" data-combine="sum" data-telemetry-ids="S6000005,P6000005,S6000002,P6000002" data-scale="2"></td>
+                </tr>
+
+                <tr>
+                  <th>Pressure - B</th>
+                  <td class="microchart bullet-chart" data-combine="sum" data-telemetry-ids="S6000004,P6000004,S6000001,P6000001" data-capacity="1500"></td>
+                  <td class="readout volts decimal" data-combine="sum" data-telemetry-ids="S6000004,P6000004,S6000001,P6000001" data-scale="2"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="col col-sm-2">
+            <table class="folding table photovoltaic-table channel-table">
+              <colgroup>
+                <col class="column-header">
+                <col class="column-microchart">
+                <col class="column-readout">
+              </colgroup>
+
+              <thead>
+                <th></th>
+                <th colspan="2">Channel 1</th>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <th>Current</th>
+                  <td class="microchart sparkline-chart" data-telemetry-id="S6000005" data-capacity="100"></td>
+                  <td class="readout amps decimal" data-telemetry-id="S6000005" data-scale="2"></td>
+                </tr>
+
+                <tr>
+                  <th>Pressure</th>
+                  <td class="microchart sparkline-chart" data-telemetry-id="S6000004" data-capacity="100"></td>
+                  <td class="readout volts decimal" data-telemetry-id="S6000004" data-scale="2"></td>
+                </tr>
+              </tbody>
+
+            </table>
+          </div>
+
+          <div class="col col-sm-2">
+            <table class="folding table photovoltaic-table channel-table">
+              <colgroup>
+                <col class="column-header">
+                <col class="column-microchart">
+                <col class="column-readout">
+              </colgroup>
+
+              <thead>
+                <th></th>
+                <th colspan="2">Channel 3</th>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <th>Current</th>
+                  <td class="microchart sparkline-chart" data-telemetry-id="S6000002" data-capacity="100"></td>
+                  <td class="readout amps decimal" data-telemetry-id="S6000002" data-scale="2"></td>
+                </tr>
+
+                <tr>
+                  <th>Pressure</th>
+                  <td class="microchart sparkline-chart" data-telemetry-id="S6000001" data-capacity="100"></td>
+                  <td class="readout volts decimal" data-telemetry-id="S6000001" data-scale="2"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="col col-sm-2">
+            <table class="folding table photovoltaic-table channel-table">
+              <colgroup>
+                <col class="column-header">
+                <col class="column-microchart">
+                <col class="column-readout">
+              </colgroup>
+
+              <thead>
+                <th></th>
+                <th colspan="2">Channel 2</th>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <th>Current</th>
+                  <td class="microchart sparkline-chart" data-telemetry-id="P6000005" data-capacity="100"></td>
+                  <td class="readout amps decimal" data-telemetry-id="P6000005" data-scale="2"></td>
+                </tr>
+
+                <tr>
+                  <th>Pressure</th>
+                  <td class="microchart sparkline-chart" data-telemetry-id="P6000004" data-capacity="100"></td>
+                  <td class="readout volts decimal" data-telemetry-id="P6000004" data-scale="2"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="col col-sm-2">
+            <table class="folding table photovoltaic-table channel-table">
+              <colgroup>
+                <col class="column-header">
+                <col class="column-microchart">
+                <col class="column-readout">
+              </colgroup>
+
+              <thead>
+                <th></th>
+                <th colspan="2">Channel 4</th>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <th>Current</th>
+                  <td class="microchart sparkline-chart" data-telemetry-id="P6000002" data-capacity="100"></td>
+                  <td class="readout amps decimal" data-telemetry-id="P6000002" data-scale="2"></td>
+                </tr>
+
+                <tr>
+                  <th>Pressure</th>
+                  <td class="microchart sparkline-chart" data-telemetry-id="P6000001" data-capacity="100"></td>
+                  <td class="readout volts decimal" data-telemetry-id="P6000001" data-scale="2"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="row photovoltaic-tables angles">
+          <div class="col col-sm-4 col-first">
+            <table class="folding table photovoltaic-table first">
+              <colgroup>
+                <col class="column-header">
+                <col class="column-microchart">
+                <col class="column-readout">
+              </colgroup>
+
+              <thead>
+                <th></th>
+                <th colspan="2">Mean</th>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <th>Rotation - B</th>
+                  <td class="microchart bullet-chart" data-combine="average" data-telemetry-ids="S6000008,P6000008,S6000007,P6000007" data-capacity="360"></td>
+                  <td class="readout degrees decimal" data-combine="average" data-telemetry-ids="S6000008,P6000008,S6000007,P6000007" data-scale="1"></td>
+                </tr>
+
+                <tr>
+                  <th>Incidence - B</th>
+                  <td class="microchart sparkline-chart" data-combine="average" data-telemetry-ids=""></td>
+                  <td class="readout degrees decimal" data-combine="average" data-telemetry-ids="" data-scale="1"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="col col-sm-2">
+            <table class="folding table photovoltaic-table channel-table">
+              <colgroup>
+                <col class="column-header">
+                <col class="column-microchart">
+                <col class="column-readout">
+              </colgroup>
+
+              <thead>
+                <th></th>
+                <th colspan="2">Channel 1</th>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <th>Rotation</th>
+                  <td class="microchart bullet-chart" data-telemetry-id="S6000008" data-capacity="360"></td>
+                  <td class="readout degrees decimal" data-telemetry-id="S6000008" data-scale="1"></td>
+                </tr>
+
+                <tr>
+                  <th>Incidence</th>
+                  <td class="microchart sparkline-chart" data-telemetry-id=""></td>
+                  <td class="readout degrees decimal" data-telemetry-id="" data-scale="1"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="col col-sm-2">
+            <table class="folding table photovoltaic-table channel-table">
+              <colgroup>
+                <col class="column-header">
+                <col class="column-microchart">
+                <col class="column-readout">
+              </colgroup>
+
+              <thead>
+                <th></th>
+                <th colspan="2">Channel 3</th>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <th>Rotation</th>
+                  <td class="microchart bullet-chart" data-telemetry-id="S6000007" data-capacity="360"></td>
+                  <td class="readout degrees decimal" data-telemetry-id="S6000007" data-scale="1"></td>
+                </tr>
+
+                <tr>
+                  <th>Incidence</th>
+                  <td class="microchart sparkline-chart" data-telemetry-id=""></td>
+                  <td class="readout degrees decimal" data-telemetry-id="" data-scale="1"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="col col-sm-2">
+            <table class="folding table photovoltaic-table channel-table">
+              <colgroup>
+                <col class="column-header">
+                <col class="column-microchart">
+                <col class="column-readout">
+              </colgroup>
+
+              <thead>
+                <th></th>
+                <th colspan="2">Channel 2</th>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <th>Rotation</th>
+                  <td class="microchart bullet-chart" data-telemetry-id="P6000008" data-capacity="360"></td>
+                  <td class="readout degrees decimal" data-telemetry-id="P6000008" data-scale="1"></td>
+                </tr>
+
+                <tr>
+                  <th>Incidence</th>
+                  <td class="microchart sparkline-chart" data-telemetry-id=""></td>
+                  <td class="readout degrees decimal" data-telemetry-id="" data-scale="1"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="col col-sm-2">
+            <table class="folding table photovoltaic-table channel-table">
+              <colgroup>
+                <col class="column-header">
+                <col class="column-microchart">
+                <col class="column-readout">
+              </colgroup>
+
+              <thead>
+                <th></th>
+                <th colspan="2">Channel 4</th>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <th>Rotation</th>
+                  <td class="microchart bullet-chart" data-telemetry-id="P6000007" data-capacity="360"></td>
+                  <td class="readout degrees decimal" data-telemetry-id="P6000007" data-scale="1"></td>
+                </tr>
+
+                <tr>
+                  <th>Incidence</th>
+                  <td class="microchart sparkline-chart" data-telemetry-id=""></td>
+                  <td class="readout degrees decimal" data-telemetry-id="" data-scale="1"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <hr class="inner-rule">
+        <div class="row">
+          <div class="col-sm-4 col-photovoltaic-attitude">
+            <table class="table photovoltaic-attitude-table">
+              <colgroup>
+                <col class="column-header">
+                <col class="column-microchart">
+                <col class="column-readout">
+              </colgroup>
+
+              <thead>
+                <tr>
+                  <th colspan="3">Solar Alpha Rotary Joint Angle Position</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <th>Port</th>
+                  <td class="microchart bullet-chart" data-telemetry-id="S0000004" data-capacity="360"></td>
+                  <td class="readout decimal degrees" data-telemetry-id="S0000004" data-scale="2"></td>
+                </tr>
+                <tr>
+                  <th>Starboard</th>
+                  <td class="microchart bullet-chart" data-telemetry-id="S0000003" data-capacity="360"></td>
+                  <td class="readout decimal degrees" data-telemetry-id="S0000003" data-scale="2"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="col-sm-4">
+            <dl class="orientation-procedure">
+              <dt>Probable Orientation Procedure</dt>
+              <dd class="readout text">Unknown</dd>
+            </dl>
           </div>
         </div>
 
