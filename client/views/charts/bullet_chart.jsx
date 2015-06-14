@@ -50,7 +50,7 @@ class BulletChart extends ListeningView {
 
     // TODO Replace with standard deviation sizes once available
     const ranges = [0.25, 0.50, 0.75, 1.00].map(p => {return p * this.state.capacity;});
-    const marker = this.props.marker ? this.props.marker : this.state.measure.vm;
+    const marker = this.props.marker ? this.props.marker : Math.abs(this.state.measure.vm);
 
     const scale = D3.scale.linear();
     scale.range([0, this.props.width]);
