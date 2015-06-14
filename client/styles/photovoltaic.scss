@@ -1,6 +1,29 @@
 .photovoltaic {
   margin-bottom: 35px;
 
+  .orientation-procedure {
+    position: relative; top: 11px; left: 10px;
+
+    dd.readout {
+      text-align: left;
+    }
+  }
+
+  .col-photovoltaic-attitude {
+    border-right: 1px solid #aaa;
+    width: 287px
+  }
+
+  .photovoltaic-attitude-table {
+    th {
+      text-align: right !important;
+    }
+
+    .column-header, th {
+      width: 100px !important;
+    }
+  }
+
   .photovoltaic-header {
     margin: 0;
     position: relative; top: 10px;
@@ -23,21 +46,30 @@
     width: 55%;
   }
 
-  .channel-table {
+  .col:not(.col-first) {
     .column-microchart, td.sparkline-chart {
       width: 100px !important;
     }
+  }
+
+  .col-first {
+    .column-microchart, td.sparkline-chart {
+      width: 70px !important;
+    }
+
+    .column-header, tbody th {
+      text-align: right;
+      width: 90px !important;
+    }
+
+    .column-readout, td.readout {
+      width: 90px !important;
+    }
+  }
 
     .column-readout, td.readout {
       width: 100px !important;
     }
-
-    &.first .column-header, tbody th {
-      position: relative; left: 15px;
-      text-align: right;
-      width: 25px;
-    }
-  }
 
   .table {
     margin: 0 auto;
@@ -58,6 +90,23 @@
 
 @media (min-width: 922px) {
   .photovoltaic {
+
+    .col-channel:nth-child(2n+1) h4 {
+      visibility: hidden;
+    }
+
+    .col-channel {
+      h4 {
+        margin-left: 19px
+      }
+    }
+
+    .channel-table {
+      td.bullet-chart {
+        position: relative; left: 10px;
+      }
+    }
+
     .col:first-child {
       border-right: 1px solid #aaa;
       margin-right: 10px;
@@ -73,19 +122,35 @@
       margin: 0;
     }
 
-    .col.first {
+    .col-first {
       width: 250px;
+
+      thead th {
+        text-align: left;
+      }
     }
 
-    .col:not(.first) {
-      width: 200px;
+    thead th {
+      border-top: 1px #aaa solid;
+      padding-top: 20px !important;
+      padding-bottom: 10px !important;
     }
 
-    .photovoltaic-table:not(.first) {
+    .row:not(.totals) .col:not(.col-first) {
+      thead th {
+        visibility: hidden;
+      }
+    }
+
+    .col:not(.col-first) {
       width: 200px;
 
-      .column-header {
-        width: 0;
+      .photovoltaic-table {
+        width: 200px;
+
+        .column-header {
+          width: 0;
+        }
       }
     }
   }
