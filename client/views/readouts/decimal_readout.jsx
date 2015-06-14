@@ -9,7 +9,7 @@ class DecimalReadout extends ListeningView {
     let raw;
 
     if (typeof this.state.data === "undefined" || this.state.data.length === 0) {
-      raw = "-";
+      formatted = "-";
 
     } else {
       if (typeof this.props.quaternionId !== "undefined") {
