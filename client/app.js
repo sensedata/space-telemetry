@@ -47,7 +47,7 @@ class App extends Flummox {
     if (typeof store === "undefined") {
       this.listenToServer(telemetryId, 150);
       store = this.createStore(
-        telemetryId, SimpleStore, this.storeAction(telemetryId)
+        telemetryId, SimpleStore, this.storeAction(telemetryId), {maxSize: 150}
       );
     }
 
