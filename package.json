@@ -31,7 +31,7 @@
     "d3": "3.5.x",
     "express": "4.12.x",
     "file-loader": "0.8.x",
-    "flummox": "4.0.0-alpha2",
+    "flummox": "4.0.0-rc1",
     "highland": "2.5.x",
     "jquery": "2.1.x",
     "lightstreamer-client": "6.2.x",
