@@ -17,6 +17,7 @@
     "postinstall": "./node_modules/webpack/bin/webpack.js -p",
     "start": "iojs server/server.js",
     "test": "./node_modules/.bin/babel-node ./node_modules/.bin/isparta cover ./node_modules/.bin/_mocha",
+    "test1": "./node_modules/.bin/_mocha --compilers js:babel/register --full-trace",
     "webpack": "node_modules/webpack/bin/webpack.js"
   },
   "dependencies": {
