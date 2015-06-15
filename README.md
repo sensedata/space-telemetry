@@ -10,13 +10,11 @@ Below are the instructions for getting a copy of the source code
 setup for development on your computer. If you run into any issues getting these instructions to work for you, let us know on
 [Trello](https://trello.com/b/0c4U0mDg/space-telemetry) or [Slack](http://slack.telemetry.space).
 
-# Automation Status
-
-| Continuous Integration | [![Build Status](https://travis-ci.org/sensedata/space-telemetry.svg?branch=develop)](https://travis-ci.org/sensedata/space-telemetry) |
+| __Analysis__            | [![Code Climate](https://codeclimate.com/repos/553139d36956806f0b001dd9/badges/0ead9acc990a25b578ff/gpa.svg)](https://codeclimate.com/repos/553139d36956806f0b001dd9/feed) |
 | ---: | :--- |
-| __Code Review__            | [![Code Climate](https://codeclimate.com/repos/553139d36956806f0b001dd9/badges/0ead9acc990a25b578ff/gpa.svg)](https://codeclimate.com/repos/553139d36956806f0b001dd9/feed) |
+| __Integration__ | [![Build Status](https://travis-ci.org/sensedata/space-telemetry.svg?branch=develop)](https://travis-ci.org/sensedata/space-telemetry) |
+| __Libraries__ | [![Dependency Status](https://david-dm.org/sensedata/space-telemetry.svg)](https://david-dm.org/sensedata/space-telemetry) |
 | __Testing__ | [![Test Coverage](https://codeclimate.com/repos/553139d36956806f0b001dd9/badges/0ead9acc990a25b578ff/coverage.svg)](https://codeclimate.com/repos/553139d36956806f0b001dd9/coverage) |
-
 
 # Prerequisites for Development
 ## Linux
