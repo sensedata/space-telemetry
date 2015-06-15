@@ -19,14 +19,6 @@ class SparklineChart extends ListeningView {
     return Moment().subtract(this.availablePoints * this.secondsPerPoint, "seconds").unix();
   }
 
-  storeChanged() {
-    let newData = _.sortBy(this.state.data.concat(this.props.store.get()), "t");
-    if (newData.length > this.availablePoints) {
-      newData = newData.slice(newData.length - this.availablePoints);
-    }
-    this.setState({data: newData});
-  }
-
   render() {
     if (this.state.data.length <= 0) {
       return false;
