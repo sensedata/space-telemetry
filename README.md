@@ -95,16 +95,20 @@ in the node version of Foreman is fixed:
 To automatically recompile the client files whenever you save changes to them,
 keep the following running (omit the watch flag to compile once and exit):
 
-    $ npm run-script webpack -- --watch
+    $ npm run webpack -- --watch
 
 To run all the tests and generate code coverage (reported in detail in
 `coverage/lcov-report/index.html`):
 
-    $ npm test
+    $ npm run test
+
+To run tests automatically when you save a change:
+
+    $ npm run test-watch
 
 And, to run one test file without coverage and with full traces:
 
-    $ npm run-script test1 /test/path/to/my/test.js
+    $ npm run test1 /test/path/to/my/test.js
 
 
 # Making a Great Pull Request
