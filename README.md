@@ -123,7 +123,7 @@ example if your adding a fancy feature, you'd create your topic branch from deve
 
 5. Write code that passes the jshint and jscs rules:
 
-        $ npm run-script jscs
-        $ npm run-script jshint
+        $ npm run jscs
+        $ npm run jshint
 
 6. Send a pull request!
