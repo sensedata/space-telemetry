@@ -28,18 +28,22 @@ class App extends Flummox {
     return this.getActions(telemetryId).relay;
   }
 
-  getAveragingStore(telemetryIds) {
-    const key = "average" + telemetryIds.sort().join();
+  getCombiningStore(clazz, telemetryIds) {
+    const key = clazz + telemetryIds.sort().join();
     let store = this.getStore(key);
     if (typeof store === "undefined") {
       const actions = telemetryIds.map(i => {
         this.listenToServer(i, 150);
         return this.storeAction(i);
       });
-      store = this.createStore(key, AveragingStore, actions);
+      store = this.createStore(key, clazz, actions);
     }
 
     return store;
+  }
+
+  getAveragingStore(telemetryIds) {
+    return this.getCombiningStore(AveragingStore, telemetryIds);
   }
 
   getSimpleStore(telemetryId) {
@@ -55,17 +59,7 @@ class App extends Flummox {
   }
 
   getSummingStore(telemetryIds) {
-    const key = "sum" + telemetryIds.sort().join();
-    let store = this.getStore(key);
-    if (typeof store === "undefined") {
-      const actions = telemetryIds.map(i => {
-        this.listenToServer(i, 150);
-        return this.storeAction(i);
-      });
-      store = this.createStore(key, SummingStore, actions);
-    }
-
-    return store;
+    return this.getCombiningStore(SummingStore, telemetryIds);
   }
 
   getQuaternionStore(quaternionId, axialTelemetryIds) {
