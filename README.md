@@ -102,6 +102,10 @@ To run all the tests and generate code coverage (reported in detail in
 
     $ npm test
 
+And, to run one test file without coverage and with full traces:
+
+    $ npm run-script test1 /test/path/to/my/test.js
+
 
 # Making a Great Pull Request
 1. Familiarize yourself with GitHub pull requests: <https://help.github.com/articles/using-pull-requests/>
