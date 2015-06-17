@@ -2,6 +2,7 @@ import Chai from "chai";
 
 import StatusDictionary from "../../../../client/views/status_dictionary.js";
 import TelemetryIndex from "../../../../client/telemetry_index.js";
+import TextReadout from "../../../../client/views/readouts/text_readout.jsx";
 
 import "../../dom_setup.js";
 import ClientHelper from "../../client_helper.js";
@@ -15,9 +16,7 @@ describe("TextReadout", () => {
   let ui;
 
   beforeEach("setup for TextReadout", () => {
-    ui = ClientHelper.buildUI(
-      "readouts/text_readout.jsx", {telemetryNumber: telemetryNumber}
-    );
+    ui = ClientHelper.buildUI(TextReadout, {telemetryNumber: telemetryNumber});
   });
 
   const translated = (value) => {

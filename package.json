@@ -16,9 +16,9 @@
     "jshint": "./node_modules/.bin/jshint client server",
     "postinstall": "./node_modules/webpack/bin/webpack.js -p",
     "start": "iojs server/server.js",
-    "test": "./node_modules/.bin/babel-node ./node_modules/.bin/isparta cover ./node_modules/.bin/_mocha",
-    "test1": "./node_modules/.bin/_mocha --compilers js:babel/register --full-trace",
-    "test-watch": "./node_modules/.bin/babel-node ./node_modules/.bin/isparta cover ./node_modules/.bin/_mocha -- --watch",
+    "test": "./node_modules/.bin/babel-node ./node_modules/.bin/babel-istanbul cover ./node_modules/.bin/_mocha",
+    "test1": "./node_modules/.bin/babel-node ./node_modules/.bin/babel-istanbul cover ./node_modules/.bin/_mocha --full-trace",
+    "test-watch": "./node_modules/.bin/babel-node ./node_modules/.bin/_mocha --watch",
     "webpack": "node_modules/webpack/bin/webpack.js"
   },
   "dependencies": {
@@ -62,8 +62,7 @@
     "chai": "3.0.x",
     "codeclimate-test-reporter": "0.0.x",
     "dotenv": "1.1.x",
-    "isparta": "3.0.x",
-    "istanbul": "0.3.x",
+    "babel-istanbul": "0.2.x",
     "jscs": "1.13.x",
     "jsdom": "5.4.x",
     "jshint": "2.8.x",

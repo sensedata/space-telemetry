@@ -1,5 +1,7 @@
 import Chai from "chai";
 
+import IntegerReadout from "../../../../client/views/readouts/integer_readout.jsx";
+
 import "../../dom_setup.js";
 import ClientHelper from "../../client_helper.js";
 
@@ -11,7 +13,7 @@ describe("IntegerReadout", () => {
   let ui;
 
   beforeEach("setup for IntegerReadout", () => {
-    ui = ClientHelper.buildUI("readouts/integer_readout.jsx");
+    ui = ClientHelper.buildUI(IntegerReadout);
   });
 
   it("renders data received before mounting", () => {
