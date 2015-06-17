@@ -1,10 +1,10 @@
 import _ from "lodash";
-import {Store} from "flummox";
+import LimitedStore from "./limited_store.js";
 
-class CombiningStore extends Store {
+class CombiningStore extends LimitedStore {
 
-  constructor(actions) {
-    super();
+  constructor(actions, props) {
+    super(props);
 
     this.telemetry = {};
     this.telemetryTimes = [];
@@ -34,9 +34,9 @@ class CombiningStore extends Store {
     });
 
     for (const k in this.telemetry) {
-      this.telemetry[k] = _.sortBy(this.telemetry[k], "t");
+      this.telemetry[k] = this.prune(_.sortBy(this.telemetry[k], "t"));
     }
-    this.telemetryTimes = _.uniq(this.telemetryTimes.sort());
+    this.telemetryTimes = this.prune(_.uniq(this.telemetryTimes.sort()));
 
     const combined = this.telemetryTimes.map(t => {
       const result = {keys: [], n: 0, sv: 0, svm: 0, t: t};
@@ -55,7 +55,8 @@ class CombiningStore extends Store {
 
       return callback(result);
     });
-    this.setState({data: combined});
+
+    super.update(combined);
   }
 }
 
