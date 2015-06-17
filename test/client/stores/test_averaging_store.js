@@ -18,7 +18,7 @@ describe("AveragingStore", () => {
     const app = new Flummox();
     action1 = app.createActions("test1", TelemetryActions);
     action2 = app.createActions("test2", TelemetryActions);
-    store = app.createStore("test", AveragingStore, [action1.relay, action2.relay]);
+    store = app.createStore("test", AveragingStore, [action1.relay, action2.relay], {maxSize: 100});
   });
 
 
@@ -69,6 +69,75 @@ describe("AveragingStore", () => {
     action2.relay([]);
 
     assert.equal(store.get()[0].v, 0);
+  });
+
+  it("defaults max size to one when omitted", () => {
+    const app = new Flummox();
+    action1 = app.createActions("test1", TelemetryActions);
+    action2 = app.createActions("test2", TelemetryActions);
+    store = app.createStore("test", AveragingStore, [action1.relay, action2.relay], {});
+
+    action1.relay([{k: 1, t: 1, v: 1}]);
+    action1.relay([{k: 1, t: 2, v: 2}]);
+
+    action2.relay([{k: 2, t: 1, v: 5}]);
+    action2.relay([{k: 2, t: 2, v: 6}]);
+
+    assert.deepEqual(store.get().map(d => {return d.v;}), [4]);
+  });
+
+  it("defaults max size to one when props are omitted", () => {
+    const app = new Flummox();
+    action1 = app.createActions("test1", TelemetryActions);
+    action2 = app.createActions("test2", TelemetryActions);
+    store = app.createStore("test", AveragingStore, [action1.relay, action2.relay]);
+
+    action1.relay([{k: 1, t: 1, v: 1}]);
+    action1.relay([{k: 1, t: 2, v: 2}]);
+
+    action2.relay([{k: 2, t: 1, v: 5}]);
+    action2.relay([{k: 2, t: 2, v: 6}]);
+
+    assert.deepEqual(store.get().map(d => {return d.v;}), [4]);
+  });
+
+  it("prunes data in time order when overloaded", () => {
+    const app = new Flummox();
+    action1 = app.createActions("test1", TelemetryActions);
+    action2 = app.createActions("test2", TelemetryActions);
+    store = app.createStore("test", AveragingStore, [action1.relay, action2.relay], {maxSize: 3});
+
+    action1.relay([{k: 1, t: 1, v: 1}]);
+    action1.relay([{k: 1, t: 2, v: 2}]);
+    action1.relay([{k: 1, t: 3, v: 3}]);
+    action1.relay([{k: 1, t: 4, v: 4}]);
+
+    action2.relay([{k: 2, t: 1, v: 5}]);
+    action2.relay([{k: 2, t: 2, v: 6}]);
+    action2.relay([{k: 2, t: 3, v: 7}]);
+    action2.relay([{k: 2, t: 4, v: 8}]);
+
+    assert.deepEqual(store.get().map(d => {return d.v;}), [4, 5, 6]);
+  });
+
+  it("prunes excess internal data points", () => {
+    const app = new Flummox();
+    action1 = app.createActions("test1", TelemetryActions);
+    action2 = app.createActions("test2", TelemetryActions);
+    store = app.createStore("test", AveragingStore, [action1.relay, action2.relay], {maxSize: 3});
+
+    action1.relay([{k: 1, t: 1, v: 1}]);
+    action1.relay([{k: 1, t: 2, v: 2}]);
+    action1.relay([{k: 1, t: 3, v: 3}]);
+    action1.relay([{k: 1, t: 4, v: 4}]);
+
+    action2.relay([{k: 2, t: 1, v: 5}]);
+    action2.relay([{k: 2, t: 2, v: 6}]);
+    action2.relay([{k: 2, t: 3, v: 7}]);
+    action2.relay([{k: 2, t: 4, v: 8}]);
+
+    assert.equal(store.telemetry["1"].length, 3);
+    assert.equal(store.telemetry["2"].length, 3);
   });
 
 });

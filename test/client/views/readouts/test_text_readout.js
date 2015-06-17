@@ -4,7 +4,7 @@ import StatusDictionary from "../../../../client/views/status_dictionary.js";
 import TelemetryIndex from "../../../../client/telemetry_index.js";
 
 import "../../dom_setup.js";
-import TestHelper from "../../test_helper.js";
+import ClientHelper from "../../client_helper.js";
 
 const assert = Chai.assert;
 
@@ -15,13 +15,13 @@ describe("TextReadout", () => {
   let ui;
 
   beforeEach("setup for TextReadout", () => {
-    ui = TestHelper.buildUI(
+    ui = ClientHelper.buildUI(
       "readouts/text_readout.jsx", {telemetryNumber: telemetryNumber}
     );
   });
 
   const translated = (value) => {
-    return TestHelper.wrap(StatusDictionary.get(telemetryNumber)[value]);
+    return ClientHelper.wrap(StatusDictionary.get(telemetryNumber)[value]);
   };
 
   it("renders data received before mounting", () => {
@@ -42,13 +42,13 @@ describe("TextReadout", () => {
     ui.React.render(ui.view, document.body);
     ui.action.relay([{t: 0, v: -1}]);
 
-    assert.match(document.body.innerHTML, TestHelper.wrap("Unknown"));
+    assert.match(document.body.innerHTML, ClientHelper.wrap("Unknown"));
   });
 
   it("renders a dash when it doesn't have data", () => {
     ui.React.render(ui.view, document.body);
 
-    assert.match(document.body.innerHTML, TestHelper.wrap("-"));
+    assert.match(document.body.innerHTML, ClientHelper.wrap("-"));
   });
 
 });

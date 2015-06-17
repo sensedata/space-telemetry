@@ -4,7 +4,7 @@ import React from "react";
 
 import ListeningView from "../listening_view.js";
 
-class BulletChart extends ListeningView {
+class BulletMicrochart extends ListeningView {
 
   constructor(props) {
     super(props);
@@ -75,4 +75,4 @@ class BulletChart extends ListeningView {
   }
 }
 
-export {BulletChart as default};
+export {BulletMicrochart as default};

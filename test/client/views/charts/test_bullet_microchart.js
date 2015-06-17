@@ -1,18 +1,18 @@
 import Chai from "chai";
 
-import HistoricalStore from "../../../../client/stores/historical_store.js";
+import SimpleStore from "../../../../client/stores/simple_store.js";
 import TelemetryActions from "../../../../client/actions/telemetry_actions.js";
 
 import "../../dom_setup.js";
-import TestHelper from "../../test_helper.js";
+import ClientHelper from "../../client_helper.js";
 
 const assert = Chai.assert;
 
 
-describe("BulletChart", () => {
+describe("BulletMicrochart", () => {
   let $;
 
-  beforeEach("setup for BulletChart", (done) => {
+  beforeEach("setup for BulletMicrochart", (done) => {
     // jQuery can't be loaded until window and document are present.
     $ = require("jquery");
     $(() => {done();});
@@ -20,14 +20,14 @@ describe("BulletChart", () => {
 
   const bulletUI = function (props) {
     const viewProps = Object.assign({height: 10, width: 100}, props);
-    return TestHelper.buildUI("charts/bullet_chart.jsx", viewProps);
+    return ClientHelper.buildUI("charts/bullet_microchart.jsx", viewProps);
   };
 
   const renderBullet = function (props) {
     const ui = bulletUI(props);
     const capacityAction = ui.app.createActions("testcap", TelemetryActions);
     ui.props.capacityStore = ui.app.createStore(
-      "testcap", HistoricalStore, capacityAction.relay, {maxSize: 200}
+      "testcap", SimpleStore, capacityAction.relay, {maxSize: 200}
     );
     ui.view = ui.React.createFactory(ui.viewClass)(ui.props);
     ui.React.render(ui.view, document.body);
@@ -43,6 +43,13 @@ describe("BulletChart", () => {
     ui.React.render(ui.view, document.body);
 
     assert.match(document.body.innerHTML, new RegExp("\\s*<noscript.*></noscript>\\s*"));
+  });
+
+  it("sets its size to that of its container", () => {
+    const ui = renderBullet();
+
+    assert.equal($("svg").attr("height"), ui.props.height);
+    assert.equal($("svg").attr("width"), ui.props.width);
   });
 
   it("renders the full-range element with measure and static capacity", () => {
@@ -86,7 +93,7 @@ describe("BulletChart", () => {
     const ui = bulletUI();
     const capacityAction = ui.app.createActions("testcap", TelemetryActions);
     ui.props.capacityStore = ui.app.createStore(
-      "testcap", HistoricalStore, capacityAction.relay, {maxSize: 200}
+      "testcap", SimpleStore, capacityAction.relay, {maxSize: 200}
     );
     ui.view = ui.React.createFactory(ui.viewClass)(ui.props);
     ui.React.render(ui.view, document.body);
@@ -117,7 +124,7 @@ describe("BulletChart", () => {
     const ui = bulletUI();
     const capacityAction = ui.app.createActions("testcap", TelemetryActions);
     ui.props.capacityStore = ui.app.createStore(
-      "testcap", HistoricalStore, capacityAction.relay, {maxSize: 200}
+      "testcap", SimpleStore, capacityAction.relay, {maxSize: 200}
     );
     ui.view = ui.React.createFactory(ui.viewClass)(ui.props);
     ui.React.render(ui.view, document.body);

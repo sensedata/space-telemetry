@@ -5,7 +5,7 @@ import React from "react";
 
 import ListeningView from "../listening_view.js";
 
-class SparklineChart extends ListeningView {
+class SparklineMicrochart extends ListeningView {
   constructor(props) {
     super(props);
 
@@ -82,4 +82,4 @@ class SparklineChart extends ListeningView {
   }
 }
 
-export {SparklineChart as default};
+export {SparklineMicrochart as default};
