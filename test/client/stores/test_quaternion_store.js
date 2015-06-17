@@ -37,9 +37,9 @@ describe("QuaternionStore", () => {
 
 
   it("returns an empty euler without data", () => {
-    assert.equal(store.get().x, undefined);
-    assert.equal(store.get().y, undefined);
-    assert.equal(store.get().z, undefined);
+    assert.equal(store.get()[0].x, null);
+    assert.equal(store.get()[0].y, null);
+    assert.equal(store.get()[0].z, null);
   });
 
   it("correctly sets the X axis", () => {

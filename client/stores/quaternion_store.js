@@ -10,12 +10,14 @@ class QuaternionStore extends Store {
     this.props = props;
     this.euler = new THREE.Euler();
     this.quaternion = new THREE.Quaternion();
-
+    this.state = {x: null, y: null, z: null};
     _.keys(this.props.axialActions).forEach(a => {
       this.register(this.props.axialActions[a], d => {
         this.update(a, d);
       });
     });
+
+
   }
 
   latest(data) {
