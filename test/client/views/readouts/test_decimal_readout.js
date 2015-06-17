@@ -35,12 +35,22 @@ describe("DecimalReadout", () => {
 
   it("renders the euler axis of quaternions", () => {
     const ui = ClientHelper.buildUI(
+      DecimalReadout, {eulerAxis: "x", quaternionId: "test"}
+    );
+    ui.React.render(ui.view, document.body);
+    ui.action.relay([{x: "1234"}]);
+
+    assert.match(document.body.innerHTML, ClientHelper.wrap(1234));
+  });
+
+  it("renders a dash when it has a null euler from an empty quaternion", () => {
+    const ui = ClientHelper.buildUI(
       DecimalReadout, {eulerAxis: "w", quaternionId: "test"}
     );
     ui.React.render(ui.view, document.body);
-    ui.action.relay([{w: "1234"}]);
+    ui.action.relay([{w: null}]);
 
-    assert.match(document.body.innerHTML, ClientHelper.wrap(1234));
+    assert.match(document.body.innerHTML, ClientHelper.wrap("-"));
   });
 
   it("rounds to scale", () => {
