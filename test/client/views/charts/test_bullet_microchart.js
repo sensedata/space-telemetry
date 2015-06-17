@@ -1,5 +1,6 @@
 import Chai from "chai";
 
+import BulletMicrochart from "../../../../client/views/charts/bullet_microchart.jsx";
 import SimpleStore from "../../../../client/stores/simple_store.js";
 import TelemetryActions from "../../../../client/actions/telemetry_actions.js";
 
@@ -20,7 +21,7 @@ describe("BulletMicrochart", () => {
 
   const bulletUI = function (props) {
     const viewProps = Object.assign({height: 10, width: 100}, props);
-    return ClientHelper.buildUI("charts/bullet_microchart.jsx", viewProps);
+    return ClientHelper.buildUI(BulletMicrochart, viewProps);
   };
 
   const renderBullet = function (props) {

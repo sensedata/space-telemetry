@@ -3,6 +3,7 @@ import Chai from "chai";
 import Moment from "moment";
 
 import SimpleStore from "../../../../client/stores/simple_store.js";
+import SparklineMicrochart from "../../../../client/views/charts/sparkline_microchart.jsx";
 import TelemetryActions from "../../../../client/actions/telemetry_actions.js";
 
 import "../../dom_setup.js";
@@ -22,7 +23,7 @@ describe("SparklineMicrochart", () => {
 
   const sparkUI = function (props) {
     const viewProps = Object.assign({height: 100, width: 100}, props);
-    return ClientHelper.buildUI("charts/sparkline_microchart.jsx", viewProps);
+    return ClientHelper.buildUI(SparklineMicrochart, viewProps);
   };
 
   const renderSpark = function (props) {

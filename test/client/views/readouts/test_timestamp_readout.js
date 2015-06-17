@@ -1,6 +1,8 @@
 import Chai from "chai";
 import Moment from "moment";
 
+import TimestampReadout from "../../../../client/views/readouts/timestamp_readout.jsx";
+
 import "../../dom_setup.js";
 import ClientHelper from "../../client_helper.js";
 
@@ -14,7 +16,7 @@ describe("TimestampReadout", () => {
   let ui;
 
   beforeEach("setup for TimestampReadout", () => {
-    ui = ClientHelper.buildUI("readouts/timestamp_readout.jsx");
+    ui = ClientHelper.buildUI(TimestampReadout);
   });
 
   it("renders data received before mounting", () => {
