@@ -2,7 +2,7 @@ import Chai from "chai";
 import Moment from "moment";
 
 import "../../dom_setup.js";
-import TestHelper from "../../test_helper.js";
+import ClientHelper from "../../client_helper.js";
 
 const assert = Chai.assert;
 
@@ -14,34 +14,34 @@ describe("TimestampReadout", () => {
   let ui;
 
   beforeEach("setup for TimestampReadout", () => {
-    ui = TestHelper.buildUI("readouts/timestamp_readout.jsx");
+    ui = ClientHelper.buildUI("readouts/timestamp_readout.jsx");
   });
 
   it("renders data received before mounting", () => {
     ui.action.relay([{t: unixTime, v: 0}]);
     ui.React.render(ui.view, document.body);
 
-    assert.match(document.body.innerHTML, TestHelper.wrap(timestamp));
+    assert.match(document.body.innerHTML, ClientHelper.wrap(timestamp));
   });
 
   it("renders data received after mounting", () => {
     ui.React.render(ui.view, document.body);
     ui.action.relay([{t: unixTime, v: 0}]);
 
-    assert.match(document.body.innerHTML, TestHelper.wrap(timestamp));
+    assert.match(document.body.innerHTML, ClientHelper.wrap(timestamp));
   });
 
   it("renders a dash when it doesn't have data", () => {
     ui.React.render(ui.view, document.body);
 
-    assert.match(document.body.innerHTML, TestHelper.wrap("-"));
+    assert.match(document.body.innerHTML, ClientHelper.wrap("-"));
   });
 
   it("renders a dash when the time is 0", () => {
     ui.React.render(ui.view, document.body);
     ui.action.relay([{t: 0, v: 0}]);
 
-    assert.match(document.body.innerHTML, TestHelper.wrap("-"));
+    assert.match(document.body.innerHTML, ClientHelper.wrap("-"));
   });
 
 });

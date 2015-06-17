@@ -2,19 +2,19 @@ import _ from "lodash";
 import Chai from "chai";
 import Moment from "moment";
 
-import HistoricalStore from "../../../../client/stores/historical_store.js";
+import SimpleStore from "../../../../client/stores/simple_store.js";
 import TelemetryActions from "../../../../client/actions/telemetry_actions.js";
 
 import "../../dom_setup.js";
-import TestHelper from "../../test_helper.js";
+import ClientHelper from "../../client_helper.js";
 
 const assert = Chai.assert;
 
 
-describe("SparklineChart", () => {
+describe("SparklineMicrochart", () => {
   let $;
 
-  beforeEach("setup for SparklineChart", (done) => {
+  beforeEach("setup for SparklineMicrochart", (done) => {
     // jQuery can't be loaded until window and document are present.
     $ = require("jquery");
     $(() => {done();});
@@ -22,13 +22,13 @@ describe("SparklineChart", () => {
 
   const sparkUI = function (props) {
     const viewProps = Object.assign({height: 100, width: 100}, props);
-    return TestHelper.buildUI("charts/sparkline_chart.jsx", viewProps);
+    return ClientHelper.buildUI("charts/sparkline_microchart.jsx", viewProps);
   };
 
   const renderSpark = function (props) {
     const ui = sparkUI(props);
     const capacityAction = ui.app.createActions("testcap", TelemetryActions);
-    ui.props.capacityStore = ui.app.createStore("testcap", HistoricalStore, capacityAction.relay);
+    ui.props.capacityStore = ui.app.createStore("testcap", SimpleStore, capacityAction.relay, {maxSize: 100});
     ui.view = ui.React.createFactory(ui.viewClass)(ui.props);
     ui.React.render(ui.view, document.body);
 
@@ -46,12 +46,8 @@ describe("SparklineChart", () => {
   });
 
   it("sets its size to that of its container", () => {
-    const ui = sparkUI();
-    ui.React.render(ui.view, document.body);
-    const now = Moment().unix();
-    const data = _.times(4, (n) => {return {t: now - n, v: n * 10};});
+    const ui = renderSpark();
 
-    ui.action.relay(data);
     assert.equal($("svg").attr("height"), ui.props.height);
     assert.equal($("svg").attr("width"), ui.props.width);
   });

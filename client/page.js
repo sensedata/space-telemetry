@@ -7,9 +7,9 @@ import App from "./app.js";
 
 import TelemetryIndex from "./telemetry_index.js";
 
-import BarChart from "./views/charts/bar_chart.jsx";
-import BulletChart from "./views/charts/bullet_chart.jsx";
-import SparklineChart from "./views/charts/sparkline_chart.jsx";
+import BarMicrochart from "./views/charts/bar_microchart.jsx";
+import BulletMicrochart from "./views/charts/bullet_microchart.jsx";
+import SparklineMicrochart from "./views/charts/sparkline_microchart.jsx";
 
 import DecimalReadout from "./views/readouts/decimal_readout.jsx";
 import IntegerReadout from "./views/readouts/integer_readout.jsx";
@@ -22,13 +22,13 @@ import TransmissionDelayReadout from "./views/readouts/transmission_delay_readou
 const app = new App();
 
 const viewFactories = {
-  "bar-chart":  React.createFactory(BarChart),
-  "bullet-chart":  React.createFactory(BulletChart),
+  "bar-chart":  React.createFactory(BarMicrochart),
+  "bullet-chart":  React.createFactory(BulletMicrochart),
   "readout decimal": React.createFactory(DecimalReadout),
   "readout integer": React.createFactory(IntegerReadout),
   "readout text": React.createFactory(TextReadout),
   "readout timestamp": React.createFactory(TimestampReadout),
-  "sparkline-chart": React.createFactory(SparklineChart)
+  "sparkline-chart": React.createFactory(SparklineMicrochart)
 };
 
 const timeSeriesCharts = [];

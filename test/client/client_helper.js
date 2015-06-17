@@ -1,10 +1,10 @@
 import Flummox from "flummox";
 
-import HistoricalStore from "../../client/stores/historical_store.js";
+import SimpleStore from "../../client/stores/simple_store.js";
 import TelemetryActions from "../../client/actions/telemetry_actions.js";
 
 
-class TestHelper {
+class ClientHelper {
   static buildUI(file, props) {
     // React does DOM interaction while it's being loaded, so it and
     // anything that depends on it can't be imported until after the DOM
@@ -17,7 +17,7 @@ class TestHelper {
 
     const app = new Flummox();
     const action = app.createActions("test", TelemetryActions);
-    const store = app.createStore("test", HistoricalStore, action.relay, {maxSize: 200});
+    const store = app.createStore("test", SimpleStore, action.relay, {maxSize: 200});
     const viewProps = Object.assign({store: store, target: document.body}, props);
     return {
       action: action,
@@ -34,4 +34,4 @@ class TestHelper {
   }
 }
 
-export {TestHelper as default};
+export {ClientHelper as default};

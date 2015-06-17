@@ -5,7 +5,7 @@ import React from "react";
 
 import ListeningView from "../listening_view.js";
 
-class BarChart extends ListeningView {
+class BarMicrochart extends ListeningView {
   constructor(props) {
     super(props);
 
@@ -70,4 +70,4 @@ class BarChart extends ListeningView {
   }
 }
 
-export {BarChart as default};
+export {BarMicrochart as default};
