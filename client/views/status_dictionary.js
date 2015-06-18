@@ -17,7 +17,19 @@ const gpsStatuses = {
   13: "Unusable fix"
 };
 
+const airConditionerStatuses = {
+  0: "Reset",
+  1: "Drain",
+  2: "Dryout",
+  3: "EIB Off",
+  4: "Off",
+  5: "On",
+  6: "Startup",
+  7: "Test"
+};
+
 const statusById = {
+  "NODE2000003": airConditionerStatuses,
   "NODE3000004": {
     2: "Stop",
     4: "Shutdown",
@@ -60,6 +72,7 @@ const statusById = {
     7: "Fast Shutdown",
     8: "N2 Purge Shutdown"
   },
+  "NODE3000018": airConditionerStatuses,
   "STATUS": {
     0: "Disconnected",
     1: "Connected"
@@ -98,6 +111,8 @@ const statusById = {
   },
   "USLAB000043": gpsStatuses,
   "USLAB000044": gpsStatuses,
+  "USLAB000064": airConditionerStatuses,
+  "USLAB000065": airConditionerStatuses,
   "USLAB000086": {
     1: "Standard",
     2: "Microgravity",

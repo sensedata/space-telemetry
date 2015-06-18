@@ -1,6 +1,40 @@
 .thermal {
   margin-bottom: 35px;
 
+  .air-conditioners {
+    .col.header {
+      text-align: right;
+      width: 30%;
+    }
+
+    .col.destiny {
+      dt {
+        padding-right: 9px;
+        text-align: right;
+        width: 143px;
+        position: relative; top: 0.5px;
+      }
+      padding-left: 19px;
+    }
+
+    .col.harmony {
+      dt {
+        padding-right: 9px;
+        position: relative; top: 0.5px;
+        text-align: right;
+        width: 159px;
+      }
+    }
+
+    .col.tranquility {
+      dt {
+        padding-right: 9px;
+        position: relative; top: 0.5px;
+        text-align: right;
+        width: 157px;
+      }
+    }
+  }
   .thermal-header {
     margin: 0;
     position: relative; top: 10px;
