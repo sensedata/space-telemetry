@@ -106,7 +106,7 @@ To run tests automatically when you save a change:
 
 And, to run one test file without coverage and with full traces:
 
-    $ npm run test1 /test/path/to/my/test.js
+    $ npm run test1 /test/path/to/my/test.js --loglevel silent
 
 
 # Making a Great Pull Request

@@ -16,9 +16,9 @@
     "jshint": "./node_modules/.bin/jshint client server",
     "postinstall": "./node_modules/webpack/bin/webpack.js -p",
     "start": "iojs server/server.js",
-    "test": "./node_modules/.bin/babel-node ./node_modules/.bin/babel-istanbul cover ./node_modules/.bin/_mocha",
-    "test1": "./node_modules/.bin/babel-node ./node_modules/.bin/babel-istanbul cover ./node_modules/.bin/_mocha --full-trace",
-    "test-watch": "./node_modules/.bin/babel-node ./node_modules/.bin/_mocha --watch",
+    "test": "./node_modules/.bin/babel-node ./node_modules/.bin/babel-istanbul cover ./node_modules/.bin/_mocha || true",
+    "test1": "./node_modules/.bin/babel-node ./node_modules/.bin/babel-istanbul cover ./node_modules/.bin/_mocha -- --full-trace",
+    "test-watch": "./node_modules/.bin/babel-node ./node_modules/.bin/_mocha --watch || true",
     "webpack": "node_modules/webpack/bin/webpack.js"
   },
   "dependencies": {
