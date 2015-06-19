@@ -11,12 +11,12 @@ class BarMicrochart extends ListeningView {
 
     this.lastUpdate = 0;
     this.state = {data: []};
-    this.secondsPerPoint = 2;
+    this.secondsPerPoint = 3;
     this.availablePoints = Math.floor(props.width / this.secondsPerPoint);
   }
 
   earliestAcceptable() {
-    return Moment().subtract(this.availablePoints * this.secondsPerPoint, "seconds").unix();
+    return Moment().unix() - this.availablePoints;
   }
 
   render() {
@@ -27,7 +27,6 @@ class BarMicrochart extends ListeningView {
     const displayData = this.state.data.slice();
     const chartHeight = this.props.height;
     const chartWidth = this.props.width;
-    const now = Moment();
     const earliest = this.earliestAcceptable();
 
     // Setup a record with a time equal to the left edge of the chart, so
@@ -40,21 +39,25 @@ class BarMicrochart extends ListeningView {
     starter.t = earliest;
 
     const values = displayData.map(d => {return d.v;});
-    const y = D3.scale.linear();
-    y.range([0, chartHeight - 4]);
-    y.domain([this.props.min || _.min(values), this.props.max || _.max(values)]);
+    const min = this.props.min || _.min(values);
+    const max = this.props.max || _.max(values);
 
-    this.lastUpdate = now;
+    const y = D3.scale.linear();
+    y.range([0, chartHeight]);
+    y.domain([min, max]);
+
+    this.lastUpdate = Moment().unix();
 
     const bars = [];
     let classes, current, datum;
     _.times(this.availablePoints, n => {
-      current = n * 2 + earliest;
+      current = n + earliest;
       classes = ["bar"];
       datum = _.findLast(displayData, d => {return d.t <= current;});
       if (current - datum.t < 2) {
         classes.push("real-point");
       }
+
       bars.push(
         <rect key={n * 3} className={classes.join(" ")} x={n * 3} y={chartHeight - y(datum.v)} width="2" height={y(datum.v)}></rect>
       );

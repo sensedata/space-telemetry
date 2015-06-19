@@ -21,26 +21,26 @@ describe("TimestampReadout", () => {
 
   it("renders data received before mounting", () => {
     ui.action.relay([{t: unixTime, v: 0}]);
-    ui.React.render(ui.view, document.body);
+    ui.React.render(ui.viewFactory, document.body);
 
     assert.match(document.body.innerHTML, ClientHelper.wrap(timestamp));
   });
 
   it("renders data received after mounting", () => {
-    ui.React.render(ui.view, document.body);
+    ui.React.render(ui.viewFactory, document.body);
     ui.action.relay([{t: unixTime, v: 0}]);
 
     assert.match(document.body.innerHTML, ClientHelper.wrap(timestamp));
   });
 
   it("renders a dash when it doesn't have data", () => {
-    ui.React.render(ui.view, document.body);
+    ui.React.render(ui.viewFactory, document.body);
 
     assert.match(document.body.innerHTML, ClientHelper.wrap("-"));
   });
 
   it("renders a dash when the time is 0", () => {
-    ui.React.render(ui.view, document.body);
+    ui.React.render(ui.viewFactory, document.body);
     ui.action.relay([{t: 0, v: 0}]);
 
     assert.match(document.body.innerHTML, ClientHelper.wrap("-"));
