@@ -1,10 +1,7 @@
-import _ from "lodash";
 import Chai from "chai";
 import Moment from "moment";
 
-import SimpleStore from "../../../../client/stores/simple_store.js";
 import SparklineMicrochart from "../../../../client/views/charts/sparkline_microchart.jsx";
-import TelemetryActions from "../../../../client/actions/telemetry_actions.js";
 
 import "../../dom_setup.js";
 import ClientHelper from "../../client_helper.js";
@@ -65,11 +62,25 @@ describe("SparklineMicrochart", () => {
     // path visually inspected for correctness, i.e., "looks good to me."
     assert.equal(
       $("svg path").attr("d"),
-      "M0,0L0.16666666666666666,0C0.3333333333333333,0,0.6666666666666666,0,1,0.16666666666666666C1.3333333333333333,0.3333333333333333,1.6666666666666665,0.6666666666666666,2,1.5C2.333333333333333,2.333333333333333,2.6666666666666665,3.6666666666666665,3,5.166666666666666C3.333333333333333,6.666666666666666,3.6666666666666665,8.333333333333332,3.833333333333333,9.166666666666666L4,10"
+      "M0,0L0,0.16666666666666666C0,0.3333333333333333,0,0.6666666666666666,0.3333333333333333,1.5C0.6666666666666666,2.333333333333333,1.3333333333333333,3.6666666666666665,2,5.166666666666666C2.6666666666666665,6.666666666666666,3.333333333333333,8.333333333333332,3.6666666666666665,9.166666666666666L4,10"
     );
   });
 
-  it("renders a correct qualitative range");
+  it("renders a correct qualitative range", () => {
+    const ui = sparkUI({width: 4 + 6, height: 10 + 4});
+    ui.view = ui.React.render(ui.viewFactory, document.body);
+
+    const data = [0, 1, 5, 10];
+    const start = Moment().subtract(4, "seconds").unix();
+
+    data.forEach((d, i) => {
+      ui.action.relay([{t: start + i, v: d}]);
+    });
+
+    const rect = $("svg rect");
+    assert.equal(rect.attr("height"), ui.props.height * 0.4);
+    assert.equal(rect.attr("y"), ui.props.height * 0.3);
+  });
 
   it("sets lastUpdate correctly", () => {
     const ui = sparkUI();
