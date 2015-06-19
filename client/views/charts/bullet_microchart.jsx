@@ -1,5 +1,6 @@
 import _ from "lodash";
 import D3 from "d3";
+import Moment from "moment";
 import React from "react";
 
 import ListeningView from "../listening_view.js";
@@ -9,6 +10,7 @@ class BulletMicrochart extends ListeningView {
   constructor(props) {
     super(props);
 
+    this.lastUpdate = 0;
     Object.assign(this.state, {capacity: props.capacity});
   }
 
@@ -60,6 +62,8 @@ class BulletMicrochart extends ListeningView {
     if (this.props.conversion) {
       measure *= parseFloat(this.props.conversion);
     }
+
+    this.lastUpdate = Moment().unix();
 
     return (
       <svg className="bullet" width={this.props.width} height={this.props.height}>

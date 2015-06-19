@@ -25,27 +25,27 @@ describe("TextReadout", () => {
 
   it("renders data received before mounting", () => {
     ui.action.relay(payload);
-    ui.React.render(ui.view, document.body);
+    ui.React.render(ui.viewFactory, document.body);
 
     assert.match(document.body.innerHTML, translated(payload[0].v));
   });
 
   it("renders data received after mounting", () => {
-    ui.React.render(ui.view, document.body);
+    ui.React.render(ui.viewFactory, document.body);
     ui.action.relay(payload);
 
     assert.match(document.body.innerHTML, translated(payload[0].v));
   });
 
   it("renders 'Unknown' for a unmappable value", () => {
-    ui.React.render(ui.view, document.body);
+    ui.React.render(ui.viewFactory, document.body);
     ui.action.relay([{t: 0, v: -1}]);
 
     assert.match(document.body.innerHTML, ClientHelper.wrap("Unknown"));
   });
 
   it("renders a dash when it doesn't have data", () => {
-    ui.React.render(ui.view, document.body);
+    ui.React.render(ui.viewFactory, document.body);
 
     assert.match(document.body.innerHTML, ClientHelper.wrap("-"));
   });

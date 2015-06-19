@@ -16,7 +16,7 @@ class SparklineMicrochart extends ListeningView {
   }
 
   earliestAcceptable() {
-    return Moment().subtract(this.availablePoints * this.secondsPerPoint, "seconds").unix();
+    return Moment().unix() - this.availablePoints;
   }
 
   render() {
@@ -68,7 +68,7 @@ class SparklineMicrochart extends ListeningView {
     x.domain([this.earliestAcceptable(), now.unix() - 1]);
     y.domain(D3.extent(displayData, d => {return d.v;}));
 
-    this.lastUpdate = now;
+    this.lastUpdate = now.unix();
     // TODO Use standard deviation size for qualitative band
     return (
       <svg className="sparkline" height={chartHeight} width={chartWidth}>

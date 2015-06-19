@@ -1,4 +1,5 @@
 import Chai from "chai";
+import Moment from "moment";
 
 import BulletMicrochart from "../../../../client/views/charts/bullet_microchart.jsx";
 import SimpleStore from "../../../../client/stores/simple_store.js";
@@ -30,8 +31,8 @@ describe("BulletMicrochart", () => {
     ui.props.capacityStore = ui.app.createStore(
       "testcap", SimpleStore, capacityAction.relay, {maxSize: 200}
     );
-    ui.view = ui.React.createFactory(ui.viewClass)(ui.props);
-    ui.React.render(ui.view, document.body);
+    ui.viewFactory = ui.React.createFactory(ui.viewClass)(ui.props);
+    ui.view = ui.React.render(ui.viewFactory, document.body);
 
     ui.action.relay([{t: 0, v: 1, vm: 0.5}]);
     capacityAction.relay([{t: 0, v: 2}]);
@@ -41,7 +42,7 @@ describe("BulletMicrochart", () => {
 
   it("renders nothing without data", () => {
     const ui = bulletUI();
-    ui.React.render(ui.view, document.body);
+    ui.React.render(ui.viewFactory, document.body);
 
     assert.match(document.body.innerHTML, new RegExp("\\s*<noscript.*></noscript>\\s*"));
   });
@@ -55,7 +56,7 @@ describe("BulletMicrochart", () => {
 
   it("renders the full-range element with measure and static capacity", () => {
     const ui = bulletUI({capacity: 2});
-    ui.React.render(ui.view, document.body);
+    ui.React.render(ui.viewFactory, document.body);
     ui.action.relay([{t: 0, v: 1}]);
 
     assert.equal($("svg rect.range-3").attr("width"), 100);
@@ -96,8 +97,8 @@ describe("BulletMicrochart", () => {
     ui.props.capacityStore = ui.app.createStore(
       "testcap", SimpleStore, capacityAction.relay, {maxSize: 200}
     );
-    ui.view = ui.React.createFactory(ui.viewClass)(ui.props);
-    ui.React.render(ui.view, document.body);
+    ui.viewFactory = ui.React.createFactory(ui.viewClass)(ui.props);
+    ui.view = ui.React.render(ui.viewFactory, document.body);
 
     ui.action.relay([{t: 0, v: 1, vm: -0.5}]);
     capacityAction.relay([{t: 0, v: 2}]);
@@ -127,14 +128,31 @@ describe("BulletMicrochart", () => {
     ui.props.capacityStore = ui.app.createStore(
       "testcap", SimpleStore, capacityAction.relay, {maxSize: 200}
     );
-    ui.view = ui.React.createFactory(ui.viewClass)(ui.props);
-    ui.React.render(ui.view, document.body);
+    ui.viewFactory = ui.React.createFactory(ui.viewClass)(ui.props);
+    ui.view = ui.React.render(ui.viewFactory, document.body);
 
     ui.action.relay([{t: 0, v: -1, vm: 0.5}]);
     capacityAction.relay([{t: 0, v: 2}]);
 
     assert.equal($("svg line.measure").attr("x1"), 0);
     assert.equal($("svg line.measure").attr("x2"), ui.props.width / 2);
+  });
+
+  it("sets lastUpdate correctly", () => {
+    const ui = bulletUI();
+    const capacityAction = ui.app.createActions("testcap", TelemetryActions);
+    ui.props.capacityStore = ui.app.createStore(
+      "testcap", SimpleStore, capacityAction.relay, {maxSize: 200}
+    );
+    ui.viewFactory = ui.React.createFactory(ui.viewClass)(ui.props);
+    ui.view = ui.React.render(ui.viewFactory, document.body);
+
+    assert.equal(ui.view.lastUpdate, 0);
+
+    ui.action.relay([{t: 0, v: -1, vm: 0.5}]);
+    capacityAction.relay([{t: 0, v: 2}]);
+
+    assert.isBelow(Moment().unix() - ui.view.lastUpdate, 2);
   });
 
 });

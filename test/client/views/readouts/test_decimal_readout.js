@@ -14,14 +14,14 @@ describe("DecimalReadout", () => {
   it("renders data received before mounting", () => {
     const ui = ClientHelper.buildUI(DecimalReadout);
     ui.action.relay(payload);
-    ui.React.render(ui.view, document.body);
+    ui.React.render(ui.viewFactory, document.body);
 
     assert.match(document.body.innerHTML, ClientHelper.wrap(payload[0].v));
   });
 
   it("renders data received after mounting", () => {
     const ui = ClientHelper.buildUI(DecimalReadout);
-    ui.React.render(ui.view, document.body);
+    ui.React.render(ui.viewFactory, document.body);
     ui.action.relay(payload);
 
     assert.match(document.body.innerHTML, ClientHelper.wrap(payload[0].v));
@@ -29,7 +29,7 @@ describe("DecimalReadout", () => {
 
   it("renders a dash when it doesn't have data", () => {
     const ui = ClientHelper.buildUI(DecimalReadout);
-    ui.React.render(ui.view, document.body);
+    ui.React.render(ui.viewFactory, document.body);
     assert.match(document.body.innerHTML, ClientHelper.wrap("-"));
   });
 
@@ -37,7 +37,7 @@ describe("DecimalReadout", () => {
     const ui = ClientHelper.buildUI(
       DecimalReadout, {eulerAxis: "x", quaternionId: "test"}
     );
-    ui.React.render(ui.view, document.body);
+    ui.React.render(ui.viewFactory, document.body);
     ui.action.relay([{x: "1234"}]);
 
     assert.match(document.body.innerHTML, ClientHelper.wrap(1234));
@@ -47,7 +47,7 @@ describe("DecimalReadout", () => {
     const ui = ClientHelper.buildUI(
       DecimalReadout, {eulerAxis: "w", quaternionId: "test"}
     );
-    ui.React.render(ui.view, document.body);
+    ui.React.render(ui.viewFactory, document.body);
     ui.action.relay([{w: null}]);
 
     assert.match(document.body.innerHTML, ClientHelper.wrap("-"));
@@ -55,7 +55,7 @@ describe("DecimalReadout", () => {
 
   it("rounds to scale", () => {
     const ui = ClientHelper.buildUI(DecimalReadout, {scale: 3});
-    ui.React.render(ui.view, document.body);
+    ui.React.render(ui.viewFactory, document.body);
     ui.action.relay(payload);
 
     assert.match(document.body.innerHTML, ClientHelper.wrap(9.782));
@@ -63,7 +63,7 @@ describe("DecimalReadout", () => {
 
   it("pads to the left with zeros with precision", () => {
     const ui = ClientHelper.buildUI(DecimalReadout, {precision: 3});
-    ui.React.render(ui.view, document.body);
+    ui.React.render(ui.viewFactory, document.body);
     ui.action.relay(payload);
 
     assert.match(document.body.innerHTML, ClientHelper.wrap("009.7816348761234"));
@@ -71,7 +71,7 @@ describe("DecimalReadout", () => {
 
   it("rounds and pads together", () => {
     const ui = ClientHelper.buildUI(DecimalReadout, {precision: 3, scale: 3});
-    ui.React.render(ui.view, document.body);
+    ui.React.render(ui.viewFactory, document.body);
     ui.action.relay(payload);
 
     assert.match(document.body.innerHTML, ClientHelper.wrap("009.782"));
