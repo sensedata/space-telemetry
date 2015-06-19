@@ -58,7 +58,6 @@ describe("TristateMicrochart", () => {
       ui.action.relay([{t: start + i, v: d}]);
     });
 
-    console.log($("body").html());
     data.forEach((d, i) => {
       const bar = $(`svg rect:nth-child(${i + 1})`);
       assert.equal(bar.attr("x"), i * 3, `x for data[${i}]`);
@@ -67,10 +66,49 @@ describe("TristateMicrochart", () => {
     });
   });
 
-  it("add a left-most point if there isn't one in the data");
+  it("add a left-most point if there isn't one in the data", () => {
+    const ui = renderTristate({width: 12});
+    const data = [1, 1, 0];
+    const start = Moment().subtract(3, "seconds").unix();
 
-  it("adds a right-most point if the newest data is old");
+    data.forEach((d, i) => {
+      ui.action.relay([{t: start + i, v: d}]);
+    });
 
-  it("sets lastUpdate correctly");
+    data.unshift(1);
+    data.forEach((d, i) => {
+      const bar = $(`svg rect:nth-child(${i + 1})`);
+      assert.equal(bar.attr("x"), i * 3, `x for data[${i}]`);
+      assert.equal(bar.attr("y"), d > 0 ? 0 : 50, `y for data[${i}]`);
+      assert.equal(bar.attr("height"), 50, `height for data[${i}]`);
+    });
+  });
+
+  it("adds a right-most point if the newest data is old", () => {
+    const ui = renderTristate({width: 12});
+    const data = [0, 1, 1];
+    const start = Moment().subtract(4, "seconds").unix();
+
+    data.forEach((d, i) => {
+      ui.action.relay([{t: start + i, v: d}]);
+    });
+
+    data.push(1);
+    data.forEach((d, i) => {
+      const bar = $(`svg rect:nth-child(${i + 1})`);
+      assert.equal(bar.attr("x"), i * 3, `x for data[${i}]`);
+      assert.equal(bar.attr("y"), d > 0 ? 0 : 50, `y for data[${i}]`);
+      assert.equal(bar.attr("height"), 50, `height for data[${i}]`);
+    });
+  });
+
+  it("sets lastUpdate correctly", () => {
+    const ui = tristateUI();
+    ui.view = ui.React.render(ui.viewFactory, document.body);
+
+    assert.equal(ui.view.lastUpdate, 0);
+    ui.action.relay([{t: 1, v: 1}]);
+    assert.isBelow(Moment().unix() - ui.view.lastUpdate, 2);
+  });
 
 });
