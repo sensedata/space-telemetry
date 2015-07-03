@@ -13,7 +13,7 @@
     <div class="jumbotron">
       <div class="container">
         <div class="row">
-          <div class="col-sm-9">
+          <div class="col-sm-8">
             <h1>International Space Station</h1>
             <h2>
               Station Mode:
@@ -21,7 +21,7 @@
             </h2>
 
           </div>
-          <div class="col-sm-3">
+          <div class="col-sm-4">
             <dl class="dl-horizontal station-metadata">
               <dt>Telemetry Network:</dt>
               <dd class="readout text" data-telemetry-id="STATUS"></dd>
@@ -1892,6 +1892,158 @@
               <dt>Probable Orientation Procedure</dt>
               <dd class="readout text">Unknown</dd>
             </dl>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="airlock">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="row">
+              <div class="col-sm-12">
+                <h2 class="sub-header airlock-header">Airlock</h2>
+              </div>
+            </div>
+            <hr class="header-rule">
+            <div class="row airlock-tables">
+              <div class="col col-sm-4">
+                <table class="folding table airlock-table first">
+                  <colgroup>
+                    <col class="column-header">
+                    <col class="column-microchart">
+                    <col class="column-readout">
+                  </colgroup>
+
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th colspan="2">Equipment Lock</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <th>Air Pressure</th>
+                      <td class="microchart sparkline-chart" data-telemetry-id="AIRLOCK000054"></td>
+                      <td class="readout decimal amps" data-telemetry-id="AIRLOCK000054"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="col col-sm-2">
+                <table class="folding table airlock-table second">
+                  <colgroup>
+                    <col class="column-header">
+                    <col class="column-microchart">
+                    <col class="column-readout">
+                  </colgroup>
+
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th colspan="2">Crew Lock</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                    <tr>
+                      <th>Air Pressure</th>
+                      <td class="microchart sparkline-chart" data-telemetry-id="AIRLOCK000049"></td>
+                      <td class="readout decimal amps" data-telemetry-id="AIRLOCK000049"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="col col-sm-2">
+                <dl class="dl-horizontal">
+                  <dt>Crew Lock Pump Switch / Voltage</dt>
+                  <dd>
+                    <span class="readout text" data-telemetry-id="AIRLOCK000048"></span>
+                    /
+                    <span class="readout text" data-telemetry-id="AIRLOCK000047"></span>
+                  </dd>
+                </dl>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <hr class="inner-rule">
+
+        <div class="row">
+          <div class="col col-sm-4">
+            <table class="folding table airlock-table first">
+              <colgroup>
+                <col class="column-header">
+                <col class="column-microchart">
+                <col class="column-readout">
+              </colgroup>
+
+              <thead>
+                <tr>
+                  <th></th>
+                  <th colspan="2">Oxygen High Pressure</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <th>Tank Pressure</th>
+                  <td class="microchart sparkline-chart" data-telemetry-id="AIRLOCK000055"></td>
+                  <td class="readout decimal pressure" data-telemetry-id="AIRLOCK000055"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col col-sm-4">
+            <table class="folding table airlock-table">
+              <colgroup>
+                <col class="column-header">
+                <col class="column-microchart">
+                <col class="column-readout">
+              </colgroup>
+
+              <thead>
+                <tr>
+                  <th></th>
+                  <th colspan="2">Oxygen Low Pressure</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <th>Tank Pressure</th>
+                  <td class="microchart sparkline-chart" data-telemetry-id="AIRLOCK000056"></td>
+                  <td class="readout decimal pressure" data-telemetry-id="AIRLOCK000056"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col col-sm-4">
+            <table class="folding table airlock-table">
+              <colgroup>
+                <col class="column-header">
+                <col class="column-microchart">
+                <col class="column-readout">
+              </colgroup>
+
+              <thead>
+                <tr>
+                  <th></th>
+                  <th colspan="2">Nitrogen</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <th>Tank Pressure</th>
+                  <td class="microchart sparkline-chart" data-telemetry-id="AIRLOCK000057"></td>
+                  <td class="readout decimal pressure" data-telemetry-id="AIRLOCK000057"></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
 

@@ -12,7 +12,7 @@ h1, h2, h3 {
 
 
 h2 {
-  font-size: 20px;
+  font-size: 16px;
 }
 
 h3 {
@@ -31,8 +31,7 @@ body {
   font-size: 12px;
 }
 
-
-@media (min-width: 1200px) {
+@media (min-width: 992px) {
   h2 {
     font-size: 20px;
   }
@@ -75,22 +74,6 @@ th {
   width: 120px;
 }
 
-
-.station-metadata dt {
-  text-align: right;
-  width: 160px;
-}
-
-.station-metadata {
-  dd {
-    margin-left: 170px;
-    position: relative; top: 0.5px;
-    text-align: left;
-    overflow: visible;
-  }
-
-}
-
 hr {
   margin: 15px 0 10px;
 
@@ -108,86 +91,7 @@ html {
   min-height: 100%;
 }
 
-.footer {
-  background-color: #f5f5f5;
-  font-size: 14px;
-  height: auto; width: 100%;
-  padding-top: 15px;
-}
 
-.touch .footer {
-  line-height: 1.75;
-}
-
-.touch .legal {
-  font-size: 12px;
-  line-height: 2.2;
-  margin-top: 15px;
-}
-
-@media (min-width: 768px) {
-  .footer {
-    height: 130px;
-    position: absolute; bottom: 0;
-  }
-
-  .has-footer {
-    margin-bottom: 140px;
-  }
-
-}
-
-@media (min-width: 992px) {
-  .footer {
-    height: 120px;
-  }
-
-  .has-footer {
-    margin-bottom: 130px;
-  }
-
-  .touch .footer {
-    height: 175px;
-  }
-
-  .touch .has-footer {
-    margin-bottom: 175px;
-  }
-}
-
-@media (min-width: 1200px) {
-  .footer {
-    font-size: 16px;
-    height: 120px;
-  }
-
-  .has-footer {
-    margin-bottom: 130px;
-  }
-}
-
-.jumbotron {
-  padding: 30px 0 10px;
-}
-
-.jumbotron h1 {
-  font-size: 26px;
-  text-align: left;
-}
-
-.jumbotron h2 {
-  font-weight: normal;
-}
-
-.jumbotron h2 .readout{
-  font-family: inherit;
-}
-
-@media (min-width: 768px) {
-  .jumbotron h1 {
-    font-size: 48px;
-  }
-}
 
 
 .legal {

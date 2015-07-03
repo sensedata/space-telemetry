@@ -29,6 +29,15 @@ const airConditionerStatuses = {
 };
 
 const statusById = {
+  "AIRLOCK000047": {
+    0: "Off",
+    1: "On",
+    2: "Failed"
+  },
+  "AIRLOCK000048": {
+    0: "Off",
+    1: "On"
+  },
   "NODE2000003": airConditionerStatuses,
   "NODE3000004": {
     2: "Stop",

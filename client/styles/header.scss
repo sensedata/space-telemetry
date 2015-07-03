@@ -1,0 +1,73 @@
+.jumbotron {
+  padding: 30px 0 10px;
+
+  h1 {
+    font-size: 22px;
+    text-align: left;
+  }
+
+  h2 {
+    font-weight: normal;
+
+    .readout{
+      font-family: inherit;
+    }
+  }
+}
+
+.station-metadata {
+  position: relative; left: 0;
+
+  dt {
+    margin-top: 10px;
+  }
+
+  dd {
+    margin-left: 0;
+    text-align: left;
+  }
+}
+
+@media (min-width: 768px) {
+  .station-metadata {
+    left: -70px;
+
+    dt {
+      margin-top: 0.5px;
+      text-align: right;
+      width: 160px;
+    }
+
+    dd {
+      margin-left: 170px;
+      position: relative; top: 0.5px;
+      text-align: left;
+      overflow: visible;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .jumbotron h1 {
+    font-size: 26px;
+  }
+}
+
+@media (min-width: 992px) {
+  .jumbotron h1 {
+    font-size: 32px;
+  }
+
+  .station-metadata {
+    left: -20px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .jumbotron h1 {
+    font-size: 48px;
+  }
+  .station-metadata {
+    left: 0;
+  }
+}
