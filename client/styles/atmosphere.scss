@@ -19,7 +19,7 @@
   }
 
   .column-pressure {
-    width: 20%;
+    width: 30%;
   }
 
   .oxygen-generator {
@@ -72,6 +72,16 @@
         border-top-color: #bbb !important;
       }
     }
+  }
+}
+
+@media (min-width: 768px) {
+  .atmosphere .column-microchart {
+    width: 45%;
+  }
+
+  .atmosphere .column-pressure {
+    width: 35%;
   }
 }
 
