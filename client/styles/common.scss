@@ -56,7 +56,9 @@ th {
 
 .table td, .table th {
   border-color: #f0f0f0 !important;
-  line-height: 0 !important; /* Non-zero line heights cause problems with SVG inside cells. */
+
+  // Greater than zero line heights cause problems with SVG inside cells.
+  line-height: 0 !important;
 }
 
 
