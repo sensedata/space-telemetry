@@ -6,21 +6,15 @@
     position: relative; top: 10px;
   }
 
-  .airlock-tables > div {
-    padding: 0;
-  }
+  .crew-lock-pump {
+    margin: 5px 0 0 20px;
+    text-align: center;
 
-  .column-header {
-    width: 40%;
-  }
-
-  .column-microchart {
-    text-align: right;
-    width: 60%;
-  }
-
-  .column-readout {
-    width: 30%;
+    dt {
+      border-bottom: 1px solid #f0f0f0;
+      margin-bottom: 4px;
+      padding-bottom: 5px;
+    }
   }
 
   .table {
@@ -30,32 +24,6 @@
 
     thead th {
       text-align: center;
-    }
-  }
-}
-
-@media (min-width: 922px) {
-  .airlock {
-    .col:first-child {
-      width: 30%;
-
-      .column-header {
-        width: 60%;
-      }
-
-      td.microchart {
-        position: relative; left: 12px;
-      }
-    }
-
-    .col:not(:first-child) {
-      width: 20%
-    }
-
-    .airlock-table:not(.first) {
-      .column-header, tbody th {
-        width: 0;
-      }
     }
   }
 }
