@@ -1,13 +1,16 @@
 .thermal {
   margin-bottom: 35px;
 
-  .air-conditioners {
-    .col.header {
+  .air-conditioners .col {
+    white-space: nowrap;
+
+    &.header {
+      position: relative; top: 1px;
       text-align: right;
       width: 30%;
     }
 
-    .col.destiny {
+    &.destiny {
       dt {
         padding-right: 9px;
         text-align: right;
@@ -17,7 +20,7 @@
       padding-left: 19px;
     }
 
-    .col.harmony {
+    &.harmony {
       dt {
         padding-right: 9px;
         position: relative; top: 0.5px;
@@ -26,7 +29,7 @@
       }
     }
 
-    .col.tranquility {
+    &.tranquility {
       dt {
         padding-right: 9px;
         position: relative; top: 0.5px;
@@ -42,6 +45,11 @@
 
   .thermal-tables > div {
     padding: 0;
+    width: 21%;
+
+    &:first-child {
+      width: 34%;
+    }
   }
 
   .column-header {
@@ -50,7 +58,7 @@
 
   .column-microchart {
     text-align: right;
-    width: 60%;
+    width: 45%;
   }
 
   .column-readout {
@@ -111,6 +119,10 @@
       td.microchart {
         position: relative; left: 12px;
       }
+    }
+
+    td.microchart {
+      width: 60%;
     }
 
     .col:not(:first-child) {

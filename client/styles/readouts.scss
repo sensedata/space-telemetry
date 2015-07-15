@@ -16,58 +16,58 @@ th .readout {
   }
 
   &.amps:after {
-    content: " A";
+    content: "\00a0 A";
   }
 
   &.celsius:after {
-    content: " C";
+    content: "\00a0 C";
   }
 
   &.degrees:after {
-    content: " deg";
+    content: "\00a0 deg";
   }
 
   &.degrees-per-second:after {
-    content: " deg/s";
+    content: "\00a0 deg/s";
   }
 
   &.newton-meters:after {
-    content: " N⋅m";
+    content: "\00a0 N⋅m";
   }
 
   &.g-force:after {
-    content: " G";
+    content: "\00a0 G";
   }
 
   &.milligrams-per-second:after {
-    content: " mg/s";
+    content: "\00a0 mg/s";
   }
 
   &.newton-meter-second:after {
-    content: " N⋅m⋅s";
+    content: "\00a0 N⋅m⋅s";
   }
 
   &.percentage:after {
-    content: " %";
+    content: "\00a0 %";
   }
 
   &.pressure:after {
-    content: " mmHg";
+    content: "\00a0 mmHg";
   }
 
   &.radians:after {
-    content: " rad";
+    content: "\00a0 rad";
   }
 
   &.radians-per-second:after {
-    content: " rad/s"
+    content: "\00a0 rad/s"
   }
 
   &.rotations-per-minute:after {
-    content: " rpm"
+    content: "\00a0 rpm"
   }
 
   &.volts:after {
-    content: " V";
+    content: "\00a0 V";
   }
 }
