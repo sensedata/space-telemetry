@@ -28,7 +28,7 @@
 
   .column-microchart {
     text-align: right;
-    width: 60%;
+    width: 45%;
   }
 
   .column-readout {
@@ -47,13 +47,14 @@
 
   .urine-processor {
     dt {
-      margin-left: 118px;
-      width: 110px;
+      margin: 0 9px 0 0;
+      width: auto;
     }
 
     dd {
-      margin-left: 110px;
-      width: 70px;
+      margin-left: 0;
+      text-align: left;
+      width: auto;
     }
   }
 
