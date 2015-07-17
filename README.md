@@ -12,6 +12,7 @@ setup for development on your computer. If you run into any issues getting these
 
 | __Analysis__            | [![Code Climate](https://codeclimate.com/repos/553139d36956806f0b001dd9/badges/0ead9acc990a25b578ff/gpa.svg)](https://codeclimate.com/repos/553139d36956806f0b001dd9/feed) |
 | ---: | :--- |
+| __Documentation__ | [![Inline docs](http://inch-ci.org/github/sensedata/space-telemetry.svg?branch=develop)](http://inch-ci.org/github/sensedata/space-telemetry) |
 | __Integration__ | [![Build Status](https://travis-ci.org/sensedata/space-telemetry.svg?branch=develop)](https://travis-ci.org/sensedata/space-telemetry) |
 | __Libraries__ | [![Dependency Status](https://david-dm.org/sensedata/space-telemetry.svg)](https://david-dm.org/sensedata/space-telemetry) |
 | __Testing__ | [![Test Coverage](https://codeclimate.com/repos/553139d36956806f0b001dd9/badges/0ead9acc990a25b578ff/coverage.svg)](https://codeclimate.com/repos/553139d36956806f0b001dd9/coverage) |
