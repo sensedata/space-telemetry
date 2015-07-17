@@ -1,0 +1,8 @@
+{
+  "files": {
+    "included": [
+      "client/**/*.js",
+      "server/**/*.js"
+    ]
+  }
+}
