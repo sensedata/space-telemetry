@@ -26,8 +26,12 @@
     tbody {
       text-align: right;
       .readout {
-        text-align: left;
+        text-align: right;
       }
+    }
+
+    &.third, &.fourth {
+      margin-top: 20px;
     }
 
     .column-euler {
@@ -45,6 +49,10 @@
     .column-sparkline-value {
       width: 25%;
     }
+  }
+
+  .cmgs > .col-md-6:not(:nth-child(1)) {
+      margin-top: 20px;
   }
 
   .cmg {
@@ -91,14 +99,14 @@
 
   .saturation {
     dl {
-      margin-top: 0.5px;
+      margin-top: 3px;
     }
 
     dt {
       display: inline;
       margin-top: 0;
       text-align: right;
-      width: 235px;
+      width: 170px;
     }
 
     dd {
@@ -125,11 +133,7 @@
     .cmg .column-header {
       width: 100px;
     }
-  }
-}
 
-@media (min-width: 922px) {
-  .attitude {
     .attitude-alarms {
       margin: 0 0 15px 0;
     }
@@ -164,7 +168,7 @@
       }
     }
 
-    .attitude.table:not(.first) .column-header {
+    .attitude.table:not(.first):not(.third) .column-header {
       width: 0;
     }
 
@@ -176,27 +180,11 @@
     }
 
     .attitude-table {
-      &.first {
-        position: relative; left: 4px;
-      }
-
-      &.second {
-        position: relative; left: 1px;
-      }
-
-      &.third {
-        position: relative; left: -1px;
-      }
-
-      &.fourth {
-        position: relative; left: -4px;
-      }
-
       .column-sparkline-value {
         width: 40%;
       }
 
-      &:not(.first) th:first-child {
+      &:not(.first):not(.third) th:first-child {
         visibility: collapse;
       }
     }
@@ -209,23 +197,45 @@
         height: 19px !important;
         padding-top: 3px;
         margin: 0;
+        width: 33%;
       }
       .saturation-readout-col {
         margin-bottom: 0;
         text-align: right;
+        width: 40%;
       }
     }
   }
 }
 
-@media (min-width: 1200px) {
-  .attitude-table {
-    &.second {
-      position: relative; left: 2px;
+@media (min-width: 992px) {
+  .attitude {
+    .attitude-table {
+      &.third, &.fourth {
+        margin-top: 0;
+      }
     }
 
-    .fourth {
-      position: relative; left: -3px;
+    .cmgs > .col-md-6 {
+        margin-top: 0 !important;
+    }
+
+    .saturation {
+      dl {
+        margin-top: 1px;
+      }
+
+      dt {
+        width: 235px;
+      }
+
+      .bullet-chart {
+        width: 41.66667%;
+      }
+
+      .saturation-readout-col {
+        width: 33.33333%;
+      }
     }
   }
 }
