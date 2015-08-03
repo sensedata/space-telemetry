@@ -214,6 +214,10 @@
       &.third, &.fourth {
         margin-top: 0;
       }
+
+      .column-sparkline {
+        width: 32%;
+      }
     }
 
     .cmgs > .col-md-6 {
@@ -227,14 +231,6 @@
 
       dt {
         width: 235px;
-      }
-
-      .bullet-chart {
-        width: 41.66667%;
-      }
-
-      .saturation-readout-col {
-        width: 33.33333%;
       }
     }
   }

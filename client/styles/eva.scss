@@ -33,19 +33,45 @@
     }
   }
 }
+@media (min-width: 768px) and (max-width: 921px) {
+  .eva {
+    .col:first-child {
+      .column-header {
+        width: 43%
+      }
+    }
 
+    .col:not(:first-child) {
+      .column-readout, .column-microchart {
+        width: 50%;
+      }
+    }
+  }
+}
 @media (min-width: 922px) {
   .eva {
     .col:first-child {
       width: 30%;
 
       .column-header {
-        width: 60%;
+        width: 47%;
+      }
+
+      .column-microchart {
+        width: 25%;
+      }
+
+      .column-readout {
+        width: 27%;
       }
 
       td.microchart {
         position: relative; left: 12px;
       }
+    }
+
+    .column-readout {
+      width: 35%;
     }
 
     .col:not(:first-child) {

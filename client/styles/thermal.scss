@@ -110,6 +110,14 @@
   }
 }
 
+@media (min-width: 768px) and (max-width: 921px) {
+  .thermal {
+    .column-microchart, .column-readout {
+      width: 40%
+    }
+  }
+}
+
 @media (min-width: 922px) {
   .thermal {
     .col:first-child {

@@ -88,7 +88,106 @@
   }
 }
 
-@media (min-width: 922px) {
+@media (min-width: 768px) and (max-width: 991px) {
+  .photovoltaic {
+    .col-channel, .channel-table {
+      .bullet-chart {
+        position: relative; left: 10px;
+      }
+      .column-microchart {
+        width: 100%
+      }
+      .column-readout {
+        visibility: collapse;
+        width: 0 !important;
+      }
+      .readout {
+        display: none;
+      }
+    }
+  }
+}
+
+@media (min-width: 992px) {
+  .photovoltaic {
+
+    .col-channel:nth-child(2n+1) h4 {
+      visibility: hidden;
+    }
+
+    .col-channel {
+      h4 {
+        margin-left: 19px
+      }
+    }
+
+    .channel-table {
+      td.bullet-chart {
+        position: relative; left: 10px;
+      }
+    }
+
+    .col:first-child {
+      border-right: 1px solid #aaa;
+      margin-right: 10px;
+      padding-right: 10px;
+      width: 25% !important;
+
+      .column-header {
+        width: 50%;
+      }
+    }
+
+    .col {
+      margin: 0;
+    }
+
+    .col-first {
+      width: 250px;
+
+      thead th {
+        text-align: left;
+      }
+      .column-header, tbody th {
+        width: 100px !important;
+      }
+
+      .column-microchart, td.sparkline-chart {
+        width: 45px !important;
+      }
+    }
+
+    thead th {
+      border-top: 1px #aaa solid;
+      padding-top: 20px !important;
+      padding-bottom: 10px !important;
+    }
+
+    .row:not(.totals) .col:not(.col-first) {
+      thead th {
+        visibility: hidden;
+      }
+    }
+
+    .col:not(.col-first) {
+      width: 165px;
+
+      .photovoltaic-table {
+        width: 165px;
+
+        .column-header {
+          width: 0;
+        }
+      }
+
+      .column-microchart, td.sparkline-chart {
+        width: 75px !important;
+      }
+    }
+  }
+}
+
+@media (min-width: 1200px) {
   .photovoltaic {
 
     .col-channel:nth-child(2n+1) h4 {
@@ -151,6 +250,10 @@
         .column-header {
           width: 0;
         }
+      }
+
+      .column-microchart, td.sparkline-chart {
+        width: 90px !important;
       }
     }
   }
