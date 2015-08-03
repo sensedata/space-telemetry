@@ -38,6 +38,7 @@
 
   .oxygen-generator-state {
     display: inline-block;
+    width: 92px;
 
     dt {
       display: inline;
@@ -77,16 +78,21 @@
 
 @media (min-width: 768px) {
   .atmosphere .column-microchart {
-    width: 45%;
+    width: 35%;
   }
 
   .atmosphere .column-pressure {
-    width: 35%;
+    width: 45%;
   }
 }
 
 @media (min-width: 922px) {
   .atmosphere {
+    .oxygen-generator-state {
+      display: inline-block;
+      width: 107px;
+    }
+
     .col:first-child {
       width: 40%;
     }

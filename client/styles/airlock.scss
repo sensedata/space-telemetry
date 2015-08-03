@@ -27,3 +27,51 @@
     }
   }
 }
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .airlock {
+    .column-header {
+      width: 95px;
+    }
+
+    .column-microchart {
+      width: 85px;
+    }
+
+    .column-readout {
+      width: 115px;
+    }
+
+    .col:not(.col-first) {
+      .column-microchart {
+        width: 55px;
+      }
+
+      .column-readout {
+        width: 65px;
+      }
+    }
+  }
+}
+
+@media (min-width: 992px) {
+  .airlock {
+    .column-header {
+      width: 110px;
+    }
+
+    .column-microchart {
+      width: 100px;
+    }
+
+    .column-readout {
+      width: 115px;
+    }
+
+    .col:not(.col-first) {
+      .column-microchart {
+        width: 110px;
+      }
+    }
+  }
+}
