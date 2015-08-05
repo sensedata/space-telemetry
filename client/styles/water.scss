@@ -71,6 +71,47 @@
   }
 }
 
+@media (max-width: 767px) {
+  .water {
+    thead {
+      display: none;
+    }
+
+    .column-header {
+      width: 15%;
+    }
+
+    .column-microchart {
+      text-align: right;
+      width: 60%;
+    }
+
+    .column-readout {
+      width: 25%;
+    }
+
+    .water-table td.microchart {
+      left: 0 !important;
+    }
+
+    .water-processor, .urine-processor {
+      dl {
+        margin-bottom: 0;
+      }
+
+      dt {
+        float: left;
+        margin: 0 5px 0 0;
+        width: auto;
+      }
+
+      dd {
+        margin-left: 0;
+      }
+    }
+  }
+}
+
 @media (min-width: 922px) {
   .water {
     .col:first-child {

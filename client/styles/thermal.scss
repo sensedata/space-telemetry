@@ -1,110 +1,162 @@
 .thermal {
   margin-bottom: 35px;
+}
 
-  .air-conditioners .col {
-    padding-left: 20px;
-    white-space: nowrap;
-    width: 21%;
-
-    &.header {
-      position: relative; top: 1px; right: 4px;
-      text-align: right;
-      width: 34%;
+@media (max-width: 767px) {
+  .thermal {
+    .air-conditioners {
+      .col.header {
+        margin-bottom: 10px;
+      }
+      dl {
+        margin-bottom: 0;
+      }
+      dt {
+        float: left;
+        text-align: right;
+        width: 70px;
+      }
+      dd {
+        margin-left: 75px;
+      }
+    }
+    .thermal-table {
+      .column-header {
+        width: 30%;
+      }
+      .column-microchart {
+        width: 40%
+      }
+      .column-readout {
+        width: 20%;
+      }
     }
 
-    dd {
-      margin-left: 0;
+    .radiator-loop-table {
+      .column-header {
+        width: 30%;
+      }
+      .column-microchart {
+        width: 40%
+      }
+      .column-readout {
+        width: 20%;
+      }
     }
 
-    dt {
-      padding-right: 9px;
-      position: relative; top: 0.5px;
-      width: auto;
+    .thermal-header {
+      margin-bottom: -10px;
     }
   }
+}
 
-  .column-header {
-    width: 40%;
-  }
+@media (min-width: 768px) {
+  .thermal {
+    .air-conditioners .col {
+      padding-left: 20px;
+      white-space: nowrap;
+      width: 21%;
 
-  .column-microchart {
-    text-align: right;
-    width: 45%;
-  }
+      &.header {
+        position: relative; top: 1px; right: 4px;
+        text-align: right;
+        width: 34%;
+      }
 
-  .column-readout {
-    width: 30%;
-  }
+      dd {
+        margin-left: 0;
+      }
 
-  .thermal-header {
-    margin: 0;
-    position: relative; top: 10px;
-  }
-
-  .thermal-tables > div {
-    padding: 0;
-    width: 21%;
-
-    &:first-child {
-      width: 34%;
+      dt {
+        padding-right: 9px;
+        position: relative; top: 0.5px;
+        width: auto;
+      }
     }
-  }
 
-  .radiator-col {
-    border-right: 1px solid #aaa;
-    padding-right: 15px;
-  }
-
-  .first .radiator-loop-table {
     .column-header {
-      width: 30%;
+      width: 40%;
     }
 
     .column-microchart {
-      width: 30%;
-    }
-
-    .column-readout {
-      width: 30%;
-    }
-
-    td.sparkline-chart {
-      padding: 4px 8px !important;
-    }
-  }
-
-  .radiator-loop-table {
-    .column-microchart {
+      text-align: right;
       width: 45%;
     }
 
     .column-readout {
-      width: 55%;
+      width: 30%;
     }
-  }
 
-  .radiator-table {
-    .column-readout {
-      width: 50%;
+    .thermal-header {
+      margin: 0;
+      position: relative; top: 10px;
     }
-  }
 
-  .table {
-    margin: 0 auto;
-    table-layout: fixed;
-    width: 100%;
+    .thermal-tables > div {
+      padding: 0;
+      width: 21%;
 
-    thead th {
-      text-align: center;
-
-      &.out-temperature {
-        text-align: right;
+      &:first-child {
+        width: 34%;
       }
     }
 
-    tr:nth-child(3) {
-      td, th {
-        border-top: 1px solid #bbb !important;
+    .radiator-col {
+      border-right: 1px solid #aaa;
+      padding-right: 15px;
+    }
+
+    .first .radiator-loop-table {
+      .column-header {
+        width: 30%;
+      }
+
+      .column-microchart {
+        width: 30%;
+      }
+
+      .column-readout {
+        width: 30%;
+      }
+
+      td.sparkline-chart {
+        padding: 4px 8px !important;
+      }
+    }
+
+    .radiator-loop-table {
+      .column-microchart {
+        width: 45%;
+      }
+
+      .column-readout {
+        width: 55%;
+      }
+    }
+
+    .radiator-table {
+      .column-readout {
+        width: 50%;
+      }
+    }
+
+    .table {
+      margin: 0 auto;
+      table-layout: fixed;
+      width: 100%;
+
+      thead th {
+        text-align: center;
+
+        &.out-temperature {
+          text-align: right;
+        }
+      }
+
+      tr:nth-child(3) {
+        td, th {
+          border-top: 1px solid #bbb !important;
+        }
       }
     }
   }
