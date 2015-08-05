@@ -76,6 +76,43 @@
   }
 }
 
+@media (max-width: 767px) {
+  .atmosphere {
+    .oxygen-generator {
+      dt {
+        margin-left: 28px;
+        text-align: center;
+        width: 100%;
+      }
+
+      dd {
+        margin-left: 0;
+        width: 100%;
+      }
+
+      .bullet {
+        margin-left: 73px;
+      }
+    }
+
+    .oxygen-generator-state {
+      // FIXME
+      display: none;
+
+      dt, dd {
+        display: inline-block;
+        text-align: left;
+      }
+    }
+
+    .oxygen-generator-rate.readout {
+      float: right;
+      margin: 0 2px 0 0;
+      top: 0;
+    }
+  }
+}
+
 @media (min-width: 768px) {
   .atmosphere .column-microchart {
     width: 35%;
