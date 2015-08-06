@@ -93,6 +93,18 @@
     h4 {
       display: none;
     }
+    .column-header {
+      width: 20% !important;
+    }
+    .col.col-first .column-microchart {
+      width: 45% !important;
+    }
+    .col:not(.col-first) .column-microchart {
+      width: 55% !important;
+    }
+    .column-readout {
+      width: 25% !important;
+    }
     .col-photovoltaic-attitude {
       border-right: none;
     }

@@ -76,7 +76,7 @@
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 375px) {
   .atmosphere {
     .oxygen-generator {
       dt {
@@ -86,12 +86,13 @@
       }
 
       dd {
-        margin-left: 0;
+        margin-left: 25%;
         width: 100%;
-      }
 
-      .bullet {
-        margin-left: 73px;
+        .bullet-chart {
+          margin-left: 0;
+          width: 46%;
+        }
       }
     }
 
@@ -106,9 +107,7 @@
     }
 
     .oxygen-generator-rate.readout {
-      float: right;
-      margin: 0 2px 0 0;
-      top: 0;
+      position: absolute; top: 28px; right: 7px;
     }
   }
 }
