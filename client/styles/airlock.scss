@@ -28,19 +28,37 @@
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 320px) {
   .airlock {
     .airlock-table {
       .column-header {
-        width: 35%;
+        width: 32%;
       }
 
       .column-microchart {
-        width: 25%;
+        width: 33%;
       }
 
       .column-readout {
-        width: 40%;
+        width: 35%;
+      }
+    }
+  }
+}
+
+@media (min-width: 321px) and (max-width: 767px) {
+  .airlock {
+    .airlock-table {
+      .column-header {
+        width: 28%;
+      }
+
+      .column-microchart {
+        width: 42%;
+      }
+
+      .column-readout {
+        width: 30%;
       }
     }
 

@@ -127,7 +127,7 @@
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 375px) {
   .attitude {
     .attitude-header {
       margin-bottom: -10px;
@@ -135,6 +135,18 @@
 
     .attitude-alarms {
       margin-bottom: 15px;
+    }
+
+    .attitude-table {
+      .column-header {
+        width: 20%;
+      }
+      .column-sparkline {
+        width: 45%;
+      }
+      .column-sparkline-value {
+        width: 35%;
+      }
     }
 
     dl.attitude-settings {
