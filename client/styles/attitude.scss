@@ -127,6 +127,61 @@
   }
 }
 
+@media (max-width: 767px) {
+  .attitude {
+    .attitude-header {
+      margin-bottom: -10px;
+    }
+
+    .attitude-alarms {
+      margin-bottom: 15px;
+    }
+
+    dl.attitude-settings {
+      margin-bottom: 0;
+
+      &.gps {
+        margin-bottom: 15px;
+      }
+
+      dt {
+        clear: both;
+        float: left;
+        text-align: right;
+        width: 40px;
+      }
+
+      dd {
+        margin-left: 45px;
+        text-align: left;
+        width: auto;
+      }
+    }
+
+    .cmgs {
+      h3 {
+        margin-top: 20px;
+      }
+      .column-header {
+        width: 35%;
+      }
+      .column-sparkline-chart {
+        width: 40%;
+      }
+      .column-sparkline-value {
+        width: 25%;
+      }
+    }
+
+    .status.desaturation {
+      display: block;
+      margin-top: -15px;
+      margin-bottom: 10px;
+      text-align: center;
+      width: 100%;
+    }
+  }
+}
 
 @media (min-width: 768px) {
   .attitude {
