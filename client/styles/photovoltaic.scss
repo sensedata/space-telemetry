@@ -88,6 +88,31 @@
   }
 }
 
+@media (max-width: 767px) {
+  .photovoltaic {
+    h4 {
+      display: none;
+    }
+    .col-photovoltaic-attitude {
+      border-right: none;
+    }
+    .orientation-procedure {
+      dt {
+        float: left;
+        left: 0;
+        text-align: right;
+        width: 175px;
+      }
+      dd {
+        margin-left: 180px;
+      }
+    }
+    .photovoltaic-tables {
+      margin-top: -5px;
+    }
+  }
+}
+
 @media (min-width: 768px) and (max-width: 991px) {
   .photovoltaic {
     .col-channel, .channel-table {

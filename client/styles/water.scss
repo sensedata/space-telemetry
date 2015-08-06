@@ -95,9 +95,7 @@
     }
 
     .water-processor, .urine-processor {
-      dl {
-        margin-bottom: 0;
-      }
+      margin-bottom: 0;
 
       dt {
         float: left;
@@ -107,6 +105,8 @@
 
       dd {
         margin-left: 0;
+        position: relative; top: -1px;
+        width: auto;
       }
     }
   }

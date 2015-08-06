@@ -28,6 +28,42 @@
   }
 }
 
+@media (max-width: 767px) {
+  .airlock {
+    .airlock-table {
+      .column-header {
+        width: 35%;
+      }
+
+      .column-microchart {
+        width: 25%;
+      }
+
+      .column-readout {
+        width: 40%;
+      }
+    }
+
+    .crew-lock-pump {
+      margin-left: 8px;
+      margin-top: 20px;
+
+      dt {
+        border: none;
+        float: left;
+        width: auto;
+
+        &:after {
+          content: ": ";
+        }
+      }
+      dd {
+        position: relative; top: -1px; left: -12px;
+      }
+    }
+  }
+}
+
 @media (min-width: 768px) and (max-width: 991px) {
   .airlock {
     .column-header {
