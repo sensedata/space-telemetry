@@ -6,8 +6,21 @@ import ListeningView from "../listening_view.js";
 
 class LastTransmissionReadout extends ListeningView {
   render() {
-    const unixTime = this.state.data ? _.max(this.state.data, "t").t : 0;
-    const formatted = unixTime === 0 ? "-" : Moment.unix(unixTime).utc().format("HH:mm:ss YYYY.MM.DD");
+    // Some Lightstreamer data is timestamped far in the future, presumably a
+    // bug in their processing or NASA's; this replaces future timestamps.
+    const data = null;
+    let unixLast = 0;
+    if (!_.isEmpty(this.state.data)) {
+      const unixNow = Math.round(Date.now() / 1000);
+      const possible = _.filter(this.state.data, (d) => d.t <= unixNow);
+      unixLast = (possible.length > 0) ? _.max(possible, "t").t : unixNow;
+    }
+    let formatted;
+    if (unixLast > 0) {
+      formatted = Moment.unix(unixLast).utc().format("HH:mm:ss YYYY.MM.DD");
+    } else {
+      formatted = "-";
+    }
 
     return <span>{formatted}</span>;
   }
