@@ -28,11 +28,8 @@ class QuaternionStore extends Store {
     const latest = this.latest(data);
 
     this.quaternion[axis] = latest.v;
-    // Note that THREE.js docs say the quaternion argument here must be
-    // normalized; however doing so before using it in setQ results in euler
-    // angles that don't come close to matching the output of any quaternion to
-    // euler formulae I have found - ylg.
-    this.euler.setFromQuaternion(this.quaternion);
+    // See https://space.stackexchange.com/a/22423/18909
+    this.euler.setFromQuaternion(this.quaternion.clone().normalize(), "ZYX");
 
     this.setState({
       x: THREE.Math.radToDeg(this.euler.x),
