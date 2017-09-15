@@ -1,7 +1,7 @@
 var dd = require('./data_dictionary');
 
 // connect to a local dev server
-var socket = require('socket.io-client')('http://0.0.0.0:5000');
+var socket = require('socket.io-client')('http://0.0.0.0:3333');
 
 // listen for when a connection is established
 socket.on('connect', function () {
@@ -17,8 +17,8 @@ socket.on('connect', function () {
   // query for STATUS - 5000 seconds ago, 50 records max
   // socket.emit(dd.hash.STATUS, 5000, 50);
   // query for STATUS -  most recent record (seconds ago param must be null)
-  // socket.emit(dd.hash.STATUS, null, -1);
-  // socket.emit(dd.hash.TIME_000001, 9999, 100);
+  socket.emit(dd.hash.STATUS, null, -1);
+  socket.emit(dd.hash.TIME_000001, 9999, 100);
 });
 
 // listen for feed status

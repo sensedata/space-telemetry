@@ -31,6 +31,14 @@ var server = exports.server = require('http').createServer(app);
 // use socket.io for real-time
 var io = exports.io = require('socket.io')(server);
 
+var rss = require("./rss");
+
+app.get('/rss.xml', function(req, res, next) {
+
+  res.set("Content-Type", "application/rss+xml");
+  res.send(rss.getRss());
+});
+
 // serve the files out of ./public as our main files
 app.use(express.static(__dirname + '/../public'));
 
