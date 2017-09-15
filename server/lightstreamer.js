@@ -34,6 +34,8 @@ var lastStatus;
 
 var time00001Timeout;
 
+var rssCache = require("./rss-cache");
+
 function statusUpdate(connected) {
 
   var now = Date.now() / 1000 | 0, data;
@@ -50,11 +52,15 @@ function statusUpdate(connected) {
 
     console.log(data);
 
+    rssCache.put(data.k, data);
+
     emitter.emit('data', data);
 
   } else if (lastStatus && lastStatus.s !== data.s) {
 
     console.log(data);
+
+    rssCache.put(data.k, data);
 
     emitter.emit('data', data);
   }
@@ -175,6 +181,8 @@ telemetrySub.addListener({
       s: iStatus,
       sid: telemetrySessionId
     };
+
+    rssCache.put(update.getItemName(), data);
 
     emitter.emit('data', data);
 
