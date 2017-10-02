@@ -14,13 +14,13 @@
   "license": "MIT",
   "main": "server/server.js",
   "engines": {
-    "iojs": "2.0.x"
+    "node": "4.8.x"
   },
   "scripts": {
     "jscs": "./node_modules/.bin/jscs client server",
     "jshint": "./node_modules/.bin/jshint client server",
     "postinstall": "./node_modules/webpack/bin/webpack.js -p",
-    "start": "iojs server/server.js",
+    "start": "node --max-old-space-size=400 --optimize-for-size server/server.js",
     "test": "./node_modules/.bin/babel-node ./node_modules/.bin/babel-istanbul cover ./node_modules/.bin/_mocha || true",
     "test1": "./node_modules/.bin/babel-node ./node_modules/.bin/babel-istanbul cover ./node_modules/.bin/_mocha -- --full-trace",
     "test-watch": "./node_modules/.bin/babel-node ./node_modules/.bin/_mocha --watch || true",
@@ -37,9 +37,9 @@
     "express": "4.13.x",
     "file-loader": "0.8.x",
     "flummox": "4.0.0-rc1",
-    "highland": "2.5.x",
+    "highland": "^2.11.1",
     "jquery": "2.1.x",
-    "lightstreamer-client": "6.2.x",
+    "lightstreamer-client": "^7.1.0",
     "lodash": "3.10.x",
     "modernizr": "3.0.0-alpha.4",
     "moment": "2.10.x",

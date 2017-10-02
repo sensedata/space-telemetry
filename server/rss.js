@@ -53,7 +53,7 @@ exports.getRss = function getRss() {
   });
 
   var cache = rssCache.get();
-  console.log("CACHE", cache);
+  // console.log("CACHE", cache);
   var TWONINESEVEN =  getCacheValue(cache, "297");
   var NODE3000006 =  getCacheValue(cache, "NODE3000006");
   var NODE3000007 =  getCacheValue(cache, "NODE3000007");
