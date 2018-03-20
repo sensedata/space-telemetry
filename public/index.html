@@ -58,8 +58,48 @@
             </div>
             <hr class="header-rule">
             <div class="row atmosphere-tables">
-              <div class="col col-sm-4">
+
+              <div class="col col-sm-3">
                 <table class="folding table atmosphere-table first">
+                  <colgroup>
+                    <col class="column-header">
+                    <col class="column-microchart">
+                    <col class="column-pressure">
+                  </colgroup>
+
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th colspan="2">Temperature</th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+
+                    <tr class="mean">
+                      <th>Mean</th>
+                      <td>&nbsp;</td>
+                      <td>&nbsp;</td>
+                    </tr>
+
+                    <tr>
+                      <th>Destiny</th>
+                      <td class="microchart sparkline-chart" data-telemetry-id="USLAB000059"></td>
+                      <td class="readout decimal celsius" data-telemetry-id="USLAB000059" data-scale="2"></td>
+                    </tr>
+
+                    <tr>
+                      <th>Tranquility</th>
+                      <td>&nbsp;</td>
+                      <td>&nbsp;</td>
+                    </tr>
+
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="col col-sm-3">
+                <table class="folding table atmosphere-table second">
                   <colgroup>
                     <col class="column-header">
                     <col class="column-microchart">
@@ -95,8 +135,8 @@
                 </table>
               </div>
 
-              <div class="col col-sm-4">
-                <table class="folding table atmosphere-table second">
+              <div class="col col-sm-3">
+                <table class="folding table atmosphere-table">
                   <colgroup>
                     <col class="column-header">
                     <col class="column-microchart">
@@ -132,7 +172,7 @@
                 </table>
               </div>
 
-              <div class="col col-sm-4">
+              <div class="col col-sm-3">
                 <table class="folding table atmosphere-table">
                   <colgroup>
                     <col class="column-header">

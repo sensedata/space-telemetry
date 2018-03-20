@@ -20,7 +20,7 @@
     "jscs": "./node_modules/.bin/jscs client server",
     "jshint": "./node_modules/.bin/jshint client server",
     "postinstall": "./node_modules/webpack/bin/webpack.js -p",
-    "start": "node --max-old-space-size=400 --optimize-for-size server/server.js",
+    "start": "node --optimize_for_size --max_old_space_size=460 --gc_interval=100 server/server.js",
     "test": "./node_modules/.bin/babel-node ./node_modules/.bin/babel-istanbul cover ./node_modules/.bin/_mocha || true",
     "test1": "./node_modules/.bin/babel-node ./node_modules/.bin/babel-istanbul cover ./node_modules/.bin/_mocha -- --full-trace",
     "test-watch": "./node_modules/.bin/babel-node ./node_modules/.bin/_mocha --watch || true",
