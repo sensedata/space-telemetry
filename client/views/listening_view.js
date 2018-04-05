@@ -15,7 +15,9 @@ class ListeningView extends React.Component {
   }
 
   storeChanged() {
-    this.setState(this.getStoreState());
+    // this.setState(this.getStoreState());
+    const data = this.getStoreState().data.slice();
+    this.setState({data: data});
   }
 
   getStoreState() {
