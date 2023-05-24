@@ -1,21 +1,10 @@
 # Space Telemetry
-This is the source code for <http://www.telemetry.space>.
+This is the source code for <https://www.telemetry.space>.
 
-We maintain a
-[Trello board](https://trello.com/b/0c4U0mDg/space-telemetry)
-to track what we're thinking about and working on, a
-[Slack team](http://slack.telemetry.space) for telemetry and development discussions, and welcome [pull requests](https://help.github.com/articles/using-pull-requests/) here on GitHub.
+We'd love to know your ideas and corrections and [pull requests](https://help.github.com/articles/using-pull-requests/).
 
 Below are the instructions for getting a copy of the source code
-setup for development on your computer. If you run into any issues getting these instructions to work for you, let us know on
-[Trello](https://trello.com/b/0c4U0mDg/space-telemetry) or [Slack](http://slack.telemetry.space).
-
-| __Analysis__            | [![Code Climate](https://codeclimate.com/repos/553139d36956806f0b001dd9/badges/0ead9acc990a25b578ff/gpa.svg)](https://codeclimate.com/repos/553139d36956806f0b001dd9/feed) |
-| ---: | :--- |
-| __Documentation__ | [![Inline docs](http://inch-ci.org/github/sensedata/space-telemetry.svg?branch=develop)](http://inch-ci.org/github/sensedata/space-telemetry) |
-| __Integration__ | [![Build Status](https://travis-ci.org/sensedata/space-telemetry.svg?branch=develop)](https://travis-ci.org/sensedata/space-telemetry) |
-| __Libraries__ | [![Dependency Status](https://david-dm.org/sensedata/space-telemetry.svg)](https://david-dm.org/sensedata/space-telemetry) |
-| __Testing__ | [![Test Coverage](https://codeclimate.com/repos/553139d36956806f0b001dd9/badges/0ead9acc990a25b578ff/coverage.svg)](https://codeclimate.com/repos/553139d36956806f0b001dd9/coverage) |
+setup for development on your computer. If you run into any issues getting these instructions to work for you, let us know.
 
 # Prerequisites for Development
 ## Linux
@@ -28,7 +17,7 @@ or just write it into this README.md and send a pull request._
 
 ### XCode
 
-Install Xcode <http://developer.apple.com/xcode/> and it's command line tools. We also recommend the nicely packaged [Postgres.app](http://postgresapp.com), though any method of installation should work.
+Install Xcode <https://developer.apple.com/xcode/> and it's command line tools. We also recommend the nicely packaged [Postgres.app](https://postgresapp.com), though any method of installation should work.
 
 
 ## Windows
@@ -39,13 +28,13 @@ or just write it into this README.md and send a pull request._
 # Development Setup
 ## io.js
 
-Install io.js from: <https://iojs.org> and Foreman to run the application in the same manner as Heroku, more at <http://strongloop.github.io/node-foreman/>:
+Install io.js from: <https://iojs.org> and Foreman to run the application in the same manner as Heroku, more at <https://strongloop.github.io/node-foreman/>:
 
         $ npm install foreman --global
 
 ## PostgreSQL:
 
-1. Download and install 9.4.x: <http://www.postgresql.org/download/>.
+1. Download and install 9.4.x: <https://www.postgresql.org/download/>.
 2. Be sure to set your PATH to use the binaries in Postgres.app if using it.
 3. Setup a user and two databases in PostgreSQL (the names can be changed if
 you like):
@@ -72,7 +61,7 @@ the test DB, for example:
 ## Space Telemetry
 
 1. Checkout the "develop" or "master" branches as you prefer; master is what you
-see at <http://www.telemetry.space> and develop is what we're working on.
+see at <https://www.telemetry.space> and develop is what we're working on.
 
         $ git checkout develop
 
