@@ -3,6 +3,8 @@ var utils = require('./utils');
 
 var feedTimeToUnix = require('./feed-time-to-unix');
 
+var feedStatus = require('./feed-status');
+
 var source = require('./source');
 
 var ls = require('lightstreamer-client');
@@ -11,56 +13,14 @@ var dd = require('./data_dictionary');
 
 var SCHEMA = ['TimeStamp', 'Value', 'Status.Class', 'CalibratedData'];
 
-// the data stream
 var lsClient = new ls.LightstreamerClient('http://push.lightstreamer.com', 'ISSLIVE');
 
 lsClient.connectionOptions.setSlowingEnabled(false);
 
-// MERGE indicates that we only want to receive data when the value(s) have changed
 var telemetrySub = new ls.Subscription('MERGE', dd.list, SCHEMA);
 var timeSub = new ls.Subscription('MERGE', 'TIME_000001', ['Status.Class']);
 
-var statusIdx = dd.hash.STATUS;
-
 var telemetrySessionId;
-
-var lastStatus;
-
-var time00001Timeout;
-
-var rssCache = require("./rss-cache");
-
-function statusUpdate(connected) {
-
-  var now = Date.now() / 1000 | 0, data;
-
-  data = {
-    k: statusIdx.toString(),
-    v: connected ? 1 : 0,
-    t: now,
-    s: connected ? 24 : 2,  // 24 and 2 are values from telemetry
-    sid: now
-  };
-
-  if (!lastStatus) {
-
-    console.log(data);
-
-    rssCache.put(data.k, data);
-
-    source.emit('data', data);
-
-  } else if (lastStatus && lastStatus.s !== data.s) {
-
-    console.log(data);
-
-    rssCache.put(data.k, data);
-
-    source.emit('data', data);
-  }
-
-  lastStatus = data;
-}
 
 lsClient.addListener({
 
@@ -68,9 +28,7 @@ lsClient.addListener({
 
     console.log('lightstreamer status:', status);
 
-    // setup a timeout to notify clients if data is not streaming
-    clearTimeout(time00001Timeout);
-    time00001Timeout = setTimeout(function () { statusUpdate(false); }, 15000);
+    feedStatus.expectTimeWithin(15000);
   }
 });
 
@@ -103,7 +61,7 @@ timeSub.addListener({
 
     } else if (status !== '24' && subscribed) {
 
-      // give 20 seconds to collect any outstanding data from lightstreamer
+      // Lets Lightstreamer deliver outstanding updates before the unsubscribe.
       unsubTimeout = setTimeout(function () {
 
         lsClient.unsubscribe(telemetrySub);
@@ -120,9 +78,7 @@ telemetrySub.addListener({
 
     telemetrySessionId = utils.getTimeBasedId();
 
-    // setup a timeout to notify clients if data is not streaming
-    clearTimeout(time00001Timeout);
-    time00001Timeout = setTimeout(function () { statusUpdate(false); }, 10000);
+    feedStatus.expectTimeWithin(10000);
   },
 
   onItemUpdate: function (update) {
@@ -150,34 +106,18 @@ telemetrySub.addListener({
       fTimeStamp = feedTimeToUnix(fTimeStamp, new Date());
     }
 
-    // handle TIME_000001
+    // 296 is TIME_000001, whose value is its own timestamp.
     if (idx === 296) {
-      // in this case utilize the timestamp for the value
       fValue = fTimeStamp;
-
-      // data is streaming, notify clients
-      statusUpdate(true);
-      // setup a timeout to notify clients if stops streaming
-      clearTimeout(time00001Timeout);
-      time00001Timeout = setTimeout(function () { statusUpdate(false); }, 10000);
     }
 
-    var data = {
+    source.emit('data', {
       k: idx,
       v: fValue,
       cv: update.getValue('CalibratedData'),
       t: fTimeStamp,
       s: iStatus,
       sid: telemetrySessionId
-    };
-
-    rssCache.put(update.getItemName(), data);
-
-    source.emit('data', data);
-
-    // if(update.getItemName() === 'USLAB000024') {
-    //   console.log(update.getItemName());
-    //   SCHEMA.forEach(function(key) { console.log(key + ': ' + update.getValue(key)); });
-    // }
+    });
   }
 });

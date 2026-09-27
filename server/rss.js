@@ -1,5 +1,4 @@
 var RSS = require("rss");
-var db = require("./db");
 var rssCache = require("./rss-cache");
 
 function getCacheValue(cache, key) {
@@ -14,7 +13,7 @@ function getCacheValue(cache, key) {
 }
 
 var VALUES = {
-  "297": {
+  "STATUS": {
     0: "Disconnected",
     1: "Connected"
   },
@@ -53,8 +52,7 @@ exports.getRss = function getRss() {
   });
 
   var cache = rssCache.get();
-  // console.log("CACHE", cache);
-  var TWONINESEVEN =  getCacheValue(cache, "297");
+  var STATUS =  getCacheValue(cache, "STATUS");
   var NODE3000006 =  getCacheValue(cache, "NODE3000006");
   var NODE3000007 =  getCacheValue(cache, "NODE3000007");
   var NODE3000008 =  getCacheValue(cache, "NODE3000008");
@@ -84,7 +82,7 @@ exports.getRss = function getRss() {
 
   var voltageAll = (S4000001 + S6000004 + P4000001 + P6000004 + S4000004 + S6000001 + P4000004 + P6000001);
 
-  var description = "\nSTATUS: " + VALUES["297"][TWONINESEVEN] + "\n";
+  var description = "\nSTATUS: " + VALUES["STATUS"][STATUS] + "\n";
   description += "Water Processor State: " + NODE3000006 + "\n";
   description += "Water Processor Step: " + NODE3000007 + "\n";
   description += "Waste Water %: " + NODE3000008 + "\n";
@@ -104,19 +102,3 @@ exports.getRss = function getRss() {
 
   return feed.xml();
 };
-
-// S4000002,S6000005,P4000002,P6000005,S4000005,S6000002,P4000005,P6000002 - current all
-// S4000001,S6000004,P4000001,P6000004,S4000004,S6000001,P4000004,P6000001 - volt all
-//
-// b) status telemtry (connected / offline)
-// c) delay temetry (hh:mm:ss)
-// e) mean air pressure inside ISS
-// i) Photovoltaic  in Ampere
-// j) Photovoltaic  in Volt
-// k) mean temperature (°C) inside ISS
-//
-//
-// a) mission day (in days)
-// d) mean temperature (°C) outside ISS
-// l) speed (over groud / km/h)
-// m) height over ground (km)
