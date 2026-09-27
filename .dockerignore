@@ -1,0 +1,6 @@
+*
+!package.json
+!package-lock.json
+!.npmrc
+!server/
+!public/
