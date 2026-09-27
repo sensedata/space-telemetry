@@ -214,4 +214,131 @@ describe('buffer', () => {
       expect(buffer.mean(20)).to.equal(0);
     });
   });
+
+  describe('snapshot and restore', () => {
+    afterEach(() => {
+      mock.restoreAll();
+    });
+
+    function throughJson(snapshot) {
+      return JSON.parse(JSON.stringify(snapshot));
+    }
+
+    it('restores every record of a channel in the order it was added', () => {
+      const buffer = createBuffer();
+      buffer.add(record(20, NOW - 10, 1, 24));
+      buffer.add(record(20, NOW - 10, 2, 24));
+      buffer.add(record(20, NOW - 20, 3, 24));
+      buffer.add(record(20, NOW - 10, 4, 24));
+      const restored = createBuffer();
+
+      const log = mock.method(console, 'log', () => {});
+      restored.restore(throughJson(buffer.snapshot()));
+      log.mock.restore();
+
+      expect(restored.query(20, 450, 150).map(r => r.v)).to.deep.equal([3, 1, 2, 4]);
+    });
+
+    it('restores each record with every field it was added with', () => {
+      const buffer = createBuffer();
+      buffer.add({k: '297', v: 1, t: NOW - 5, s: 24, sid: NOW - 5});
+      buffer.add({k: 237, v: 23.26, cv: '23.26', t: NOW - 7, s: 17, sid: 1789211888321});
+      const restored = createBuffer();
+
+      const log = mock.method(console, 'log', () => {});
+      restored.restore(throughJson(buffer.snapshot()));
+      log.mock.restore();
+
+      expect([restored.query(297, 0, -1), restored.query(237, 0, -1)]).to.deep.equal([
+        [{k: '297', v: 1, t: NOW - 5, s: 24, sid: NOW - 5}],
+        [{k: 237, v: 23.26, cv: '23.26', t: NOW - 7, s: 17, sid: 1789211888321}]
+      ]);
+    });
+
+    it('keeps holding its records when a snapshot it returned is changed', () => {
+      const buffer = createBuffer();
+      buffer.add(record(20, NOW - 10, 1, 24));
+
+      buffer.snapshot()[20].push(record(20, NOW - 5, 2, 24));
+
+      expect(times(buffer.query(20, 450, 150))).to.deep.equal([NOW - 10]);
+    });
+
+    it('replaces the records the buffer held', () => {
+      const buffer = createBuffer();
+      buffer.add(record(21, NOW - 10, 1, 24));
+
+      const log = mock.method(console, 'log', () => {});
+      buffer.restore({20: [record(20, NOW - 5, 2, 24)]});
+      log.mock.restore();
+
+      expect(buffer.query(21, 450, 150)).to.deep.equal([]);
+    });
+
+    it('keeps the last 150 records of a channel restored with more', () => {
+      const records = [];
+      for (let t = NOW - 200; t < NOW; t++) {
+        records.push(record(20, t, t, 24));
+      }
+      const buffer = createBuffer();
+
+      const log = mock.method(console, 'log', () => {});
+      buffer.restore({20: records});
+      log.mock.restore();
+
+      const kept = buffer.query(20, 450, 1000);
+      expect([kept.length, kept[0].t, kept[149].t]).to.deep.equal([150, NOW - 150, NOW - 1]);
+    });
+
+    it('holds nothing after restoring an empty snapshot', () => {
+      const buffer = createBuffer();
+      buffer.add(record(20, NOW - 10, 1, 24));
+
+      const log = mock.method(console, 'log', () => {});
+      buffer.restore({});
+      log.mock.restore();
+
+      expect(buffer.query(20, 450, 150)).to.deep.equal([]);
+    });
+
+    it('logs one line on restore', () => {
+      const buffer = createBuffer();
+
+      const log = mock.method(console, 'log', () => {});
+      buffer.restore({20: [record(20, NOW - 10, 1, 24)]});
+      log.mock.restore();
+
+      expect(log.mock.callCount()).to.equal(1);
+    });
+
+    [
+      ['null', null],
+      ['a number', 5],
+      ['an array', [[record(20, NOW - 5, 2, 24)]]],
+      ['a string', '{"20": []}'],
+      ['a channel that is not an array', {20: {t: NOW - 5}}],
+      ['a record that is not an object', {20: [5]}],
+      ['a record that is null', {20: [null]}],
+      ['a record with no time', {20: [{k: 20, v: 2, s: 24}]}],
+      ['a record with no time after a good one', {20: [record(20, NOW - 5, 2, 24), {k: 20, v: 3, s: 24}]}],
+      ['a record with a text time', {20: [{k: 20, v: 2, t: String(NOW - 5), s: 24}]}],
+      ['a record with no status class', {20: [{k: 20, v: 2, t: NOW - 5}]}],
+      ['a channel name that is not a number', {USLAB000059: [record(237, NOW - 5, 2, 24)]}],
+      ['a channel number with a leading zero', {'020': [record(20, NOW - 5, 2, 24)]}],
+      ['a channel number beyond 297', {298: [record(298, NOW - 5, 2, 24)]}],
+      ['a negative channel number', {'-1': [record(-1, NOW - 5, 2, 24)]}]
+    ].forEach(([shape, snapshot]) => {
+      it(`keeps what it held and reports one error when the snapshot is ${shape}`, () => {
+        const buffer = createBuffer();
+        buffer.add(record(20, NOW - 10, 1, 24));
+
+        const error = mock.method(console, 'error', () => {});
+        buffer.restore(snapshot);
+        error.mock.restore();
+
+        expect([buffer.query(20, 450, 150).map(r => r.v), error.mock.callCount()])
+          .to.deep.equal([[1], 1]);
+      });
+    });
+  });
 });

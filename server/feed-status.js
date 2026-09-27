@@ -42,3 +42,4 @@ source.on('data', record => {
 });
 
 exports.expectTimeWithin = expectTimeWithin;
+exports.reportDisconnected = () => report(false);

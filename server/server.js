@@ -6,7 +6,7 @@ const socketIo = require('socket.io');
 
 const createBuffer = require('./buffer');
 const dd = require('./data_dictionary');
-
+const persist = require('./persist');
 const rss = require('./rss');
 const rssCache = require('./rss-cache');
 const source = require('./source');
@@ -21,6 +21,9 @@ const server = exports.server = http.createServer(app);
 const io = exports.io = socketIo(server);
 
 const buffer = createBuffer();
+if (process.env.DATA_DIR) {
+  persist.keep(buffer, process.env.DATA_DIR, Number(process.env.SNAPSHOT_SECONDS || 30));
+}
 
 // The client reads only vm, as the marker of a bullet chart; the other statistics are
 // sent as zero.
@@ -37,12 +40,12 @@ app.get('/rss.xml', (req, res) => {
 app.use(express.static(__dirname + '/../public', {maxAge: '5m'}));
 
 server.listen(port, host, () => {
-  console.log('server starting on host: ' + host + ', port: ' + port);
+  console.log('server starting on host: ' + host + ', port: ' + server.address().port);
 });
 
 // Require feed-status before source.on(): it listens to source, and on TIME_000001 it
 // emits STATUS first, so clients get STATUS before the time record.
-require('./feed-status');
+const feedStatus = require('./feed-status');
 source.on('data', record => {
   buffer.add(record);
   rssCache.put(dd.list[record.k], record);
@@ -59,9 +62,13 @@ io.on('connection', socket => {
   socket.emit(STATUS, toClient(String(STATUS), buffer.query(STATUS, 0, -1)));
 });
 
+// Until TIME_000001 arrives the feed is not known to be up; this record also gives a client
+// STATUS on connection.
+feedStatus.reportDisconnected();
+
 const sourceName = process.env.SOURCE || 'lightstreamer';
 if (sourceName === 'lightstreamer') {
   require('./lightstreamer');
-} else {
-  throw new RangeError('SOURCE must be lightstreamer: ' + sourceName);
+} else if (sourceName !== 'none') {
+  throw new RangeError('SOURCE must be lightstreamer or none: ' + sourceName);
 }
