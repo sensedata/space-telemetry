@@ -1,15 +1,9 @@
 
-var _ = require('highland');
-
-var EventEmitter = require('events').EventEmitter;
-
 var utils = require('./utils');
 
-var emitter = new EventEmitter();
+var feedTimeToUnix = require('./feed-time-to-unix');
 
-exports.dataStream = _('data', emitter);
-
-// exports.statusStream = _('status', emitter);
+var source = require('./source');
 
 var ls = require('lightstreamer-client');
 
@@ -54,7 +48,7 @@ function statusUpdate(connected) {
 
     rssCache.put(data.k, data);
 
-    emitter.emit('data', data);
+    source.emit('data', data);
 
   } else if (lastStatus && lastStatus.s !== data.s) {
 
@@ -62,7 +56,7 @@ function statusUpdate(connected) {
 
     rssCache.put(data.k, data);
 
-    emitter.emit('data', data);
+    source.emit('data', data);
   }
 
   lastStatus = data;
@@ -71,6 +65,8 @@ function statusUpdate(connected) {
 lsClient.addListener({
 
   onStatusChange: function (status) {
+
+    console.log('lightstreamer status:', status);
 
     // setup a timeout to notify clients if data is not streaming
     clearTimeout(time00001Timeout);
@@ -151,14 +147,7 @@ telemetrySub.addListener({
     }
 
     if (fTimeStamp) {
-      var now = new Date();
-      var year = new Date(Date.UTC(now.getUTCFullYear(), 0)); // This year, jan 1, 00:00:00, utc
-      // THE TELEMETRY TIME SEEMS TO ADD 24 HOURS TO NUMBER
-      // OF HOURS IN THE YEAR SO FAR.  STRANGE.  TODO
-      // so we subtract 24 from fTimeStamp, convert to seconds
-      // add to number of seconds as of THIS_YEAR-01-01T00:00:00 UTC
-      // truncate the decimal places for a result in seconds, aka unixtime
-      fTimeStamp = (((fTimeStamp - 24) * 3600) + (year.getTime() / 1000)) | 0;
+      fTimeStamp = feedTimeToUnix(fTimeStamp, new Date());
     }
 
     // handle TIME_000001
@@ -184,7 +173,7 @@ telemetrySub.addListener({
 
     rssCache.put(update.getItemName(), data);
 
-    emitter.emit('data', data);
+    source.emit('data', data);
 
     // if(update.getItemName() === 'USLAB000024') {
     //   console.log(update.getItemName());
