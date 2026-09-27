@@ -26,4 +26,5 @@ node_modules
 
 # SSL keys
 .ssl
-index.js
+
+# index.js - temporary while the repo is unable to rebuild
