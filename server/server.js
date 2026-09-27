@@ -69,6 +69,8 @@ feedStatus.reportDisconnected();
 const sourceName = process.env.SOURCE || 'lightstreamer';
 if (sourceName === 'lightstreamer') {
   require('./lightstreamer');
+} else if (sourceName === 'replay') {
+  require('./replay').start(process.argv.slice(2));
 } else if (sourceName !== 'none') {
-  throw new RangeError('SOURCE must be lightstreamer or none: ' + sourceName);
+  throw new RangeError('SOURCE must be lightstreamer, replay or none: ' + sourceName);
 }
