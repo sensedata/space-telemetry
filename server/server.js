@@ -22,7 +22,8 @@ const io = exports.io = socketIo(server);
 
 const buffer = createBuffer();
 if (process.env.DATA_DIR) {
-  persist.keep(buffer, process.env.DATA_DIR, Number(process.env.SNAPSHOT_SECONDS || 30));
+  persist.keep(buffer, process.env.DATA_DIR, Number(process.env.SNAPSHOT_SECONDS || 30),
+    process.env.SEED_FILE);
 }
 
 // The client reads only vm, as the marker of a bullet chart; the other statistics are

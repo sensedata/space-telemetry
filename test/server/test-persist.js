@@ -133,6 +133,11 @@ describe('persist', () => {
       signalListeners = ['SIGINT', 'SIGTERM'].map(signal => [signal, process.listeners(signal)]);
     });
 
+    // An existing snapshot keeps keep() from restoring the committed seed.
+    function withEmptySnapshot() {
+      fs.writeFileSync(path.join(dir, 'buffer.json'), '{}');
+    }
+
     afterEach(() => {
       signalListeners.forEach(([signal, before]) => process.listeners(signal)
         .filter(listener => !before.includes(listener))
@@ -150,7 +155,18 @@ describe('persist', () => {
       });
     });
 
+    it('restores the committed seed of 297 channels into a data directory with no snapshot', () => {
+      const buffer = createBuffer();
+
+      const log = mock.method(console, 'log', () => {});
+      persist.keep(buffer, dir, 1);
+      log.mock.restore();
+
+      expect(Object.keys(buffer.snapshot())).to.have.lengthOf(297);
+    });
+
     it('starts no periodic save while the last is still writing', () => {
+      withEmptySnapshot();
       const writes = mock.method(fs.promises, 'writeFile', () => new Promise(() => {}));
       const log = mock.method(console, 'log', () => {});
       persist.keep(createBuffer(), dir, 1);
@@ -163,6 +179,7 @@ describe('persist', () => {
     });
 
     it('logs a failed periodic save', async () => {
+      withEmptySnapshot();
       const failure = new Error('EIO: i/o error, write');
       mock.method(fs.promises, 'writeFile', async () => {
         throw failure;
@@ -180,6 +197,7 @@ describe('persist', () => {
     });
 
     it('saves again a period after a failed save', async () => {
+      withEmptySnapshot();
       const writes = mock.method(fs.promises, 'writeFile', async () => {
         throw new Error('EIO: i/o error, write');
       });

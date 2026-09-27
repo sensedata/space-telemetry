@@ -1,0 +1,541 @@
+{
+  "source": "telemetry table of the iss_telemetry PostgreSQL copy; ts is UTC wall time, value is PostgreSQL's text output of the double precision column so NaN and Infinity survive JSON",
+  "capturedAt": "2026-09-27T14:53:28.990278Z",
+  "groups": [
+    {
+      "purpose": "channel 20 (AIRLOCK000021) fed by test-contract.js; absent from session 1789211888321, so the 3 newest rows at or before the session's last row",
+      "rows": [
+        {
+          "item": "AIRLOCK000021",
+          "idx": 20,
+          "value": "1",
+          "value_calibrated": "NO DATA",
+          "ts": "2026-08-24T16:27:08.000000Z",
+          "status": 9,
+          "session_id": 1787699167842
+        },
+        {
+          "item": "AIRLOCK000021",
+          "idx": 20,
+          "value": "1",
+          "value_calibrated": "NO DATA",
+          "ts": "2026-09-08T15:54:48.000000Z",
+          "status": 24,
+          "session_id": 1788882872605
+        },
+        {
+          "item": "AIRLOCK000021",
+          "idx": 20,
+          "value": "1",
+          "value_calibrated": "NO DATA",
+          "ts": "2026-09-08T15:54:48.000000Z",
+          "status": 9,
+          "session_id": 1789047653483
+        }
+      ]
+    },
+    {
+      "purpose": "channel 21 (AIRLOCK000022) fed by test-contract.js; absent from session 1789211888321, so the 3 newest rows at or before the session's last row",
+      "rows": [
+        {
+          "item": "AIRLOCK000022",
+          "idx": 21,
+          "value": "1",
+          "value_calibrated": "NO DATA",
+          "ts": "2026-08-24T16:27:00.000000Z",
+          "status": 9,
+          "session_id": 1787699167842
+        },
+        {
+          "item": "AIRLOCK000022",
+          "idx": 21,
+          "value": "1",
+          "value_calibrated": "NO DATA",
+          "ts": "2026-09-08T15:54:40.000000Z",
+          "status": 24,
+          "session_id": 1788882872605
+        },
+        {
+          "item": "AIRLOCK000022",
+          "idx": 21,
+          "value": "1",
+          "value_calibrated": "NO DATA",
+          "ts": "2026-09-08T15:54:40.000000Z",
+          "status": 9,
+          "session_id": 1788930937706
+        }
+      ]
+    },
+    {
+      "purpose": "channel 22 (AIRLOCK000023) fed by test-contract.js; absent from session 1789211888321, so the 3 newest rows at or before the session's last row",
+      "rows": [
+        {
+          "item": "AIRLOCK000023",
+          "idx": 22,
+          "value": "2",
+          "value_calibrated": "TASK COMPLETE",
+          "ts": "2026-09-08T18:50:04.000000Z",
+          "status": 9,
+          "session_id": 1788930937706
+        },
+        {
+          "item": "AIRLOCK000023",
+          "idx": 22,
+          "value": "1",
+          "value_calibrated": "CHARGING",
+          "ts": "2026-09-12T11:11:44.000000Z",
+          "status": 24,
+          "session_id": 1789211494258
+        },
+        {
+          "item": "AIRLOCK000023",
+          "idx": 22,
+          "value": "1",
+          "value_calibrated": "CHARGING",
+          "ts": "2026-09-12T11:11:44.000000Z",
+          "status": 9,
+          "session_id": 1789211494258
+        }
+      ]
+    },
+    {
+      "purpose": "channel 23 (AIRLOCK000024) fed by test-contract.js; absent from session 1789211888321, so the 3 newest rows at or before the session's last row",
+      "rows": [
+        {
+          "item": "AIRLOCK000024",
+          "idx": 23,
+          "value": "0",
+          "value_calibrated": "NO HISTORY",
+          "ts": "2026-08-24T16:27:04.000000Z",
+          "status": 9,
+          "session_id": 1787699167842
+        },
+        {
+          "item": "AIRLOCK000024",
+          "idx": 23,
+          "value": "0",
+          "value_calibrated": "NO HISTORY",
+          "ts": "2026-09-08T15:54:44.000000Z",
+          "status": 24,
+          "session_id": 1788882872605
+        },
+        {
+          "item": "AIRLOCK000024",
+          "idx": 23,
+          "value": "0",
+          "value_calibrated": "NO HISTORY",
+          "ts": "2026-09-08T15:54:44.000000Z",
+          "status": 9,
+          "session_id": 1788930937706
+        }
+      ]
+    },
+    {
+      "purpose": "channel 24 (AIRLOCK000025) fed by test-contract.js; absent from session 1789211888321, so the 3 newest rows at or before the session's last row",
+      "rows": [
+        {
+          "item": "AIRLOCK000025",
+          "idx": 24,
+          "value": "37",
+          "value_calibrated": "37",
+          "ts": "2026-09-09T14:23:24.000000Z",
+          "status": 24,
+          "session_id": 1788963790453
+        },
+        {
+          "item": "AIRLOCK000025",
+          "idx": 24,
+          "value": "0",
+          "value_calibrated": "NO HISTORY",
+          "ts": "2026-09-09T16:10:04.000000Z",
+          "status": 24,
+          "session_id": 1788974774667
+        },
+        {
+          "item": "AIRLOCK000025",
+          "idx": 24,
+          "value": "0",
+          "value_calibrated": "NO HISTORY",
+          "ts": "2026-09-09T16:10:04.000000Z",
+          "status": 9,
+          "session_id": 1789047653483
+        }
+      ]
+    },
+    {
+      "purpose": "channel 30 (AIRLOCK000031) fed by test-contract.js; absent from session 1789211888321, so the 3 newest rows at or before the session's last row",
+      "rows": [
+        {
+          "item": "AIRLOCK000031",
+          "idx": 30,
+          "value": "72",
+          "value_calibrated": "72",
+          "ts": "2026-08-24T16:27:06.000000Z",
+          "status": 9,
+          "session_id": 1787699167842
+        },
+        {
+          "item": "AIRLOCK000031",
+          "idx": 30,
+          "value": "72",
+          "value_calibrated": "72",
+          "ts": "2026-09-08T15:54:46.000000Z",
+          "status": 24,
+          "session_id": 1788882872605
+        },
+        {
+          "item": "AIRLOCK000031",
+          "idx": 30,
+          "value": "72",
+          "value_calibrated": "72",
+          "ts": "2026-09-08T15:54:46.000000Z",
+          "status": 9,
+          "session_id": 1788930937706
+        }
+      ]
+    },
+    {
+      "purpose": "channel 31 (AIRLOCK000032) fed by test-contract.js; absent from session 1789211888321, so the 3 newest rows at or before the session's last row",
+      "rows": [
+        {
+          "item": "AIRLOCK000032",
+          "idx": 31,
+          "value": "72",
+          "value_calibrated": "72",
+          "ts": "2026-08-24T16:27:06.000000Z",
+          "status": 9,
+          "session_id": 1787699167842
+        },
+        {
+          "item": "AIRLOCK000032",
+          "idx": 31,
+          "value": "72",
+          "value_calibrated": "72",
+          "ts": "2026-09-08T15:54:46.000000Z",
+          "status": 24,
+          "session_id": 1788882872605
+        },
+        {
+          "item": "AIRLOCK000032",
+          "idx": 31,
+          "value": "72",
+          "value_calibrated": "72",
+          "ts": "2026-09-08T15:54:46.000000Z",
+          "status": 9,
+          "session_id": 1788930937706
+        }
+      ]
+    },
+    {
+      "purpose": "channel 40 (AIRLOCK000041) fed by test-contract.js; absent from session 1789211888321, so the 3 newest rows at or before the session's last row",
+      "rows": [
+        {
+          "item": "AIRLOCK000041",
+          "idx": 40,
+          "value": "0",
+          "value_calibrated": "NO HISTORY",
+          "ts": "2026-08-24T16:27:00.000000Z",
+          "status": 9,
+          "session_id": 1787699167842
+        },
+        {
+          "item": "AIRLOCK000041",
+          "idx": 40,
+          "value": "0",
+          "value_calibrated": "NO HISTORY",
+          "ts": "2026-09-08T15:54:40.000000Z",
+          "status": 24,
+          "session_id": 1788882872605
+        },
+        {
+          "item": "AIRLOCK000041",
+          "idx": 40,
+          "value": "0",
+          "value_calibrated": "NO HISTORY",
+          "ts": "2026-09-08T15:54:40.000000Z",
+          "status": 9,
+          "session_id": 1788930937706
+        }
+      ]
+    },
+    {
+      "purpose": "channel 237 (USLAB000059): fractional values with a rounded calibrated value",
+      "rows": [
+        {
+          "item": "USLAB000059",
+          "idx": 237,
+          "value": "23.26046371459961",
+          "value_calibrated": "23.3",
+          "ts": "2026-09-12T11:23:09.000000Z",
+          "status": 24,
+          "session_id": 1789211888321
+        },
+        {
+          "item": "USLAB000059",
+          "idx": 237,
+          "value": "23.32332992553711",
+          "value_calibrated": "23.3",
+          "ts": "2026-09-12T11:23:10.000000Z",
+          "status": 24,
+          "session_id": 1789211888321
+        },
+        {
+          "item": "USLAB000059",
+          "idx": 237,
+          "value": "23.26046371459961",
+          "value_calibrated": "23.3",
+          "ts": "2026-09-12T11:23:17.000000Z",
+          "status": 24,
+          "session_id": 1789211888321
+        }
+      ]
+    },
+    {
+      "purpose": "channel 296 (TIME_000001), which test-contract.js feeds to hold STATUS connected; value is the unix second, calibrated value is day-of-year/time",
+      "rows": [
+        {
+          "item": "TIME_000001",
+          "idx": 296,
+          "value": "1789211884",
+          "value_calibrated": "255/11:18:04",
+          "ts": "2026-09-12T11:18:04.000000Z",
+          "status": 24,
+          "session_id": 1789211888321
+        },
+        {
+          "item": "TIME_000001",
+          "idx": 296,
+          "value": "1789211885",
+          "value_calibrated": "255/11:18:04",
+          "ts": "2026-09-12T11:18:05.000000Z",
+          "status": 24,
+          "session_id": 1789211888321
+        },
+        {
+          "item": "TIME_000001",
+          "idx": 296,
+          "value": "1789211886",
+          "value_calibrated": "255/11:18:05",
+          "ts": "2026-09-12T11:18:06.000000Z",
+          "status": 24,
+          "session_id": 1789211888321
+        }
+      ]
+    },
+    {
+      "purpose": "negative fractional values",
+      "rows": [
+        {
+          "item": "USLAB000020",
+          "idx": 198,
+          "value": "-0.09021846950054169",
+          "value_calibrated": "-0.09",
+          "ts": "2026-09-12T11:18:05.000000Z",
+          "status": 24,
+          "session_id": 1789211888321
+        },
+        {
+          "item": "USLAB000020",
+          "idx": 198,
+          "value": "-0.09021296352148056",
+          "value_calibrated": "-0.09",
+          "ts": "2026-09-12T11:18:06.000000Z",
+          "status": 24,
+          "session_id": 1789211888321
+        },
+        {
+          "item": "USLAB000020",
+          "idx": 198,
+          "value": "-0.09021422266960144",
+          "value_calibrated": "-0.09",
+          "ts": "2026-09-12T11:18:07.000000Z",
+          "status": 24,
+          "session_id": 1789211888321
+        }
+      ]
+    },
+    {
+      "purpose": "a status class other than 24: the feed repeats a row of the same value and second with status 9",
+      "rows": [
+        {
+          "item": "NODE3000009",
+          "idx": 75,
+          "value": "87.87000274658203",
+          "value_calibrated": "87.9",
+          "ts": "2026-09-12T11:18:59.000000Z",
+          "status": 24,
+          "session_id": 1789211888321
+        },
+        {
+          "item": "NODE3000009",
+          "idx": 75,
+          "value": "87.87999725341797",
+          "value_calibrated": "87.9",
+          "ts": "2026-09-12T11:19:09.000000Z",
+          "status": 24,
+          "session_id": 1789211888321
+        },
+        {
+          "item": "NODE3000009",
+          "idx": 75,
+          "value": "87.87999725341797",
+          "value_calibrated": "87.9",
+          "ts": "2026-09-12T11:19:09.000000Z",
+          "status": 9,
+          "session_id": 1789211888321
+        }
+      ]
+    },
+    {
+      "purpose": "several rows of one channel in the same second that differ in value",
+      "rows": [
+        {
+          "item": "USLAB000085",
+          "idx": 263,
+          "value": "0",
+          "value_calibrated": "0.6992188",
+          "ts": "2026-09-12T11:18:05.000000Z",
+          "status": 24,
+          "session_id": 1789211888321
+        },
+        {
+          "item": "USLAB000085",
+          "idx": 263,
+          "value": "0.09765625",
+          "value_calibrated": "0.6992188",
+          "ts": "2026-09-12T11:18:05.000000Z",
+          "status": 24,
+          "session_id": 1789211888321
+        },
+        {
+          "item": "USLAB000085",
+          "idx": 263,
+          "value": "0.19921875",
+          "value_calibrated": "0.6992188",
+          "ts": "2026-09-12T11:18:05.000000Z",
+          "status": 24,
+          "session_id": 1789211888321
+        }
+      ]
+    },
+    {
+      "purpose": "calibrated value that is a text label, not a number",
+      "rows": [
+        {
+          "item": "USLAB000043",
+          "idx": 221,
+          "value": "10",
+          "value_calibrated": "Track 3 Sat",
+          "ts": "2026-09-12T11:20:08.000000Z",
+          "status": 24,
+          "session_id": 1789211888321
+        },
+        {
+          "item": "USLAB000043",
+          "idx": 221,
+          "value": "0",
+          "value_calibrated": "Pos Fixes",
+          "ts": "2026-09-12T11:20:11.000000Z",
+          "status": 24,
+          "session_id": 1789211888321
+        },
+        {
+          "item": "USLAB000043",
+          "idx": 221,
+          "value": "10",
+          "value_calibrated": "Track 3 Sat",
+          "ts": "2026-09-12T11:24:01.000000Z",
+          "status": 24,
+          "session_id": 1789211888321
+        },
+        {
+          "item": "USLAB000043",
+          "idx": 221,
+          "value": "5",
+          "value_calibrated": "GDOP Xcd",
+          "ts": "2026-09-12T11:24:02.000000Z",
+          "status": 24,
+          "session_id": 1789211888321
+        }
+      ]
+    },
+    {
+      "purpose": "calibrated value NO/YES for a 0/1 value",
+      "rows": [
+        {
+          "item": "Z1000013",
+          "idx": 293,
+          "value": "0",
+          "value_calibrated": "NO",
+          "ts": "2026-09-12T11:18:04.000000Z",
+          "status": 24,
+          "session_id": 1789211888321
+        },
+        {
+          "item": "Z1000013",
+          "idx": 293,
+          "value": "1",
+          "value_calibrated": "YES",
+          "ts": "2026-09-12T11:19:21.000000Z",
+          "status": 24,
+          "session_id": 1789211888321
+        }
+      ]
+    },
+    {
+      "purpose": "empty calibrated value, the only one among the newest 150 rows of every channel; outside the session, repeated at status 9 and 24",
+      "rows": [
+        {
+          "item": "USLAB000086",
+          "idx": 264,
+          "value": "53",
+          "value_calibrated": "",
+          "ts": "2026-01-13T00:09:51.000000Z",
+          "status": 9,
+          "session_id": 1768781287851
+        },
+        {
+          "item": "USLAB000086",
+          "idx": 264,
+          "value": "53",
+          "value_calibrated": "",
+          "ts": "2026-01-13T00:09:51.000000Z",
+          "status": 24,
+          "session_id": 1768781287851
+        }
+      ]
+    },
+    {
+      "purpose": "calibrated value that is day-of-year/time, value a unix second of another year",
+      "rows": [
+        {
+          "item": "USLAB000084",
+          "idx": 262,
+          "value": "1473247102",
+          "value_calibrated": "255/11:18:22",
+          "ts": "2026-09-12T11:18:04.000000Z",
+          "status": 24,
+          "session_id": 1789211888321
+        },
+        {
+          "item": "USLAB000084",
+          "idx": 262,
+          "value": "1473247103",
+          "value_calibrated": "255/11:18:22",
+          "ts": "2026-09-12T11:18:05.000000Z",
+          "status": 24,
+          "session_id": 1789211888321
+        },
+        {
+          "item": "USLAB000084",
+          "idx": 262,
+          "value": "1473247104",
+          "value_calibrated": "255/11:18:24",
+          "ts": "2026-09-12T11:18:06.000000Z",
+          "status": 24,
+          "session_id": 1789211888321
+        }
+      ]
+    }
+  ]
+}

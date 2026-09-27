@@ -4,22 +4,26 @@ const childProcess = require('child_process');
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
+const zlib = require('zlib');
 const {expect} = require('chai');
 const io = require('socket.io-client');
 
 const serverPath = path.join(__dirname, '..', '..', 'server', 'server.js');
 const feederPath = path.join(__dirname, 'fakes', 'source-feeder.js');
+const seedFixture = path.join(__dirname, 'fixtures', 'seed.json');
 
 const STATUS = 297;
 const TIME_000001 = 296;
 
 const children = [];
 const sockets = [];
+let seedFile;
 
 function startServer(env) {
-  const {SOURCE, DATA_DIR, SNAPSHOT_SECONDS, ...inherited} = process.env;
+  const {SOURCE, DATA_DIR, SNAPSHOT_SECONDS, SEED_FILE, ...inherited} = process.env;
+  // A DATA_DIR without buffer.json is seeded; this seed holds only channel 262.
   const child = childProcess.spawn(process.execPath, ['-r', feederPath, serverPath], {
-    env: {...inherited, PORT: '0', SOURCE: 'none', ...env},
+    env: {...inherited, PORT: '0', SOURCE: 'none', SEED_FILE: seedFile, ...env},
     stdio: ['ignore', 'pipe', 'pipe', 'ipc']
   });
   children.push(child);
@@ -93,6 +97,8 @@ describe('server restart', function () {
 
   beforeEach(() => {
     dataDir = fs.mkdtempSync(path.join(os.tmpdir(), 'server-restart-'));
+    seedFile = path.join(dataDir, 'seed.json.gz');
+    fs.writeFileSync(seedFile, zlib.gzipSync(fs.readFileSync(seedFixture)));
   });
 
   afterEach(() => {
@@ -171,5 +177,31 @@ describe('server restart', function () {
     const {status} = await connect(url);
 
     expect(status.map(record => [record.v, record.s])).to.deep.equal([[0, 2]]);
+  });
+
+  it('serves the seed when its data directory holds no snapshot', async () => {
+    const {url} = await startServer({DATA_DIR: dataDir, SEED_FILE: seedFile});
+
+    const reply = await subscribe(url, 262, 0, 150);
+
+    expect(reply.map(record => [record.v, record.t])).to.deep.equal(
+      [[1473424003, 1789388785], [1473430525, 1789395307]]);
+  });
+
+  it('starts empty rather than seeded when its snapshot is malformed', async () => {
+    fs.writeFileSync(path.join(dataDir, 'buffer.json'), '{"262": [{"k": 262, "v": 1473424003');
+    const {url} = await startServer({DATA_DIR: dataDir, SEED_FILE: seedFile});
+
+    const reply = await subscribe(url, 262, 0, 150);
+
+    expect(reply).to.deep.equal([]);
+  });
+
+  it('starts empty rather than seeded without a data directory', async () => {
+    const {url} = await startServer({SEED_FILE: seedFile});
+
+    const reply = await subscribe(url, 262, 0, 150);
+
+    expect(reply).to.deep.equal([]);
   });
 });

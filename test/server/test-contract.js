@@ -9,13 +9,13 @@ const {mock} = require('node:test');
 const io = require('socket.io-client');
 
 const createFakeLightstreamer = require('./fakes/lightstreamer-client');
+const {groups} = require('./fixtures/contract-rows.json');
 
 const serverDir = path.join(__dirname, '..', '..', 'server');
-const dd = require(path.join(serverDir, 'data_dictionary'));
 
 const STATUS = 297;
-const TIME_000001 = 296;
 
+const captured = Object.fromEntries(groups.map(({rows}) => [rows[0].item, rows]));
 const feed = createFakeLightstreamer();
 let serverUrl;
 let serverIo;
@@ -41,17 +41,19 @@ function feedTimestamp(unixSeconds) {
   return String((unixSeconds - yearStart + 0.5) / 3600 + 24);
 }
 
-function feedTelemetry(channel, unixSeconds, value, statusClass) {
-  feed.update(dd.list[channel], {
+// The subscription window counts back from now, so the row is fed stamped `unixSeconds`
+// rather than its recorded time.
+function feedRow(row, unixSeconds) {
+  feed.update(row.item, {
     TimeStamp: feedTimestamp(unixSeconds),
-    Value: value,
-    'Status.Class': statusClass,
-    CalibratedData: value
+    Value: row.value,
+    'Status.Class': String(row.status),
+    CalibratedData: row.value_calibrated
   });
 }
 
 function feedTime() {
-  feedTelemetry(TIME_000001, nowSeconds(), '0', '24');
+  feedRow(captured.TIME_000001[0], nowSeconds());
 }
 
 function nextMessage(socket, channel) {
@@ -116,9 +118,10 @@ describe('socket.io contract', () => {
   describe('subscription', () => {
     it('replies on the channel number with the records in ascending time order', async () => {
       const now = nowSeconds();
-      feedTelemetry(20, now - 10, '3', '24');
-      feedTelemetry(20, now - 100, '1', '24');
-      feedTelemetry(20, now - 50, '2', '24');
+      const [first, second, third] = captured.AIRLOCK000021;
+      feedRow(third, now - 10);
+      feedRow(first, now - 100);
+      feedRow(second, now - 50);
 
       const reply = await subscribe(20, 450, 150);
 
@@ -127,8 +130,9 @@ describe('socket.io contract', () => {
 
     it('leaves out records older than intervalAgo seconds', async () => {
       const now = nowSeconds();
-      feedTelemetry(21, now - 500, '1', '24');
-      feedTelemetry(21, now - 400, '2', '24');
+      const [older, newer] = captured.AIRLOCK000022;
+      feedRow(older, now - 500);
+      feedRow(newer, now - 400);
 
       const reply = await subscribe(21, 450, 150);
 
@@ -137,9 +141,10 @@ describe('socket.io contract', () => {
 
     it('replies with at most count records, the latest ones', async () => {
       const now = nowSeconds();
-      feedTelemetry(22, now - 30, '1', '24');
-      feedTelemetry(22, now - 20, '2', '24');
-      feedTelemetry(22, now - 10, '3', '24');
+      const [first, second, third] = captured.AIRLOCK000023;
+      feedRow(first, now - 30);
+      feedRow(second, now - 20);
+      feedRow(third, now - 10);
 
       const reply = await subscribe(22, 450, 2);
 
@@ -148,28 +153,30 @@ describe('socket.io contract', () => {
 
     it('replies with the single latest record when the window is empty', async () => {
       const now = nowSeconds();
-      feedTelemetry(23, now - 1000, '1', '24');
-      feedTelemetry(23, now - 900, '2', '24');
+      const [older, newer] = captured.AIRLOCK000024;
+      feedRow(older, now - 1000);
+      feedRow(newer, now - 900);
 
       const reply = await subscribe(23, 450, 150);
 
-      expect(reply.map(record => [record.t, record.v])).to.deep.equal([[now - 900, 2]]);
+      expect(reply.map(record => [record.t, record.v])).to.deep.equal([[now - 900, 0]]);
     });
 
     it('replies with the single latest record when count is -1', async () => {
       const now = nowSeconds();
-      feedTelemetry(24, now - 20, '1', '24');
-      feedTelemetry(24, now - 10, '2', '24');
+      const [older, newer] = captured.AIRLOCK000025;
+      feedRow(older, now - 20);
+      feedRow(newer, now - 10);
 
       const reply = await subscribe(24, null, -1);
 
-      expect(reply.map(record => [record.t, record.v])).to.deep.equal([[now - 10, 2]]);
+      expect(reply.map(record => [record.t, record.v])).to.deep.equal([[now - 10, 0]]);
     });
   });
 
   describe('record shape', () => {
     it('sends backfill records with exactly the fields k, v, t, s, lm, ld, vc, vm, vd', async () => {
-      feedTelemetry(30, nowSeconds() - 10, '1.5', '24');
+      feedRow(captured.AIRLOCK000031[1], nowSeconds() - 10);
 
       const [record] = await subscribe(30, 450, 150);
 
@@ -181,7 +188,7 @@ describe('socket.io contract', () => {
       const {socket} = await connect();
       const message = nextMessage(socket, 31);
 
-      feedTelemetry(31, nowSeconds(), '1.5', '24');
+      feedRow(captured.AIRLOCK000032[1], nowSeconds());
       const [record] = await message;
 
       expect(Object.keys(record).sort()).to.deep.equal(
@@ -190,44 +197,50 @@ describe('socket.io contract', () => {
 
     it('carries the channel number, value, unix time and status class of the feed update', async () => {
       const now = nowSeconds();
-      feedTelemetry(32, now - 10, '-12.25', '17');
+      const [, , resend] = captured.NODE3000009;
+      feedRow(resend, now - 10);
 
-      const [record] = await subscribe(32, 450, 150);
+      const [record] = await subscribe(75, 450, 150);
 
-      expect([record.k, record.v, record.t, record.s]).to.deep.equal([32, -12.25, now - 10, 17]);
+      expect([record.k, record.v, record.t, record.s]).to.deep.equal(
+        [75, 87.87999725341797, now - 10, 9]);
     });
 
     it('sends backfill records with vm, the mean of the values the channel holds', async () => {
       const now = nowSeconds();
-      feedTelemetry(33, now - 30, '1', '24');
-      feedTelemetry(33, now - 20, '2', '24');
-      feedTelemetry(33, now - 10, '6', '24');
+      const [first, second, third] = captured.USLAB000084;
+      feedRow(first, now - 30);
+      feedRow(second, now - 20);
+      feedRow(third, now - 10);
 
-      const reply = await subscribe(33, 450, 150);
+      const reply = await subscribe(262, 450, 150);
 
-      expect(reply.map(record => record.vm)).to.deep.equal([3, 3, 3]);
+      expect(reply.map(record => record.vm)).to.deep.equal([1473247103, 1473247103, 1473247103]);
     });
 
     it('sends live records with vm, the mean of the values the channel holds', async () => {
-      feedTelemetry(34, nowSeconds() - 10, '2', '24');
+      const [held, live] = captured.Z1000013;
+      feedRow(held, nowSeconds() - 10);
       const {socket} = await connect();
-      const message = nextMessage(socket, 34);
+      const message = nextMessage(socket, 293);
 
-      feedTelemetry(34, nowSeconds(), '4', '24');
+      feedRow(live, nowSeconds());
       const [record] = await message;
 
-      expect(record.vm).to.equal(3);
+      expect(record.vm).to.equal(0.5);
     });
 
     it('sends vm as the mean of the numeric values when the feed sends an empty Value', async () => {
       const now = nowSeconds();
-      feedTelemetry(35, now - 30, '2', '24');
-      feedTelemetry(35, now - 20, '', '24');
-      feedTelemetry(35, now - 10, '4', '24');
+      const [first, second, , fourth] = captured.USLAB000043;
+      feedRow(first, now - 30);
+      // Estimated: no captured row has an empty Value.
+      feedRow({...second, value: ''}, now - 20);
+      feedRow(fourth, now - 10);
 
-      const reply = await subscribe(35, 450, 150);
+      const reply = await subscribe(221, 450, 150);
 
-      expect(reply.map(record => record.vm)).to.deep.equal([3, 3, 3]);
+      expect(reply.map(record => record.vm)).to.deep.equal([7.5, 7.5, 7.5]);
     });
   });
 
@@ -322,10 +335,10 @@ describe('socket.io contract', () => {
         nextMessage(second.socket, 40)
       ]);
 
-      feedTelemetry(40, now, '7.5', '24');
+      feedRow(captured.AIRLOCK000041[1], now);
 
       const received = (await messages).map(([record]) => [record.k, record.v, record.t, record.s]);
-      expect(received).to.deep.equal([[40, 7.5, now, 24], [40, 7.5, now, 24]]);
+      expect(received).to.deep.equal([[40, 0, now, 24], [40, 0, now, 24]]);
     });
   });
 });
