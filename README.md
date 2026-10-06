@@ -8,20 +8,14 @@ We'd love to know your [ideas](https://github.com/sensedata/space-telemetry/disc
 
 ## Quick Start
 
-Install [Node 26.10](https://nodejs.org) and [pnpm 12.6](https://pnpm.io), or run
-`mise install` to get both. Then install this project's dependencies:
+Install [mise](https://mise.jdx.dev/installing-mise.html). Then:
 
 ```sh
-pnpm install --frozen-lockfile --ignore-scripts
-```
-
-And run the server:
-
-```sh
+mise install
 pnpm start
 ```
 
-The startup will print a URL you can open in your browser.
+The server prints a URL to open in your browser.
 
 ## Developing
 

@@ -1,28 +1,19 @@
-# Project default for safety. These settings are standing guards with no reason
-# to change; a bare `pnpm install` gets the same posture as `mise run install`.
-ignoreScripts: true
+# pnpm already pins itself through packageManager and mise; the daily notice to
+# upgrade it is noise.
 updateNotifier: false
 
-# No package runs a build script until it is named here. Empty is a policy, not
-# an absence: an addition is a supply-chain change and gets reviewed as one.
-allowBuilds: {}
-
-# With this false, an unlisted build script is skipped silently and an empty
-# allow-list is indistinguishable from no policy at all.
-strictDepBuilds: true
+# pnpm fails the install on any dependency build script not named here. An
+# addition is a supply-chain change and gets reviewed as one. unrs-resolver's
+# postinstall only fetches a native binding its optional dependencies provide.
+allowBuilds:
+  unrs-resolver: false
 
 # A compromised release is usually yanked within a day of publication. Waiting
 # 1440 minutes before installing any new version steps around that window. This
-# is the pnpm 11 default, stated here so a default change does not move it.
+# is the pnpm default, stated here so a default change does not move it. Stating
+# it also makes it strict: the install fails when no version in range is old
+# enough, rather than quietly taking the youngest one that is.
 minimumReleaseAge: 1440
-
-# Fail the install when no version in range is old enough, rather than quietly
-# taking the youngest one that is.
-minimumReleaseAgeStrict: true
-
-# Refuse to run a script against a node_modules that disagrees with the lockfile
-# rather than silently installing over the top of it.
-verifyDepsBeforeRun: error
 
 # xmlhttprequest arrives from a git commit through lightstreamer-client-node; with this
 # true, pnpm refuses that transitive git dependency.

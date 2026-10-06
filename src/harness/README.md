@@ -17,7 +17,7 @@ bundle that `pnpm build` writes to `dist/`. With no `SOURCE` the server takes th
 Lightstreamer feed:
 
 ```sh
-pnpm install --frozen-lockfile --ignore-scripts
+pnpm install
 pnpm build
 PORT=5055 node src/server/server.ts
 ```

@@ -2,12 +2,14 @@
 gitleaks = "8.30.1"
 grype = "0.119.0"
 jaq = "3.1.1"
-node = "26.10.0"
-pnpm = "12.8.1"
 rumdl = "0.2.78"
 syft = "1.52.0"
 trivy = "0.74.0"
 typos = "1.50.3"
+
+[settings]
+# Install node and pnpm per package.json's devEngines.runtime and packageManager.
+idiomatic_version_file_enable_tools = ["node", "pnpm"]
 
 
 [tasks.quick]
