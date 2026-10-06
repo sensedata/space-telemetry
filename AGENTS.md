@@ -10,4 +10,4 @@
 
 * When traversing, favor tools that are aware of gitignore, e.g., ripgrep.
 * Run `mise run report:screenshots` to generate current renders in
-  `reports/screenshots/<ISO8601>/<width>-<engine>.png`
+  `reports/screenshots/<ISO8601>/<width>-<engine>-<scheme>.png`

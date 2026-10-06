@@ -180,7 +180,7 @@ run = [
 ]
 
 [tasks."report:screenshots"]
-description = "Playwright screenshots of the seed at four widths, into reports/screenshots."
+description = "Playwright screenshots of the seed at four widths in light and dark, into reports/screenshots."
 run = [
   "pnpm exec playwright install chromium firefox webkit",
   "pnpm exec vite build --outDir ../../reports/screenshots-dist",

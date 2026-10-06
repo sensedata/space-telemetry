@@ -8,6 +8,8 @@ const port = 5057;
 // One width inside each of page.css's breakpoints: below 768, then 768, 992 and 1200 up.
 const widths = [390, 800, 1024, 1280];
 
+const colorSchemes = ["light", "dark"] as const;
+
 export default defineConfig({
   testDir: "tests/screenshots",
   // `mise run report:screenshots` passes --output reports/screenshots/<timestamp>.
@@ -16,10 +18,12 @@ export default defineConfig({
   use: {baseURL: `http://localhost:${port}`, locale: "en-US", timezoneId: "UTC"},
   // dashboard.spec.ts names each shot for its project.
   projects: browsers.flatMap((browser) =>
-    widths.map((width) => ({
-      name: `${width}-${browser.name}`,
-      use: {...browser.use, viewport: {width, height: 900}},
-    })),
+    widths.flatMap((width) =>
+      colorSchemes.map((colorScheme) => ({
+        name: `${width}-${browser.name}-${colorScheme}`,
+        use: {...browser.use, viewport: {width, height: 900}, colorScheme},
+      })),
+    ),
   ),
   webServer: {
     command: "node --import ./tests/screenshots/frozen-now.ts src/server/server.ts",

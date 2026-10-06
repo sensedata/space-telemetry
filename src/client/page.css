@@ -10,20 +10,52 @@ html {
   -webkit-tap-highlight-color: transparent;
 }
 
+:root {
+  color-scheme: light dark;
+
+  --page: light-dark(#fff, #1b1d1f);
+  --surface: light-dark(#eee, #26292c);
+  --surface-footer: light-dark(#f5f5f5, #222528);
+
+  --text: light-dark(#333, #d0d0d0);
+  --text-on: light-dark(black, #fff);
+  --text-off: light-dark(#999, #808080);
+  --link: light-dark(#337ab7, #6ea8e0);
+  --link-hover: light-dark(#23527c, #9cc4ea);
+  --alarm-off: light-dark(#ccc, #4a4e52);
+  --alarm-time: light-dark(darkred, #ff6b6b);
+
+  --rule-faint: light-dark(#f0f0f0, #2c2f32);
+  --rule: light-dark(#ddd, #3a3d40);
+  --rule-strong: light-dark(#bbb, #55595d);
+  --rule-divider: light-dark(#aaa, #6a6e72);
+  --rule-header: light-dark(#666, #8a8a8a);
+
+  /* Bullet chart ranges are by distance from --page */
+  --chart-range-0: light-dark(#eee, #2a2d30);
+  --chart-range-1: light-dark(#ddd, #34373a);
+  --chart-range-2: light-dark(#ccc, #3e4245);
+  --chart-range-3: light-dark(#bbb, #4a4e52);
+  --chart-measure: light-dark(#444, #d0d0d0);
+  --chart-marker: light-dark(#777, #9a9a9a);
+  --chart-bar: light-dark(#aaa, #7a7a7a);
+}
+
 body {
   margin: 0;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   line-height: 1.42857143;
-  color: #333;
+  color: var(--text);
+  background-color: var(--page);
 }
 
 a {
-  color: #337ab7;
+  color: var(--link);
   text-decoration: none;
 
   &:hover,
   &:focus {
-    color: #23527c;
+    color: var(--link-hover);
     text-decoration: underline;
   }
 }
@@ -43,7 +75,7 @@ h4 {
 
 hr {
   border: 0;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--rule-faint);
 }
 
 p {
@@ -189,11 +221,11 @@ th {
 .table > thead > tr > th,
 .table > tbody > tr > th,
 .table > tbody > tr > td {
-  border-top: 1px solid #ddd;
+  border-top: 1px solid var(--rule);
 }
 
 .table > thead > tr > th {
-  border-bottom: 2px solid #ddd;
+  border-bottom: 2px solid var(--rule);
 }
 
 .table > thead:first-child > tr:first-child > th,
@@ -203,7 +235,7 @@ th {
 
 .jumbotron {
   margin-bottom: 30px;
-  background-color: #eee;
+  background-color: var(--surface);
 
   .container {
     max-width: 100%;
@@ -221,11 +253,11 @@ td.microchart {
 
 .bar-chart {
   .bar {
-    fill: #aaa;
+    fill: var(--chart-bar);
   }
 
   .real-point {
-    fill: #333;
+    fill: var(--text);
   }
 }
 
@@ -238,28 +270,28 @@ td.bar-chart {
 
 .bullet-chart {
   .range-0 {
-    fill: #eee;
+    fill: var(--chart-range-0);
   }
 
   .range-1 {
-    fill: #ddd;
+    fill: var(--chart-range-1);
   }
 
   .range-2 {
-    fill: #ccc;
+    fill: var(--chart-range-2);
   }
 
   .range-3 {
-    fill: #bbb;
+    fill: var(--chart-range-3);
   }
 
   .measure {
-    stroke: #444;
+    stroke: var(--chart-measure);
     stroke-width: 4px;
   }
 
   .marker {
-    stroke: #777;
+    stroke: var(--chart-marker);
     stroke-width: 1px;
   }
 }
@@ -272,7 +304,7 @@ td.bullet-chart {
 .sparkline {
   path {
     fill: none;
-    stroke: #333;
+    stroke: var(--text);
     stroke-width: 0.5px;
   }
 
@@ -282,7 +314,7 @@ td.bullet-chart {
   }
 
   .qualitative {
-    fill: #eee;
+    fill: var(--chart-range-0);
   }
 }
 
@@ -350,7 +382,7 @@ th {
 
 .table td,
 .table th {
-  border-color: #f0f0f0 !important;
+  border-color: var(--rule-faint) !important;
 
   /* Greater than zero line heights cause problems with SVG inside cells. */
   line-height: 0 !important;
@@ -371,11 +403,11 @@ hr {
   margin: 15px 0 10px;
 
   &.header-rule {
-    border-color: #666;
+    border-color: var(--rule-header);
   }
 
   &.inner-rule {
-    border-color: #bbb;
+    border-color: var(--rule-strong);
   }
 }
 
@@ -395,7 +427,7 @@ html {
 
 .off .status-symbol.alarm:before,
 .on .off .status-symbol.alarm:before {
-  color: #ccc;
+  color: var(--alarm-off);
   content: "●";
   font-size: 28px;
   top: 4px;
@@ -403,7 +435,7 @@ html {
 
 .status:not(.on),
 .on .status:not(.on) {
-  color: #999;
+  color: var(--text-off);
 }
 
 .status:not(.on) .text-off,
@@ -435,7 +467,7 @@ html {
 }
 
 .time-alarm {
-  color: darkred;
+  color: var(--alarm-time);
 }
 
 td,
@@ -547,11 +579,11 @@ th {
 }
 
 .status {
-  color: #999;
+  color: var(--text-off);
 }
 
 .status.on {
-  color: black;
+  color: var(--text-on);
 }
 
 .status.unknown {
@@ -579,7 +611,7 @@ th {
 }
 
 .footer {
-  background-color: #f5f5f5;
+  background-color: var(--surface-footer);
   font-size: 14px;
   height: auto;
   width: 100%;
@@ -731,7 +763,7 @@ th .readout {
 
   &:after {
     font-weight: normal;
-    color: #999;
+    color: var(--text-off);
   }
 
   &.amps:after {
@@ -861,7 +893,7 @@ th .readout {
     text-align: center;
 
     dt {
-      border-bottom: 1px solid #f0f0f0;
+      border-bottom: 1px solid var(--rule-faint);
       margin-bottom: 4px;
       padding-bottom: 5px;
     }
@@ -1055,7 +1087,7 @@ th .readout {
     tr:nth-child(2) {
       th,
       td {
-        border-top-color: #bbb !important;
+        border-top-color: var(--rule-strong) !important;
       }
     }
   }
@@ -1249,7 +1281,7 @@ th .readout {
     }
 
     .status.off {
-      color: #999;
+      color: var(--text-off);
     }
   }
 }
@@ -1664,7 +1696,7 @@ th .readout {
     }
 
     .radiator-col {
-      border-right: 1px solid #aaa;
+      border-right: 1px solid var(--rule-divider);
       padding-right: 15px;
     }
 
@@ -1718,7 +1750,7 @@ th .readout {
       tr:nth-child(3) {
         td,
         th {
-          border-top: 1px solid #bbb !important;
+          border-top: 1px solid var(--rule-strong) !important;
         }
       }
     }
@@ -1776,7 +1808,7 @@ th .readout {
   }
 
   .col-photovoltaic-attitude {
-    border-right: 1px solid #aaa;
+    border-right: 1px solid var(--rule-divider);
     width: 287px;
   }
 
@@ -1857,7 +1889,7 @@ th .readout {
     tr:nth-child(5) {
       td,
       th {
-        border-top: 1px solid #bbb !important;
+        border-top: 1px solid var(--rule-strong) !important;
       }
     }
   }
@@ -1939,7 +1971,7 @@ th .readout {
     }
 
     .col:first-child {
-      border-right: 1px solid #aaa;
+      border-right: 1px solid var(--rule-divider);
       margin-right: 10px;
       padding-right: 10px;
 
@@ -1968,7 +2000,7 @@ th .readout {
     }
 
     thead th {
-      border-top: 1px #aaa solid;
+      border-top: 1px solid var(--rule-divider);
       padding-top: 20px !important;
       padding-bottom: 10px !important;
     }
@@ -2020,7 +2052,7 @@ th .readout {
     }
 
     .col:first-child {
-      border-right: 1px solid #aaa;
+      border-right: 1px solid var(--rule-divider);
       margin-right: 10px;
       padding-right: 10px;
 
@@ -2040,7 +2072,7 @@ th .readout {
     }
 
     thead th {
-      border-top: 1px #aaa solid;
+      border-top: 1px solid var(--rule-divider);
       padding-top: 20px !important;
       padding-bottom: 10px !important;
     }

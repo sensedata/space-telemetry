@@ -19,6 +19,7 @@
 
 - Show how far each solar array's rotation deviates from its group's mean, with the
   mirroring of its mounting undone.
+- Follow the system's dark mode.
 
 ### Remove
 
