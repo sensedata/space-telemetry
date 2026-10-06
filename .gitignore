@@ -22,14 +22,14 @@ fly.toml
 # shared with a team, so only uncomment them if they are local-only in your
 # project.
 
-# GEMINI.md
-# WARP.md
-# CRUSH.md
-# QWEN.md
+GEMINI.md
+WARP.md
+CRUSH.md
+QWEN.md
 
 # OpenAI Codex
 # AGENTS.md
-# .codex/
+.codex/
 
 # Aider
 .aider.input.history
@@ -42,47 +42,47 @@ fly.toml
 .claude/*.local.json
 .claude/**/*.log
 CLAUDE.local.md
-# .claude/
+.claude/
 
 # Gemini CLI
 gemini-debug.log
 .gemini-clipboard/
-# .gemini/
+.gemini/
 
 # Cursor AI
-# .cursorrules
-# .cursor/
-# .cursor.json
-# .cursor-settings.yaml
+.cursorrules
+.cursor/
+.cursor.json
+.cursor-settings.yaml
 
 # Continue
-# .continue/
-# .continuerc.json
+.continue/
+.continuerc.json
 
 # Cline
-# .cline/
-# .clinerules
-# cline.json
+.cline/
+.clinerules
+cline.json
 
 # Other agent/editor project config
-# .warp/
-# .crush/
-# .codeium/
-# .deepseek/
-# .amazon-codewhisperer/
-# .tabnineignore
-# .tabnine/
+.warp/
+.crush/
+.codeium/
+.deepseek/
+.amazon-codewhisperer/
+.tabnineignore
+.tabnine/
 
 # GitHub Copilot
-# .github/copilot-instructions.md
+.github/copilot-instructions.md
 
 # Windsurf Editor
-# .windsurfrules
-# .windsurf/
+.windsurfrules
+.windsurf/
 
 # Replit AI Development
-# .replit
-# replit.nix
+.replit
+replit.nix
 
 
 ##########################################################################################
