@@ -1,6 +1,13 @@
 *
 !package.json
-!package-lock.json
-!.npmrc
-!server/
-!public/
+!pnpm-lock.yaml
+!pnpm-workspace.yaml
+!vite.config.ts
+!src/client/
+!src/contract/
+!src/server/
+
+# Tests and their support ride beside the source; keep them out of the image.
+**/*.test.ts
+**/*.test.tsx
+**/test-helpers/

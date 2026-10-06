@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "biomejs.biome",
+    "dbaeumer.vscode-eslint",
+    "EditorConfig.EditorConfig",
+    "ms-playwright.playwright",
+    "rvben.rumdl",
+    "vitest.explorer"
+  ],
+  "unwantedRecommendations": ["esbenp.prettier-vscode"]
+}

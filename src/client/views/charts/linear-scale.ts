@@ -1,0 +1,19 @@
+import {scaleLinear} from "d3-scale";
+
+import type {TimedRecord} from "../../timed-record.ts";
+import type {ValueBounds} from "./value-bounds.ts";
+
+export type LinearScale = (value: TimedRecord["v"]) => number;
+
+/**
+ * Maps the domain onto 0 to length, and a value outside the domain past them. No value counts
+ * as 0. A domain of one value maps every value to 0, where d3-scale would map it to the middle
+ * of the length.
+ */
+export function linearScale(domain: ValueBounds, length: number): LinearScale {
+  if (domain.min === domain.max) {
+    return () => 0;
+  }
+  const scale = scaleLinear([domain.min, domain.max], [0, length]).unknown(NaN);
+  return (value) => scale(value ?? 0);
+}

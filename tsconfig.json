@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    // Node runs src/server/server.ts directly, so imports resolve as Node resolves them.
+    "module": "nodenext",
+
+    "moduleDetection": "force",
+
+    "allowImportingTsExtensions": true,
+    "erasableSyntaxOnly": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "verbatimModuleSyntax": true,
+
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact",
+
+    "skipLibCheck": true,
+    "types": ["vite/client", "node"],
+
+    "strict": true,
+    "exactOptionalPropertyTypes": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    // The bulk of the errors when an existing project adopts this file: every
+    // dot access on a record becomes a bracket access.
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
+
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
+  },
+  "include": ["*.config.ts", "eslint.config.ts", "src", "tests"]
+}

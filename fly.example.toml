@@ -1,0 +1,36 @@
+app = "iss-example"
+
+# lhr is London: the nearest Fly region to push.lightstreamer.com in eu-west-1 (Dublin) as
+# of 2026-09-26.
+primary_region = "lhr"
+
+# Seconds between the stop signal (SIGINT) and SIGKILL; the server saves its buffer on
+# SIGINT.
+kill_timeout = 10
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  PORT = "3000"
+  SOURCE = "lightstreamer" # or "none" to serve frozen data only.
+
+[http_service]
+  # "on" would let Fly stop the VM absent client traffic. "off" keeps buffers up to date.
+  auto_stop_machines = "off"
+  auto_start_machines = true
+
+  internal_port = 3000
+
+  # true for compatibility with Cloudflare Full and Strict. false when using Flexible.
+  force_https = true
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"
+
+# Each VM holds its own in-memory and volume buffers; when scaling up, added VMs will lag
+# and present varying data until convergence.
+[mounts]
+  source = "data"
+  destination = "/app/data"

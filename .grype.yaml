@@ -1,0 +1,10 @@
+ignore:
+  # False positive. lightstreamer-client-node depends on the master branch of driverdan's
+  # xmlhttprequest; we pin commit 97966e4, which is that master's head, unchanged since
+  # 2018. The advisory's fix (983cfc2, released as 1.7.0) is in that commit. Grype flags
+  # it only because Syft records the codeload URL as the version, and grype counts a
+  # version it cannot compare as affected. Recheck that the pin contains 983cfc2 each time
+  # the pinned commit changes.
+  - vulnerability: GHSA-h4j5-c7cj-74xg
+    package:
+      name: xmlhttprequest

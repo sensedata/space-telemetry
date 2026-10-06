@@ -1,0 +1,2214 @@
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  line-height: 1.42857143;
+  color: #333;
+}
+
+a {
+  color: #337ab7;
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    color: #23527c;
+    text-decoration: underline;
+  }
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 500;
+  line-height: 1.1;
+  margin-bottom: 10px;
+}
+
+h4 {
+  margin-top: 10px;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #eee;
+}
+
+p {
+  margin: 0 0 10px;
+}
+
+ul {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+dl {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+dd {
+  margin-left: 0;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+th {
+  text-align: left;
+}
+
+.container {
+  display: flow-root;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+/* Clear the floated term, and stop margins collapsing through. */
+.dl-horizontal dd::before,
+.dl-horizontal dd::after {
+  content: " ";
+  display: table;
+}
+
+.dl-horizontal dd::after {
+  clear: both;
+}
+
+.col-sm-2,
+.col-sm-3,
+.col-sm-4,
+.col-sm-5,
+.col-sm-6,
+.col-sm-7,
+.col-sm-8,
+.col-sm-12,
+.col-md-5,
+.col-md-6,
+.col-md-7,
+.col-md-12 {
+  position: relative;
+}
+
+/* Below the first breakpoint columns stack; the row keeps their margins inside it. */
+.row {
+  display: flow-root;
+}
+
+@media (min-width: 768px) {
+  .container {
+    width: 750px;
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    align-items: start;
+  }
+
+  /* A child with no narrower column class for this width spans the row. */
+  .row > * {
+    grid-column: 1 / -1;
+  }
+
+  .col-sm-2 {
+    grid-column: span 2;
+  }
+  .col-sm-3 {
+    grid-column: span 3;
+  }
+  .col-sm-4 {
+    grid-column: span 4;
+  }
+  .col-sm-5 {
+    grid-column: span 5;
+  }
+  .col-sm-6 {
+    grid-column: span 6;
+  }
+  .col-sm-7 {
+    grid-column: span 7;
+  }
+  .col-sm-8 {
+    grid-column: span 8;
+  }
+
+  .dl-horizontal dt {
+    float: left;
+    clear: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    width: 970px;
+  }
+
+  .col-md-5 {
+    grid-column: span 5;
+  }
+  .col-md-6 {
+    grid-column: span 6;
+  }
+  .col-md-7 {
+    grid-column: span 7;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    width: 1170px;
+  }
+}
+
+.table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 20px;
+}
+
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tbody > tr > td {
+  border-top: 1px solid #ddd;
+}
+
+.table > thead > tr > th {
+  border-bottom: 2px solid #ddd;
+}
+
+.table > thead:first-child > tr:first-child > th,
+.table > colgroup + thead > tr:first-child > th {
+  border-top: 0;
+}
+
+.jumbotron {
+  margin-bottom: 30px;
+  background-color: #eee;
+
+  .container {
+    max-width: 100%;
+  }
+}
+
+div.microchart {
+  display: inline-block;
+}
+
+/* A chart drawn for a wider cell stays inside its own until the page redraws it. */
+td.microchart {
+  overflow: hidden;
+}
+
+.bar-chart {
+  .bar {
+    fill: #aaa;
+  }
+
+  .real-point {
+    fill: #333;
+  }
+}
+
+td.bar-chart {
+  padding-left: 18px !important;
+  padding-right: 0 !important;
+  position: relative;
+  top: -4px;
+}
+
+.bullet-chart {
+  .range-0 {
+    fill: #eee;
+  }
+
+  .range-1 {
+    fill: #ddd;
+  }
+
+  .range-2 {
+    fill: #ccc;
+  }
+
+  .range-3 {
+    fill: #bbb;
+  }
+
+  .measure {
+    stroke: #444;
+    stroke-width: 4px;
+  }
+
+  .marker {
+    stroke: #777;
+    stroke-width: 1px;
+  }
+}
+
+td.bullet-chart {
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+}
+
+.sparkline {
+  path {
+    fill: none;
+    stroke: #333;
+    stroke-width: 0.5px;
+  }
+
+  circle {
+    fill: #f00;
+    stroke: none;
+  }
+
+  .qualitative {
+    fill: #eee;
+  }
+}
+
+td.sparkline-chart {
+  padding-left: 18px !important;
+  padding-right: 0 !important;
+}
+
+dd {
+  font-weight: bold;
+}
+
+dt {
+  font-weight: normal;
+}
+
+h1,
+h2,
+h3 {
+  margin-top: 0;
+}
+
+h2 {
+  font-size: 16px;
+}
+
+h3 {
+  font-size: 14px;
+}
+
+h4 {
+  font-size: 12px;
+}
+
+.sub-header {
+  padding-bottom: 6px;
+}
+
+body {
+  font-size: 12px;
+}
+
+@media (min-width: 992px) {
+  h2 {
+    font-size: 20px;
+  }
+
+  h3 {
+    font-size: 16px;
+  }
+
+  h4 {
+    font-size: 14px;
+  }
+
+  body {
+    font-size: 14px;
+  }
+}
+
+th {
+  border-bottom-width: 1px !important;
+  font-weight: normal;
+}
+
+.table td,
+.table th {
+  border-color: #f0f0f0 !important;
+
+  /* Greater than zero line heights cause problems with SVG inside cells. */
+  line-height: 0 !important;
+}
+
+.dl-horizontal dd {
+  margin-left: 120px;
+}
+
+.dl-horizontal dt {
+  text-align: left;
+  margin-top: 0.5px;
+  vertical-align: top;
+  width: 120px;
+}
+
+hr {
+  margin: 15px 0 10px;
+
+  &.header-rule {
+    border-color: #666;
+  }
+
+  &.inner-rule {
+    border-color: #bbb;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+.legal {
+  font-size: 10px;
+}
+
+.status-symbol.alarm:before {
+  line-height: 0;
+  position: relative;
+}
+
+.off .status-symbol.alarm:before,
+.on .off .status-symbol.alarm:before {
+  color: #ccc;
+  content: "●";
+  font-size: 28px;
+  top: 4px;
+}
+
+.status:not(.on),
+.on .status:not(.on) {
+  color: #999;
+}
+
+.status:not(.on) .text-off,
+.on .status:not(.on) .text-off {
+  display: inline;
+}
+
+.status:not(.on) .text-on,
+.on .status:not(.on) .text-on {
+  display: none;
+}
+
+.status.on .text-off,
+.off .status.on .text-off {
+  display: none;
+}
+
+.status.on .text-on,
+.off .status.on .text-on {
+  display: inline;
+}
+
+.on .status-symbol.alarm:before,
+.off .on .status-symbol.alarm:before {
+  color: #ff7f00;
+  font-size: 20px;
+  content: "▲";
+  top: 1px;
+}
+
+.time-alarm {
+  color: darkred;
+}
+
+td,
+th {
+  padding: 4px 8px 4px 8px !important;
+  vertical-align: middle !important;
+}
+
+.alarm-label {
+  display: inline-block;
+  text-align: right;
+  width: 90px;
+}
+
+.alarm-symbol-container {
+  display: inline-block;
+  position: relative;
+  padding-right: 25px;
+  margin-right: 6px;
+}
+
+@font-face {
+  font-family: "iec_unicoderegular";
+  src: url("./fonts/unicode-iec-symbol.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.status-symbol.power {
+  font-family: "iec_unicoderegular", sans-serif;
+  position: relative;
+  top: 0.5px;
+}
+
+.on .status-symbol.power:after,
+.off .on .status-symbol.power:after {
+  content: "⏽";
+}
+
+.off .status-symbol.power:after,
+.on .off .status-symbol.power:after {
+  content: "⭘";
+}
+
+.col-lg-1,
+.col-lg-10,
+.col-lg-11,
+.col-lg-12,
+.col-lg-2,
+.col-lg-3,
+.col-lg-4,
+.col-lg-5,
+.col-lg-6,
+.col-lg-7,
+.col-lg-8,
+.col-lg-9,
+.col-md-1,
+.col-md-10,
+.col-md-11,
+.col-md-12,
+.col-md-2,
+.col-md-3,
+.col-md-4,
+.col-md-5,
+.col-md-6,
+.col-md-7,
+.col-md-8,
+.col-md-9,
+.col-sm-1,
+.col-sm-10,
+.col-sm-11,
+.col-sm-12,
+.col-sm-2,
+.col-sm-3,
+.col-sm-4,
+.col-sm-5,
+.col-sm-6,
+.col-sm-7,
+.col-sm-8,
+.col-sm-9,
+.col-xs-1,
+.col-xs-10,
+.col-xs-11,
+.col-xs-12,
+.col-xs-2,
+.col-xs-3,
+.col-xs-4,
+.col-xs-5,
+.col-xs-6,
+.col-xs-7,
+.col-xs-8,
+.col-xs-9 {
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+td,
+th {
+  height: 29px !important;
+}
+
+.row {
+  margin-right: -5px;
+  margin-left: -5px;
+}
+
+.now-marker {
+  fill: red;
+}
+
+.status {
+  color: #999;
+}
+
+.status.on {
+  color: black;
+}
+
+.status.unknown {
+  color: red;
+}
+
+.digits {
+  display: inline-block;
+}
+
+.digits.four {
+  width: 34px;
+}
+
+.digits.four.rotations-per-minute {
+  width: 68px;
+}
+
+.value:after {
+  font-weight: normal;
+}
+
+.value-column {
+  text-align: right;
+}
+
+.footer {
+  background-color: #f5f5f5;
+  font-size: 14px;
+  height: auto;
+  width: 100%;
+  padding-top: 15px;
+}
+
+.touch {
+  .footer {
+    line-height: 1.75;
+  }
+
+  .legal {
+    font-size: 12px;
+    line-height: 2.2;
+    margin-top: 15px;
+  }
+}
+
+@media (min-width: 768px) {
+  .footer {
+    height: 130px;
+    position: absolute;
+    bottom: 0;
+  }
+
+  .has-footer {
+    margin-bottom: 140px;
+  }
+}
+
+@media (min-width: 992px) {
+  .footer {
+    height: 120px;
+  }
+
+  .has-footer {
+    margin-bottom: 130px;
+  }
+
+  .touch {
+    .footer {
+      height: 175px;
+    }
+
+    .has-footer {
+      margin-bottom: 175px;
+    }
+  }
+}
+
+@media (min-width: 1200px) {
+  .footer {
+    font-size: 16px;
+    height: 120px;
+  }
+
+  .has-footer {
+    margin-bottom: 130px;
+  }
+}
+
+.jumbotron {
+  padding: 30px 0 10px;
+
+  h1 {
+    font-size: 22px;
+    text-align: left;
+  }
+
+  h2 {
+    font-weight: normal;
+
+    .readout {
+      font-family: inherit;
+    }
+  }
+}
+
+.station-metadata {
+  position: relative;
+  left: 0;
+
+  dt {
+    margin-top: 10px;
+  }
+
+  dd {
+    margin-left: 0;
+    text-align: left;
+  }
+}
+
+@media (min-width: 768px) {
+  .station-metadata {
+    left: -70px;
+
+    dt {
+      margin-top: 0.5px;
+      text-align: right;
+      width: 160px;
+    }
+
+    dd {
+      margin-left: 170px;
+      position: relative;
+      top: 0.5px;
+      text-align: left;
+      overflow: visible;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .jumbotron h1 {
+    font-size: 26px;
+  }
+}
+
+@media (min-width: 992px) {
+  .jumbotron h1 {
+    font-size: 32px;
+  }
+
+  .station-metadata {
+    left: -20px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .jumbotron h1 {
+    font-size: 48px;
+  }
+  .station-metadata {
+    left: 0;
+  }
+}
+
+th .readout {
+  font-family: inherit;
+  font-weight: normal;
+}
+
+.readout {
+  font-family: Consolas, "Lucida Console", monospace;
+  font-weight: bold;
+  text-align: right;
+  overflow: hidden;
+  white-space: nowrap;
+
+  &:after {
+    font-weight: normal;
+    color: #999;
+  }
+
+  &.amps:after {
+    content: "\00a0 A";
+  }
+
+  &.celsius:after {
+    content: "\00a0 C";
+  }
+
+  &.degrees:after {
+    content: "\00a0 deg";
+  }
+
+  &.millidegrees-per-second:after {
+    content: "\00a0 mdeg/s";
+  }
+
+  &.newton-meters:after {
+    content: "\00a0 N⋅m";
+  }
+
+  &.milli-g-force:after {
+    content: "\00a0 mG";
+  }
+
+  &.kilopascals:after {
+    content: "\00a0 kPa";
+  }
+
+  &.megapascals:after {
+    content: "\00a0 MPa";
+  }
+
+  &.kilograms-per-second:after {
+    content: "\00a0 kg/s";
+  }
+
+  &.milligrams-per-second:after {
+    content: "\00a0 mg/s";
+  }
+
+  &.millimeters-of-mercury:after {
+    content: "\00a0 mmHg";
+  }
+
+  &.newton-meter-second:after {
+    content: "\00a0 N⋅m⋅s";
+  }
+
+  &.percentage:after {
+    content: "\00a0 %";
+  }
+
+  &.radians:after {
+    content: "\00a0 rad";
+  }
+
+  &.radians-per-second:after {
+    content: "\00a0 rad/s";
+  }
+
+  &.rotations-per-minute:after {
+    content: "\00a0 rpm";
+  }
+
+  &.volts:after {
+    content: "\00a0 V";
+  }
+
+  &.watts:after {
+    content: "\00a0 W";
+  }
+}
+
+@media (min-width: 768px) {
+  .folding.table {
+    margin: 15px auto;
+    table-layout: fixed;
+    width: 100%;
+
+    &:not(.first):not(.third) {
+      .column-header,
+      tbody th:first-child {
+        visibility: collapse;
+        width: 0;
+      }
+    }
+  }
+}
+
+@media (min-width: 992px) {
+  .folding.table.third {
+    .column-header,
+    tbody th:first-child {
+      visibility: collapse;
+      width: 0;
+    }
+  }
+}
+
+@media (min-width: 1200px) {
+  .folding.table {
+    .second {
+      position: relative;
+      left: 2px;
+    }
+
+    .fourth {
+      position: relative;
+      left: -3px;
+    }
+  }
+}
+
+.airlock {
+  margin-bottom: 35px;
+
+  .airlock-header {
+    margin: 0;
+    position: relative;
+    top: 10px;
+  }
+
+  .crew-lock-pump {
+    margin: 5px 0 0 20px;
+    text-align: center;
+
+    dt {
+      border-bottom: 1px solid #f0f0f0;
+      margin-bottom: 4px;
+      padding-bottom: 5px;
+    }
+  }
+
+  .table {
+    margin: 0 auto;
+    table-layout: fixed;
+    width: 100%;
+
+    thead th {
+      text-align: center;
+    }
+  }
+}
+
+@media (max-width: 320px) {
+  .airlock {
+    .airlock-table {
+      .column-header {
+        width: 32%;
+      }
+
+      .column-microchart {
+        width: 33%;
+      }
+
+      .column-readout {
+        width: 35%;
+      }
+    }
+  }
+}
+
+@media (min-width: 321px) and (max-width: 767px) {
+  .airlock {
+    .airlock-table {
+      .column-header {
+        width: 28%;
+      }
+
+      .column-microchart {
+        width: 42%;
+      }
+
+      .column-readout {
+        width: 30%;
+      }
+    }
+
+    .crew-lock-pump {
+      margin-left: 8px;
+      margin-top: 20px;
+
+      dt {
+        border: none;
+        float: left;
+        width: auto;
+
+        &:after {
+          content: ": ";
+        }
+      }
+      dd {
+        position: relative;
+        top: -1px;
+        left: -12px;
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .airlock {
+    .column-header {
+      width: 95px;
+    }
+
+    .column-microchart {
+      width: 85px;
+    }
+
+    .column-readout {
+      width: 115px;
+    }
+
+    .col:not(.col-first) {
+      .column-microchart {
+        width: 55px;
+      }
+
+      .column-readout {
+        width: 65px;
+      }
+    }
+  }
+}
+
+@media (min-width: 992px) {
+  .airlock {
+    .column-header {
+      width: 110px;
+    }
+
+    .column-microchart {
+      width: 100px;
+    }
+
+    .column-readout {
+      width: 115px;
+    }
+
+    .col:not(.col-first) {
+      .column-microchart {
+        width: 110px;
+      }
+    }
+  }
+}
+
+.atmosphere {
+  .atmosphere-header {
+    margin: 0;
+    position: relative;
+    top: 10px;
+  }
+
+  .atmosphere-tables > div {
+    padding: 0;
+  }
+
+  .column-header {
+    width: 20%;
+  }
+
+  .column-microchart {
+    text-align: right;
+    width: 50%;
+  }
+
+  .column-pressure {
+    width: 30%;
+  }
+
+  .oxygen-generator {
+    .bullet-chart {
+      margin-right: 15px;
+      width: 135px;
+      height: 16px !important;
+    }
+  }
+
+  .oxygen-generator-rate {
+    position: relative;
+    top: -5px;
+    margin: 0 5px 0 15px;
+  }
+
+  .oxygen-generator-state {
+    display: inline-block;
+    width: 92px;
+
+    dt {
+      display: inline;
+      width: auto;
+    }
+
+    dd {
+      margin-left: 0;
+      padding-left: 10px;
+    }
+  }
+
+  .table {
+    margin: 0 auto;
+    table-layout: fixed;
+    width: 100%;
+
+    thead th {
+      text-align: center;
+    }
+
+    tbody {
+      text-align: right;
+    }
+
+    td.bullet-chart {
+      padding: 6px 0 6px 20px !important;
+    }
+
+    tr:nth-child(2) {
+      th,
+      td {
+        border-top-color: #bbb !important;
+      }
+    }
+  }
+}
+
+@media (max-width: 375px) {
+  .atmosphere {
+    .oxygen-generator {
+      dt {
+        margin-left: 28px;
+        text-align: center;
+        width: 100%;
+      }
+
+      dd {
+        margin-left: 25%;
+        width: 100%;
+
+        .bullet-chart {
+          margin-left: 0;
+          width: 46%;
+        }
+      }
+    }
+
+    .oxygen-generator-state {
+      /* FIXME */
+      display: none;
+
+      dt,
+      dd {
+        display: inline-block;
+        text-align: left;
+      }
+    }
+
+    .oxygen-generator-rate.readout {
+      position: absolute;
+      top: 28px;
+      right: 7px;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .atmosphere .column-microchart {
+    width: 35%;
+  }
+
+  .atmosphere .column-pressure {
+    width: 45%;
+  }
+}
+
+@media (min-width: 922px) {
+  .atmosphere {
+    .oxygen-generator-state {
+      display: inline-block;
+      width: 107px;
+    }
+
+    .atmosphere-table:not(.first) {
+      .column-header {
+        width: 0;
+      }
+    }
+  }
+}
+
+.attitude {
+  .attitude-alarms {
+    list-style: none;
+    margin: 15px 0 0 0;
+    padding-left: 0;
+
+    li {
+      margin-top: 5px;
+    }
+  }
+
+  .attitude-tables > div {
+    padding: 0;
+  }
+
+  .attitude-table {
+    margin: 0 auto;
+    table-layout: fixed;
+    width: 100%;
+
+    thead th {
+      text-align: center;
+    }
+
+    tbody {
+      text-align: right;
+      .readout {
+        text-align: right;
+      }
+    }
+
+    &.third,
+    &.fourth {
+      margin-top: 20px;
+    }
+
+    .column-euler {
+      width: 40%;
+    }
+
+    .column-header {
+      width: 20%;
+    }
+
+    .column-sparkline {
+      width: 55%;
+    }
+
+    .column-sparkline-value {
+      width: 25%;
+    }
+  }
+
+  .cmgs > .col-md-6:not(:nth-child(1)) {
+    margin-top: 20px;
+  }
+
+  .cmg {
+    margin-top: 7px;
+    text-align: center;
+
+    h3 {
+      font-size: 15px;
+      font-weight: normal;
+      text-align: left;
+    }
+
+    td,
+    th {
+      text-align: right !important;
+    }
+
+    &.off > .row {
+      display: none;
+    }
+
+    .column-header {
+      width: 80px;
+    }
+
+    .column-sparkline-chart {
+      min-width: 60px;
+    }
+
+    .column-sparkline-value {
+      width: 80px;
+    }
+
+    .table {
+      table-layout: fixed;
+      margin: 0 auto;
+      width: 100%;
+    }
+  }
+
+  .inner-rule.attitude-settings {
+    margin-top: 2px;
+  }
+
+  .saturation {
+    dl {
+      margin-top: 3px;
+    }
+
+    dt {
+      display: inline;
+      margin-top: 0;
+      text-align: right;
+      width: 170px;
+    }
+
+    dd {
+      display: inline-block;
+      font-weight: normal;
+      margin-left: 15px;
+      text-align: right;
+    }
+
+    .saturation-readout-col {
+      margin-bottom: -20px;
+      text-align: center;
+    }
+
+    .status.off {
+      color: #999;
+    }
+  }
+}
+
+@media (max-width: 375px) {
+  .attitude {
+    .attitude-header {
+      margin-bottom: -10px;
+    }
+
+    .attitude-alarms {
+      margin-bottom: 15px;
+    }
+
+    .attitude-table {
+      .column-header {
+        width: 20%;
+      }
+      .column-sparkline {
+        width: 45%;
+      }
+      .column-sparkline-value {
+        width: 35%;
+      }
+    }
+
+    dl.attitude-settings {
+      margin-bottom: 0;
+
+      &.gps {
+        margin-bottom: 15px;
+      }
+
+      dt {
+        clear: both;
+        float: left;
+        text-align: right;
+        width: 40px;
+      }
+
+      dd {
+        margin-left: 45px;
+        text-align: left;
+        width: auto;
+      }
+    }
+
+    .cmgs {
+      h3 {
+        margin-top: 20px;
+      }
+      .column-header {
+        width: 35%;
+      }
+      .column-sparkline-chart {
+        width: 40%;
+      }
+      .column-sparkline-value {
+        width: 25%;
+      }
+    }
+
+    .status.desaturation {
+      display: block;
+      margin-top: -15px;
+      margin-bottom: 10px;
+      text-align: center;
+      width: 100%;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .attitude {
+    /* The second pair of gyroscopes sits in its column without a row, so the column lays them out. */
+    .cmgs > .col-md-6:last-child {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      align-items: start;
+    }
+
+    .cmg .column-header {
+      width: 100px;
+    }
+
+    .attitude-alarms {
+      margin: 0 0 15px 0;
+    }
+
+    .attitude-alarms-col {
+      margin-bottom: -15px;
+    }
+
+    .attitude-header {
+      margin: 0;
+      position: relative;
+      top: 10px;
+    }
+
+    .dl-horizontal.attitude-settings {
+      dt,
+      dd {
+        float: left;
+        width: auto;
+      }
+
+      dt {
+        clear: left;
+        margin-top: 5.5px;
+      }
+
+      &.gps dt {
+        margin-top: 6px;
+      }
+
+      dd {
+        margin-top: 5px;
+        margin-left: 10px;
+      }
+    }
+
+    .attitude.table:not(.first):not(.third) .column-header {
+      width: 0;
+    }
+
+    .attitude-tables {
+      .col-md-6,
+      .col-sm-6,
+      .row {
+        margin: 0;
+        padding: 0;
+      }
+    }
+
+    .attitude-table {
+      .column-sparkline-value {
+        width: 40%;
+      }
+
+      &:not(.first):not(.third) th:first-child {
+        visibility: collapse;
+      }
+    }
+
+    .saturation {
+      grid-template-columns: 40% 33% 25%;
+      margin-bottom: 15px;
+      text-align: left;
+
+      > div {
+        grid-column: auto;
+      }
+
+      .bullet-chart {
+        height: 19px !important;
+        padding-top: 3px;
+        margin: 0;
+      }
+      .saturation-readout-col {
+        margin-bottom: 0;
+        text-align: right;
+      }
+    }
+  }
+}
+
+@media (min-width: 992px) {
+  .attitude {
+    .attitude-table {
+      &.third,
+      &.fourth {
+        margin-top: 0;
+      }
+
+      .column-sparkline {
+        width: 32%;
+      }
+    }
+
+    .cmgs > .col-md-6 {
+      margin-top: 0 !important;
+    }
+
+    .saturation {
+      dl {
+        margin-top: 1px;
+      }
+
+      dt {
+        width: 235px;
+      }
+    }
+  }
+}
+
+.eva {
+  margin-bottom: 35px;
+
+  .eva-header {
+    margin: 0;
+    position: relative;
+    top: 10px;
+  }
+
+  .eva-tables > div {
+    padding: 0;
+  }
+
+  .column-header {
+    width: 40%;
+  }
+
+  .column-microchart {
+    text-align: right;
+    width: 60%;
+  }
+
+  .column-readout {
+    width: 30%;
+  }
+
+  .table {
+    margin: 0 auto;
+    table-layout: fixed;
+    width: 100%;
+
+    thead th {
+      text-align: center;
+    }
+  }
+}
+
+@media (max-width: 676px) {
+  .eva {
+    .column-header {
+      width: 40%;
+    }
+    .column-microchart {
+      width: 35%;
+    }
+    .column-readout {
+      width: 25%;
+    }
+  }
+}
+
+@media (min-width: 768px) and (max-width: 921px) {
+  .eva {
+    .col:first-child {
+      .column-header {
+        width: 43%;
+      }
+    }
+
+    .col:not(:first-child) {
+      .column-readout,
+      .column-microchart {
+        width: 50%;
+      }
+    }
+  }
+}
+@media (min-width: 922px) {
+  .eva {
+    .eva-tables {
+      grid-template-columns: 30% repeat(3, 20%);
+
+      > div {
+        grid-column: auto;
+      }
+    }
+
+    .col:first-child {
+      .column-header {
+        width: 47%;
+      }
+
+      .column-microchart {
+        width: 25%;
+      }
+
+      .column-readout {
+        width: 27%;
+      }
+
+      td.microchart {
+        position: relative;
+        left: 12px;
+      }
+    }
+
+    .column-readout {
+      width: 35%;
+    }
+
+    .eva-table:not(.first) {
+      .column-header,
+      tbody th {
+        width: 0;
+      }
+    }
+  }
+}
+
+.thermal {
+  margin-bottom: 35px;
+}
+
+@media (max-width: 375px) {
+  .thermal {
+    .air-conditioners {
+      .col.header {
+        margin-bottom: 10px;
+      }
+      dl {
+        margin-bottom: 0;
+      }
+      dt {
+        float: left;
+        text-align: right;
+        width: 70px;
+      }
+      dd {
+        margin-left: 75px;
+      }
+    }
+    .thermal-table {
+      .column-header {
+        width: 30%;
+      }
+      .column-microchart {
+        width: 40%;
+      }
+      .column-readout {
+        width: 20%;
+      }
+    }
+
+    .radiator-loop-table {
+      .column-header {
+        width: 30%;
+      }
+      .column-microchart {
+        width: 40%;
+      }
+      .column-readout {
+        width: 20%;
+      }
+    }
+
+    .thermal-header {
+      margin-bottom: -10px;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  .thermal {
+    .thermal-tables,
+    .air-conditioners {
+      grid-template-columns: 34% repeat(3, 21%);
+
+      > div {
+        grid-column: auto;
+      }
+    }
+
+    .air-conditioners .col {
+      padding-left: 20px;
+      white-space: nowrap;
+
+      &.header {
+        position: relative;
+        top: 1px;
+        right: 4px;
+        text-align: right;
+      }
+
+      dd {
+        margin-left: 0;
+      }
+
+      dt {
+        padding-right: 9px;
+        position: relative;
+        top: 0.5px;
+        width: auto;
+      }
+    }
+
+    .column-header {
+      width: 40%;
+    }
+
+    .column-microchart {
+      text-align: right;
+      width: 45%;
+    }
+
+    .column-readout {
+      width: 30%;
+    }
+
+    .thermal-header {
+      margin: 0;
+      position: relative;
+      top: 10px;
+    }
+
+    .thermal-tables > div {
+      padding: 0;
+    }
+
+    .radiator-col {
+      border-right: 1px solid #aaa;
+      padding-right: 15px;
+    }
+
+    .first .radiator-loop-table {
+      .column-header {
+        width: 30%;
+      }
+
+      .column-microchart {
+        width: 30%;
+      }
+
+      .column-readout {
+        width: 30%;
+      }
+
+      td.sparkline-chart {
+        padding: 4px 8px !important;
+      }
+    }
+
+    .radiator-loop-table {
+      .column-microchart {
+        width: 45%;
+      }
+
+      .column-readout {
+        width: 55%;
+      }
+    }
+
+    .radiator-table {
+      .column-readout {
+        width: 50%;
+      }
+    }
+
+    .table {
+      margin: 0 auto;
+      table-layout: fixed;
+      width: 100%;
+
+      thead th {
+        text-align: center;
+
+        &.out-temperature {
+          text-align: right;
+        }
+      }
+
+      tr:nth-child(3) {
+        td,
+        th {
+          border-top: 1px solid #bbb !important;
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) and (max-width: 921px) {
+  .thermal {
+    .column-microchart,
+    .column-readout {
+      width: 40%;
+    }
+  }
+}
+
+@media (min-width: 922px) {
+  .thermal {
+    .thermal-tables,
+    .air-conditioners {
+      grid-template-columns: 34% repeat(3, 20%);
+    }
+
+    .col:first-child {
+      .column-header {
+        width: 50%;
+      }
+
+      td.microchart {
+        position: relative;
+        left: 12px;
+      }
+    }
+
+    td.microchart {
+      width: 60%;
+    }
+
+    .thermal-table:not(.first) {
+      .column-header {
+        width: 0;
+      }
+    }
+  }
+}
+
+.photovoltaic {
+  margin-bottom: 35px;
+
+  .photovoltaic-attitude {
+    grid-template-columns: 287px 33.33333333%;
+
+    > div {
+      grid-column: auto;
+    }
+  }
+
+  .col-photovoltaic-attitude {
+    border-right: 1px solid #aaa;
+    width: 287px;
+  }
+
+  .photovoltaic-attitude-table {
+    th {
+      text-align: right !important;
+    }
+
+    .column-header,
+    th {
+      width: 100px !important;
+    }
+  }
+
+  .photovoltaic-header {
+    margin: 0;
+    position: relative;
+    top: 10px;
+  }
+
+  .photovoltaic-tables > div {
+    padding: 0;
+  }
+
+  .column-header {
+    width: 40%;
+  }
+
+  .column-microchart {
+    text-align: right;
+    width: 60%;
+  }
+
+  .column-readout {
+    width: 55%;
+  }
+
+  .col:not(.col-first) {
+    .column-microchart,
+    td.sparkline-chart {
+      width: 100px !important;
+    }
+  }
+
+  .col-first {
+    .column-microchart,
+    td.sparkline-chart {
+      width: 70px !important;
+    }
+
+    .column-header,
+    tbody th {
+      text-align: right;
+      width: 90px !important;
+    }
+
+    .column-readout,
+    td.readout {
+      width: 90px !important;
+    }
+  }
+
+  .column-readout,
+  td.readout {
+    width: 100px !important;
+  }
+
+  .table {
+    margin: 0 auto;
+    table-layout: fixed;
+    width: 100%;
+
+    thead th {
+      text-align: center;
+    }
+
+    tr:nth-child(3),
+    tr:nth-child(5) {
+      td,
+      th {
+        border-top: 1px solid #bbb !important;
+      }
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .photovoltaic {
+    h4 {
+      display: none;
+    }
+    .column-header {
+      width: 20% !important;
+    }
+    .col.col-first .column-microchart {
+      width: 45% !important;
+    }
+    .col:not(.col-first) .column-microchart {
+      width: 55% !important;
+    }
+    .column-readout {
+      width: 25% !important;
+    }
+    .col-photovoltaic-attitude {
+      border-right: none;
+    }
+    .photovoltaic-tables {
+      margin-top: -5px;
+    }
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .photovoltaic {
+    .col-channel,
+    .channel-table {
+      .bullet-chart {
+        position: relative;
+        left: 10px;
+      }
+      .column-microchart {
+        width: 100%;
+      }
+      .column-readout {
+        visibility: collapse;
+        width: 0 !important;
+      }
+      .readout {
+        display: none;
+      }
+    }
+  }
+}
+
+@media (min-width: 992px) {
+  .photovoltaic {
+    .col-channel:nth-child(2n + 1) h4 {
+      visibility: hidden;
+    }
+
+    .col-channel {
+      h4 {
+        margin-left: 19px;
+      }
+    }
+
+    .channel-table {
+      td.bullet-chart {
+        position: relative;
+        left: 10px;
+      }
+    }
+
+    .photovoltaic-tables {
+      grid-template-columns: calc(25% + 10px) repeat(4, 165px);
+
+      > div {
+        grid-column: auto;
+      }
+    }
+
+    .col:first-child {
+      border-right: 1px solid #aaa;
+      margin-right: 10px;
+      padding-right: 10px;
+
+      .column-header {
+        width: 50%;
+      }
+    }
+
+    .col {
+      margin: 0;
+    }
+
+    .col-first {
+      thead th {
+        text-align: left;
+      }
+      .column-header,
+      tbody th {
+        width: 100px !important;
+      }
+
+      .column-microchart,
+      td.sparkline-chart {
+        width: 45px !important;
+      }
+    }
+
+    thead th {
+      border-top: 1px #aaa solid;
+      padding-top: 20px !important;
+      padding-bottom: 10px !important;
+    }
+
+    .row:not(.totals) .col:not(.col-first) {
+      thead th {
+        visibility: hidden;
+      }
+    }
+
+    .col:not(.col-first) {
+      .photovoltaic-table {
+        width: 165px;
+
+        .column-header {
+          width: 0;
+        }
+      }
+
+      .column-microchart,
+      td.sparkline-chart {
+        width: 75px !important;
+      }
+    }
+  }
+}
+
+@media (min-width: 1200px) {
+  .photovoltaic {
+    .col-channel:nth-child(2n + 1) h4 {
+      visibility: hidden;
+    }
+
+    .col-channel {
+      h4 {
+        margin-left: 19px;
+      }
+    }
+
+    .channel-table {
+      td.bullet-chart {
+        position: relative;
+        left: 10px;
+      }
+    }
+
+    .photovoltaic-tables {
+      grid-template-columns: calc(25% + 10px) repeat(4, 200px);
+    }
+
+    .col:first-child {
+      border-right: 1px solid #aaa;
+      margin-right: 10px;
+      padding-right: 10px;
+
+      .column-header {
+        width: 50%;
+      }
+    }
+
+    .col {
+      margin: 0;
+    }
+
+    .col-first {
+      thead th {
+        text-align: left;
+      }
+    }
+
+    thead th {
+      border-top: 1px #aaa solid;
+      padding-top: 20px !important;
+      padding-bottom: 10px !important;
+    }
+
+    .row:not(.totals) .col:not(.col-first) {
+      thead th {
+        visibility: hidden;
+      }
+    }
+
+    .col:not(.col-first) {
+      .photovoltaic-table {
+        width: 200px;
+
+        .column-header {
+          width: 0;
+        }
+      }
+
+      .column-microchart,
+      td.sparkline-chart {
+        width: 90px !important;
+      }
+    }
+  }
+}
+
+@media (min-width: 321px) and (max-width: 676px) {
+  .station-metadata {
+    font-size: 15px;
+
+    dt {
+      width: auto;
+    }
+  }
+}
+
+.water {
+  margin-bottom: 35px;
+
+  .water-header {
+    margin: 0;
+    position: relative;
+    top: 10px;
+  }
+
+  .water-tables > div {
+    padding: 0;
+  }
+
+  .water-table.first {
+    td.microchart {
+      position: relative;
+      left: -13px;
+    }
+  }
+
+  .water-table:not(.first) {
+    td.microchart {
+      position: relative;
+      left: 15px;
+    }
+  }
+
+  .column-header {
+    width: 35%;
+  }
+
+  .column-microchart {
+    text-align: right;
+    width: 45%;
+  }
+
+  .column-readout {
+    width: 20%;
+  }
+
+  .table {
+    margin: 0 auto;
+    table-layout: fixed;
+    width: 100%;
+
+    thead th {
+      text-align: center;
+    }
+  }
+
+  .urine-processor {
+    dt {
+      margin: 0 9px 0 0;
+      width: auto;
+    }
+
+    dd {
+      margin-left: 0;
+      text-align: left;
+      width: auto;
+    }
+  }
+
+  .water-processor {
+    dt {
+      margin-left: 29px;
+      width: 120px;
+    }
+
+    dd {
+      margin-left: 120px;
+      width: 200px;
+    }
+  }
+}
+
+@media (max-width: 375px) {
+  .water {
+    thead {
+      display: none;
+    }
+
+    .column-header {
+      width: 15%;
+    }
+
+    .column-microchart {
+      text-align: right;
+      width: 60%;
+    }
+
+    .column-readout {
+      width: 25%;
+    }
+
+    .water-table td.microchart {
+      left: 0 !important;
+    }
+
+    .water-processor,
+    .urine-processor {
+      margin-bottom: 0;
+
+      dt {
+        float: left;
+        margin: 0 5px 0 0;
+        width: auto;
+      }
+
+      dd {
+        margin-left: 0;
+        position: relative;
+        top: -1px;
+        width: auto;
+      }
+    }
+  }
+}
+
+@media (min-width: 922px) {
+  .water {
+    .col:first-child {
+      .column-header {
+        width: 35%;
+      }
+    }
+
+    .water-table:not(.first) {
+      .column-header {
+        width: 0;
+      }
+    }
+  }
+}

@@ -1,0 +1,7 @@
+# Line endings are pinned in-repo so they don't depend on each machine's
+# core.autocrlf. Text normalizes to LF in the repository and in the working
+# tree on every platform; no CRLF, no conversion warnings.
+* text=auto eol=lf
+
+# Media and other binary types: never apply line-ending conversion. Only needed when the
+# text=auto fails. Each line, wildcard.extension, e.g., `*.webp binary`

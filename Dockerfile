@@ -1,18 +1,32 @@
-FROM node:24-slim
+FROM node:26-slim AS build
 
 WORKDIR /app
 
-# npm replaces .npmrc's omit list with the command line's, so optional is named again here
-# to keep ws's native modules out.
-COPY package.json package-lock.json .npmrc ./
-RUN npm ci --omit=dev --omit=optional
+RUN npm install -g pnpm@12.6.0
 
-COPY server/ server/
-COPY public/ public/
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+RUN pnpm install --frozen-lockfile --ignore-scripts
+
+# Two-stage build with Vite for build alone; second stage omits dev deps.
+COPY vite.config.ts ./
+COPY src/contract/ src/contract/
+COPY src/client/ src/client/
+RUN pnpm build
+
+FROM node:26-slim
+
+WORKDIR /app
+
+RUN npm install -g pnpm@12.6.0
+
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+RUN pnpm install --prod --frozen-lockfile --ignore-scripts
+
+COPY src/contract/ src/contract/
+COPY src/server/ src/server/
+COPY --from=build /app/dist/ dist/
 
 ENV NODE_ENV=production
-EXPOSE 5000
-USER node
+EXPOSE 3000
 
-# Exec form: no shell stands between SIGTERM and node, whose handler saves the buffer.
-CMD ["node", "server/server.js"]
+CMD ["node", "src/server/server.ts"]

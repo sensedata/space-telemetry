@@ -1,0 +1,45 @@
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "vcs": {
+    // Biome does not read .gitignore on its own.
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "formatter": {
+    "enabled": true,
+    "useEditorconfig": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 90,
+    "lineEnding": "lf"
+  },
+  "linter": {
+    // Only for a11y, which is broken on ES Lint 10 as of 2026-09-05
+    // https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/issues/1075
+    "enabled": true,
+    "rules": {
+      "preset": "none",
+      "a11y": "on"
+    }
+  },
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "arrowParentheses": "always",
+      "bracketSpacing": false,
+      "quoteStyle": "double",
+      "semicolons": "always",
+      "trailingCommas": "all"
+    }
+  },
+  "files": {
+    "includes": ["**", "!dist", "!reports", "!.stryker-tmp"]
+  }
+}

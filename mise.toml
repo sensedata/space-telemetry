@@ -1,0 +1,224 @@
+[tools]
+gitleaks = "8.30.1"
+grype = "0.119.0"
+jaq = "3.1.1"
+node = "26.10.0"
+pnpm = "12.8.1"
+rumdl = "0.2.78"
+syft = "1.52.0"
+trivy = "0.74.0"
+typos = "1.50.3"
+
+
+[tasks.quick]
+description = "High-frequency: auto correct, light check and test."
+depends = [
+  "check:graph",
+  "check:lint",
+  "check:types",
+  "fix",
+  "format",
+  "test:unit",
+]
+
+[tasks.gate]
+description = "Definition of Done."
+depends = [
+  "check",
+  "test",
+  "test:mutation",
+]
+
+
+[tasks."agents:gate"]
+description = "Gate, quiet: logs to reports/gate.log and prints only failures."
+run = [
+  "mkdir -p reports",
+  'mise run --continue-on-error --output keep-order gate > reports/gate.log 2>&1 || (grep -E "ERROR|exited with status" reports/gate.log && exit 1)',
+]
+
+[tasks."agents:quick"]
+description = "Quick, quiet: logs to reports/quick.log and prints only failures."
+run = [
+  "mkdir -p reports",
+  'mise run --continue-on-error --output keep-order quick > reports/quick.log 2>&1 || (grep -E "ERROR|exited with status" reports/quick.log && exit 1)',
+]
+
+
+[tasks.build]
+description = "Production bundle with Vite."
+run = "pnpm build"
+
+
+[tasks.check]
+description = "Check everything."
+depends = [
+  "check:deadcode",
+  "check:graph",
+  "check:lint",
+  "check:lockfile",
+  "check:secrets",
+  "check:types",
+  "check:vulnerabilities",
+]
+
+[tasks."check:deadcode"]
+description = "Knip for unused files, exports and dependencies."
+wait_for = ["fix", "format"]
+run = "pnpm exec knip"
+
+[tasks."check:graph"]
+description = "Dependency-cruiser over src."
+wait_for = ["fix", "format"]
+run = "pnpm deps"
+
+[tasks."check:lint"]
+description = "ESLint and Biome."
+wait_for = ["fix", "format"]
+run = [
+  "pnpm lint",
+]
+
+# lightstreamer directly depends on xmlhttprequest through a github project (with no
+# packaged releases since 2015). Any other git, git-hosted or tarball resolution in the
+# lockfile is printed and fails the task.
+[tasks."check:lockfile"]
+description = "No git or tarball resolution in pnpm-lock.yaml but xmlhttprequest's."
+run = "! grep -nE 'gitHosted|type: git|codeload\\.|git\\+|git://|github:|gitlab:|bitbucket:|tarball:' pnpm-lock.yaml | grep -v 'codeload.github.com/driverdan/node-XMLHttpRequest/tar.gz/97966e4ca1c9f2cc5574d8775cbdacebfec75455'"
+
+[tasks."check:secrets"]
+description = "Gitleaks over all changes, tracked or not."
+env = { GIT_INDEX_FILE = ".git/index.gitleaks" }
+run = [
+    "git add -A",
+    "gitleaks git --pre-commit --staged --no-banner --redact .",
+]
+
+[tasks."check:types"]
+description = "tsc, emitting nothing."
+wait_for = ["fix", "format"]
+run = "pnpm typecheck"
+
+[tasks."check:vulnerabilities"]
+description = "Grype the syft BOM and a pnpm audit."
+shell = "bash -o pipefail -c"
+env = { SYFT_JAVASCRIPT_INCLUDE_DEV_DEPENDENCIES = "true" }
+run = [
+  "syft . --exclude './.stryker-tmp/**' --exclude './dist/**' --exclude './reports/**' --exclude './secrets/**' --exclude './src/harness/node_modules/**' -o cyclonedx-json | grype --fail-on high",
+  "pnpm audit",
+]
+
+
+[tasks.dev]
+description = "Client and server, each rebuilding or restarting as you change it."
+depends = ["dev:client", "dev:server"]
+
+[tasks."dev:client"]
+description = "Vite, rebuilding dist/ on change."
+run = "pnpm build --watch"
+
+[tasks."dev:server"]
+description = "Telemetry server, restarting on change."
+run = "node --watch src/server/server.ts"
+
+
+[tasks.fix]
+description = "Apply ESLint's and Biome's auto fixes."
+run = "pnpm lint:fix"
+
+[tasks.format]
+description = "Format code and markdown."
+wait_for = ["fix"]
+run = [
+  "rumdl fmt .",
+  "pnpm format",
+]
+
+
+# Reserved. The project defines its release here; the commented depends are the
+# usual first step.
+[tasks.release]
+description = "Not defined for this project yet."
+run = "echo 'release: not defined. Define it in mise.toml.' && exit 1"
+depends = [
+  # "check",
+  # "test",
+  # "report",
+]
+
+
+[tasks.report]
+description = "All reports."
+depends = [
+  "report:dependencies",
+  "report:licenses",
+]
+
+[tasks."report:dependencies"]
+description = "Mise tools and direct pnpm packages."
+shell = "bash -c"
+run = [
+  "mise ls --current --local",
+  '''
+    pnpm list --json | jaq -r '
+    [ .. | objects | to_entries[]
+      | select(.value | type == "object" and has("version"))
+      | .key + " - " + .value.version
+    ] | unique[]'
+  ''',
+]
+
+[tasks."report:licenses"]
+description = "Trivy-discovered licenses."
+run = "trivy fs --scanners license --license-full --include-dev-deps --skip-dirs secrets,.stryker-tmp,node_modules,dist,reports ."
+
+[tasks."report:outdated"]
+description = "Mise tools and pnpm packages."
+run = [
+  "mise outdated --bump",
+  "pnpm outdated",
+]
+
+[tasks."report:screenshots"]
+description = "Playwright screenshots of the seed at four widths, into reports/screenshots."
+run = [
+  "pnpm exec playwright install chromium firefox webkit",
+  "pnpm exec vite build --outDir ../../reports/screenshots-dist",
+  "rm -rf reports/screenshots-data",
+  "node_modules/.bin/playwright test -c playwright.screenshots.config.ts --output reports/screenshots/$(date -u +%Y-%m-%dT%H%M%SZ)",
+]
+
+[tasks.test]
+description = "All tests"
+wait_for = ["fix", "format"]
+depends = ["test:unit", "test:integration", "test:browser"]
+
+# Run Playwright from node_modules/.bin, not pnpm. mise forwards one SIGINT twice, pnpm
+# turns the second into a SIGTERM. Playwright has no SIGTERM handler, so it zombies along.
+[tasks."test:browser"]
+description = "Playwright, chromium, firefox and webkit, against a fresh build. Slow."
+wait_for = ["fix", "format"]
+run = [
+  "pnpm exec playwright install chromium firefox webkit",
+  "pnpm exec vite build --outDir ../../reports/e2e-dist",
+  "node_modules/.bin/playwright test",
+]
+
+[tasks."test:integration"]
+description = "Vitest over tests/integration, with coverage."
+wait_for = ["fix", "format"]
+run = "pnpm test:integration"
+
+[tasks."test:mutation"]
+description = "Stryker over the Vitest suite. Slow."
+wait_for = ["check*", "fix", "format", "report:*", "test*"]
+run = "pnpm test:mutation"
+
+[tasks."test:unit"]
+description = "Vitest over the server and client projects, with coverage. Fast."
+wait_for = ["fix", "format"]
+run = "pnpm test:unit"
+
+[tasks."test:watch"]
+description = "Vitest, watching."
+run = "pnpm test:watch"

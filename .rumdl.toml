@@ -1,0 +1,27 @@
+[global]
+# MD004 https://github.com/rvben/rumdl/blob/main/docs/md004.md
+#       unordered-list-style: prevents alternating -, *, and + for grouping lists.
+# MD033 https://github.com/rvben/rumdl/blob/main/docs/md033.md
+#       no-inline-HTML: prevents HTML from compensating for MD limits, e.g., ToCs.
+# MD036 https://github.com/rvben/rumdl/blob/main/docs/md036.md
+#       no-emphasis-as-heading: promotes bold-only paragraphs to a fixed heading level
+disable = ["MD004", "MD033", "MD036"]
+
+[per-file-ignores]
+# MD040 https://github.com/rvben/rumdl/blob/main/docs/md040.md
+#       fenced-code-language: bare fences hold templates, not code.
+# MD041 https://github.com/rvben/rumdl/blob/main/docs/md041.md
+#       first line heading: agent and skill definitions have front matter.
+"**/AGENTS.md" = ["MD040", "MD041"]
+"**/CLAUDE*.md" = ["MD040", "MD041"]
+"**/.claude/agents/*-agent.md" = ["MD040", "MD041"]
+"**/.claude/skills/*/SKILL*.md" = ["MD040", "MD041"]
+
+[MD013] # line-length: https://github.com/rvben/rumdl/blob/main/docs/md013.md
+line-length = 90
+code-block-line-length = 100
+reflow = true
+reflow-mode = "normalize" # prevent irregular line breaks
+
+[MD024] # no-duplicate-heading: https://github.com/rvben/rumdl/blob/main/docs/md024.md
+siblings-only = true # allows same heading under different parents.

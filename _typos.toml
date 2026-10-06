@@ -1,0 +1,8 @@
+[files]
+ignore-hidden = false
+extend-exclude = [".git/"]
+
+[default]
+# src/client/cell-props.test.ts misspells this attribute on purpose: parseCellProps must
+# refuse a data attribute no view reads.
+extend-ignore-re = ["data-convertion"]

@@ -1,0 +1,7 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "ignoreExportsUsedInFile": true,
+  // Files no module imports: probe.ts runs by hand (src/harness/README.md), and
+  // playwright.screenshots.config.ts preloads frozen-now.ts into the server.
+  "entry": ["src/harness/probe.ts", "tests/screenshots/frozen-now.ts"]
+}

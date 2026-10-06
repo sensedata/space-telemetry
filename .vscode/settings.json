@@ -1,0 +1,7 @@
+{
+  "search.exclude": {
+    ".stryker-tmp": true,
+    "dist": true,
+    "reports": true
+  }
+}
