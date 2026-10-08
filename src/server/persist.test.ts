@@ -20,7 +20,7 @@ describe("save and load", () => {
   test("writes the buffer to the file as JSON keyed by channel", async ({dir}) => {
     const buffer = createBuffer();
     buffer.add({
-      k: 237,
+      k: "USLAB000059",
       v: 23.26,
       cv: "23.26",
       t: NOW - 7,
@@ -32,7 +32,16 @@ describe("save and load", () => {
     await persist.save(buffer, file);
 
     expect(JSON.parse(fs.readFileSync(file, "utf8"))).to.deep.equal({
-      237: [{k: 237, v: 23.26, cv: "23.26", t: NOW - 7, s: 24, sid: 1_789_211_888_321}],
+      USLAB000059: [
+        {
+          k: "USLAB000059",
+          v: 23.26,
+          cv: "23.26",
+          t: NOW - 7,
+          s: 24,
+          sid: 1_789_211_888_321,
+        },
+      ],
     });
   });
 
@@ -48,13 +57,13 @@ describe("save and load", () => {
 
   test("leaves STATUS out of the file", async ({dir}) => {
     const buffer = createBuffer();
-    buffer.add({k: 297, v: 1, t: NOW - 5, s: 24, sid: (NOW - 5) * 1000});
+    buffer.add({k: "STATUS", v: 1, t: NOW - 5, s: 24, sid: (NOW - 5) * 1000});
     buffer.add(feedRecord({v: 1, t: NOW - 5, s: 24}));
     const file = path.join(dir, "buffer.json");
 
     await persist.save(buffer, file);
 
-    expect(JSON.parse(fs.readFileSync(file, "utf8"))).to.have.all.keys("237");
+    expect(JSON.parse(fs.readFileSync(file, "utf8"))).to.have.all.keys("USLAB000059");
   });
 
   test("loads into a fresh buffer the records it saved", async ({dir}) => {
@@ -69,16 +78,19 @@ describe("save and load", () => {
     persist.load(loaded, file);
     log.mockRestore();
 
-    expect(loaded.backfill(237).map((r) => [r.v, r.t])).to.deep.equal([
+    expect(loaded.backfill("USLAB000059").map((r) => [r.v, r.t])).to.deep.equal([
       [1, NOW - 20],
       [2, NOW - 10],
     ]);
   });
 
   test.for([
-    // eslint-disable-next-line unicorn/no-null -- FeedRecord carries Lightstreamer's null for an absent CalibratedData
-    ["value", {k: 237, v: NaN, cv: null, t: NOW - 10, s: 24, sid: 1_789_211_888_321}],
-    ["time", {k: 237, v: 1, cv: "1", t: NaN, s: 24, sid: 1_789_211_888_321}],
+    [
+      "value",
+      // eslint-disable-next-line unicorn/no-null -- FeedRecord carries Lightstreamer's null for an absent CalibratedData
+      {k: "USLAB000059", v: NaN, cv: null, t: NOW - 10, s: 24, sid: 1_789_211_888_321},
+    ],
+    ["time", {k: "USLAB000059", v: 1, cv: "1", t: NaN, s: 24, sid: 1_789_211_888_321}],
   ] as const)(
     "loads a record whose %s is not a number as it was saved",
     async ([, record], {dir}) => {
@@ -92,7 +104,7 @@ describe("save and load", () => {
       persist.load(loaded, file);
       log.mockRestore();
 
-      expect(loaded.backfill(237)).to.deep.equal([record]);
+      expect(loaded.backfill("USLAB000059")).to.deep.equal([record]);
     },
   );
 
@@ -102,20 +114,29 @@ describe("save and load", () => {
     const log = vi.spyOn(console, "log").mockReturnValue(undefined);
     persist.load(buffer, path.join(dir, "buffer.json"));
 
-    expect([buffer.backfill(237), log.mock.calls.length]).to.deep.equal([[], 1]);
+    expect([buffer.backfill("USLAB000059"), log.mock.calls.length]).to.deep.equal([
+      [],
+      1,
+    ]);
   });
 
   test("leaves the buffer empty and reports one error when the file is truncated", ({
     dir,
   }) => {
     const file = path.join(dir, "buffer.json");
-    fs.writeFileSync(file, '{"237": [{"k": 237, "v": 1, "t": 1789211890, "s"');
+    fs.writeFileSync(
+      file,
+      '{"USLAB000059": [{"k": "USLAB000059", "v": 1, "t": 1789211890, "s"',
+    );
     const buffer = createBuffer();
 
     const error = vi.spyOn(console, "error").mockReturnValue(undefined);
     persist.load(buffer, file);
 
-    expect([buffer.backfill(237), error.mock.calls.length]).to.deep.equal([[], 1]);
+    expect([buffer.backfill("USLAB000059"), error.mock.calls.length]).to.deep.equal([
+      [],
+      1,
+    ]);
   });
 
   test("answers that an empty file exists and reports one error", ({dir}) => {

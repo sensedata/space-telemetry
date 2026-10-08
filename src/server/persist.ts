@@ -3,10 +3,8 @@ import os from "node:os";
 import path from "node:path";
 import zlib from "node:zlib";
 
-import * as channels from "../contract/channels.ts";
 import type {RecordBuffer} from "./buffer.ts";
 
-const STATUS = channels.numbers.STATUS;
 const SEED = path.join(import.meta.dirname, "seed", "buffer.json.gz");
 
 // setTimeout runs a longer delay after 1 ms instead.
@@ -57,7 +55,7 @@ export function load(buffer: Pick<RecordBuffer, "restore">, file: string): boole
 // STATUS describes the feed of the process that saved it; the server reports it afresh at
 // boot.
 function serialise(buffer: Pick<RecordBuffer, "snapshot">) {
-  const {[STATUS]: status, ...snapshot} = buffer.snapshot();
+  const {STATUS: status, ...snapshot} = buffer.snapshot();
   return JSON.stringify(snapshot);
 }
 

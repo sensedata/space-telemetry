@@ -7,7 +7,7 @@ import {test} from "./test-helpers/fake-clock.ts";
 
 // The channels `records` holds after each of the advances of the clock in `stepsMs`.
 function channelsAfterEach(records: readonly FeedRecord[], stepsMs: readonly number[]) {
-  const channels: number[][] = [];
+  const channels: string[][] = [];
   for (const ms of stepsMs) {
     vi.advanceTimersByTime(ms);
     channels.push(records.map((record) => record.k));
@@ -19,19 +19,19 @@ test("emits rows at the recorded cadence divided by the rate", () => {
   const {source, records} = collectingSource();
   void play(
     [
-      {k: 1, v: 1, cv: "1", t: 1000, s: 24, sid: 7},
-      {k: 2, v: 2, cv: "2", t: 1001, s: 24, sid: 7},
-      {k: 3, v: 3, cv: "3", t: 1003, s: 24, sid: 7},
+      {k: "AIRLOCK000002", v: 1, cv: "1", t: 1000, s: 24, sid: 7},
+      {k: "AIRLOCK000003", v: 2, cv: "2", t: 1001, s: 24, sid: 7},
+      {k: "AIRLOCK000004", v: 3, cv: "3", t: 1003, s: 24, sid: 7},
     ],
     {rate: 4, rebase: false},
     source,
   );
 
   expect(channelsAfterEach(records, [249, 1, 499, 1])).to.deep.equal([
-    [1],
-    [1, 2],
-    [1, 2],
-    [1, 2, 3],
+    ["AIRLOCK000002"],
+    ["AIRLOCK000002", "AIRLOCK000003"],
+    ["AIRLOCK000002", "AIRLOCK000003"],
+    ["AIRLOCK000002", "AIRLOCK000003", "AIRLOCK000004"],
   ]);
 });
 
@@ -40,16 +40,19 @@ test("never emits recorded STATUS rows", () => {
 
   void play(
     [
-      {k: 1, v: 1, cv: "1", t: 1000, s: 24, sid: 7},
+      {k: "AIRLOCK000002", v: 1, cv: "1", t: 1000, s: 24, sid: 7},
       // eslint-disable-next-line unicorn/no-null -- FeedRecord carries Lightstreamer's null for an absent CalibratedData
-      {k: 297, v: 0, cv: null, t: 1000, s: 2, sid: 1_000_000},
-      {k: 2, v: 2, cv: "2", t: 1000, s: 24, sid: 7},
+      {k: "STATUS", v: 0, cv: null, t: 1000, s: 2, sid: 1_000_000},
+      {k: "AIRLOCK000003", v: 2, cv: "2", t: 1000, s: 24, sid: 7},
     ],
     {rate: 1, rebase: false},
     source,
   );
 
-  expect(records.map((record) => record.k)).to.deep.equal([1, 2]);
+  expect(records.map((record) => record.k)).to.deep.equal([
+    "AIRLOCK000002",
+    "AIRLOCK000003",
+  ]);
 });
 
 test("with rebase, stamps each record with the wall-clock second it falls due", () => {
@@ -57,8 +60,8 @@ test("with rebase, stamps each record with the wall-clock second it falls due", 
   const {source, records} = collectingSource();
   void play(
     [
-      {k: 1, v: 1, cv: "1", t: 1000, s: 24, sid: 7},
-      {k: 2, v: 2, cv: "2", t: 1020, s: 24, sid: 7},
+      {k: "AIRLOCK000002", v: 1, cv: "1", t: 1000, s: 24, sid: 7},
+      {k: "AIRLOCK000003", v: 2, cv: "2", t: 1020, s: 24, sid: 7},
     ],
     {rate: 10, rebase: true},
     source,
@@ -73,8 +76,8 @@ test("resolves only after emitting the last row", async () => {
   const {source, records} = collectingSource();
   const done = play(
     [
-      {k: 1, v: 1, cv: "1", t: 1000, s: 24, sid: 7},
-      {k: 2, v: 2, cv: "2", t: 1010, s: 24, sid: 7},
+      {k: "AIRLOCK000002", v: 1, cv: "1", t: 1000, s: 24, sid: 7},
+      {k: "AIRLOCK000003", v: 2, cv: "2", t: 1010, s: 24, sid: 7},
     ],
     {rate: 1, rebase: false},
     source,

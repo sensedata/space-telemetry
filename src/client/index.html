@@ -38,7 +38,7 @@
 
             <dl class="dl-horizontal station-metadata">
               <dt>Ground Time:</dt>
-              <dd id="local-time" class="readout timestamp"></dd>
+              <dd id="ground-time" class="readout timestamp"></dd>
 
               <dt>Telemetry Delayed:</dt>
               <dd id="telemetry-delay" class="readout interval"></dd>
@@ -751,20 +751,20 @@
                       <tbody>
                         <tr>
                           <th>Roll</th>
-                          <td class="readout degrees decimal attitude actual" data-scale="2" data-quaternion-id="attitude-actual" data-euler-axis="x" data-telemetry-id-x="USLAB000019" data-telemetry-id-y="USLAB000020" data-telemetry-id-z="USLAB000021" data-telemetry-id-w="USLAB000018"></td>
-                          <td class="readout degrees decimal attitude command" data-scale="2" data-quaternion-id="attitude-command" data-euler-axis="x" data-telemetry-id-x="USLAB000029" data-telemetry-id-y="USLAB000030" data-telemetry-id-z="USLAB000031" data-telemetry-id-w="USLAB000028"></td>
+                          <td class="readout degrees decimal attitude actual" data-scale="2" data-combine="roll" data-telemetry-ids="USLAB000019,USLAB000020,USLAB000021,USLAB000018"></td>
+                          <td class="readout degrees decimal attitude command" data-scale="2" data-combine="roll" data-telemetry-ids="USLAB000029,USLAB000030,USLAB000031,USLAB000028"></td>
                         </tr>
 
                         <tr>
                           <th>Pitch</th>
-                          <td class="readout degrees decimal attitude actual" data-scale="2" data-quaternion-id="attitude-actual" data-euler-axis="y" data-telemetry-id-x="USLAB000019" data-telemetry-id-y="USLAB000020" data-telemetry-id-z="USLAB000021" data-telemetry-id-w="USLAB000018"></td>
-                          <td class="readout degrees decimal attitude command" data-scale="2" data-quaternion-id="attitude-command" data-euler-axis="y" data-telemetry-id-x="USLAB000029" data-telemetry-id-y="USLAB000030" data-telemetry-id-z="USLAB000031" data-telemetry-id-w="USLAB000028"></td>
+                          <td class="readout degrees decimal attitude actual" data-scale="2" data-combine="pitch" data-telemetry-ids="USLAB000019,USLAB000020,USLAB000021,USLAB000018"></td>
+                          <td class="readout degrees decimal attitude command" data-scale="2" data-combine="pitch" data-telemetry-ids="USLAB000029,USLAB000030,USLAB000031,USLAB000028"></td>
                         </tr>
 
                         <tr>
                           <th>Yaw</th>
-                          <td class="readout degrees decimal attitude actual" data-scale="2" data-quaternion-id="attitude-actual" data-euler-axis="z" data-telemetry-id-x="USLAB000019" data-telemetry-id-y="USLAB000020" data-telemetry-id-z="USLAB000021" data-telemetry-id-w="USLAB000018"></td>
-                          <td class="readout degrees decimal attitude command" data-scale="2" data-quaternion-id="attitude-command" data-euler-axis="z" data-telemetry-id-x="USLAB000029" data-telemetry-id-y="USLAB000030" data-telemetry-id-z="USLAB000031" data-telemetry-id-w="USLAB000028"></td>
+                          <td class="readout degrees decimal attitude actual" data-scale="2" data-combine="yaw" data-telemetry-ids="USLAB000019,USLAB000020,USLAB000021,USLAB000018"></td>
+                          <td class="readout degrees decimal attitude command" data-scale="2" data-combine="yaw" data-telemetry-ids="USLAB000029,USLAB000030,USLAB000031,USLAB000028"></td>
                         </tr>
                       </tbody>
                     </table>
@@ -2175,9 +2175,7 @@
 
         <p class="legal">Development by <a href="https://www.sensedata.com/#matt">Matt</a> and <a href="https://www.sensedata.com/#yuri">Yuri</a> of the <a href="https://www.sensedata.com">SenseData Group</a>; inspired by the <a href="https://2015.spaceappschallenge.org">2015 Space Apps Challenge</a>; written in <a href="https://github.com/lukehoban/es6features">ES6</a> and bundled by <a href="https://vite.dev">Vite</a>; and built on
           <a href="https://d3js.org">D3</a>,
-          <a href="https://moment.github.io/luxon/">Luxon</a>,
           <a href="https://nodejs.org">Node.js</a>,
-          <a href="https://preactjs.com">Preact</a>,
           <a href="https://threejs.org">Three.js</a>
           and <a href="https://github.com/sensedata/space-telemetry">more</a>; hosted on <a href="https://fly.io">Fly.io</a>.
           Data is provided by <a href="https://data.nasa.gov">NASA</a> and <a href="https://www.esa.int">ESA</a> via <a href="https://www.lightstreamer.com">Lightstreamer</a>. Other content is provided by SenseData and licensed under the <a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>. Source code available under the <a href="https://raw.githubusercontent.com/sensedata/space-telemetry/master/LICENSE">MIT license</a> at <a href="https://github.com/sensedata/space-telemetry">https://github.com/sensedata/space-telemetry</a>.</p>

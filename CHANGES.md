@@ -23,6 +23,8 @@
 
 ### Remove
 
+- Remove Preact: each view draws its cell with the DOM alone.
+- Remove Luxon: the UTC times and durations format with the built-in Date.
 - Remove the `/rss.xml` feed.
 - Remove Slack integration.
 - Remove the solar arrays' mean rotation and incidence rows.
@@ -31,6 +33,7 @@
 
 ### Fix
 
+- Correct chart sizing and layouts across resizes and smaller viewports.
 - Replace voltage totals with deviations from group means.
 - Correct units and labels: coolant and tank pressures, voltages, airlocks' supply and
   umbilicals, and the desaturation light.

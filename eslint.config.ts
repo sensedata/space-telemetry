@@ -11,11 +11,7 @@ import unicorn from "eslint-plugin-unicorn";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 
-const testFiles = [
-  "tests/**/*.{ts,tsx}",
-  "src/**/*.test.{ts,tsx}",
-  "src/**/test-helpers/**/*.{ts,tsx}",
-];
+const testFiles = ["tests/**/*.ts", "src/**/*.test.ts", "src/**/test-helpers/**/*.ts"];
 const e2eFiles = ["tests/e2e/**/*.ts", "tests/screenshots/**/*.ts"];
 const configFiles = [
   "*.config.ts",
@@ -64,6 +60,15 @@ const sourceSyntax = [
   {
     selector: "TSTypeAliasDeclaration[id.name=/^(Result|Either|Ok|Err)$/]",
     message: "No hand-rolled result type.",
+  },
+  {
+    selector:
+      "MemberExpression[property.name=/^(get|set)(FullYear|Month|Date|Day|Hours|Minutes|Seconds|Milliseconds)$|^getTimezoneOffset$|^toLocale|^to(Date|Time)String$/]",
+    message: "Time is UTC. Use the getUTC or setUTC form, or toISOString.",
+  },
+  {
+    selector: 'NewExpression[callee.name="Date"][arguments.length>1]',
+    message: "Time is UTC. Use new Date(Date.UTC(...)).",
   },
 ];
 
@@ -286,9 +291,9 @@ export default defineConfig(
       // internal record.
       "security/detect-object-injection": "off",
 
-      // functional: eslint-plugin-functional is not installed. Store, Relay, Clock,
-      // App, the telemetry index and the Lightstreamer fakes are mutable classes by
-      // design, which functional/immutable-data, functional/prefer-immutable-types
+      // functional: eslint-plugin-functional is not installed. App, the
+      // telemetry index and the Lightstreamer fakes are mutable classes by design,
+      // which functional/immutable-data, functional/prefer-immutable-types
       // and functional/type-declaration-immutability each reject.
 
       // jsdoc

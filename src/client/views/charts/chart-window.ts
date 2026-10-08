@@ -4,17 +4,17 @@ import {withRightPoint} from "./with-right-point.ts";
 
 const PIXELS_PER_POINT = 3;
 
-// The seconds a chart width pixels wide draws, one point a second, ending at now.
 export type ChartWindow<Held> = {
   readonly availablePoints: number;
   readonly earliest: number;
-  // The records with a point at each edge of the window.
+  // The records with withLeftPoint's point at earliest, and withRightPoint's at now where
+  // it adds one.
   readonly records: readonly Held[];
 };
 
 /**
- * The window of a chart width pixels wide that ends at now, its records given a point at
- * each edge.
+ * The availablePoints seconds before now that a chart width pixels wide draws, one point
+ * each PIXELS_PER_POINT pixels.
  */
 export function chartWindow<Held extends Pick<TimedRecord, "t">>(
   records: readonly Held[],

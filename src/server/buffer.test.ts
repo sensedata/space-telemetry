@@ -13,7 +13,7 @@ function record(row: CapturedRow | undefined, t?: number): FeedRecord {
     throw new RangeError("the capture holds no such row");
   }
   return {
-    k: row.idx,
+    k: row.item,
     v: Number(row.value),
     cv: row.value_calibrated,
     t: t ?? Date.parse(row.ts) / 1000,
@@ -57,7 +57,11 @@ describe("backfill", () => {
     buffer.add(record(first, NOW - 100));
     buffer.add(record(second, NOW - 50));
 
-    expect(times(buffer.backfill(237))).to.deep.equal([NOW - 100, NOW - 50, NOW - 10]);
+    expect(times(buffer.backfill("USLAB000059"))).to.deep.equal([
+      NOW - 100,
+      NOW - 50,
+      NOW - 10,
+    ]);
   });
 
   test("leaves out records older than 450 seconds", () => {
@@ -67,7 +71,7 @@ describe("backfill", () => {
     buffer.add(record(second, NOW - 450));
     buffer.add(record(third, NOW - 400));
 
-    expect(times(buffer.backfill(237))).to.deep.equal([NOW - 450, NOW - 400]);
+    expect(times(buffer.backfill("USLAB000059"))).to.deep.equal([NOW - 450, NOW - 400]);
   });
 
   test("returns the single latest record when the last 450 seconds hold none", () => {
@@ -76,7 +80,7 @@ describe("backfill", () => {
     buffer.add(record(second, NOW - 900));
     buffer.add(record(first, NOW - 1000));
 
-    expect(buffer.backfill(198).map((r) => [r.t, r.v])).to.deep.equal([
+    expect(buffer.backfill("USLAB000020").map((r) => [r.t, r.v])).to.deep.equal([
       [NOW - 900, -0.09021296352148056],
     ]);
   });
@@ -87,7 +91,7 @@ describe("backfill", () => {
     buffer.add(record(original, NOW - 1000));
     buffer.add(record(resend, NOW - 1000));
 
-    expect(buffer.backfill(75).map((r) => [r.v, r.s])).to.deep.equal([
+    expect(buffer.backfill("NODE3000009").map((r) => [r.v, r.s])).to.deep.equal([
       [87.87999725341797, 24],
     ]);
   });
@@ -96,7 +100,7 @@ describe("backfill", () => {
     const buffer = createBuffer();
     addEach(buffer, capturedRows("USLAB000020"), NOW - 10);
 
-    expect(buffer.backfill(198).map((r) => r.v)).to.deep.equal([
+    expect(buffer.backfill("USLAB000020").map((r) => r.v)).to.deep.equal([
       -0.09021846950054169, -0.09021296352148056, -0.09021422266960144,
     ]);
   });
@@ -106,13 +110,21 @@ describe("backfill", () => {
     buffer.add(record(capturedRows("USLAB000059")[0], NOW - 10));
     buffer.add(record(capturedRows("USLAB000043")[0], NOW - 5));
 
-    expect(buffer.backfill(221).map((r) => [r.k, r.t])).to.deep.equal([[221, NOW - 5]]);
+    expect(buffer.backfill("USLAB000043").map((r) => [r.k, r.t])).to.deep.equal([
+      ["USLAB000043", NOW - 5],
+    ]);
   });
 
   test("returns nothing for a channel with no records", () => {
     const buffer = createBuffer();
 
-    expect(buffer.backfill(237)).to.deep.equal([]);
+    expect(buffer.backfill("USLAB000059")).to.deep.equal([]);
+  });
+
+  test("throws for a channel outside the data dictionary", () => {
+    const buffer = createBuffer();
+
+    expect(() => buffer.backfill("USLAB000085")).to.throw(RangeError);
   });
 });
 
@@ -121,7 +133,7 @@ describe("add", () => {
     const buffer = createBuffer();
     addEachSecond(buffer, capturedRows("USLAB000059")[0], NOW - 151, NOW);
 
-    const kept = buffer.backfill(237);
+    const kept = buffer.backfill("USLAB000059");
 
     expect([kept.length, kept[0]?.t, kept[149]?.t]).to.deep.equal([
       150,
@@ -133,11 +145,11 @@ describe("add", () => {
   test("drops the oldest record for one beyond 150 added after a backfill", () => {
     const buffer = createBuffer();
     addEachSecond(buffer, capturedRows("USLAB000059")[0], NOW - 150, NOW);
-    buffer.backfill(237);
+    buffer.backfill("USLAB000059");
 
     buffer.add(record(capturedRows("USLAB000059")[0], NOW));
 
-    const kept = buffer.backfill(237);
+    const kept = buffer.backfill("USLAB000059");
     expect([kept.length, kept[0]?.t, kept[149]?.t]).to.deep.equal([150, NOW - 149, NOW]);
   });
 
@@ -146,7 +158,7 @@ describe("add", () => {
 
     const stored = buffer.add(record(capturedRows("USLAB000085")[0], NOW - 10));
 
-    expect([stored, buffer.backfill(263)]).to.deep.equal([false, []]);
+    expect([stored, Object.keys(buffer.snapshot())]).to.deep.equal([false, []]);
   });
 
   test.each([
@@ -163,7 +175,7 @@ describe("add", () => {
 
     const stored = buffer.add({...reading, s: statusClass});
 
-    expect([stored, buffer.backfill(237)]).to.deep.equal([false, []]);
+    expect([stored, buffer.backfill("USLAB000059")]).to.deep.equal([false, []]);
   });
 
   test("stores no record the feed sends without a status class", () => {
@@ -173,7 +185,7 @@ describe("add", () => {
 
     const stored = buffer.add({...reading, s: NaN});
 
-    expect([stored, buffer.backfill(237)]).to.deep.equal([false, []]);
+    expect([stored, buffer.backfill("USLAB000059")]).to.deep.equal([false, []]);
   });
 
   test("stores the last good reading the feed resends as static", () => {
@@ -182,31 +194,23 @@ describe("add", () => {
 
     buffer.add({...reading, s: 9});
 
-    expect(buffer.backfill(237).map((r) => r.s)).to.deep.equal([9]);
+    expect(buffer.backfill("USLAB000059").map((r) => r.s)).to.deep.equal([9]);
   });
 
   test("stores the source's own record of a disconnected feed", () => {
     const buffer = createBuffer();
 
-    buffer.add({k: 297, v: 0, t: NOW - 10, s: 2, sid: 1});
+    buffer.add({k: "STATUS", v: 0, t: NOW - 10, s: 2, sid: 1});
 
-    expect(buffer.backfill(297).map((r) => [r.v, r.s])).to.deep.equal([[0, 2]]);
+    expect(buffer.backfill("STATUS").map((r) => [r.v, r.s])).to.deep.equal([[0, 2]]);
   });
 
   test("stores no record of the source's own channel without a status class", () => {
     const buffer = createBuffer();
 
-    const stored = buffer.add({k: 297, v: 0, t: NOW - 10, s: NaN, sid: 1});
+    const stored = buffer.add({k: "STATUS", v: 0, t: NOW - 10, s: NaN, sid: 1});
 
-    expect([stored, buffer.backfill(297)]).to.deep.equal([false, []]);
-  });
-
-  test("rejects a record of a channel beyond the data dictionary", () => {
-    const buffer = createBuffer();
-
-    expect(() =>
-      buffer.add({...record(capturedRows("USLAB000059")[0], NOW - 10), k: 298}),
-    ).to.throw(RangeError);
+    expect([stored, buffer.backfill("STATUS")]).to.deep.equal([false, []]);
   });
 
   test("ignores a record identical in value, time and status to one it holds", () => {
@@ -215,7 +219,7 @@ describe("add", () => {
     buffer.add(record(resent, NOW - 10));
     buffer.add(record(resent, NOW - 10));
 
-    expect(times(buffer.backfill(75))).to.deep.equal([NOW - 10]);
+    expect(times(buffer.backfill("NODE3000009"))).to.deep.equal([NOW - 10]);
   });
 
   test("reports that it stored a record it did not hold", () => {
@@ -239,7 +243,7 @@ describe("add", () => {
     buffer.add(record(first, NOW - 10));
     buffer.add(record(second, NOW - 10));
 
-    expect(buffer.backfill(198).map((r) => r.v)).to.have.members([
+    expect(buffer.backfill("USLAB000020").map((r) => r.v)).to.have.members([
       -0.09021846950054169, -0.09021296352148056,
     ]);
   });
@@ -250,7 +254,7 @@ describe("add", () => {
     buffer.add(record(first, NOW - 10));
     buffer.add(record(second, NOW - 10));
 
-    expect(buffer.backfill(264).map((r) => r.s)).to.have.members([9, 24]);
+    expect(buffer.backfill("USLAB000086").map((r) => r.s)).to.have.members([9, 24]);
   });
 
   test("ignores a repeat of a record whose value is not a number", () => {
@@ -260,7 +264,7 @@ describe("add", () => {
     buffer.add(notANumber);
     buffer.add(notANumber);
 
-    expect(times(buffer.backfill(237))).to.deep.equal([NOW - 10]);
+    expect(times(buffer.backfill("USLAB000059"))).to.deep.equal([NOW - 10]);
   });
 
   test("ignores a repeat of a record whose time is not a number", () => {
@@ -270,7 +274,7 @@ describe("add", () => {
     buffer.add(notANumber);
     buffer.add(notANumber);
 
-    expect(buffer.snapshot()[237]).to.have.lengthOf(1);
+    expect(buffer.snapshot()["USLAB000059"]).to.have.lengthOf(1);
   });
 
   test("keeps a record whose value is a number after one of the same time and status whose value is not", () => {
@@ -280,7 +284,10 @@ describe("add", () => {
     buffer.add({...numeric, v: NaN});
     buffer.add(numeric);
 
-    expect(buffer.backfill(237).map((r) => r.v)).to.deep.equal([NaN, 23.26046371459961]);
+    expect(buffer.backfill("USLAB000059").map((r) => r.v)).to.deep.equal([
+      NaN,
+      23.26046371459961,
+    ]);
   });
 
   test("ignores a record of value -0 repeating one of value 0", () => {
@@ -290,7 +297,7 @@ describe("add", () => {
     // Estimated: no captured row has the value -0.
     buffer.add({...zero, v: -0});
 
-    expect(times(buffer.backfill(221))).to.deep.equal([NOW - 10]);
+    expect(times(buffer.backfill("USLAB000043"))).to.deep.equal([NOW - 10]);
   });
 });
 
@@ -300,7 +307,7 @@ describe("mean", () => {
     addEach(buffer, capturedRows("USLAB000043"));
     buffer.add(record(capturedRows("USLAB000059")[0]));
 
-    expect(buffer.mean(221)).to.equal(6.25);
+    expect(buffer.mean("USLAB000043")).to.equal(6.25);
   });
 
   test("leaves out values the channel no longer holds", () => {
@@ -309,7 +316,7 @@ describe("mean", () => {
     buffer.add(record(rows[0], NOW - 151));
     addEachSecond(buffer, rows[3], NOW - 150, NOW);
 
-    expect(buffer.mean(221)).to.equal(5);
+    expect(buffer.mean("USLAB000043")).to.equal(5);
   });
 
   test.each([
@@ -323,7 +330,7 @@ describe("mean", () => {
     buffer.add({...record(second, NOW - 20), v: value});
     buffer.add(record(fourth, NOW - 10));
 
-    expect(buffer.mean(221)).to.equal(7.5);
+    expect(buffer.mean("USLAB000043")).to.equal(7.5);
   });
 
   test("is 0 when the channel holds no numeric value", () => {
@@ -331,7 +338,7 @@ describe("mean", () => {
     // Estimated: no captured row has a value that is not a number.
     buffer.add({...record(capturedRows("USLAB000059")[0], NOW - 10), v: NaN});
 
-    expect(buffer.mean(237)).to.equal(0);
+    expect(buffer.mean("USLAB000059")).to.equal(0);
   });
 });
 
@@ -349,7 +356,7 @@ describe("snapshot and restore", () => {
     restored.restore(throughJson(buffer.snapshot()));
     log.mockRestore();
 
-    expect(restored.backfill(198).map((r) => [r.t, r.v])).to.deep.equal([
+    expect(restored.backfill("USLAB000020").map((r) => [r.t, r.v])).to.deep.equal([
       [NOW - 20, -0.09021422266960144],
       [NOW - 10, -0.09021846950054169],
       [NOW - 10, -0.09021296352148056],
@@ -359,7 +366,7 @@ describe("snapshot and restore", () => {
 
   test("restores each record with every field it was added with", () => {
     const buffer = createBuffer();
-    buffer.add({k: 297, v: 1, t: NOW - 5, s: 24, sid: (NOW - 5) * 1000});
+    buffer.add({k: "STATUS", v: 1, t: NOW - 5, s: 24, sid: (NOW - 5) * 1000});
     buffer.add(record(capturedRows("USLAB000086")[0]));
     const restored = createBuffer();
 
@@ -367,10 +374,21 @@ describe("snapshot and restore", () => {
     restored.restore(throughJson(buffer.snapshot()));
     log.mockRestore();
 
-    expect([restored.backfill(297), restored.backfill(264)]).to.deep.equal([
-      [{k: 297, v: 1, t: NOW - 5, s: 24, sid: (NOW - 5) * 1000}],
-      [{k: 264, v: 53, cv: "", t: 1_768_262_991, s: 9, sid: 1_768_781_287_851}],
-    ]);
+    expect([restored.backfill("STATUS"), restored.backfill("USLAB000086")]).to.deep.equal(
+      [
+        [{k: "STATUS", v: 1, t: NOW - 5, s: 24, sid: (NOW - 5) * 1000}],
+        [
+          {
+            k: "USLAB000086",
+            v: 53,
+            cv: "",
+            t: 1_768_262_991,
+            s: 9,
+            sid: 1_768_781_287_851,
+          },
+        ],
+      ],
+    );
   });
 
   test("keeps holding its records when a snapshot it returned is changed", () => {
@@ -378,10 +396,13 @@ describe("snapshot and restore", () => {
     const buffer = createBuffer();
     buffer.add(record(first, NOW - 10));
 
-    const held = buffer.snapshot()[237];
+    const held = buffer.snapshot()["USLAB000059"];
     held?.push(record(second, NOW - 5));
 
-    expect([held?.length, times(buffer.backfill(237))]).to.deep.equal([2, [NOW - 10]]);
+    expect([held?.length, times(buffer.backfill("USLAB000059"))]).to.deep.equal([
+      2,
+      [NOW - 10],
+    ]);
   });
 
   test("replaces the records the buffer held", () => {
@@ -389,10 +410,10 @@ describe("snapshot and restore", () => {
     buffer.add(record(capturedRows("USLAB000043")[0], NOW - 10));
 
     const log = vi.spyOn(console, "log").mockReturnValue(undefined);
-    buffer.restore({237: [record(capturedRows("USLAB000059")[0], NOW - 5)]});
+    buffer.restore({USLAB000059: [record(capturedRows("USLAB000059")[0], NOW - 5)]});
     log.mockRestore();
 
-    expect(buffer.backfill(221)).to.deep.equal([]);
+    expect(buffer.backfill("USLAB000043")).to.deep.equal([]);
   });
 
   test("keeps the last 150 records of a channel restored with more", () => {
@@ -402,10 +423,10 @@ describe("snapshot and restore", () => {
     const buffer = createBuffer();
 
     const log = vi.spyOn(console, "log").mockReturnValue(undefined);
-    buffer.restore({237: records});
+    buffer.restore({USLAB000059: records});
     log.mockRestore();
 
-    const kept = buffer.backfill(237);
+    const kept = buffer.backfill("USLAB000059");
     expect([kept.length, kept[0]?.t, kept[149]?.t]).to.deep.equal([
       150,
       NOW - 150,
@@ -418,15 +439,15 @@ describe("snapshot and restore", () => {
 
     const log = vi.spyOn(console, "log").mockReturnValue(undefined);
     buffer.restore({
-      237: [record(capturedRows("USLAB000059")[0], NOW - 10)],
-      263: [record(capturedRows("USLAB000085")[0], NOW - 10)],
+      USLAB000059: [record(capturedRows("USLAB000059")[0], NOW - 10)],
+      USLAB000085: [record(capturedRows("USLAB000085")[0], NOW - 10)],
     });
     log.mockRestore();
 
-    expect([times(buffer.backfill(237)), buffer.backfill(263)]).to.deep.equal([
-      [NOW - 10],
-      [],
-    ]);
+    expect([
+      times(buffer.backfill("USLAB000059")),
+      Object.keys(buffer.snapshot()),
+    ]).to.deep.equal([[NOW - 10], ["USLAB000059"]]);
   });
 
   test("holds nothing after restoring an empty snapshot", () => {
@@ -437,14 +458,14 @@ describe("snapshot and restore", () => {
     buffer.restore({});
     log.mockRestore();
 
-    expect(buffer.backfill(237)).to.deep.equal([]);
+    expect(buffer.backfill("USLAB000059")).to.deep.equal([]);
   });
 
   test("logs one line on restore", () => {
     const buffer = createBuffer();
 
     const log = vi.spyOn(console, "log").mockReturnValue(undefined);
-    buffer.restore({237: [record(capturedRows("USLAB000059")[0], NOW - 10)]});
+    buffer.restore({USLAB000059: [record(capturedRows("USLAB000059")[0], NOW - 10)]});
 
     expect(log.mock.calls.length).to.equal(1);
   });
@@ -460,23 +481,20 @@ describe("snapshot and restore", () => {
     ["null", null],
     ["a number", 5],
     ["an array", [[whole]]],
-    ["a string", '{"237": []}'],
-    ["a channel that is not an array", {237: whole}],
-    ["a record that is not an object", {237: [5]}],
+    ["a string", '{"USLAB000059": []}'],
+    ["a channel that is not an array", {USLAB000059: whole}],
+    ["a record that is not an object", {USLAB000059: [5]}],
     // eslint-disable-next-line unicorn/no-null -- JSON.parse of a saved snapshot can yield null
-    ["a record that is null", {237: [null]}],
-    ["a record with no channel number", {237: [without("k")]}],
-    ["a record with no value", {237: [without("v")]}],
-    ["a record with no time", {237: [without("t")]}],
-    ["a record with no time after a good one", {237: [whole, without("t")]}],
-    ["a record with a text time", {237: [{...whole, t: String(NOW - 5)}]}],
-    ["a record with no status class", {237: [without("s")]}],
-    ["a record with no session id", {237: [without("sid")]}],
-    ["a record with a numeric calibrated value", {237: [{...whole, cv: 23.3}]}],
-    ["a channel name that is not a number", {USLAB000059: [whole]}],
-    ["a channel number with a leading zero", {"0237": [whole]}],
-    ["a channel number beyond 297", {298: [whole]}],
-    ["a negative channel number", {"-1": [whole]}],
+    ["a record that is null", {USLAB000059: [null]}],
+    ["a record with no channel name", {USLAB000059: [without("k")]}],
+    ["a record whose channel is a number", {USLAB000059: [{...whole, k: 237}]}],
+    ["a record with no value", {USLAB000059: [without("v")]}],
+    ["a record with no time", {USLAB000059: [without("t")]}],
+    ["a record with no time after a good one", {USLAB000059: [whole, without("t")]}],
+    ["a record with a text time", {USLAB000059: [{...whole, t: String(NOW - 5)}]}],
+    ["a record with no status class", {USLAB000059: [without("s")]}],
+    ["a record with no session id", {USLAB000059: [without("sid")]}],
+    ["a record with a numeric calibrated value", {USLAB000059: [{...whole, cv: 23.3}]}],
   ])(
     "keeps what it held and reports one error when the snapshot is %s",
     (_shape, snapshot) => {
@@ -487,7 +505,7 @@ describe("snapshot and restore", () => {
       buffer.restore(snapshot);
 
       expect([
-        buffer.backfill(237).map((r) => r.v),
+        buffer.backfill("USLAB000059").map((r) => r.v),
         error.mock.calls.length,
       ]).to.deep.equal([[23.32332992553711], 1]);
     },

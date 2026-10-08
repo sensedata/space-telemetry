@@ -9,7 +9,7 @@ import {test} from "../../src/server/test-helpers/fake-clock.ts";
 
 const recorded = [
   {
-    k: 294,
+    k: "Z1000014",
     v: 39.72657012939453,
     cv: "39.73",
     t: 1_789_211_884,
@@ -17,7 +17,7 @@ const recorded = [
     sid: 1_789_211_888_321,
   },
   {
-    k: 295,
+    k: "Z1000015",
     v: -26.246341705322266,
     cv: "-26.25",
     t: 1_789_211_884,
@@ -25,7 +25,7 @@ const recorded = [
     sid: 1_789_211_888_321,
   },
   {
-    k: 296,
+    k: "TIME_000001",
     v: 1_789_211_884,
     cv: "255/11:18:04",
     t: 1_789_211_884,
@@ -77,14 +77,14 @@ test("rejects a recording holding a row that is not a whole record", async ({dir
   vi.spyOn(console, "log").mockReturnValue(undefined);
   const recorded = [
     {
-      k: 294,
+      k: "Z1000014",
       v: 39.72657012939453,
       cv: "39.73",
       t: 1_789_211_884,
       s: 24,
       sid: 1_789_211_888_321,
     },
-    {k: 295, v: -26.246341705322266, cv: "-26.25", t: 1_789_211_884, s: 24},
+    {k: "Z1000015", v: -26.246341705322266, cv: "-26.25", t: 1_789_211_884, s: 24},
   ];
   const file = path.join(dir, "recording.jsonl.gz");
   fs.writeFileSync(

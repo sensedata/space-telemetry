@@ -4,8 +4,8 @@ export type FieldValue = string | null;
 
 // A telemetry record as the source carries it and the buffer holds it.
 export type FeedRecord = {
-  // The channel's number in the data dictionary.
-  readonly k: number;
+  // The channel's name: a Lightstreamer item name, or STATUS.
+  readonly k: string;
   readonly v: number;
   // Lightstreamer's CalibratedData; the source's own STATUS records carry none.
   readonly cv?: FieldValue;
@@ -18,15 +18,15 @@ export type FeedRecord = {
   readonly sid: number;
 };
 
-const NUMERIC_FIELDS = ["k", "v", "t", "s", "sid"];
+const NUMERIC_FIELDS = ["v", "t", "s", "sid"];
 
-/** Accepts a parsed value whose numeric fields are numbers and whose cv is absent, null or text. */
 export function isFeedRecord(value: unknown): value is FeedRecord {
   if (typeof value !== "object" || value === null) {
     return false;
   }
   const cv: unknown = Reflect.get(value, "cv");
   return (
+    typeof Reflect.get(value, "k") === "string" &&
     NUMERIC_FIELDS.every((field) => typeof Reflect.get(value, field) === "number") &&
     (cv === undefined || cv === null || typeof cv === "string")
   );

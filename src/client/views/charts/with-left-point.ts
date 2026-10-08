@@ -1,9 +1,9 @@
 import type {TimedRecord} from "../../timed-record.ts";
 
 /**
- * The records with the one in force at earliest, the left edge of a chart, moved there, or a
- * copy of the oldest placed there if none is, so the chart always starts with a point.
- * Records before the one in force stay.
+ * The records with a point at earliest, the left edge of a chart. The record in force at
+ * earliest moves there, and the records before it stay. Where none is in force, a copy of
+ * the oldest goes there. No records give none.
  */
 export function withLeftPoint<Held extends Pick<TimedRecord, "t">>(
   records: readonly Held[],

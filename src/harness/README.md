@@ -5,9 +5,9 @@ Local-only tooling for running the server on replayed telemetry. Nothing here is
 ## Files
 
 - `probe.ts`: opens the server's `/events` stream, which carries the last 450 seconds and
-  then the live records of every carried channel, and prints what it sends for a few of
-  them. `carried` in `src/contract/channels.ts` lists the carried channels; the probe
-  names any other it is given and skips it.
+  then the live records of every channel, and prints what it sends for a few of them.
+  `names` in `src/contract/channels.ts` lists the channels; the probe names any other it
+  is given and skips it.
 - `recordings/1789211888321.jsonl.gz`: the recording `SOURCE=replay` plays by default.
 
 ## Run the server locally
@@ -71,11 +71,11 @@ Options:
   show nothing moving. `TIME_000001`'s value stays the recorded time either way.
 
 Under `SOURCE=replay` the server does not load the Lightstreamer client library, and it
-skips the recording's `STATUS` records. It keeps and sends only the carried channels'
-records, so of the recording's 117 channels 89 reach a client. `STATUS` follows the
-replayed `TIME_000001` records: connected while they arrive, disconnected 10 seconds after
-the last. The replay stops at the recording's end and the server keeps running, with
-`STATUS` disconnected.
+skips the recording's `STATUS` records. It keeps and sends only the records of the
+channels `names` lists, so of the recording's 117 channels 89 reach a client. `STATUS`
+follows the replayed `TIME_000001` records: connected while they arrive, disconnected 10
+seconds after the last. The replay stops at the recording's end and the server keeps
+running, with `STATUS` disconnected.
 
 ## Keep the buffer across restarts
 
@@ -93,8 +93,10 @@ DATA_DIR=/tmp/telemetry SOURCE=none PORT=5055 node src/server/server.ts
 
 When the data directory holds no `buffer.json`, the server restores the seed,
 `src/server/seed/buffer.json.gz`, instead: the newest 150 records of every channel but
-`STATUS`, up to 2026-09-14. From a snapshot or the seed it restores only the carried
-channels. The first save writes `buffer.json`, after which the seed no longer applies. A
-`buffer.json` the server rejects as malformed is not replaced by the seed; the server
-starts empty. `SEED_FILE` names another gzipped snapshot to seed from. A seeded record
-keeps its recorded `t`.
+`STATUS`, up to 2026-09-14. From a snapshot or the seed it restores only the channels
+`names` lists. The first save writes `buffer.json`, after which the seed no longer
+applies. A `buffer.json` the server rejects as malformed is not replaced by the seed; the
+server starts empty. A `buffer.json` saved before channels were keyed by name, on
+2026-10-07, is malformed in this sense: delete it, and the server seeds afresh.
+`SEED_FILE` names another gzipped snapshot to seed from. A seeded record keeps its
+recorded `t`.

@@ -84,17 +84,15 @@ describe("a telemetry cell's props", () => {
     });
   });
 
-  test("read a quaternion readout's axis and channels", () => {
+  test("read a roll readout's quaternion channels", () => {
     const cell = cellOf(
-      '<td class="readout degrees decimal attitude actual" data-scale="2" data-quaternion-id="attitude-actual" data-euler-axis="x" data-telemetry-id-x="USLAB000019" data-telemetry-id-y="USLAB000020" data-telemetry-id-z="USLAB000021" data-telemetry-id-w="USLAB000018"></td>',
+      '<td class="readout degrees decimal" data-scale="2" data-combine="roll" data-telemetry-ids="USLAB000019,USLAB000020,USLAB000021,USLAB000018"></td>',
     );
 
     assert.deepEqual(parseCellProps(cell), {
       source: {
-        kind: "quaternion",
-        quaternionId: "attitude-actual",
-        eulerAxis: "x",
-        axes: {x: "USLAB000019", y: "USLAB000020", z: "USLAB000021", w: "USLAB000018"},
+        kind: "roll",
+        channels: ["USLAB000019", "USLAB000020", "USLAB000021", "USLAB000018"],
       },
       scale: 2,
     });
@@ -176,14 +174,6 @@ describe("a telemetry cell's props", () => {
     [
       "a combination the page does not know",
       '<td class="readout decimal" data-combine="median" data-telemetry-ids="S4000002,P6000005"></td>',
-    ],
-    [
-      "a quaternion without its w channel",
-      '<td class="readout decimal" data-quaternion-id="attitude-actual" data-euler-axis="x" data-telemetry-id-x="USLAB000019" data-telemetry-id-y="USLAB000020" data-telemetry-id-z="USLAB000021"></td>',
-    ],
-    [
-      "an Euler axis other than x, y or z",
-      '<td class="readout decimal" data-quaternion-id="attitude-actual" data-euler-axis="w" data-telemetry-id-x="USLAB000019" data-telemetry-id-y="USLAB000020" data-telemetry-id-z="USLAB000021" data-telemetry-id-w="USLAB000018"></td>',
     ],
     [
       "view attributes without a channel",

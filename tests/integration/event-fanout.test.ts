@@ -111,7 +111,7 @@ describe("event fan-out", () => {
     ]);
   });
 
-  test("closes and drops a connection that falls behind the oldest event it holds", async ({
+  test("closes a connection that falls behind the oldest event it holds", async ({
     server,
   }) => {
     const fanout = createEventFanout(4);
@@ -121,7 +121,7 @@ describe("event fan-out", () => {
     appendFrames(fanout, 10, MB);
     await closed;
 
-    expect([res.destroyed, fanout.size]).to.deep.equal([true, 0]);
+    expect(res.destroyed).toBe(true);
   });
 
   test("sends a connection its initial backfill before the events appended after it", async ({

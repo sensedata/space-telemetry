@@ -1,132 +1,122 @@
-import {type ComponentChild, h, render} from "preact";
+import type {ChannelName} from "../contract/channels.ts";
+import {startClock} from "./signals/clock.ts";
+import {startStream} from "./start-stream.ts";
+import {type CellProps, parseCellProps} from "./cell-props.ts";
+import {type CellSource, recordsOf} from "./cell-source.ts";
+import {effect} from "./signals/effect.ts";
+import {newestRecord} from "./records/newest-record.ts";
+import {statusDictionary} from "./status-dictionary.ts";
 
-import * as channels from "../contract/channels.ts";
-import {App} from "./app.ts";
-import {type CellProps, type CellSource, parseCellProps} from "./cell-props.ts";
+import {barMicrochart} from "./views/charts/bar-microchart.ts";
+import {bulletMicrochart} from "./views/charts/bullet-microchart.ts";
+import {sparklineMicrochart} from "./views/charts/sparkline-microchart.ts";
+import {mount, type View} from "./views/mount.ts";
 
-import {BarMicrochart} from "./views/charts/bar-microchart.tsx";
-import {BulletMicrochart} from "./views/charts/bullet-microchart.tsx";
-import {SparklineMicrochart} from "./views/charts/sparkline-microchart.tsx";
+import {decimalReadout} from "./views/readouts/decimal-readout.ts";
+import {integerReadout} from "./views/readouts/integer-readout.ts";
+import {groundTimeReadout} from "./views/readouts/ground-time-readout.ts";
+import {networkReadout} from "./views/readouts/network-readout.ts";
+import {qualifierReadout} from "./views/readouts/qualifier-readout.ts";
+import type {Statuses} from "./views/readouts/status-text.ts";
+import {textReadout} from "./views/readouts/text-readout.ts";
+import {timestampReadout} from "./views/readouts/timestamp-readout.ts";
+import {transmissionDelayReadout} from "./views/readouts/transmission-delay-readout.ts";
 
-import {DecimalReadout} from "./views/readouts/decimal-readout.tsx";
-import {IntegerReadout} from "./views/readouts/integer-readout.tsx";
-import {LastTransmissionReadout} from "./views/readouts/last-transmission-readout.tsx";
-import {LocalTimeReadout} from "./views/readouts/local-time-readout.tsx";
-import {NetworkReadout} from "./views/readouts/network-readout.tsx";
-import {QualifierReadout} from "./views/readouts/qualifier-readout.tsx";
-import {TextReadout} from "./views/readouts/text-readout.tsx";
-import {TimestampReadout} from "./views/readouts/timestamp-readout.tsx";
-import {TransmissionDelayReadout} from "./views/readouts/transmission-delay-readout.tsx";
-
-const app = new App();
+const clock = startClock();
+const stream = startStream(clock);
 
 type CellSize = {readonly width: number; readonly height: number};
 
-// Each chart, by the selector of its cells, from the props the cell's data attributes give
-// and the cell's size. A chart drawn can widen its table's columns, so each cell is measured
-// after the cells of the classes before it are drawn.
-const charts: Record<string, (props: CellProps, size: CellSize) => ComponentChild> = {
-  ".bar-chart": ({source, min, max}, {width, height}) =>
-    h(BarMicrochart, {store: recordsOf(source), min, max, width, height}),
-  ".bullet-chart": (
-    {source, capacityId, capacity, marker, conversion},
-    {width, height},
-  ) =>
-    h(BulletMicrochart, {
-      store: recordsOf(source),
-      capacityStore:
-        capacityId === undefined ? undefined : app.getSimpleStore(capacityId),
-      capacity,
-      marker,
-      conversion,
-      width,
-      height,
-    }),
-  ".sparkline-chart": ({source}, {width, height}) =>
-    h(SparklineMicrochart, {
-      clock: app.clock,
-      store: recordsOf(source),
-      width,
-      height,
-    }),
+// Each chart, by the selector of its cells: from the props the cell's data attributes give,
+// the chart at a size. The props are read once, and the chart drawn at each size the cell
+// takes, so a chart drawn again reads the sources it had.
+const charts: Record<string, (props: CellProps) => (size: CellSize) => View> = {
+  ".bar-chart": ({source, min, max}) => {
+    const store = recordsOf(source, stream.channels);
+    return ({width, height}) => barMicrochart({clock, store, min, max, width, height});
+  },
+  ".bullet-chart": ({source, capacityId, capacity, marker, conversion}) => {
+    const store = recordsOf(source, stream.channels);
+    const capacityStore =
+      capacityId === undefined ? undefined : stream.channels[capacityId];
+    return ({width, height}) =>
+      bulletMicrochart({
+        store,
+        capacityStore,
+        capacity,
+        marker,
+        conversion,
+        width,
+        height,
+      });
+  },
+  ".sparkline-chart": ({source}) => {
+    const store = recordsOf(source, stream.channels);
+    return ({width, height}) => sparklineMicrochart({clock, store, width, height});
+  },
 };
 
 // Each readout, by the selector of its cells, from the props the cell's data attributes give.
-const readouts: Record<string, (props: CellProps) => ComponentChild> = {
+const readouts: Record<string, (props: CellProps) => View> = {
   ".readout.decimal": ({source, conversion, scale, negativePad}) =>
-    h(DecimalReadout, {
-      ...(source.kind === "quaternion"
-        ? {
-            store: app.getQuaternionStore(source.quaternionId, source.axes),
-            eulerAxis: source.eulerAxis,
-          }
-        : {store: recordsOf(source)}),
+    decimalReadout({
+      store: recordsOf(source, stream.channels),
       conversion,
       scale,
       negativePad,
     }),
-  ".readout.integer": ({source}) => h(IntegerReadout, {store: recordsOf(source)}),
+  ".readout.integer": ({source}) => integerReadout(recordsOf(source, stream.channels)),
   ".readout.qualifier": ({source}) =>
-    h(QualifierReadout, {
-      store: recordsOf(source),
-      telemetryNumber:
-        source.kind === "channel" ? channels.numbers[source.channel] : undefined,
+    qualifierReadout({
+      store: recordsOf(source, stream.channels),
+      statuses: statusesOf(source),
     }),
   ".readout.text": ({source}) =>
-    h(TextReadout, {
-      store: recordsOf(source),
-      telemetryNumber:
-        source.kind === "channel" ? channels.numbers[source.channel] : undefined,
+    textReadout({
+      store: recordsOf(source, stream.channels),
+      statuses: statusesOf(source),
     }),
-  ".readout.timestamp": ({source}) => h(TimestampReadout, {store: recordsOf(source)}),
+  ".readout.timestamp": ({source}) =>
+    timestampReadout(recordsOf(source, stream.channels)),
 };
 
-// Throws for a quaternion, whose store holds an attitude rather than records.
-function recordsOf(source: CellSource) {
-  switch (source.kind) {
-    case "channel": {
-      return app.getSimpleStore(source.channel);
-    }
-    case "average": {
-      return app.getAveragingStore(source.channels);
-    }
-    case "angle-deviation": {
-      return app.getAngleDeviationStore(source.angles);
-    }
-    case "deviation": {
-      return app.getDeviationStore(source.channels);
-    }
-    case "sum": {
-      return app.getSummingStore(source.channels);
-    }
-    case "power": {
-      return app.getPowerStore(source.pairs);
-    }
-    case "quaternion": {
-      throw new TypeError(
-        `quaternion ${source.quaternionId} is on a cell that shows records`,
-      );
-    }
+// A status cell names one channel, and the status dictionary has its table.
+function statusesOf(source: CellSource): Statuses {
+  if (source.kind !== "channel") {
+    throw new TypeError(`a status cell names one channel, not a ${source.kind}`);
   }
+  return statusTable(source.channel);
 }
 
-// The cell's content box: a chart drawn to the padding or border box grows its cell by the
-// padding, and with it the row and column.
-function contentSize(cell: Element): CellSize {
-  const box = cell.getBoundingClientRect();
-  const style = getComputedStyle(cell);
+function statusTable(channel: ChannelName): Statuses {
+  const statuses = statusDictionary[channel];
+  if (statuses === undefined) {
+    throw new TypeError(`the status dictionary has no table for ${channel}`);
+  }
+  return statuses;
+}
+
+// The content box of a cell the observer reports. A chart drawn to the padding or border box
+// grows its cell by the padding, and with it the row and column. WebKit reports a table
+// cell's content box without the row's height, so the box is cut from the border box.
+function contentSize(entry: ResizeObserverEntry): CellSize {
+  const style = getComputedStyle(entry.target);
   const px = (...properties: string[]) =>
     properties.reduce(
       // eslint-disable-next-line unicorn/prefer-number-coercion -- a computed length reads "8px", which Number makes NaN
       (sum, property) => sum + Number.parseFloat(style.getPropertyValue(property)),
       0,
     );
+  const [box] = entry.borderBoxSize;
+  if (box === undefined) {
+    throw new TypeError("a resize entry reports no border box");
+  }
   return {
     width:
-      box.width -
+      box.inlineSize -
       px("padding-left", "padding-right", "border-left-width", "border-right-width"),
     height:
-      box.height -
+      box.blockSize -
       px("padding-top", "padding-bottom", "border-top-width", "border-bottom-width"),
   };
 }
@@ -139,34 +129,42 @@ function pageElement(selector: string): Element {
   return element;
 }
 
-// Charts are drawn to their cells' sizes, so a resized window draws them afresh. Each is
-// first emptied, as at load, so that no chart holds its column at the old width.
-function drawCharts() {
-  for (const selector of Object.keys(charts)) {
-    for (const cell of document.querySelectorAll(selector)) {
-      render(undefined, cell);
+// Mounts the chart at the cell's content box, now and afresh at each box the cell takes,
+// in place of the chart drawn to the last; a cell with no box, as one hidden, shows no
+// chart. A chart drawn can widen the cells beside it in a table laid out by content, below
+// 768px; the observer then reports those too, and WebKit warns on its console of a loop
+// when it carries them over to the next frame.
+function mountAtEachSize(cell: Element, chartAt: (size: CellSize) => View): void {
+  let unmount: (() => void) | undefined;
+  new ResizeObserver((entries) => {
+    for (const entry of entries) {
+      unmount?.();
+      const size = contentSize(entry);
+      unmount =
+        size.width > 0 && size.height > 0 ? mount(chartAt(size), cell) : undefined;
     }
-  }
-  for (const [selector, chart] of Object.entries(charts)) {
-    for (const cell of document.querySelectorAll(selector)) {
-      const props = parseCellProps(cell);
-      if (props !== undefined) {
-        render(chart(props, contentSize(cell)), cell);
-      }
-    }
+  }).observe(cell);
+}
+
+type TelemetryCell = {readonly cell: Element; readonly props: CellProps};
+
+// The cells of the selector that name telemetry, each with its props.
+function telemetryCells(selector: string): TelemetryCell[] {
+  return [...document.querySelectorAll(selector)].flatMap((cell) => {
+    const props = parseCellProps(cell);
+    return props === undefined ? [] : [{cell, props}];
+  });
+}
+
+for (const [selector, chart] of Object.entries(charts)) {
+  for (const {cell, props} of telemetryCells(selector)) {
+    mountAtEachSize(cell, chart(props));
   }
 }
 
-drawCharts();
-// A browser fires resize at most once a frame.
-addEventListener("resize", drawCharts);
-
 for (const [selector, readout] of Object.entries(readouts)) {
-  for (const cell of document.querySelectorAll(selector)) {
-    const props = parseCellProps(cell);
-    if (props !== undefined) {
-      render(readout(props), cell);
-    }
+  for (const {cell, props} of telemetryCells(selector)) {
+    mount(readout(props), cell);
   }
 }
 
@@ -176,38 +174,30 @@ for (const light of document.querySelectorAll(".status")) {
     throw new TypeError("a status light names one channel and its data-status-on-value");
   }
   const onValue = props.statusOnValue;
-  const store = app.getLatestStore(props.source.channel);
+  const store = stream.channels[props.source.channel];
   // A light whose channel holds no record reads off; the page's styles collapse an off
   // gyroscope's details.
-  const paint = () => {
-    const [latest] = store.get();
+  effect([store], () => {
+    const latest = newestRecord(store.get());
     light.classList.toggle("on", latest?.v === onValue);
     light.classList.toggle("off", !light.classList.contains("on"));
-  };
-  paint();
-  store.subscribe(paint);
+  });
 }
 
-render(
-  h(NetworkReadout, {
-    connection: app.connection,
-    store: app.getSimpleStore("STATUS"),
-    telemetryNumber: channels.numbers.STATUS,
+mount(
+  networkReadout({
+    connection: stream.connection,
+    store: stream.channels.STATUS,
+    statuses: statusTable("STATUS"),
   }),
   pageElement("#telemetry-network"),
 );
 
-render(
-  h(LastTransmissionReadout, {store: app.lastTransmission}),
-  pageElement("#telemetry-transmitted"),
-);
+mount(timestampReadout(stream.lastTransmission), pageElement("#telemetry-transmitted"));
 
-render(
-  h(TransmissionDelayReadout, {clock: app.clock, store: app.lastTransmission}),
+mount(
+  transmissionDelayReadout({clock, store: stream.lastTransmission}),
   pageElement("#telemetry-delay"),
 );
 
-render(h(LocalTimeReadout, {clock: app.clock}), pageElement("#local-time"));
-
-// Last: a store asked for once the stream is open throws.
-app.connect();
+mount(groundTimeReadout(clock), pageElement("#ground-time"));

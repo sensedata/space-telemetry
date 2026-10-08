@@ -19,8 +19,6 @@ export type EventFanout = {
   readonly add: (res: Writable, initial: string) => void;
   // Appends `event`, formatted by formatEvent.
   readonly append: (event: string) => void;
-  // The number of open responses.
-  readonly size: number;
 };
 
 /**
@@ -86,11 +84,5 @@ export function createEventFanout(capacity: number): EventFanout {
     streams.forEach(nudge);
   }
 
-  return {
-    add,
-    append,
-    get size() {
-      return streams.size;
-    },
-  };
+  return {add, append};
 }

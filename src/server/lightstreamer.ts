@@ -75,7 +75,7 @@ export function start(
   // STATUS is the server's own channel, not an ISSLIVE item.
   const telemetrySub = new Subscription(
     "MERGE",
-    channels.carried.filter((name) => name !== "STATUS"),
+    channels.names.filter((name) => name !== "STATUS"),
     SCHEMA,
   );
   const timeSub = new Subscription("MERGE", "TIME_000001", ["Status.Class"]);
@@ -130,9 +130,6 @@ export function start(
 
     onItemUpdate: reporting("telemetry onItemUpdate", (update) => {
       const itemName = update.getItemName();
-      const names: readonly string[] = channels.names;
-      // Never -1: each update names an item of telemetrySub, all of which are in names.
-      const idx = names.indexOf(itemName);
       let value = fieldNumber(update.getValue("Value"));
       let timestamp = fieldNumber(update.getValue("TimeStamp"));
       const statusClass = fieldNumber(update.getValue("Status.Class"));
@@ -142,12 +139,12 @@ export function start(
       }
 
       // TIME_000001's value is its own timestamp.
-      if (idx === channels.numbers.TIME_000001) {
+      if (itemName === "TIME_000001") {
         value = timestamp;
       }
 
       source.emit("data", {
-        k: idx,
+        k: itemName,
         v: value,
         cv: update.getValue("CalibratedData"),
         t: timestamp,

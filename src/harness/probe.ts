@@ -1,7 +1,6 @@
 // Connects to a running server and exercises the client's contract: open GET /events,
-// which sends the last 450 seconds of each carried channel and then its live records, and
-// count the events named by each probed channel's number: its backfill first, then its live
-// records. Each carries an array of records.
+// which sends one records event of the last 450 seconds of every channel and then one per
+// live record, and count the events holding a record of each probed channel.
 //
 //   PORT=5055 node src/harness/probe.ts [TELEMETRY_ID ...]
 //
@@ -10,7 +9,9 @@ import http from "node:http";
 import readline from "node:readline";
 
 import * as channels from "../contract/channels.ts";
+import type {StreamRecord} from "../contract/stream-record.ts";
 
+const NAMES: ReadonlySet<string> = new Set(channels.names);
 const requested = process.argv.slice(2);
 const names = requested.length > 0 ? requested : ["USLAB000059", "TIME_000001", "STATUS"];
 
@@ -26,11 +27,10 @@ async function probe() {
   const seen = new Map<string, number>();
   const probed = new Set<string>();
   for (const name of names) {
-    const channel = channels.carried.find((carried) => carried === name);
-    if (channel === undefined) {
-      log("no carried telemetry id", name);
+    if (NAMES.has(name)) {
+      probed.add(name);
     } else {
-      probed.add(String(channels.numbers[channel]));
+      log("no such telemetry id", name);
     }
   }
 
@@ -49,7 +49,7 @@ async function probe() {
   });
   log("connected", response.statusCode);
 
-  // No probed channel has the empty name, so data before the first event line goes uncounted.
+  // Data before the first event line goes uncounted.
   let event = "";
   const lines = readline.createInterface({input: response});
   // Destroyed without an error, the response emits neither "end" nor "error", so readline stays
@@ -61,17 +61,21 @@ async function probe() {
   for await (const line of lines) {
     if (line.startsWith("event: ")) {
       event = line.slice("event: ".length);
-    } else if (line.startsWith("data: ") && probed.has(event)) {
-      if (!seen.has(event)) {
-        log(
-          "channel",
-          event,
-          channels.names[Number(event)],
-          "first message",
-          line.slice("data: ".length, 300),
-        );
+    } else if (event === "records" && line.startsWith("data: ")) {
+      // The server's own records: the harness trusts their shape.
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion -- a probe of the server's own stream, not a boundary the server guards
+      const records = JSON.parse(line.slice("data: ".length)) as StreamRecord[];
+      const held = new Set(records.map((record) => record.k));
+      for (const channel of held) {
+        if (!probed.has(channel)) {
+          continue;
+        }
+        if (!seen.has(channel)) {
+          const first = records.find((record) => record.k === channel);
+          log("channel", channel, "first record", JSON.stringify(first));
+        }
+        seen.set(channel, (seen.get(channel) ?? 0) + 1);
       }
-      seen.set(event, (seen.get(event) ?? 0) + 1);
     }
   }
   // complete is true only when the server ended the stream, not when stop destroyed it.

@@ -27,13 +27,13 @@ export default {
   mutate: [
     "src/contract/**/*.ts",
     "src/server/**/*.ts",
-    "src/client/**/*.{ts,tsx}",
-    "!**/*.test.{ts,tsx}",
+    "src/client/**/*.ts",
+    "!**/*.test.ts",
     "!**/test-helpers/**",
 
     // Data: each entry is a literal Stryker would mutate, and only a test that restates
     // the data could kill the mutant.
     "!src/contract/channels.ts",
-    "!src/client/views/status-dictionary.ts",
+    "!src/client/status-dictionary.ts",
   ],
 };

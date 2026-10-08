@@ -14,9 +14,6 @@
     "resolveJsonModule": true,
     "verbatimModuleSyntax": true,
 
-    "jsx": "react-jsx",
-    "jsxImportSource": "preact",
-
     "skipLibCheck": true,
     "types": ["vite/client", "node"],
 

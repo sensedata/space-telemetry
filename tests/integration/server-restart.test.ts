@@ -10,8 +10,6 @@ import {test} from "./test-helpers/spawned-server.ts";
 
 const sourceDir = path.join(import.meta.dirname, "..", "..", "src");
 
-const TIME_000001 = 296;
-
 // With DATA_DIR unset a server saves to data/ at the root of its tree, so a test that leaves
 // DATA_DIR unset or empty starts the copy of src/server/ that copyServer makes outside the
 // repo, where a server that misreads DATA_DIR cannot write into the repo.
@@ -41,12 +39,12 @@ function replayOf(dir: string, records: readonly FeedRecord[]) {
 function backfill(
   openStream: (url: string) => EventStream,
   url: string,
-  channel: number,
+  channel: string,
 ) {
-  return openStream(url).next(String(channel));
+  return openStream(url).backfill(channel);
 }
 
-function snapshotHolding(file: string, channel: number) {
+function snapshotHolding(file: string, channel: string) {
   const holds = () => {
     try {
       const snapshot: unknown = JSON.parse(fs.readFileSync(file, "utf8"));
@@ -86,8 +84,8 @@ describe("server restart", {timeout: 10_000}, () => {
       const first = await startServer(
         {DATA_DIR: dataDir, SOURCE: "replay"},
         replayOf(dataDir, [
-          {k: 221, v: 1, cv: "1", t: now - 20, s: 24, sid: 1},
-          {k: 221, v: 2, cv: "2", t: now - 10, s: 24, sid: 1},
+          {k: "USLAB000043", v: 1, cv: "1", t: now - 20, s: 24, sid: 1},
+          {k: "USLAB000043", v: 2, cv: "2", t: now - 10, s: 24, sid: 1},
         ]),
       );
       await first.replayed;
@@ -95,7 +93,7 @@ describe("server restart", {timeout: 10_000}, () => {
       await first.exited;
 
       const second = await startServer({DATA_DIR: dataDir});
-      const reply = await backfill(openStream, second.url, 221);
+      const reply = await backfill(openStream, second.url, "USLAB000043");
 
       expect(pickFields(reply, ["v", "t"])).toStrictEqual([
         {v: 1, t: now - 20},
@@ -142,15 +140,15 @@ describe("server restart", {timeout: 10_000}, () => {
     const first = await startServer(
       {DATA_DIR: dataDir, SNAPSHOT_SECONDS: "0.1", SOURCE: "replay"},
       replayOf(dataDir, [
-        {k: 221, v: 10, cv: "Track 3 Sat", t: 1_789_211_895, s: 24, sid: 1},
+        {k: "USLAB000043", v: 10, cv: "Track 3 Sat", t: 1_789_211_895, s: 24, sid: 1},
       ]),
     );
-    await snapshotHolding(path.join(dataDir, "buffer.json"), 221);
+    await snapshotHolding(path.join(dataDir, "buffer.json"), "USLAB000043");
     first.child.kill("SIGKILL");
     await first.exited;
 
     const second = await startServer({DATA_DIR: dataDir});
-    const reply = await backfill(openStream, second.url, 221);
+    const reply = await backfill(openStream, second.url, "USLAB000043");
 
     expect(pickFields(reply, ["v", "t"])).toStrictEqual([{v: 10, t: 1_789_211_895}]);
   });
@@ -164,7 +162,7 @@ describe("server restart", {timeout: 10_000}, () => {
       {DATA_DIR: dataDir, SOURCE: "replay"},
       replayOf(dataDir, [
         {
-          k: TIME_000001,
+          k: "TIME_000001",
           v: 1_789_211_888,
           cv: "1789211888",
           t: 1_789_211_888,
@@ -178,7 +176,7 @@ describe("server restart", {timeout: 10_000}, () => {
     await first.exited;
 
     const second = await startServer({DATA_DIR: dataDir});
-    const status = await backfill(openStream, second.url, 297);
+    const status = await backfill(openStream, second.url, "STATUS");
 
     expect(pickFields(status, ["v", "s"])).toStrictEqual([{v: 0, s: 2}]);
   });
@@ -190,7 +188,7 @@ describe("server restart", {timeout: 10_000}, () => {
   }) => {
     const {url} = await startServer({DATA_DIR: dataDir});
 
-    const status = await backfill(openStream, url, 297);
+    const status = await backfill(openStream, url, "STATUS");
 
     expect(pickFields(status, ["v", "s"])).toStrictEqual([{v: 0, s: 2}]);
   });
@@ -205,15 +203,13 @@ describe("server restart", {timeout: 10_000}, () => {
   }) => {
     const {url} = await startServer({DATA_DIR: dataDir, SEED_FILE: seedFile});
 
-    const reply = await backfill(openStream, url, 237);
+    const reply = await backfill(openStream, url, "USLAB000059");
 
     expect(pickFields(reply, ["v", "t"])).toStrictEqual([
       {v: 23.57479476928711, t: 1_789_395_274},
     ]);
   });
 
-  // EventSource dispatches a stream's events in order, and 262 comes before 264 in the
-  // backfill, so an event on 262 would have arrived before the one on 264.
   test("sends no seeded record of a channel it does not carry", async ({
     startServer,
     dataDir,
@@ -221,15 +217,10 @@ describe("server restart", {timeout: 10_000}, () => {
     openStream,
   }) => {
     const {url} = await startServer({DATA_DIR: dataDir, SEED_FILE: seedFile});
-    const stream = openStream(url);
-    const uncarried: string[] = [];
-    stream.source.addEventListener("262", (event: MessageEvent<string>) => {
-      uncarried.push(event.data);
-    });
 
-    await stream.next("264");
+    const reply = await backfill(openStream, url, "USLAB000084");
 
-    expect(uncarried).to.deep.equal([]);
+    expect(reply).to.deep.equal([]);
   });
 
   test("starts empty rather than seeded when its snapshot is malformed", async ({
@@ -240,11 +231,11 @@ describe("server restart", {timeout: 10_000}, () => {
   }) => {
     fs.writeFileSync(
       path.join(dataDir, "buffer.json"),
-      '{"237": [{"k": 237, "v": 23.32332992553711',
+      '{"USLAB000059": [{"k": "USLAB000059", "v": 23.32332992553711',
     );
     const {url} = await startServer({DATA_DIR: dataDir, SEED_FILE: seedFile});
 
-    const reply = await backfill(openStream, url, 237);
+    const reply = await backfill(openStream, url, "USLAB000059");
 
     expect(reply).to.deep.equal([]);
   });
@@ -262,7 +253,7 @@ describe("server restart", {timeout: 10_000}, () => {
       copyServer(tree),
     );
 
-    const reply = await backfill(openStream, url, 237);
+    const reply = await backfill(openStream, url, "USLAB000059");
 
     expect(reply).to.deep.equal([]);
   });

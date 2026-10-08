@@ -4,7 +4,7 @@ import {test as mountTest} from "./mount.ts";
 
 // Every test of this `test` runs on a fake setInterval, clearInterval and Date, which start at
 // `now` and move only as the test advances them. `now` is the real time unless
-// `test.override({ now })` sets it for a file or a describe. Views that tick take a Clock, so
+// `test.override({ now })` sets it for a file or a describe. Views that tick take a clock, so
 // this extends mount's `test`.
 export const test = mountTest
   .extend("now", () => Date.now())

@@ -1,14 +1,11 @@
 import {defineConfig} from "vitest/config";
 
-const jsx = {runtime: "automatic", importSource: "preact"} as const;
-
 // When build.target was last set; tests/integration/browser-targets.test.ts fails once this
 // is more than 90 days old.
 export const targetsAsOf = "2026-09-27";
 
 export default defineConfig({
   root: "src/client",
-  oxc: {jsx},
   build: {
     // Supported browsers: the current and prior major versions of Chrome, Firefox and Safari
     // (macOS and iOS), as of targetsAsOf.
@@ -18,9 +15,9 @@ export default defineConfig({
   },
   test: {
     root: ".",
-    // LC_ALL: Luxon formats digits in Intl's default locale, which Node reads from the
-    // environment on first use.
-    env: {TZ: "UTC", LC_ALL: "C"},
+    // A zone off UTC by a half hour, with daylight saving, so a test of a time shows any
+    // conversion to the local zone.
+    env: {TZ: "America/St_Johns"},
     // The lint rules forbid test hooks, so the runner does the resetting.
     restoreMocks: true,
     unstubEnvs: true,
@@ -32,7 +29,7 @@ export default defineConfig({
 
     coverage: {
       provider: "v8",
-      include: ["src/**/*.{ts,tsx}"],
+      include: ["src/**/*.ts"],
       exclude: ["src/harness/**", "**/test-helpers/**", "**/*.test.*"],
       reporter: ["text", "html", "lcov"],
       reportsDirectory: "reports/coverage",
@@ -51,7 +48,7 @@ export default defineConfig({
         extends: true,
         test: {
           name: "unit-client",
-          include: ["src/client/**/*.test.{ts,tsx}"],
+          include: ["src/client/**/*.test.ts"],
           environment: "jsdom",
         },
       },

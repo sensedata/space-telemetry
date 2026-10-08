@@ -1,14 +1,10 @@
 import {EventEmitter} from "node:events";
 
-import * as channels from "../contract/channels.ts";
 import type {FeedRecord} from "./feed-record.ts";
 import {newSessionId} from "./session-id.ts";
 
 const ISS_CODE_GOOD_DATA = 24;
 const ISS_CODE_STALE_DATA = 2;
-
-const STATUS = channels.numbers.STATUS;
-const TIME_000001 = channels.numbers.TIME_000001;
 
 export type Source = Pick<EventEmitter<{data: [FeedRecord]}>, "emit" | "on"> & {
   // Reports the feed disconnected in `ms` unless the source emits a TIME_000001 record
@@ -35,7 +31,7 @@ export function createSource(): Source {
     const record = {
       t: Math.trunc(Date.now() / 1000),
       sid: newSessionId(),
-      k: STATUS,
+      k: "STATUS",
       s: connected ? ISS_CODE_GOOD_DATA : ISS_CODE_STALE_DATA,
       v: connected ? 1 : 0,
     };
@@ -62,7 +58,7 @@ export function createSource(): Source {
   // The first listener of `records`, so every other gets the STATUS record this one emits
   // before the TIME_000001 record it is handling.
   records.on("data", (record) => {
-    if (record.k !== TIME_000001) {
+    if (record.k !== "TIME_000001") {
       return;
     }
 

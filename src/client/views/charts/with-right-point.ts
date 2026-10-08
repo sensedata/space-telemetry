@@ -2,7 +2,8 @@ import type {TimedRecord} from "../../timed-record.ts";
 
 /**
  * The records with the last carried forward to now where it is more than 2 seconds before
- * now, as the feed sends a value only when it changes.
+ * now. The feed sends a value only when it changes, as the server's Lightstreamer
+ * subscription is in MERGE mode.
  */
 export function withRightPoint<Held extends Pick<TimedRecord, "t">>(
   records: readonly Held[],

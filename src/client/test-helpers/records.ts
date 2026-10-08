@@ -3,7 +3,7 @@ import type {TimedRecord} from "../timed-record.ts";
 
 // A USLAB000059 update as /events carries it: the buffer's mean of one record is its value.
 const uslab000059: StreamRecord & TimedRecord = {
-  k: 237,
+  k: "USLAB000059",
   v: 23.26046371459961,
   t: 1_789_212_189,
   s: 24,

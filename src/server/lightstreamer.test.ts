@@ -8,7 +8,6 @@ function feedTimeStatus(feed: FakeLightstreamer, statusClass: string) {
   feed.update("TIME_000001", {"Status.Class": statusClass});
 }
 
-// USLAB000059 is channel 237.
 function telemetryArrives(feed: FakeLightstreamer, records: readonly FeedRecord[]) {
   feed.update("USLAB000059", {
     TimeStamp: "6131.3858334",
@@ -16,7 +15,7 @@ function telemetryArrives(feed: FakeLightstreamer, records: readonly FeedRecord[
     "Status.Class": "24",
     CalibratedData: "23.3",
   });
-  return records.some((record) => record.k === 237);
+  return records.some((record) => record.k === "USLAB000059");
 }
 
 describe("connection", () => {
@@ -50,7 +49,7 @@ describe("connection", () => {
 
     expect([telemetry?.mode, telemetry?.items, telemetry?.fields]).to.deep.equal([
       "MERGE",
-      channels.carried.filter((name) => name !== "STATUS"),
+      channels.names.filter((name) => name !== "STATUS"),
       ["TimeStamp", "Value", "Status.Class", "CalibratedData"],
     ]);
   });
@@ -135,7 +134,7 @@ describe("feed status", () => {
     vi.advanceTimersByTime(15_000);
 
     expect(records.map((record) => [record.k, record.v, record.s])).to.deep.equal([
-      [297, 0, 2],
+      ["STATUS", 0, 2],
     ]);
   });
 });
@@ -157,7 +156,7 @@ describe("records", () => {
     });
 
     expect(records.at(-1)).to.deep.equal({
-      k: 237,
+      k: "USLAB000059",
       v: 23.26046371459961,
       cv: "23.3",
       t: 1_789_212_189,
@@ -214,7 +213,7 @@ describe("records", () => {
       CalibratedData: "255/11:18:04",
     });
 
-    const time = records.findLast((record) => record.k === 296);
+    const time = records.findLast((record) => record.k === "TIME_000001");
     expect([time?.v, time?.t]).to.deep.equal([1_789_211_884, 1_789_211_884]);
   });
 
@@ -235,7 +234,7 @@ describe("records", () => {
     telemetryArrives(feed, records);
 
     expect(
-      records.filter((record) => record.k === 237).map((record) => record.sid),
+      records.filter((record) => record.k === "USLAB000059").map((record) => record.sid),
     ).to.deep.equal([1_789_212_000_250, 1_789_212_000_250, 1_789_212_600_750]);
   });
 });

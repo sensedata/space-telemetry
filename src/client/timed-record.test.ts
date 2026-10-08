@@ -23,7 +23,7 @@ describe("parsing an event's records", () => {
   });
 
   test("refuses a record without a status class", () => {
-    const data = '[{"k":237,"v":7,"t":1790560000,"s":null,"vm":7}]';
+    const data = '[{"k":"USLAB000059","v":7,"t":1790560000,"s":null,"vm":7}]';
 
     assert.throws(() => parseTimedRecords(data), TypeError);
   });
@@ -34,19 +34,25 @@ describe("parsing an event's records", () => {
 
   test("refuses a record that lacks the value mean the server sends", () => {
     assert.throws(
-      () => parseTimedRecords('[{"k":237,"v":7,"t":1790560000,"s":24}]'),
+      () => parseTimedRecords('[{"k":"USLAB000059","v":7,"t":1790560000,"s":24}]'),
       TypeError,
     );
   });
 
   test("refuses a record whose status class is text", () => {
-    const data = '[{"k":237,"v":7,"t":1790560000,"s":"24","vm":7}]';
+    const data = '[{"k":"USLAB000059","v":7,"t":1790560000,"s":"24","vm":7}]';
 
     assert.throws(() => parseTimedRecords(data), TypeError);
   });
 
   test("refuses a record whose value is text", () => {
-    const data = '[{"k":237,"v":"7","t":1790560000,"s":24,"vm":7}]';
+    const data = '[{"k":"USLAB000059","v":"7","t":1790560000,"s":24,"vm":7}]';
+
+    assert.throws(() => parseTimedRecords(data), TypeError);
+  });
+
+  test("refuses a record of a channel outside the data dictionary", () => {
+    const data = '[{"k":"USLAB000085","v":7,"t":1790560000,"s":24,"vm":7}]';
 
     assert.throws(() => parseTimedRecords(data), TypeError);
   });

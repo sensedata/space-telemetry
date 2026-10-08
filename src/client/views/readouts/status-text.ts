@@ -1,25 +1,21 @@
-import {newestRecord} from "../../stores/newest-record.ts";
-import type {TimedRecord} from "../../timed-record.ts";
-import {statusDictionary} from "../status-dictionary.ts";
+import {newestRecord} from "../../records/newest-record.ts";
+import type {Reading} from "../../timed-record.ts";
+
+// The status a channel's each value names.
+export type Statuses = Readonly<Record<number, string>>;
 
 /**
- * The status the channel's dictionary gives the newest record's value: a dash before any
- * record, and Unknown for a value, or a channel, the dictionaries leave out. A dictionary
- * that leaves out 0 gives it a dash: the feed sends 0 between two statuses, and as a
- * placeholder before the first.
+ * The status the table gives the newest record's value: a dash before any record, and
+ * Unknown for a value the table leaves out. A table that leaves out 0 gives it a dash: the
+ * feed sends 0 between two statuses, and as a placeholder before the first.
  */
-export function statusText(
-  records: readonly Pick<TimedRecord, "t" | "v">[],
-  telemetryNumber: number | undefined,
-): string {
+export function statusText(records: readonly Reading[], statuses: Statuses): string {
   const newest = newestRecord(records);
   if (newest === undefined) {
     return "-";
   }
   const {v} = newest;
-  const statuses =
-    telemetryNumber === undefined ? undefined : statusDictionary[telemetryNumber];
-  if (v === undefined || statuses === undefined) {
+  if (v === undefined) {
     return "Unknown";
   }
   return statuses[v] ?? (v === 0 ? "-" : "Unknown");

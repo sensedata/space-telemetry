@@ -1,7 +1,6 @@
 // @vitest-environment jsdom
 // The page renders into a document. The integration project runs in node for app.test.ts,
 // whose Node EventSource dispatches Node's Event, which jsdom's global Event would replace.
-import {act} from "preact/test-utils";
 import {assert, describe, expect, vi} from "vitest";
 
 import {streamRecord} from "../../src/client/test-helpers/records.ts";
@@ -21,16 +20,14 @@ describe("page", () => {
   }) => {
     await import("../../src/client/page.ts");
 
-    await act(() => {
-      stream().open();
-      stream().send({
-        name: "297",
-        data: [streamRecord({k: 297, v: 1, t: 1_790_560_000, s: 24})],
-      });
-      stream().send({
-        name: "264",
-        data: [streamRecord({k: 264, v: 4, t: 1_790_560_000, s: 24})],
-      });
+    stream().open();
+    stream().send({
+      name: "records",
+      data: [streamRecord({k: "STATUS", v: 1, t: 1_790_560_000, s: 24})],
+    });
+    stream().send({
+      name: "records",
+      data: [streamRecord({k: "USLAB000086", v: 4, t: 1_790_560_000, s: 24})],
     });
 
     const readouts = [
@@ -45,12 +42,10 @@ describe("page", () => {
   }) => {
     await import("../../src/client/page.ts");
 
-    await act(() => {
-      stream().open();
-      stream().send({
-        name: "297",
-        data: [streamRecord({k: 297, v: 0, t: 1_790_560_000, s: 2})],
-      });
+    stream().open();
+    stream().send({
+      name: "records",
+      data: [streamRecord({k: "STATUS", v: 0, t: 1_790_560_000, s: 2})],
     });
 
     assert.equal(document.querySelector("#telemetry-network")?.textContent, "No signal");
@@ -62,7 +57,7 @@ describe("page", () => {
     await import("../../src/client/page.ts");
 
     stream().open();
-    stream().send({name: "179", data: []});
+    stream().send({name: "records", data: []});
 
     assert.deepEqual(
       [
@@ -78,8 +73,8 @@ describe("page", () => {
 
     stream().open();
     stream().send({
-      name: "189",
-      data: [streamRecord({k: 189, v: 0, t: 1_790_560_000, s: 24})],
+      name: "records",
+      data: [streamRecord({k: "USLAB000011", v: 0, t: 1_790_560_000, s: 24})],
     });
 
     assert.deepEqual(
@@ -93,8 +88,8 @@ describe("page", () => {
 
     stream().open();
     stream().send({
-      name: "189",
-      data: [streamRecord({k: 189, v: 1, t: 1_790_560_000, s: 24})],
+      name: "records",
+      data: [streamRecord({k: "USLAB000011", v: 1, t: 1_790_560_000, s: 24})],
     });
 
     assert.deepEqual(
@@ -135,23 +130,43 @@ describe("page", () => {
     await expect(import("../../src/client/page.ts")).rejects.toThrow(TypeError);
   });
 
+  test("refuses a status readout whose channel has no table of statuses", async () => {
+    document
+      .querySelector('.readout.text[data-telemetry-id="USLAB000086"]')
+      ?.setAttribute("data-telemetry-id", "USLAB000059");
+
+    await expect(import("../../src/client/page.ts")).rejects.toThrow(
+      new TypeError("the status dictionary has no table for USLAB000059"),
+    );
+  });
+
+  test("refuses a status readout that names a combination of channels", async () => {
+    const cell = document.querySelector('.readout.text[data-telemetry-id="USLAB000086"]');
+    cell?.removeAttribute("data-telemetry-id");
+    cell?.setAttribute("data-telemetry-ids", "USLAB000086,USLAB000059");
+    cell?.setAttribute("data-combine", "sum");
+
+    await expect(import("../../src/client/page.ts")).rejects.toThrow(
+      new TypeError("a status cell names one channel, not a sum"),
+    );
+  });
+
   test("moves a sparkline's newest point left while no record arrives", async ({
     stream,
   }) => {
     vi.setSystemTime(1_790_560_000_000);
+    vi.spyOn(Element.prototype, "getBoundingClientRect").mockReturnValue(
+      new DOMRect(0, 0, 32, 22),
+    );
     await import("../../src/client/page.ts");
-    await act(() => {
-      stream().open();
-      stream().send({
-        name: "237",
-        data: [streamRecord({k: 237, v: 21.5, t: 1_790_560_000, s: 24})],
-      });
+    stream().open();
+    stream().send({
+      name: "records",
+      data: [streamRecord({k: "USLAB000059", v: 21.5, t: 1_790_560_000, s: 24})],
     });
     const drawnX = newestSparklineX();
 
-    await act(() => {
-      vi.advanceTimersByTime(2000);
-    });
+    vi.advanceTimersByTime(2000);
 
     assert.isBelow(newestSparklineX(), drawnX);
   });
@@ -167,12 +182,10 @@ describe("page", () => {
     );
     await import("../../src/client/page.ts");
 
-    await act(() => {
-      stream().open();
-      stream().send({
-        name: "234",
-        data: [streamRecord({k: 234, v: 50, t: 1_790_560_000, s: 24})],
-      });
+    stream().open();
+    stream().send({
+      name: "records",
+      data: [streamRecord({k: "USLAB000056", v: 50, t: 1_790_560_000, s: 24})],
     });
 
     // Half of 0 to 100 is half of the cell's height, across a bar each 3 of its 30 pixels.
@@ -195,29 +208,19 @@ describe("page", () => {
 
   test("redraws a chart to its cell's size when the window narrows", async ({stream}) => {
     vi.setSystemTime(1_790_560_000_000);
-    // An empty cell measures the given width; a chart drawn holds its cell open at the 32
-    // it was drawn to, as in a table whose columns its content sizes.
-    const heldOpen = (width: number) =>
-      function (this: Element) {
-        return new DOMRect(0, 0, this.querySelector("svg") === null ? width : 32, 22);
-      };
     const measure = vi
       .spyOn(Element.prototype, "getBoundingClientRect")
-      .mockImplementation(heldOpen(32));
+      .mockReturnValue(new DOMRect(0, 0, 32, 22));
     await import("../../src/client/page.ts");
-    await act(() => {
-      stream().open();
-      stream().send({
-        name: "234",
-        data: [streamRecord({k: 234, v: 50, t: 1_790_560_000, s: 24})],
-      });
+    stream().open();
+    stream().send({
+      name: "records",
+      data: [streamRecord({k: "USLAB000056", v: 50, t: 1_790_560_000, s: 24})],
     });
 
     // A content box of 15 holds a bar each 3 pixels, where 30 held 10.
-    measure.mockImplementation(heldOpen(17));
-    await act(() => {
-      dispatchEvent(new Event("resize"));
-    });
+    measure.mockReturnValue(new DOMRect(0, 0, 17, 22));
+    dispatchEvent(new Event("resize"));
 
     const chart = document.querySelector('.bar-chart[data-telemetry-id="USLAB000056"]');
     assert.deepEqual(
@@ -229,15 +232,43 @@ describe("page", () => {
     );
   });
 
+  // A cell of jsdom's 1 pixel of table cell padding each side and no content box.
+  test.for([
+    ["width", new DOMRect(0, 0, 2, 22)],
+    ["height", new DOMRect(0, 0, 32, 2)],
+  ] as const)(
+    "draws a chart only once its cell has a box, as when its section shows: no %s",
+    async ([, noBox], {stream}) => {
+      vi.setSystemTime(1_790_560_000_000);
+      const measure = vi
+        .spyOn(Element.prototype, "getBoundingClientRect")
+        .mockReturnValue(noBox);
+      await import("../../src/client/page.ts");
+      stream().open();
+      stream().send({
+        name: "records",
+        data: [streamRecord({k: "USLAB000056", v: 50, t: 1_790_560_000, s: 24})],
+      });
+      const chart = document.querySelector('.bar-chart[data-telemetry-id="USLAB000056"]');
+      const chartsWhileHidden = chart?.querySelectorAll("svg").length;
+
+      measure.mockReturnValue(new DOMRect(0, 0, 32, 22));
+      dispatchEvent(new Event("resize"));
+
+      assert.deepEqual(
+        [chartsWhileHidden, chart?.querySelector("svg")?.getAttribute("width")],
+        [0, "30"],
+      );
+    },
+  );
+
   test("shows a control moment gyroscope's speed as a whole number", async ({stream}) => {
     await import("../../src/client/page.ts");
 
-    await act(() => {
-      stream().open();
-      stream().send({
-        name: "289",
-        data: [streamRecord({k: 289, v: 6600.4, t: 1_790_560_000, s: 24})],
-      });
+    stream().open();
+    stream().send({
+      name: "records",
+      data: [streamRecord({k: "Z1000009", v: 6600.4, t: 1_790_560_000, s: 24})],
     });
 
     assert.equal(
@@ -249,12 +280,10 @@ describe("page", () => {
   test("shows the time of the feed's own clock record", async ({stream}) => {
     await import("../../src/client/page.ts");
 
-    await act(() => {
-      stream().open();
-      stream().send({
-        name: "296",
-        data: [streamRecord({k: 296, v: 1, t: 1_790_560_000, s: 24})],
-      });
+    stream().open();
+    stream().send({
+      name: "records",
+      data: [streamRecord({k: "TIME_000001", v: 1, t: 1_790_560_000, s: 24})],
     });
 
     assert.equal(
@@ -273,11 +302,9 @@ describe("page", () => {
     await import("../../src/client/page.ts");
     stream().open();
 
-    await act(() => {
-      vi.advanceTimersByTime(30_000);
-      // The reconnect waits out a backoff, whose length is the app's to choose.
-      vi.runOnlyPendingTimers();
-    });
+    vi.advanceTimersByTime(30_000);
+    // The reconnect waits out a backoff, whose length is the app's to choose.
+    vi.runOnlyPendingTimers();
 
     assert.equal(stream(1).url, "/events");
   });
@@ -285,28 +312,26 @@ describe("page", () => {
   test("shows the attitude's yaw from the station's quaternion", async ({stream}) => {
     await import("../../src/client/page.ts");
 
-    await act(() => {
-      stream().open();
-      stream().send({
-        name: "196",
-        data: [streamRecord({k: 196, v: Math.SQRT1_2, t: 1_790_560_000, s: 24})],
-      });
-      stream().send({
-        name: "197",
-        data: [streamRecord({k: 197, v: 0, t: 1_790_560_000, s: 24})],
-      });
-      stream().send({
-        name: "198",
-        data: [streamRecord({k: 198, v: 0, t: 1_790_560_000, s: 24})],
-      });
-      stream().send({
-        name: "199",
-        data: [streamRecord({k: 199, v: Math.SQRT1_2, t: 1_790_560_000, s: 24})],
-      });
+    stream().open();
+    stream().send({
+      name: "records",
+      data: [streamRecord({k: "USLAB000018", v: Math.SQRT1_2, t: 1_790_560_000, s: 24})],
+    });
+    stream().send({
+      name: "records",
+      data: [streamRecord({k: "USLAB000019", v: 0, t: 1_790_560_000, s: 24})],
+    });
+    stream().send({
+      name: "records",
+      data: [streamRecord({k: "USLAB000020", v: 0, t: 1_790_560_000, s: 24})],
+    });
+    stream().send({
+      name: "records",
+      data: [streamRecord({k: "USLAB000021", v: Math.SQRT1_2, t: 1_790_560_000, s: 24})],
     });
 
     const yaw = document.querySelector(
-      '[data-quaternion-id="attitude-actual"][data-euler-axis="z"]',
+      '[data-combine="yaw"][data-telemetry-ids="USLAB000019,USLAB000020,USLAB000021,USLAB000018"]',
     );
     assert.equal(yaw?.textContent, "90.00");
   });
@@ -314,16 +339,14 @@ describe("page", () => {
   test("shows the average of a cell's channels", async ({stream}) => {
     await import("../../src/client/page.ts");
 
-    await act(() => {
-      stream().open();
-      stream().send({
-        name: "231",
-        data: [streamRecord({k: 231, v: 700, t: 1_790_560_000, s: 24})],
-      });
-      stream().send({
-        name: "67",
-        data: [streamRecord({k: 67, v: 750, t: 1_790_560_000, s: 24})],
-      });
+    stream().open();
+    stream().send({
+      name: "records",
+      data: [streamRecord({k: "USLAB000053", v: 700, t: 1_790_560_000, s: 24})],
+    });
+    stream().send({
+      name: "records",
+      data: [streamRecord({k: "NODE3000001", v: 750, t: 1_790_560_000, s: 24})],
     });
 
     const average = document.querySelector(
@@ -335,16 +358,14 @@ describe("page", () => {
   test("shows the sum of a cell's channels", async ({stream}) => {
     await import("../../src/client/page.ts");
 
-    await act(() => {
-      stream().open();
-      stream().send({
-        name: "99",
-        data: [streamRecord({k: 99, v: 10, t: 1_790_560_000, s: 24})],
-      });
-      stream().send({
-        name: "110",
-        data: [streamRecord({k: 110, v: 20.5, t: 1_790_560_000, s: 24})],
-      });
+    stream().open();
+    stream().send({
+      name: "records",
+      data: [streamRecord({k: "P4000002", v: 10, t: 1_790_560_000, s: 24})],
+    });
+    stream().send({
+      name: "records",
+      data: [streamRecord({k: "P6000005", v: 20.5, t: 1_790_560_000, s: 24})],
     });
 
     const sum = document.querySelector(
@@ -356,12 +377,10 @@ describe("page", () => {
   test("shows the oxygen generation rate in milligrams per second", async ({stream}) => {
     await import("../../src/client/page.ts");
 
-    await act(() => {
-      stream().open();
-      stream().send({
-        name: "77",
-        data: [streamRecord({k: 77, v: 1.2, t: 1_790_560_000, s: 24})],
-      });
+    stream().open();
+    stream().send({
+      name: "records",
+      data: [streamRecord({k: "NODE3000011", v: 1.2, t: 1_790_560_000, s: 24})],
     });
 
     const rate = document.querySelector('.readout[data-telemetry-id="NODE3000011"]');
@@ -369,19 +388,17 @@ describe("page", () => {
   });
 
   test.for([
-    ["loop A", "S1000001", 152],
-    ["loop B", "P1000001", 87],
+    ["loop A", "S1000001"],
+    ["loop B", "P1000001"],
   ] as const)(
     "shows the %s radiator flow rate in kilograms per second",
-    async ([, telemetryId, k], {stream}) => {
+    async ([, telemetryId], {stream}) => {
       await import("../../src/client/page.ts");
 
-      await act(() => {
-        stream().open();
-        stream().send({
-          name: `${k}`,
-          data: [streamRecord({k, v: 3459, t: 1_790_560_000, s: 24})],
-        });
+      stream().open();
+      stream().send({
+        name: "records",
+        data: [streamRecord({k: telemetryId, v: 3459, t: 1_790_560_000, s: 24})],
       });
 
       const rate = document.querySelector(
@@ -396,12 +413,10 @@ describe("page", () => {
   }) => {
     await import("../../src/client/page.ts");
 
-    await act(() => {
-      stream().open();
-      stream().send({
-        name: "237",
-        data: [streamRecord({k: 237, v: 21.5, t: 1_790_560_000, s: 24})],
-      });
+    stream().open();
+    stream().send({
+      name: "records",
+      data: [streamRecord({k: "USLAB000059", v: 21.5, t: 1_790_560_000, s: 24})],
     });
 
     assert.equal(
@@ -413,16 +428,14 @@ describe("page", () => {
   test("leaves the feed's STATUS out of the last telemetry sent", async ({stream}) => {
     await import("../../src/client/page.ts");
 
-    await act(() => {
-      stream().open();
-      stream().send({
-        name: "237",
-        data: [streamRecord({k: 237, v: 21.5, t: 1_790_560_000, s: 24})],
-      });
-      stream().send({
-        name: "297",
-        data: [streamRecord({k: 297, v: 1, t: 1_790_560_300, s: 24})],
-      });
+    stream().open();
+    stream().send({
+      name: "records",
+      data: [streamRecord({k: "USLAB000059", v: 21.5, t: 1_790_560_000, s: 24})],
+    });
+    stream().send({
+      name: "records",
+      data: [streamRecord({k: "STATUS", v: 1, t: 1_790_560_300, s: 24})],
     });
 
     assert.equal(
@@ -436,16 +449,14 @@ describe("page", () => {
   }) => {
     await import("../../src/client/page.ts");
 
-    await act(() => {
-      stream().open();
-      stream().send({
-        name: "237",
-        data: [streamRecord({k: 237, v: 21.5, t: 1_790_560_000, s: 24})],
-      });
-      stream().send({
-        name: "296",
-        data: [streamRecord({k: 296, v: 1, t: 1_790_560_300, s: 24})],
-      });
+    stream().open();
+    stream().send({
+      name: "records",
+      data: [streamRecord({k: "USLAB000059", v: 21.5, t: 1_790_560_000, s: 24})],
+    });
+    stream().send({
+      name: "records",
+      data: [streamRecord({k: "TIME_000001", v: 1, t: 1_790_560_300, s: 24})],
     });
 
     assert.equal(

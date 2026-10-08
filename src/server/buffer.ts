@@ -27,70 +27,64 @@ function isSame(a: FeedRecord, b: FeedRecord) {
 // missing, dead, or outside what its sensor measures.
 const READING_CLASSES = new Set([24, 9]);
 
-// The source's own channel; its class says whether the feed is connected, not what the
-// feed made of a value.
-const STATUS = channels.numbers.STATUS;
-
-// The buffer stores the carried channels alone, so no client gets a record of another,
-// whether it arrives live, replayed, seeded or restored.
-const CARRIED = new Set(channels.carried.map((name) => channels.numbers[name]));
-
-// Answers the records of each channel of `snapshot`, or, when it is no snapshot of
-// `channelCount` channels, the defect that shows it.
-function parseSnapshot(
-  snapshot: unknown,
-  channelCount: number,
-): Map<number, FeedRecord[]> | string {
+// Answers the records of each channel of `snapshot`, or, when it is no snapshot, the
+// defect that shows it.
+function parseSnapshot(snapshot: unknown): Map<string, FeedRecord[]> | string {
   if (typeof snapshot !== "object" || snapshot === null || Array.isArray(snapshot)) {
     return "not an object of channels";
   }
   const entries: [string, unknown][] = Object.entries(snapshot);
-  const saved = new Map<number, FeedRecord[]>();
+  const saved = new Map<string, FeedRecord[]>();
   for (const [channel, records] of entries) {
-    // A channel's key is only the canonical form of its number: '020' is no channel.
-    if (!/^(0|[1-9]\d*)$/.test(channel) || Number(channel) >= channelCount) {
-      return "unknown channel " + channel;
-    }
     if (!Array.isArray(records) || !records.every(isFeedRecord)) {
       return "malformed records on channel " + channel;
     }
-    saved.set(Number(channel), records);
+    saved.set(channel, records);
   }
   return saved;
+}
+
+function emptyRings() {
+  return new Map<string, FeedRecord[]>(channels.names.map((name) => [name, []]));
 }
 
 export type RecordBuffer = {
   // Stores the record in its channel and answers whether it was stored.
   readonly add: (record: FeedRecord) => boolean;
-  readonly backfill: (k: number) => FeedRecord[];
-  readonly mean: (k: number) => number;
+  readonly backfill: (k: string) => FeedRecord[];
+  readonly mean: (k: string) => number;
   readonly snapshot: () => Record<string, FeedRecord[]>;
   // Replaces every channel's records with a snapshot's, or logs why it rejects one.
   readonly restore: (saved: unknown) => void;
 };
 
 /**
- * Holds the last CAPACITY records of each carried channel, a resent record once, and none
- * whose status class marks its value as no reading.
+ * Holds the last CAPACITY records of each channel of the data dictionary, a resent record
+ * once, and none whose status class marks its value as no reading. Throws a RangeError
+ * from backfill and mean for a channel outside the dictionary.
  */
 export function createBuffer(): RecordBuffer {
-  let rings: FeedRecord[][] = Array.from(channels.names, () => []);
+  let rings = emptyRings();
 
-  function ringOf(k: number) {
-    const ring = rings[k];
+  function ringOf(k: string) {
+    const ring = rings.get(k);
     if (ring === undefined) {
       throw new RangeError(`no channel ${k} in the data dictionary`);
     }
     return ring;
   }
 
-  // Answers whether the record was stored in channel `k`.
-  function addTo(k: number, record: FeedRecord) {
-    const ring = ringOf(k);
-    if (!CARRIED.has(k)) {
+  // Answers whether the record was stored in channel `k`. The buffer stores the channels
+  // of the data dictionary alone, so no client gets a record of another, whether it
+  // arrives live, replayed, seeded or restored.
+  function addTo(k: string, record: FeedRecord) {
+    const ring = rings.get(k);
+    if (ring === undefined) {
       return false;
     }
-    if (k !== STATUS && !READING_CLASSES.has(record.s)) {
+    // STATUS is the source's own channel; its class says whether the feed is connected,
+    // not what the feed made of a value.
+    if (k !== "STATUS" && !READING_CLASSES.has(record.s)) {
       return false;
     }
     // StreamRecord types s as a number, and JSON would write a NaN class as null. STATUS
@@ -123,16 +117,19 @@ export function createBuffer(): RecordBuffer {
   }
 
   function restore(saved: unknown): void {
-    const parsed = parseSnapshot(saved, rings.length);
+    const parsed = parseSnapshot(saved);
     if (typeof parsed === "string") {
       console.error("buffer snapshot rejected:", parsed);
       return;
     }
-    rings = Array.from(channels.names, () => []);
+    rings = emptyRings();
     parsed.forEach((records, k) => {
       for (const r of records) addTo(k, r);
     });
-    const held = rings.filter((ring) => ring.length > 0);
+    const held = rings
+      .values()
+      .filter((ring) => ring.length > 0)
+      .toArray();
     const count = held.reduce((sum, ring) => sum + ring.length, 0);
     console.log("buffer restored: %d records on %d channels", count, held.length);
   }
@@ -141,7 +138,7 @@ export function createBuffer(): RecordBuffer {
    * Answers a client's backfill of channel `k`, ascending by time: the records of the last
    * BACKFILL_SECONDS, or the single latest when that window finds none.
    */
-  function backfill(k: number): FeedRecord[] {
+  function backfill(k: string): FeedRecord[] {
     // sort is stable, so reversing first puts the later-added of equal records first.
     const newest = ringOf(k).toReversed().toSorted(newestFirst);
     const found = newest.filter(
@@ -150,7 +147,7 @@ export function createBuffer(): RecordBuffer {
     return found.length > 0 ? found.toReversed() : newest.slice(0, 1);
   }
 
-  function mean(k: number): number {
+  function mean(k: string): number {
     const values = ringOf(k)
       .map((r) => r.v)
       .filter((v) => Number.isFinite(v));

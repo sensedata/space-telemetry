@@ -4,12 +4,12 @@
 import http from "node:http";
 import {describe, expect, vi} from "vitest";
 
-import * as channels from "../../src/contract/channels.ts";
 import {
   type CapturedRow,
   capturedRows,
 } from "../../src/server/test-helpers/captured-rows.ts";
 import {test} from "./test-helpers/connected-server.ts";
+import {recordsOf} from "./test-helpers/event-stream.ts";
 import {pickFields} from "./test-helpers/pick-fields.ts";
 
 function nowSeconds() {
@@ -25,22 +25,19 @@ function firstRow(item: string): CapturedRow {
   return row;
 }
 
-// The event names of a new stream's backfill from `serverUrl`, which leads with STATUS and
-// ends with TIME_000001, the last carried channel after it.
-async function backfillEventNames(serverUrl: string) {
+// The channel of each record of a new stream's first event from `serverUrl`, in order.
+async function backfillChannels(serverUrl: string) {
   const response = await fetch(serverUrl + "/events");
   let text = "";
   const chunks = response.body?.pipeThrough(new TextDecoderStream()) ?? [];
   for await (const chunk of chunks) {
     text += chunk;
-    if (/^event: 296$/m.test(text)) {
+    if (text.includes("\n\n")) {
       break;
     }
   }
-  return text
-    .matchAll(/^event: (.*)$/gm)
-    .map((match) => match[1])
-    .toArray();
+  const data = /^data: (.*)$/m.exec(text)?.[1] ?? "";
+  return pickFields(JSON.parse(data), ["k"]);
 }
 
 // The address of the page script the page at `serverUrl` names.
@@ -55,16 +52,23 @@ async function pageScript(serverUrl: string) {
 }
 
 describe("backfill", () => {
-  test("sends an event of each carried channel, STATUS first, and of no other channel", async ({
+  // NODE3000009 and USLAB000059 sit between STATUS and TIME_000001 in the data dictionary.
+  test("sends one records event of every channel's records, STATUS first then in dictionary order", async ({
+    feedRow,
     serverUrl,
   }) => {
-    const names = await backfillEventNames(serverUrl);
+    const now = nowSeconds();
+    feedRow(capturedRows("USLAB000059")[0], now - 10);
+    feedRow(capturedRows("NODE3000009")[0], now - 5);
 
-    expect(names).to.deep.equal([
-      "297",
-      ...channels.carried
-        .filter((name) => name !== "STATUS")
-        .map((name) => String(channels.numbers[name])),
+    const channels = await backfillChannels(serverUrl);
+
+    expect(channels).toStrictEqual([
+      {k: "STATUS"},
+      {k: "STATUS"},
+      {k: "NODE3000009"},
+      {k: "USLAB000059"},
+      {k: "TIME_000001"},
     ]);
   });
 
@@ -78,7 +82,7 @@ describe("backfill", () => {
     feedRow(first, now - 100);
     feedRow(second, now - 50);
 
-    const reply = await open().next("237");
+    const reply = await open().backfill("USLAB000059");
 
     expect(pickFields(reply, ["t"])).toStrictEqual([
       {t: now - 100},
@@ -93,7 +97,7 @@ describe("backfill", () => {
     feedRow(older, now - 500);
     feedRow(newer, now - 400);
 
-    const reply = await open().next("198");
+    const reply = await open().backfill("USLAB000020");
 
     expect(pickFields(reply, ["t"])).toStrictEqual([{t: now - 400}]);
   });
@@ -107,40 +111,9 @@ describe("backfill", () => {
     feedRow(older, now - 1000);
     feedRow(newer, now - 900);
 
-    const reply = await open().next("221");
+    const reply = await open().backfill("USLAB000043");
 
     expect(pickFields(reply, ["t", "v"])).toStrictEqual([{t: now - 900, v: 0}]);
-  });
-
-  test("sends STATUS before TIME_000001", async ({open}) => {
-    const stream = open();
-    const order: string[] = [];
-
-    const arrival = async (name: string) => {
-      await stream.next(name);
-      order.push(name);
-    };
-
-    await Promise.all([arrival("296"), arrival("297")]);
-
-    expect(order).to.deep.equal(["297", "296"]);
-  });
-
-  // The live record on 237 follows the whole backfill, so every STATUS event of the
-  // backfill has arrived by then.
-  test("sends STATUS once in the backfill", async ({open, feedRow}) => {
-    const stream = open();
-    const statuses: string[] = [];
-    stream.source.addEventListener("297", (event: MessageEvent<string>) => {
-      statuses.push(event.data);
-    });
-    await stream.next("237");
-    const live = stream.next("237");
-
-    feedRow(capturedRows("USLAB000059")[0], nowSeconds());
-    await live;
-
-    expect(statuses).to.have.lengthOf(1);
   });
 
   test("sends records stored before the stream opened as backfill and later ones live, each once", async ({
@@ -151,8 +124,8 @@ describe("backfill", () => {
     const [first, second] = capturedRows("USLAB000059");
     feedRow(first, now - 3);
     const stream = open();
-    const backfilled = await stream.next("237");
-    const live = stream.next("237");
+    const backfilled = await stream.backfill("USLAB000059");
+    const live = stream.live("USLAB000059");
 
     feedRow(second, now - 2);
 
@@ -179,7 +152,7 @@ describe("event stream", () => {
     open,
   }) => {
     const stream = open();
-    await stream.next("297");
+    await stream.backfill("STATUS");
     const ping = stream.next("ping");
 
     vi.advanceTimersByTime(15_000);
@@ -211,7 +184,7 @@ describe("record shape", () => {
   }) => {
     feedRow(capturedRows("NODE3000009")[0], nowSeconds() - 10);
 
-    const reply = await open().next("75");
+    const reply = await open().backfill("NODE3000009");
 
     expect(reply).toStrictEqual([anyRecord]);
   });
@@ -221,15 +194,15 @@ describe("record shape", () => {
     feedRow,
   }) => {
     const stream = open();
-    await stream.next("75");
-    const message = stream.next("75");
+    await stream.backfill("NODE3000009");
+    const message = stream.live("NODE3000009");
 
     feedRow(capturedRows("NODE3000009")[0], nowSeconds());
 
     expect(await message).toStrictEqual([anyRecord]);
   });
 
-  test("carries the channel number, value, unix time and status class of the feed update", async ({
+  test("carries the channel name, value, unix time and status class of the feed update", async ({
     feedRow,
     open,
   }) => {
@@ -237,10 +210,10 @@ describe("record shape", () => {
     const resend = capturedRows("NODE3000009")[2];
     feedRow(resend, now - 10);
 
-    const reply = await open().next("75");
+    const reply = await open().backfill("NODE3000009");
 
     expect(pickFields(reply, ["k", "v", "t", "s"])).toStrictEqual([
-      {k: 75, v: 87.87999725341797, t: now - 10, s: 9},
+      {k: "NODE3000009", v: 87.87999725341797, t: now - 10, s: 9},
     ]);
   });
 
@@ -255,7 +228,7 @@ describe("record shape", () => {
     feedRow(third, now - 20);
     feedRow(fourth, now - 10);
 
-    const reply = await open().next("221");
+    const reply = await open().backfill("USLAB000043");
 
     expect(pickFields(reply, ["vm"])).toStrictEqual([
       {vm: 6.25},
@@ -272,8 +245,8 @@ describe("record shape", () => {
     const [held, live] = capturedRows("USLAB000043");
     feedRow(held, nowSeconds() - 10);
     const stream = open();
-    await stream.next("221");
-    const message = stream.next("221");
+    await stream.backfill("USLAB000043");
+    const message = stream.live("USLAB000043");
 
     feedRow(live, nowSeconds());
 
@@ -291,7 +264,7 @@ describe("record shape", () => {
     feedRow(second && {...second, value: ""}, now - 20);
     feedRow(fourth, now - 10);
 
-    const reply = await open().next("221");
+    const reply = await open().backfill("USLAB000043");
 
     expect(pickFields(reply, ["vm"])).toStrictEqual([{vm: 7.5}, {vm: 7.5}, {vm: 7.5}]);
   });
@@ -305,7 +278,7 @@ describe("status channel", () => {
   }) => {
     feedTime();
 
-    const status = await open().next("297");
+    const status = await open().backfill("STATUS");
 
     expect(pickFields(status, ["v", "s"])).toStrictEqual([
       {v: 0, s: 2},
@@ -320,7 +293,7 @@ describe("status channel", () => {
     feedTime();
     vi.advanceTimersByTime(10_000);
 
-    const status = await open().next("297");
+    const status = await open().backfill("STATUS");
 
     expect(pickFields(status, ["v", "s"])).toStrictEqual([
       {v: 0, s: 2},
@@ -335,13 +308,13 @@ describe("status channel", () => {
   }) => {
     feedTime();
     const stream = open();
-    await stream.next("297");
-    const message = stream.next("297");
+    await stream.backfill("STATUS");
+    const message = stream.live("STATUS");
 
     vi.advanceTimersByTime(10_000);
 
     expect(pickFields(await message, ["k", "v", "s"])).toStrictEqual([
-      {k: 297, v: 0, s: 2},
+      {k: "STATUS", v: 0, s: 2},
     ]);
   });
 
@@ -352,8 +325,8 @@ describe("status channel", () => {
     feedTime();
     vi.advanceTimersByTime(10_000);
     const stream = open();
-    await stream.next("297");
-    const message = stream.next("297");
+    await stream.backfill("STATUS");
+    const message = stream.live("STATUS");
 
     feedTime();
 
@@ -366,18 +339,18 @@ describe("status channel", () => {
   }) => {
     vi.advanceTimersByTime(10_000);
     const stream = open();
-    await stream.next("296");
+    await stream.backfill("TIME_000001");
     const order: string[] = [];
-    const arrival = async (name: string) => {
-      await stream.next(name);
-      order.push(name);
+    const arrival = async (channel: string) => {
+      await stream.live(channel);
+      order.push(channel);
     };
-    const arrivals = Promise.all([arrival("296"), arrival("297")]);
+    const arrivals = Promise.all([arrival("TIME_000001"), arrival("STATUS")]);
 
     feedTime();
     await arrivals;
 
-    expect(order).to.deep.equal(["297", "296"]);
+    expect(order).to.deep.equal(["STATUS", "TIME_000001"]);
   });
 });
 
@@ -453,15 +426,15 @@ describe("static files", () => {
 });
 
 describe("live fan-out", () => {
-  test("sends an ingested record to every open stream as an event named by its channel number", async ({
+  test("sends an ingested record to every open stream as a records event", async ({
     open,
     feedRow,
   }) => {
     const now = nowSeconds();
     const first = open();
     const second = open();
-    await Promise.all([first.next("221"), second.next("221")]);
-    const messages = Promise.all([first.next("221"), second.next("221")]);
+    await Promise.all([first.backfill("USLAB000043"), second.backfill("USLAB000043")]);
+    const messages = Promise.all([first.live("USLAB000043"), second.live("USLAB000043")]);
 
     feedRow(capturedRows("USLAB000043")[1], now);
 
@@ -469,12 +442,16 @@ describe("live fan-out", () => {
     expect([
       pickFields(toFirst, ["k", "v", "t", "s"]),
       pickFields(toSecond, ["k", "v", "t", "s"]),
-    ]).toStrictEqual([[{k: 221, v: 0, t: now, s: 24}], [{k: 221, v: 0, t: now, s: 24}]]);
+    ]).toStrictEqual([
+      [{k: "USLAB000043", v: 0, t: now, s: 24}],
+      [{k: "USLAB000043", v: 0, t: now, s: 24}],
+    ]);
   });
 
   // The adapter subscribes the carried channels alone, so a record of another reaches the
   // source only from another producer, as the replayer's recording holds every channel.
-  // Streams get live records in the order they arrive, so one on 263 would come first.
+  // Streams get live records in the order they arrive, so one of USLAB000085 would come
+  // first.
   test("sends no live record of a channel it does not carry", async ({
     open,
     source,
@@ -482,16 +459,16 @@ describe("live fan-out", () => {
   }) => {
     const now = nowSeconds();
     const stream = open();
-    await stream.next("237");
-    const uncarried: string[] = [];
-    stream.source.addEventListener("263", (event: MessageEvent<string>) => {
-      uncarried.push(event.data);
+    await stream.backfill("USLAB000059");
+    const uncarried: unknown[] = [];
+    stream.source.addEventListener("records", (event: MessageEvent<string>) => {
+      uncarried.push(...recordsOf(JSON.parse(event.data), "USLAB000085"));
     });
-    const carried = stream.next("237");
+    const carried = stream.live("USLAB000059");
 
     const row = firstRow("USLAB000085");
     source.emit("data", {
-      k: 263,
+      k: "USLAB000085",
       v: Number(row.value),
       cv: row.value_calibrated,
       t: now - 7,
@@ -511,11 +488,11 @@ describe("live fan-out", () => {
     const now = nowSeconds();
     const [first, second] = capturedRows("USLAB000020");
     const stream = open();
-    await stream.next("198");
-    const original = stream.next("198");
+    await stream.backfill("USLAB000020");
+    const original = stream.live("USLAB000020");
     feedRow(first, now - 2);
     await original;
-    const following = stream.next("198");
+    const following = stream.live("USLAB000020");
 
     feedRow(first, now - 2);
     feedRow(second, now - 1);

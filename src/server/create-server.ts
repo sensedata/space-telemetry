@@ -9,21 +9,18 @@ import type {FeedRecord} from "./feed-record.ts";
 import {serveStaticFile} from "./serve-static-file.ts";
 import type {Source} from "./source.ts";
 
-const STATUS = channels.numbers.STATUS;
-
 // STATUS leads, as the source sends it live before the TIME_000001 record that moves it.
-const backfillOrder = [
-  STATUS,
-  ...channels.carried
-    .filter((name) => name !== "STATUS")
-    .map((name) => channels.numbers[name]),
-];
+const backfillOrder = ["STATUS", ...channels.names.filter((name) => name !== "STATUS")];
+
+function toEvent(records: readonly StreamRecord[]) {
+  return formatEvent({name: "records", data: records});
+}
 
 /**
  * Creates the telemetry server, not yet listening. It stores in `buffer` the records
  * `source` emits, with the feed's STATUS, which starts disconnected, and serves them at
- * /events as a backfill followed by the live records. Every other path it serves from
- * `staticDir`.
+ * /events as one records event of the backfill followed by one per live record. Every
+ * other path it serves from `staticDir`.
  */
 export function createServer(
   buffer: Pick<RecordBuffer, "add" | "backfill" | "mean">,
@@ -34,13 +31,9 @@ export function createServer(
   // carried channels.
   const fanout = createEventFanout(2048);
 
-  function toClient(k: number, records: readonly FeedRecord[]): StreamRecord[] {
+  function toClient(k: string, records: readonly FeedRecord[]): StreamRecord[] {
     const vm = buffer.mean(k);
     return records.map(({v, t, s}) => ({k, v, t, s, vm}));
-  }
-
-  function toEvent(k: number, records: readonly FeedRecord[]) {
-    return formatEvent({name: `${k}`, data: toClient(k, records)});
   }
 
   function streamEvents(res: ServerResponse) {
@@ -50,15 +43,15 @@ export function createServer(
     });
     // The backfill and joining the ring share one tick, so no record falls between them
     // and none arrives twice.
-    const backfill = backfillOrder.map((k) => toEvent(k, buffer.backfill(k))).join("");
-    fanout.add(res, backfill);
+    const backfill = backfillOrder.flatMap((k) => toClient(k, buffer.backfill(k)));
+    fanout.add(res, toEvent(backfill));
   }
 
   source.on("data", (record) => {
     // Clients get only what the buffer stores, so neither a Lightstreamer resend nor a
     // channel the server does not carry reaches one.
     if (buffer.add(record)) {
-      fanout.append(toEvent(record.k, [record]));
+      fanout.append(toEvent(toClient(record.k, [record])));
     }
   });
 

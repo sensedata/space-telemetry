@@ -1,18 +1,15 @@
-import {act} from "preact/test-utils";
-
-import type {Relay} from "../relay.ts";
+import type {Signal} from "../signals/signal.ts";
+import type {TimedRecord} from "../timed-record.ts";
 import {timedRecord} from "./records.ts";
 
-// Sends each of `values` as a record of its own, a second after the one before and the first
-// at `start`, letting the views render after each.
-export async function sendEachSecond(
-  relay: Pick<Relay, "send">,
+// Sets `store` to each of `values` as a record of its own after those before it, a second
+// after the one before and the first at `start`.
+export function sendEachSecond(
+  store: Signal<readonly TimedRecord[]>,
   start: number,
   values: readonly number[],
-): Promise<void> {
+): void {
   for (const [n, v] of values.entries()) {
-    await act(() => {
-      relay.send([timedRecord({t: start + n, v})]);
-    });
+    store.set([...store.get(), timedRecord({t: start + n, v})]);
   }
 }

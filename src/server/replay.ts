@@ -4,7 +4,6 @@ import path from "node:path";
 import {parseArgs} from "node:util";
 import zlib from "node:zlib";
 
-import * as channels from "../contract/channels.ts";
 import {type FeedRecord, isFeedRecord} from "./feed-record.ts";
 
 const USAGE =
@@ -55,7 +54,7 @@ export function play(
   {rate, rebase}: Pacing,
   emitter: Emitter,
 ): Promise<void> {
-  const telemetry = rows.filter((row) => row.k !== channels.numbers.STATUS);
+  const telemetry = rows.filter((row) => row.k !== "STATUS");
   const startMs = Date.now();
   // An empty recording has no row to fall due.
   const recordedStart = telemetry[0]?.t ?? 0;
