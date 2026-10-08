@@ -1,7 +1,7 @@
 import {extent} from "d3-array";
 
 import type {TimedRecord} from "../../timed-record.ts";
-import type {ValueBounds} from "./value-bounds.ts";
+import type {ValueBounds} from "./linear-scale.ts";
 
 /**
  * The lowest and highest value, less the records without one; undefined where none has

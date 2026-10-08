@@ -23,6 +23,8 @@ test("renders nothing without data", ({mount}) => {
     barMicrochart({
       clock: startClock(),
       store,
+      min: 0,
+      max: 10,
       height: 10,
       width: 100,
     }),
@@ -37,6 +39,8 @@ test("renders nothing when its channel's backfill holds no records", ({mount}) =
     barMicrochart({
       clock: startClock(),
       store,
+      min: 0,
+      max: 10,
       height: 10,
       width: 100,
     }),
@@ -53,6 +57,8 @@ test("sets its size to that of its container", ({mount}) => {
     barMicrochart({
       clock: startClock(),
       store,
+      min: 0,
+      max: 10,
       height: 10,
       width: 100,
     }),
@@ -73,6 +79,8 @@ test("names itself for a screen reader", ({mount}) => {
     barMicrochart({
       clock: startClock(),
       store,
+      min: 0,
+      max: 10,
       height: 10,
       width: 100,
     }),
@@ -87,14 +95,16 @@ test("names itself for a screen reader", ({mount}) => {
   );
 });
 
-test("draws one bar per three pixels of width", ({mount}) => {
+test("draws one bar per three pixels of width inside its inset", ({mount}) => {
   const store = signal<readonly TimedRecord[]>([]);
   const container = mount(
     barMicrochart({
       clock: startClock(),
       store,
+      min: 0,
+      max: 10,
       height: 10,
-      width: 9 + 2,
+      width: 9 + 4,
     }),
   );
 
@@ -103,10 +113,38 @@ test("draws one bar per three pixels of width", ({mount}) => {
   assert.equal(container.querySelectorAll(":scope svg rect").length, 3);
 });
 
+test("fits a bar at max inside the svg", ({mount}) => {
+  const store = signal<readonly TimedRecord[]>([]);
+  const container = mount(
+    barMicrochart({
+      clock: startClock(),
+      store,
+      min: 0,
+      max: 10,
+      height: 10,
+      width: 100,
+    }),
+  );
+
+  store.set([timedRecord({t: 0, v: 10})]);
+
+  const bar = container.querySelector(":scope svg rect:first-child");
+  assert.deepEqual(
+    [
+      container.querySelector(":scope svg g")?.getAttribute("transform"),
+      bar?.getAttribute("y"),
+      bar?.getAttribute("height"),
+    ],
+    ["translate(2,2)", "0", "6"],
+  );
+});
+
 test("draws a simple set of points correctly", ({mount}) => {
   const store = signal<readonly TimedRecord[]>([]);
   const clock = startClock();
-  const container = mount(barMicrochart({clock, store, height: 10, width: 12}));
+  const container = mount(
+    barMicrochart({clock, store, min: 0, max: 10, height: 14, width: 16}),
+  );
   const start = clock.get() - 4;
 
   sendEachSecond(store, start, [0, 1, 5, 10]);
@@ -122,7 +160,9 @@ test("draws a simple set of points correctly", ({mount}) => {
 test("add a left-most point if there isn't one in the data", ({mount}) => {
   const store = signal<readonly TimedRecord[]>([]);
   const clock = startClock();
-  const container = mount(barMicrochart({clock, store, height: 10, width: 12}));
+  const container = mount(
+    barMicrochart({clock, store, min: 0, max: 10, height: 14, width: 16}),
+  );
   const start = clock.get() - 3;
 
   sendEachSecond(store, start, [0, 5, 10]);
@@ -138,7 +178,9 @@ test("add a left-most point if there isn't one in the data", ({mount}) => {
 test("adds a right-most point if the newest data is old", ({mount}) => {
   const store = signal<readonly TimedRecord[]>([]);
   const clock = startClock();
-  const container = mount(barMicrochart({clock, store, height: 10, width: 12}));
+  const container = mount(
+    barMicrochart({clock, store, min: 0, max: 10, height: 14, width: 16}),
+  );
   const start = clock.get() - 4;
 
   sendEachSecond(store, start, [0, 5, 10]);
@@ -159,7 +201,7 @@ test("scales bars between the min and max it is given", ({mount}) => {
       store,
       min: 10,
       max: 110,
-      height: 10,
+      height: 14,
       width: 100,
     }),
   );
@@ -170,25 +212,26 @@ test("scales bars between the min and max it is given", ({mount}) => {
   assert.deepEqual([bar?.getAttribute("y"), bar?.getAttribute("height")], ["5", "5"]);
 });
 
-test("anchors its bars at a given min of 0", ({mount}) => {
+test.for<[string, number, string[]]>([
+  ["draws a value below min as a bar of no height at the foot", -5, ["10", "0"]],
+  ["draws a value above max as a bar to the top", 15, ["0", "10"]],
+])("%s", ([, value, expected], {mount}) => {
   const store = signal<readonly TimedRecord[]>([]);
   const container = mount(
     barMicrochart({
       clock: startClock(),
       store,
       min: 0,
-      max: 100,
-      height: 10,
+      max: 10,
+      height: 14,
       width: 100,
     }),
   );
 
-  store.set([timedRecord({t: 0, v: 50})]);
+  store.set([timedRecord({t: 0, v: value})]);
 
-  assert.equal(
-    container.querySelector(":scope svg rect:first-child")?.getAttribute("height"),
-    "5",
-  );
+  const bar = container.querySelector(":scope svg rect:first-child");
+  assert.deepEqual([bar?.getAttribute("y"), bar?.getAttribute("height")], expected);
 });
 
 describe("at a fixed time", () => {
@@ -200,8 +243,10 @@ describe("at a fixed time", () => {
       barMicrochart({
         clock: startClock(),
         store,
+        min: 0,
+        max: 10,
         height: 10,
-        width: 12,
+        width: 16,
       }),
     );
 
@@ -222,8 +267,10 @@ describe("at a fixed time", () => {
       barMicrochart({
         clock: startClock(),
         store,
+        min: 0,
+        max: 10,
         height: 10,
-        width: 12,
+        width: 16,
       }),
     );
 
@@ -239,8 +286,10 @@ describe("at a fixed time", () => {
       barMicrochart({
         clock: startClock(),
         store,
+        min: 0,
+        max: 10,
         height: 10,
-        width: 12,
+        width: 16,
       }),
     );
 
@@ -252,9 +301,56 @@ describe("at a fixed time", () => {
     );
   });
 
+  test.for<[string, number, string[]]>([
+    [
+      "draws every bar plain when its record is older than the window",
+      999_990,
+      ["bar", "bar", "bar", "bar"],
+    ],
+    [
+      "draws plain the bars before the window's first record",
+      999_998,
+      ["bar", "bar", "bar real-point", "bar real-point"],
+    ],
+  ])("%s", ([, time, expected], {mount}) => {
+    const store = signal<readonly TimedRecord[]>([]);
+    const container = mount(
+      barMicrochart({clock: startClock(), store, min: 0, max: 10, height: 10, width: 16}),
+    );
+
+    store.set([timedRecord({t: time, v: 5})]);
+
+    assert.deepEqual(
+      [...container.querySelectorAll(":scope svg rect")].map((bar) =>
+        bar.getAttribute("class"),
+      ),
+      expected,
+    );
+  });
+
+  test("marks a record's own bar real while older records stay in the store", ({
+    mount,
+  }) => {
+    const store = signal<readonly TimedRecord[]>([]);
+    const container = mount(
+      barMicrochart({clock: startClock(), store, min: 0, max: 10, height: 10, width: 16}),
+    );
+
+    store.set([timedRecord({t: 999_990, v: 5}), timedRecord({t: 999_998, v: 5})]);
+
+    assert.deepEqual(
+      [...container.querySelectorAll(":scope svg rect")].map((bar) =>
+        bar.getAttribute("class"),
+      ),
+      ["bar", "bar", "bar real-point", "bar real-point"],
+    );
+  });
+
   test("leaves the store's records as it found them", ({mount}) => {
     const store = signal<readonly TimedRecord[]>([]);
-    mount(barMicrochart({clock: startClock(), store, height: 10, width: 12}));
+    mount(
+      barMicrochart({clock: startClock(), store, min: 0, max: 10, height: 10, width: 16}),
+    );
 
     store.set([timedRecord({t: 999_990, v: 5})]);
 

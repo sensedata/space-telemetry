@@ -3,7 +3,7 @@ import type {Readable} from "../../signals/readable.ts";
 import type {View} from "../mount.ts";
 import {svgElement} from "../svg-element.ts";
 import {chartWindow} from "./chart-window.ts";
-import {linearScale} from "./linear-scale.ts";
+import {type LinearScale, linearScale} from "./linear-scale.ts";
 import {sparklinePath} from "./sparkline-path.ts";
 import {valueExtent} from "./value-extent.ts";
 
@@ -50,7 +50,9 @@ export function sparklineMicrochart({
         {min: now - timeWindow.availablePoints, max: now - 1},
         width - 6,
       );
-      const y = linearScale(extent, height - 4);
+      const drawableHeight = height - 4;
+      const heightAboveFoot = linearScale(extent, drawableHeight);
+      const y: LinearScale = (value) => drawableHeight - heightAboveFoot(value);
 
       const qualitative = svgElement("rect", {
         class: "qualitative",

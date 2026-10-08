@@ -114,14 +114,31 @@ test("draws a simple set of points correctly", ({mount}) => {
 
   sendEachSecond(store, start, [0, 1, 5, 10]);
 
-  // The path is the basis spline through (-2,0), (0,1), (2,5), and (4,10). Its control
+  // The path is the basis spline through (-2,10), (0,9), (2,5), and (4,0). Its control
   // points are the thirds and sixths between them, which d3-shape rounds to 3 decimals, and
   // 0.0005 px is invisible. The oldest record is a second before the left edge, so it lies
   // left of x = 0.
   assert.equal(
     container.querySelector(":scope svg path")?.getAttribute("d"),
-    "M-2,0L-1.667,0.167C-1.333,0.333,-0.667,0.667,0,1.5C0.667,2.333,1.333,3.667,2,5.167C2.667,6.667,3.333,8.333,3.667,9.167L4,10",
+    "M-2,10L-1.667,9.833C-1.333,9.667,-0.667,9.333,0,8.5C0.667,7.667,1.333,6.333,2,4.833C2.667,3.333,3.333,1.667,3.667,0.833L4,0",
   );
+});
+
+test("draws a higher value nearer the top", ({mount}) => {
+  const store = signal<readonly TimedRecord[]>([]);
+  const clock = startClock();
+  const container = mount(
+    sparklineMicrochart({
+      clock,
+      store,
+      height: 10 + 4,
+      width: 4 + 6,
+    }),
+  );
+
+  sendEachSecond(store, clock.get() - 2, [0, 10]);
+
+  assert.equal(container.querySelector("circle")?.getAttribute("cy"), "0");
 });
 
 test("renders a correct qualitative range", ({mount}) => {

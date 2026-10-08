@@ -91,6 +91,18 @@ describe("the attitude of a quaternion", () => {
     assert.closeTo(angles.at(-1)?.vm ?? NaN, 17.535935, 1e-5);
   });
 
+  test("marks the circular mean of angles either side of the turn from 180 to -180", () => {
+    // Rolls of 170 and -150 about x alone: (sin(roll / 2), 0, 0, cos(roll / 2)).
+    const angles = attitude("x")([
+      [timedRecord({t: 1, v: 0.996195}), timedRecord({t: 2, v: -0.965926})],
+      [timedRecord({t: 1, v: 0})],
+      [timedRecord({t: 1, v: 0})],
+      [timedRecord({t: 1, v: 0.087156}), timedRecord({t: 2, v: 0.258819})],
+    ]);
+
+    assert.closeTo(angles.at(-1)?.vm ?? NaN, -170, 1e-4);
+  });
+
   test("refuses a quaternion of other than four channels", () => {
     assert.throws(
       () =>

@@ -1,7 +1,8 @@
 import {scaleLinear} from "d3-scale";
 
 import type {TimedRecord} from "../../timed-record.ts";
-import type {ValueBounds} from "./value-bounds.ts";
+
+export type ValueBounds = {readonly min: number; readonly max: number};
 
 export type LinearScale = (value: TimedRecord["v"]) => number;
 

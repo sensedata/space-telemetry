@@ -32,6 +32,10 @@ type CellSize = {readonly width: number; readonly height: number};
 // takes, so a chart drawn again reads the sources it had.
 const charts: Record<string, (props: CellProps) => (size: CellSize) => View> = {
   ".bar-chart": ({source, min, max}) => {
+    if (min === undefined || max === undefined) {
+      throw new TypeError("a bar chart cell names its data-min and data-max");
+    }
+
     const store = recordsOf(source, stream.channels);
     return ({width, height}) => barMicrochart({clock, store, min, max, width, height});
   },

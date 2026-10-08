@@ -1,6 +1,7 @@
 import {range, sum} from "d3-array";
 
 import type {TimedRecord} from "../timed-record.ts";
+import {arithmeticMean} from "./arithmetic-mean.ts";
 import {type CombinedRecord, combineByTime} from "./combine-by-time.ts";
 import {withHeldMean} from "./with-held-mean.ts";
 
@@ -23,5 +24,6 @@ export function power(channels: readonly (readonly TimedRecord[])[]): CombinedRe
       });
       return watts.length === 0 ? undefined : {v: sum(watts), vm: 0};
     }),
+    arithmeticMean,
   );
 }

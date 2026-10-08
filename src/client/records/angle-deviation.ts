@@ -1,6 +1,6 @@
-import {sum} from "d3-array";
-
 import type {TimedRecord} from "../timed-record.ts";
+import {arithmeticMean} from "./arithmetic-mean.ts";
+import {circularMean} from "./circular-mean.ts";
 import {type CombinedRecord, combineByTime} from "./combine-by-time.ts";
 import {withHeldMean} from "./with-held-mean.ts";
 
@@ -10,8 +10,6 @@ export type Mounting = {readonly negated: boolean; readonly turned: boolean};
 
 // A channel that carries an angle in degrees, and its mounting.
 export type MirroredAngle<Channel> = Mounting & {readonly channel: Channel};
-
-const RADIANS = Math.PI / 180;
 
 // The degrees between two angles, the short way round. It stays in this file because a
 // reader following the deviation would leave it for three lines.
@@ -35,12 +33,9 @@ export function angleDeviation(
         const record = newest[channel];
         return record ? [(negated ? -record.v : record.v) + (turned ? 180 : 0)] : [];
       });
-      const mean =
-        Math.atan2(
-          sum(degrees, (angle) => Math.sin(angle * RADIANS)),
-          sum(degrees, (angle) => Math.cos(angle * RADIANS)),
-        ) / RADIANS;
+      const mean = circularMean(degrees);
       return {v: Math.max(...degrees.map((angle) => apart(angle, mean))), vm: 0};
     }),
+    arithmeticMean,
   );
 }

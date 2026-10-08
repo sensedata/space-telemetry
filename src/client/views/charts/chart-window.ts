@@ -2,7 +2,8 @@ import type {TimedRecord} from "../../timed-record.ts";
 import {withLeftPoint} from "./with-left-point.ts";
 import {withRightPoint} from "./with-right-point.ts";
 
-const PIXELS_PER_POINT = 3;
+// The pitch of a chart's points, one a second; a chart that places its own marks shares it.
+export const PIXELS_PER_POINT = 3;
 
 export type ChartWindow<Held> = {
   readonly availablePoints: number;

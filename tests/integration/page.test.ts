@@ -130,6 +130,16 @@ describe("page", () => {
     await expect(import("../../src/client/page.ts")).rejects.toThrow(TypeError);
   });
 
+  test("refuses a bar chart whose cell names no data-min", async () => {
+    document
+      .querySelector('.bar-chart[data-telemetry-id="USLAB000056"]')
+      ?.removeAttribute("data-min");
+
+    await expect(import("../../src/client/page.ts")).rejects.toThrow(
+      new TypeError("a bar chart cell names its data-min and data-max"),
+    );
+  });
+
   test("refuses a status readout whose channel has no table of statuses", async () => {
     document
       .querySelector('.readout.text[data-telemetry-id="USLAB000086"]')
@@ -188,22 +198,12 @@ describe("page", () => {
       data: [streamRecord({k: "USLAB000056", v: 50, t: 1_790_560_000, s: 24})],
     });
 
-    // Half of 0 to 100 is half of the cell's height, across a bar each 3 of its 30 pixels.
+    // Half of 0 to 100 is half of the 16 pixels inside the cell's 2 pixel inset, across a
+    // bar each 3 of the 26 inside it.
     const heights = [
       ...document.querySelectorAll('.bar-chart[data-telemetry-id="USLAB000056"] rect'),
     ].map((bar) => bar.getAttribute("height"));
-    assert.deepEqual(heights, [
-      "10",
-      "10",
-      "10",
-      "10",
-      "10",
-      "10",
-      "10",
-      "10",
-      "10",
-      "10",
-    ]);
+    assert.deepEqual(heights, ["8", "8", "8", "8", "8", "8", "8", "8"]);
   });
 
   test("redraws a chart to its cell's size when the window narrows", async ({stream}) => {
@@ -218,7 +218,8 @@ describe("page", () => {
       data: [streamRecord({k: "USLAB000056", v: 50, t: 1_790_560_000, s: 24})],
     });
 
-    // A content box of 15 holds a bar each 3 pixels, where 30 held 10.
+    // A content box of 15 holds a bar each 3 of the 11 pixels inside its inset, where 30
+    // held 8.
     measure.mockReturnValue(new DOMRect(0, 0, 17, 22));
     dispatchEvent(new Event("resize"));
 
@@ -228,7 +229,7 @@ describe("page", () => {
         chart?.querySelector("svg")?.getAttribute("width"),
         chart?.querySelectorAll("rect").length,
       ],
-      ["15", 5],
+      ["15", 3],
     );
   });
 

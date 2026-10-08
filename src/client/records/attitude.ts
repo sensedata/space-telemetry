@@ -1,6 +1,7 @@
 import {Euler, MathUtils, Quaternion} from "three";
 
 import type {TimedRecord} from "../timed-record.ts";
+import {circularMean} from "./circular-mean.ts";
 import {type CombinedRecord, combineByTime} from "./combine-by-time.ts";
 import {withHeldMean} from "./with-held-mean.ts";
 
@@ -11,8 +12,10 @@ export type Axis = "x" | "y" | "z";
  * The Euler angle about the axis, in degrees, of the attitude the quaternion of four
  * channels gives, at each time any channel reported; channels holds x, y, z then w. A
  * time before every component has a value has no record, and a component keeps its value
- * until a record with one arrives. Each record marks the mean of the angles held. The
- * function it returns throws a RangeError for other than four channels.
+ * until a record with one arrives. Each record marks the circular mean of the angles held:
+ * an arithmetic mean of angles either side of the turn from 180 to -180, as roll is
+ * through a flip, is no direction. The function it returns throws a RangeError for other
+ * than four channels.
  */
 export function attitude(
   axis: Axis,
@@ -37,6 +40,7 @@ export function attitude(
         );
         return {v: MathUtils.radToDeg(euler[axis]), vm: 0};
       }),
+      circularMean,
     );
   };
 }

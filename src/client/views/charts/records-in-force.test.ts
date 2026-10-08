@@ -13,13 +13,14 @@ test("gives each second the newest record at or before it", () => {
   ]);
 });
 
-test("gives no record for a second before the oldest", () => {
+test("refuses a second before the oldest record", () => {
   const records = [timedRecord({t: 101, v: 1})];
 
-  assert.deepEqual(recordsInForce(records, 100, 2), [
-    undefined,
-    timedRecord({t: 101, v: 1}),
-  ]);
+  assert.throws(
+    () => recordsInForce(records, 100, 2),
+    RangeError,
+    "no record in force 0 seconds after 100",
+  );
 });
 
 test("gives no points to a chart too narrow for one", () => {
