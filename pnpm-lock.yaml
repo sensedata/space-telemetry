@@ -221,6 +221,9 @@ importers:
       '@vitest/eslint-plugin':
         specifier: ^1.6
         version: 1.6.27(@typescript-eslint/eslint-plugin@8.71.0(@typescript-eslint/parser@8.71.0(eslint@10.11.0(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3))(eslint@10.11.0(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3))(eslint@10.11.0(jiti@2.7.0)(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3)(vitest@4.1.11)
+      browserslist:
+        specifier: ^4.29
+        version: 4.29.2
       d3-array:
         specifier: ^3.2
         version: 3.2.4

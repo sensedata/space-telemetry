@@ -1,15 +1,39 @@
+import browserslist from "browserslist";
 import {defineConfig} from "vitest/config";
 
-// When build.target was last set; tests/integration/browser-targets.test.ts fails once this
-// is more than 90 days old.
-export const targetsAsOf = "2026-09-27";
+// Supported browsers: browserslist's `defaults`, which caniuse-lite's usage data resolves to
+// every browser version over half a percent of global use, plus the current and prior
+// version of each. The floor moves with caniuse-lite; browserslist warns at build when
+// that data is over six months old.
+//
+// The engines the bundler names, by browserslist's name. Android's Chrome and Firefox
+// track the desktop versions and never lower the floor, so they are left out.
+const engines = new Map([
+  ["chrome", "chrome"],
+  ["edge", "edge"],
+  ["firefox", "firefox"],
+  ["ios_saf", "ios"],
+  ["opera", "opera"],
+  ["safari", "safari"],
+]);
+
+function buildTargets(): string[] {
+  const oldest = new Map<string, number>();
+  for (const entry of browserslist("defaults")) {
+    const [browser, range] = entry.split(" ", 2);
+    const engine = engines.get(browser ?? "");
+    // A range such as "18.5-18.7" counts as its low end; Safari's "TP" is NaN.
+    const version = Number(range?.split("-", 1)[0]);
+    if (engine === undefined || Number.isNaN(version)) continue;
+    oldest.set(engine, Math.min(oldest.get(engine) ?? Infinity, version));
+  }
+  return [...oldest].map(([engine, version]) => `${engine}${version}`);
+}
 
 export default defineConfig({
   root: "src/client",
   build: {
-    // Supported browsers: the current and prior major versions of Chrome, Firefox and Safari
-    // (macOS and iOS), as of targetsAsOf.
-    target: ["chrome153", "firefox155", "safari26", "ios26"],
+    target: buildTargets(),
     outDir: "../../dist",
     emptyOutDir: true,
   },
