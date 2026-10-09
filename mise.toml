@@ -175,7 +175,7 @@ run = [
 ]
 
 [tasks."report:screenshots"]
-description = "Playwright screenshots of the seed at four widths in light and dark, into reports/screenshots."
+description = "Playwright screenshots of the seed at five widths in light and dark, into reports/screenshots."
 shell = "bash -c"
 run = [
   "pnpm exec playwright install chromium firefox webkit",

@@ -1099,45 +1099,6 @@ th .readout {
   }
 }
 
-@media (max-width: 375px) {
-  .atmosphere {
-    .oxygen-generator {
-      dt {
-        margin-left: 28px;
-        text-align: center;
-        width: 100%;
-      }
-
-      dd {
-        margin-left: 25%;
-        width: 100%;
-
-        .bullet-chart {
-          margin-left: 0;
-          width: 46%;
-        }
-      }
-    }
-
-    .oxygen-generator-state {
-      /* FIXME */
-      display: none;
-
-      dt,
-      dd {
-        display: inline-block;
-        text-align: left;
-      }
-    }
-
-    .oxygen-generator-rate.readout {
-      position: absolute;
-      top: 28px;
-      right: 7px;
-    }
-  }
-}
-
 @media (min-width: 768px) {
   .atmosphere .column-microchart {
     width: 35%;
@@ -1151,7 +1112,6 @@ th .readout {
 @media (min-width: 922px) {
   .atmosphere {
     .oxygen-generator-state {
-      display: inline-block;
       width: 107px;
     }
 

@@ -5,8 +5,9 @@ import {browsers} from "./playwright.config.ts";
 // Clear of playwright.config.ts's 5056, so both suites can run at once.
 const port = 5057;
 
-// One width inside each of page.css's breakpoints: below 768, then 768, 992 and 1200 up.
-const widths = [390, 800, 1024, 1280];
+// One width inside each of page.css's breakpoints: 375 and below, below 768, then 768, 992
+// and 1200 up.
+const widths = [375, 390, 800, 1024, 1280];
 
 const colorSchemes = ["light", "dark"] as const;
 
