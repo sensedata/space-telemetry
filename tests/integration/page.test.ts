@@ -389,6 +389,19 @@ describe("page", () => {
     assert.equal(rate?.textContent, "13.89");
   });
 
+  test("shows a dash for the oxygen generation rate's fill value", async ({stream}) => {
+    await import("../../src/client/page.ts");
+
+    stream().open();
+    stream().send({
+      name: "records",
+      data: [streamRecord({k: "NODE3000011", v: -59.45689010620117, t: 1_790_560_000})],
+    });
+
+    const rate = document.querySelector('.readout[data-telemetry-id="NODE3000011"]');
+    assert.equal(rate?.textContent, "-");
+  });
+
   test.for([
     ["loop A", "S1000001"],
     ["loop B", "P1000001"],

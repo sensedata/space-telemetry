@@ -1,5 +1,6 @@
 import type {ChannelName} from "../contract/channels.ts";
 import * as channels from "../contract/channels.ts";
+import {maskFeedFaults} from "./mask-feed-faults.ts";
 import {lastTransmission} from "./records/last-transmission.ts";
 import {mergeRecords} from "./records/merge-records.ts";
 import {derived} from "./signals/derived.ts";
@@ -70,7 +71,7 @@ export function startStream(clock: Readable<number>, origin = ""): Stream {
     // EventSource hands a message event its data as a string.
     opened.addEventListener("records", (message: MessageEvent<string>) => {
       const byChannel = Map.groupBy(
-        parseTimedRecords(message.data),
+        maskFeedFaults(parseTimedRecords(message.data)),
         (record) => record.k,
       );
       for (const [name, records] of byChannel) {
