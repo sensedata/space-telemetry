@@ -389,6 +389,11 @@ th {
   line-height: 0 !important;
 }
 
+/* With no line height, a wrapped label prints its lines over each other. */
+.table th {
+  white-space: nowrap;
+}
+
 .dl-horizontal dd {
   margin-left: 120px;
 }
