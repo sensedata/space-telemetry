@@ -376,17 +376,21 @@ describe("page", () => {
     assert.equal(sum?.textContent, "30.5");
   });
 
-  test("shows the oxygen generation rate in milligrams per second", async ({stream}) => {
+  test("shows the oxygen generation rate's kilograms per hour in milligrams per second", async ({
+    stream,
+  }) => {
     await import("../../src/client/page.ts");
 
     stream().open();
     stream().send({
       name: "records",
-      data: [streamRecord({k: "NODE3000011", v: 1.2, t: 1_790_560_000, s: 24})],
+      data: [
+        streamRecord({k: "NODE3000011", v: 0.16329325735569, t: 1_790_560_000, s: 24}),
+      ],
     });
 
     const rate = document.querySelector('.readout[data-telemetry-id="NODE3000011"]');
-    assert.equal(rate?.textContent, "13.89");
+    assert.equal(rate?.textContent, "45.36");
   });
 
   test("shows a dash for the oxygen generation rate's fill value", async ({stream}) => {
