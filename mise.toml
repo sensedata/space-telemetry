@@ -33,18 +33,14 @@ depends = [
 
 
 [tasks."agents:gate"]
-description = "Gate, quiet: logs to reports/gate.log and prints only failures."
-run = [
-  "mkdir -p reports",
-  'mise run --continue-on-error --output keep-order gate > reports/gate.log 2>&1 || (grep -E "ERROR|exited with status" reports/gate.log && exit 1)',
-]
+description = "Gate, quiet: logs to reports/gate.log and prints only failures and the complexity report."
+shell = "bash -c"
+run = "tools/agents-quiet.sh gate"
 
 [tasks."agents:quick"]
-description = "Quick, quiet: logs to reports/quick.log and prints only failures."
-run = [
-  "mkdir -p reports",
-  'mise run --continue-on-error --output keep-order quick > reports/quick.log 2>&1 || (grep -E "ERROR|exited with status" reports/quick.log && exit 1)',
-]
+description = "Quick, quiet: logs to reports/quick.log and prints only failures and the complexity report."
+shell = "bash -c"
+run = "tools/agents-quiet.sh quick"
 
 
 [tasks.build]
@@ -86,6 +82,7 @@ run = [
 # lockfile is printed and fails the task.
 [tasks."check:lockfile"]
 description = "No git or tarball resolution in pnpm-lock.yaml but xmlhttprequest's."
+shell = "bash -c"
 run = "! grep -nE 'gitHosted|type: git|codeload\\.|git\\+|git://|github:|gitlab:|bitbucket:|tarball:' pnpm-lock.yaml | grep -v 'codeload.github.com/driverdan/node-XMLHttpRequest/tar.gz/97966e4ca1c9f2cc5574d8775cbdacebfec75455'"
 
 [tasks."check:secrets"]
@@ -156,19 +153,15 @@ depends = [
   "report:licenses",
 ]
 
+[tasks."report:complexity"]
+description = "Cyclomatic complexity over src: the five worst functions and the mean. Not a gate."
+shell = "bash -c"
+run = "tools/complexity.sh"
+
 [tasks."report:dependencies"]
 description = "Mise tools and direct pnpm packages."
 shell = "bash -c"
-run = [
-  "mise ls --current --local",
-  '''
-    pnpm list --json | jaq -r '
-    [ .. | objects | to_entries[]
-      | select(.value | type == "object" and has("version"))
-      | .key + " - " + .value.version
-    ] | unique[]'
-  ''',
-]
+run = "tools/dependencies.sh"
 
 [tasks."report:licenses"]
 description = "Trivy-discovered licenses."
@@ -183,6 +176,7 @@ run = [
 
 [tasks."report:screenshots"]
 description = "Playwright screenshots of the seed at four widths in light and dark, into reports/screenshots."
+shell = "bash -c"
 run = [
   "pnpm exec playwright install chromium firefox webkit",
   "pnpm exec vite build --outDir ../../reports/screenshots-dist",
@@ -200,6 +194,7 @@ depends = ["test:unit", "test:integration", "test:browser"]
 [tasks."test:browser"]
 description = "Playwright, chromium, firefox and webkit, against a fresh build. Slow."
 wait_for = ["fix", "format"]
+shell = "bash -c"
 run = [
   "pnpm exec playwright install chromium firefox webkit",
   "pnpm exec vite build --outDir ../../reports/e2e-dist",
