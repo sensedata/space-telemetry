@@ -24,7 +24,9 @@ export type Started = {
 // startServer(env, args, server) spawns the server.ts of the directory `server`, src/server/
 // unless given, in dataDir, with the command-line `args`, none unless given, and with PORT 0,
 // SOURCE none, SEED_FILE seedFile, STATIC_DIR staticDir and then `env` in place of those of
-// this process, and resolves once it listens; each child it spawned is killed after the test.
+// this process, whose DATA_DIR and SNAPSHOT_SECONDS it drops, so a test that sets neither
+// starts a child with neither. It resolves once the child listens; each child it spawned is
+// killed after the test.
 export const test = stubPageTest
   .extend("dataDir", ({}, {onCleanup}) => {
     const dataDir = fs.mkdtempSync(path.join(os.tmpdir(), "spawned-server-"));
@@ -48,7 +50,7 @@ export const test = stubPageTest
       args: string[] = [],
       server = serverDir,
     ): Promise<Started> => {
-      // eslint-disable-next-line no-restricted-syntax -- sets the child server's environment
+      // eslint-disable-next-line no-restricted-syntax -- read to forward to the child, not to configure this process
       const {SOURCE, DATA_DIR, SNAPSHOT_SECONDS, SEED_FILE, ...inherited} = process.env;
       const child = childProcess.spawn(
         process.execPath,

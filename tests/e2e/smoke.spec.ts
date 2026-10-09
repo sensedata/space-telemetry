@@ -1,10 +1,9 @@
 import {expect, test} from "@playwright/test";
 
 // The replay fills a channel when the recording first sends it, so the counts below grow
-// with the server's uptime. In trial runs, 62 of the 141 decimal readouts showed a number
-// and 18 sparklines had a line about 6 seconds into the replay, 68 and 25 at 10 seconds.
-// Each floor is met about 6 seconds in, well inside a 20-second wait that fits within
-// Playwright's 30-second test timeout.
+// with the server's uptime. Each floor sits just under the count seen about 6 seconds into
+// the replay, well inside a 20-second wait that fits within Playwright's 30-second test
+// timeout.
 const READOUT_FLOOR = 60;
 const SPARKLINE_FLOOR = 18;
 const FILL_TIMEOUT_MS = 20_000;

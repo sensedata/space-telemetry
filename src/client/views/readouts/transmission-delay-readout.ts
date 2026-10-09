@@ -12,7 +12,7 @@ type TransmissionDelayReadoutProps = {
   store: Readable<readonly Reading[]>;
 };
 
-/** Time since the newest record was sent, alarmed beyond 30 seconds either way. */
+/** Time since the newest record was sent, alarmed beyond ALARM_SECONDS either way. */
 export function transmissionDelayReadout({
   clock,
   store,

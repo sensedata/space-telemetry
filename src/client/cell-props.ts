@@ -65,8 +65,9 @@ function pairOf(text: string): PowerPair<ChannelName> {
   return {volts: channelOf(volts), amps: channelOf(amps)};
 }
 
-// An angle deviation cell names each channel behind how its mounting mirrors the plain
-// one: "-" for negated, "180+" for turned, "180-" for both.
+// In an angle deviation cell, a channel may carry a prefix that says how its sensor is
+// mounted: "-" when it counts the other way round, "180+" when it starts half a turn away,
+// and "180-" when both. The channel name follows the prefix, as in "180-P4000007".
 function mirroredAngleOf(text: string): MirroredAngle<ChannelName> {
   const mounting = ["180-", "180+", "-"].find((prefix) => text.startsWith(prefix)) ?? "";
   return {
@@ -134,9 +135,7 @@ function sourceOf(cell: Element): CellSource {
 }
 
 /**
- * The props a cell's data attributes give its view, or undefined for a cell with none,
- * which the page fills itself. Throws on an attribute no view reads, so a misspelt one
- * fails the page rather than go unread.
+ * Returns a telemetry cell's data attrs into a new CellProps.
  */
 export function parseCellProps(cell: Element): CellProps | undefined {
   const names = cell.getAttributeNames();

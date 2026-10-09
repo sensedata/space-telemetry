@@ -1,7 +1,7 @@
 import type {Readable} from "./readable.ts";
 
 /**
- * Runs run now, and again each time a source changes. Returns the function that stops
+ * Calls run now, and again each time a source changes. Returns the function that stops
  * following the sources.
  */
 export function effect(

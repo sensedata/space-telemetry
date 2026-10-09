@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
-// The page renders into a document. The integration project runs in node for app.test.ts,
-// whose Node EventSource dispatches Node's Event, which jsdom's global Event would replace.
+// The page renders into a document. The integration project runs in node for the tests that
+// open Node's EventSource through event-stream.ts, which dispatches Node's Event, which
+// jsdom's global Event would replace.
 import {assert, describe, expect, vi} from "vitest";
 
 import {streamRecord} from "../../src/client/test-helpers/records.ts";

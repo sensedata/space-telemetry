@@ -384,7 +384,8 @@ th {
 .table th {
   border-color: var(--rule-faint) !important;
 
-  /* Greater than zero line heights cause problems with SVG inside cells. */
+  /* An inline svg sits on the cell's baseline, so any line height adds descender space
+     below it and the row grows past the chart. */
   line-height: 0 !important;
 }
 

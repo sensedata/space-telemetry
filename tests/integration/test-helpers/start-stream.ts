@@ -45,11 +45,10 @@ class FakeEventSource extends EventTarget {
 
 // Every test of this `test` runs a stream started on a fake EventSource and a fake
 // setTimeout, clearTimeout and Date, which start at `now` and move only as the test
-// advances them; `now` is the real
-// time unless `test.override({ now })` sets it for a describe. The stream closes after the
-// test. sources holds, in the order the stream opened them, the FakeEventSources that
-// stand in for EventSource during the test, sourceAt(index) is one of them, and stream is
-// the Stream.
+// advances them; `now` is the real time unless `test.override({ now })` sets it for a
+// describe. The stream closes after the test. sources holds, in the order the stream opened
+// them, the FakeEventSources that stand in for EventSource during the test, sourceAt(index)
+// is one of them, and stream is the Stream.
 export const test = base
   .extend("sources", {auto: true}, () => {
     const sources: FakeEventSource[] = [];
