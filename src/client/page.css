@@ -8,6 +8,8 @@ html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
   -webkit-tap-highlight-color: transparent;
+  position: relative;
+  min-height: 100%;
 }
 
 :root {
@@ -44,6 +46,7 @@ html {
 body {
   margin: 0;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 12px;
   line-height: 1.42857143;
   color: var(--text);
   background-color: var(--page);
@@ -69,13 +72,37 @@ h4 {
   margin-bottom: 10px;
 }
 
+h1,
+h2,
+h3 {
+  margin-top: 0;
+}
+
+h2 {
+  font-size: 16px;
+}
+
+h3 {
+  font-size: 14px;
+}
+
 h4 {
   margin-top: 10px;
+  font-size: 12px;
 }
 
 hr {
   border: 0;
   border-top: 1px solid var(--rule-faint);
+  margin: 15px 0 10px;
+
+  &.header-rule {
+    border-color: var(--rule-header);
+  }
+
+  &.inner-rule {
+    border-color: var(--rule-strong);
+  }
 }
 
 p {
@@ -94,14 +121,28 @@ dl {
 
 dd {
   margin-left: 0;
+  font-weight: bold;
+}
+
+dt {
+  font-weight: normal;
 }
 
 table {
   border-collapse: collapse;
 }
 
+td,
+th {
+  padding: 4px 8px 4px 8px !important;
+  vertical-align: middle !important;
+  height: 29px !important;
+}
+
 th {
   text-align: left;
+  border-bottom-width: 1px !important;
+  font-weight: normal;
 }
 
 .container {
@@ -136,11 +177,15 @@ th {
 .col-md-7,
 .col-md-12 {
   position: relative;
+  padding-right: 5px;
+  padding-left: 5px;
 }
 
 /* Below the first breakpoint columns stack; the row keeps their margins inside it. */
 .row {
   display: flow-root;
+  margin-right: -5px;
+  margin-left: -5px;
 }
 
 @media (min-width: 768px) {
@@ -235,10 +280,24 @@ th {
 
 .jumbotron {
   margin-bottom: 30px;
+  padding: 30px 0 10px;
   background-color: var(--surface);
 
   .container {
     max-width: 100%;
+  }
+
+  h1 {
+    font-size: 22px;
+    text-align: left;
+  }
+
+  h2 {
+    font-weight: normal;
+
+    .readout {
+      font-family: inherit;
+    }
   }
 }
 
@@ -323,38 +382,8 @@ td.sparkline-chart {
   padding-right: 0 !important;
 }
 
-dd {
-  font-weight: bold;
-}
-
-dt {
-  font-weight: normal;
-}
-
-h1,
-h2,
-h3 {
-  margin-top: 0;
-}
-
-h2 {
-  font-size: 16px;
-}
-
-h3 {
-  font-size: 14px;
-}
-
-h4 {
-  font-size: 12px;
-}
-
 .sub-header {
   padding-bottom: 6px;
-}
-
-body {
-  font-size: 12px;
 }
 
 @media (min-width: 992px) {
@@ -373,11 +402,6 @@ body {
   body {
     font-size: 14px;
   }
-}
-
-th {
-  border-bottom-width: 1px !important;
-  font-weight: normal;
 }
 
 .table td,
@@ -403,23 +427,6 @@ th {
   margin-top: 0.5px;
   vertical-align: top;
   width: 120px;
-}
-
-hr {
-  margin: 15px 0 10px;
-
-  &.header-rule {
-    border-color: var(--rule-header);
-  }
-
-  &.inner-rule {
-    border-color: var(--rule-strong);
-  }
-}
-
-html {
-  position: relative;
-  min-height: 100%;
 }
 
 .legal {
@@ -476,25 +483,6 @@ html {
   color: var(--alarm-time);
 }
 
-td,
-th {
-  padding: 4px 8px 4px 8px !important;
-  vertical-align: middle !important;
-}
-
-.alarm-label {
-  display: inline-block;
-  text-align: right;
-  width: 90px;
-}
-
-.alarm-symbol-container {
-  display: inline-block;
-  position: relative;
-  padding-right: 25px;
-  margin-right: 6px;
-}
-
 @font-face {
   font-family: "iec_unicoderegular";
   src: url("./fonts/unicode-iec-symbol.woff") format("woff");
@@ -518,72 +506,6 @@ th {
   content: "⭘";
 }
 
-.col-lg-1,
-.col-lg-10,
-.col-lg-11,
-.col-lg-12,
-.col-lg-2,
-.col-lg-3,
-.col-lg-4,
-.col-lg-5,
-.col-lg-6,
-.col-lg-7,
-.col-lg-8,
-.col-lg-9,
-.col-md-1,
-.col-md-10,
-.col-md-11,
-.col-md-12,
-.col-md-2,
-.col-md-3,
-.col-md-4,
-.col-md-5,
-.col-md-6,
-.col-md-7,
-.col-md-8,
-.col-md-9,
-.col-sm-1,
-.col-sm-10,
-.col-sm-11,
-.col-sm-12,
-.col-sm-2,
-.col-sm-3,
-.col-sm-4,
-.col-sm-5,
-.col-sm-6,
-.col-sm-7,
-.col-sm-8,
-.col-sm-9,
-.col-xs-1,
-.col-xs-10,
-.col-xs-11,
-.col-xs-12,
-.col-xs-2,
-.col-xs-3,
-.col-xs-4,
-.col-xs-5,
-.col-xs-6,
-.col-xs-7,
-.col-xs-8,
-.col-xs-9 {
-  padding-right: 5px;
-  padding-left: 5px;
-}
-
-td,
-th {
-  height: 29px !important;
-}
-
-.row {
-  margin-right: -5px;
-  margin-left: -5px;
-}
-
-.now-marker {
-  fill: red;
-}
-
 .status {
   color: var(--text-off);
 }
@@ -592,48 +514,12 @@ th {
   color: var(--text-on);
 }
 
-.status.unknown {
-  color: red;
-}
-
-.digits {
-  display: inline-block;
-}
-
-.digits.four {
-  width: 34px;
-}
-
-.digits.four.rotations-per-minute {
-  width: 68px;
-}
-
-.value:after {
-  font-weight: normal;
-}
-
-.value-column {
-  text-align: right;
-}
-
 .footer {
   background-color: var(--surface-footer);
   font-size: 14px;
   height: auto;
   width: 100%;
   padding-top: 15px;
-}
-
-.touch {
-  .footer {
-    line-height: 1.75;
-  }
-
-  .legal {
-    font-size: 12px;
-    line-height: 2.2;
-    margin-top: 15px;
-  }
 }
 
 @media (min-width: 768px) {
@@ -656,16 +542,6 @@ th {
   .has-footer {
     margin-bottom: 130px;
   }
-
-  .touch {
-    .footer {
-      height: 175px;
-    }
-
-    .has-footer {
-      margin-bottom: 175px;
-    }
-  }
 }
 
 @media (min-width: 1200px) {
@@ -676,23 +552,6 @@ th {
 
   .has-footer {
     margin-bottom: 130px;
-  }
-}
-
-.jumbotron {
-  padding: 30px 0 10px;
-
-  h1 {
-    font-size: 22px;
-    text-align: left;
-  }
-
-  h2 {
-    font-weight: normal;
-
-    .readout {
-      font-family: inherit;
-    }
   }
 }
 
@@ -824,24 +683,12 @@ th .readout {
     content: "\00a0 %";
   }
 
-  &.radians:after {
-    content: "\00a0 rad";
-  }
-
-  &.radians-per-second:after {
-    content: "\00a0 rad/s";
-  }
-
   &.rotations-per-minute:after {
     content: "\00a0 rpm";
   }
 
   &.volts:after {
     content: "\00a0 V";
-  }
-
-  &.watts:after {
-    content: "\00a0 W";
   }
 }
 
@@ -1337,10 +1184,6 @@ th .readout {
       margin: 0 0 15px 0;
     }
 
-    .attitude-alarms-col {
-      margin-bottom: -15px;
-    }
-
     .attitude-header {
       margin: 0;
       position: relative;
@@ -1367,10 +1210,6 @@ th .readout {
         margin-top: 5px;
         margin-left: 10px;
       }
-    }
-
-    .attitude.table:not(.first):not(.third) .column-header {
-      width: 0;
     }
 
     .attitude-tables {
@@ -1996,57 +1835,8 @@ th .readout {
 
 @media (min-width: 1200px) {
   .photovoltaic {
-    .col-channel:nth-child(2n + 1) h4 {
-      visibility: hidden;
-    }
-
-    .col-channel {
-      h4 {
-        margin-left: 19px;
-      }
-    }
-
-    .channel-table {
-      td.bullet-chart {
-        position: relative;
-        left: 10px;
-      }
-    }
-
     .photovoltaic-tables {
       grid-template-columns: calc(25% + 10px) repeat(4, 200px);
-    }
-
-    .col:first-child {
-      border-right: 1px solid var(--rule-divider);
-      margin-right: 10px;
-      padding-right: 10px;
-
-      .column-header {
-        width: 50%;
-      }
-    }
-
-    .col {
-      margin: 0;
-    }
-
-    .col-first {
-      thead th {
-        text-align: left;
-      }
-    }
-
-    thead th {
-      border-top: 1px solid var(--rule-divider);
-      padding-top: 20px !important;
-      padding-bottom: 10px !important;
-    }
-
-    .row:not(.totals) .col:not(.col-first) {
-      thead th {
-        visibility: hidden;
-      }
     }
 
     .col:not(.col-first) {

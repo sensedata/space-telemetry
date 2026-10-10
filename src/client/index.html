@@ -2,7 +2,6 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="light dark">
     <title>ISS Telemetry</title>
@@ -1174,13 +1173,13 @@
               <tbody>
                 <tr>
                   <th>Current Tot.</th>
-                  <td class="microchart sparkline-chart" data-combine="sum" data-telemetry-ids="P4000002,P6000005" title="P4000002,P6000005" data-capacity="100"></td>
+                  <td class="microchart sparkline-chart" data-combine="sum" data-telemetry-ids="P4000002,P6000005" title="P4000002,P6000005"></td>
                   <td class="readout amps decimal" data-combine="sum" data-telemetry-ids="P4000002,P6000005" title="P4000002,P6000005" data-scale="1"></td>
                 </tr>
 
                 <tr>
                   <th>Voltage Dev.</th>
-                  <td class="microchart sparkline-chart" data-combine="deviation" data-telemetry-ids="P4000001,P6000004" title="P4000001,P6000004" data-capacity="100"></td>
+                  <td class="microchart sparkline-chart" data-combine="deviation" data-telemetry-ids="P4000001,P6000004" title="P4000001,P6000004"></td>
                   <td class="readout volts decimal" data-combine="deviation" data-telemetry-ids="P4000001,P6000004" title="P4000001,P6000004" data-scale="2"></td>
                 </tr>
               </tbody>
@@ -1207,13 +1206,13 @@
               <tbody>
                 <tr>
                   <th>Current Tot.</th>
-                  <td class="microchart sparkline-chart" data-combine="sum" data-telemetry-ids="P4000005,P6000002" title="P4000005,P6000002" data-capacity="100"></td>
+                  <td class="microchart sparkline-chart" data-combine="sum" data-telemetry-ids="P4000005,P6000002" title="P4000005,P6000002"></td>
                   <td class="readout amps decimal" data-combine="sum" data-telemetry-ids="P4000005,P6000002" title="P4000005,P6000002" data-scale="1"></td>
                 </tr>
 
                 <tr>
                   <th>Voltage Dev.</th>
-                  <td class="microchart sparkline-chart" data-combine="deviation" data-telemetry-ids="P4000004,P6000001" title="P4000004,P6000001" data-capacity="100"></td>
+                  <td class="microchart sparkline-chart" data-combine="deviation" data-telemetry-ids="P4000004,P6000001" title="P4000004,P6000001"></td>
                   <td class="readout volts decimal" data-combine="deviation" data-telemetry-ids="P4000004,P6000001" title="P4000004,P6000001" data-scale="2"></td>
                 </tr>
               </tbody>
@@ -1239,13 +1238,13 @@
               <tbody>
                 <tr>
                   <th>Current Tot.</th>
-                  <td class="microchart sparkline-chart" data-combine="sum" data-telemetry-ids="S4000002,S6000005" title="S4000002,S6000005" data-capacity="100"></td>
+                  <td class="microchart sparkline-chart" data-combine="sum" data-telemetry-ids="S4000002,S6000005" title="S4000002,S6000005"></td>
                   <td class="readout amps decimal" data-combine="sum" data-telemetry-ids="S4000002,S6000005" title="S4000002,S6000005" data-scale="1"></td>
                 </tr>
 
                 <tr>
                   <th>Voltage Dev.</th>
-                  <td class="microchart sparkline-chart" data-combine="deviation" data-telemetry-ids="S4000001,S6000004" title="S4000001,S6000004" data-capacity="100"></td>
+                  <td class="microchart sparkline-chart" data-combine="deviation" data-telemetry-ids="S4000001,S6000004" title="S4000001,S6000004"></td>
                   <td class="readout volts decimal" data-combine="deviation" data-telemetry-ids="S4000001,S6000004" title="S4000001,S6000004" data-scale="2"></td>
                 </tr>
               </tbody>
@@ -1271,13 +1270,13 @@
               <tbody>
                 <tr>
                   <th>Current Tot.</th>
-                  <td class="microchart sparkline-chart" data-combine="sum" data-telemetry-ids="S4000005,S6000002" title="S4000005,S6000002" data-capacity="100"></td>
+                  <td class="microchart sparkline-chart" data-combine="sum" data-telemetry-ids="S4000005,S6000002" title="S4000005,S6000002"></td>
                   <td class="readout amps decimal" data-combine="sum" data-telemetry-ids="S4000005,S6000002" title="S4000005,S6000002" data-scale="1"></td>
                 </tr>
 
                 <tr>
                   <th>Voltage Dev.</th>
-                  <td class="microchart sparkline-chart" data-combine="deviation" data-telemetry-ids="S4000004,S6000001" title="S4000004,S6000001" data-capacity="100"></td>
+                  <td class="microchart sparkline-chart" data-combine="deviation" data-telemetry-ids="S4000004,S6000001" title="S4000004,S6000001"></td>
                   <td class="readout volts decimal" data-combine="deviation" data-telemetry-ids="S4000004,S6000001" title="S4000004,S6000001" data-scale="2"></td>
                 </tr>
               </tbody>
@@ -1297,8 +1296,10 @@
               </colgroup>
 
               <thead>
-                <th></th>
-                <th colspan="2">A Arrays</th>
+                <tr>
+                  <th></th>
+                  <th colspan="2">A Arrays</th>
+                </tr>
               </thead>
 
               <tbody>
@@ -1326,20 +1327,22 @@
               </colgroup>
 
               <thead>
-                <th></th>
-                <th colspan="2">Channel 2</th>
+                <tr>
+                  <th></th>
+                  <th colspan="2">Channel 2</th>
+                </tr>
               </thead>
 
               <tbody>
                 <tr>
                   <th>Current</th>
-                  <td class="microchart sparkline-chart" data-telemetry-id="P4000002" title="P4000002" data-capacity="100"></td>
+                  <td class="microchart sparkline-chart" data-telemetry-id="P4000002" title="P4000002"></td>
                   <td class="readout amps decimal" data-telemetry-id="P4000002" title="P4000002" data-scale="1"></td>
                 </tr>
 
                 <tr>
                   <th>Voltage</th>
-                  <td class="microchart sparkline-chart" data-telemetry-id="P4000001" title="P4000001" data-capacity="100"></td>
+                  <td class="microchart sparkline-chart" data-telemetry-id="P4000001" title="P4000001"></td>
                   <td class="readout volts decimal" data-telemetry-id="P4000001" title="P4000001" data-scale="2"></td>
                 </tr>
               </tbody>
@@ -1356,20 +1359,22 @@
               </colgroup>
 
               <thead>
-                <th></th>
-                <th colspan="2">Channel 4</th>
+                <tr>
+                  <th></th>
+                  <th colspan="2">Channel 4</th>
+                </tr>
               </thead>
 
               <tbody>
                 <tr>
                   <th>Current</th>
-                  <td class="microchart sparkline-chart" data-telemetry-id="P4000005" title="P4000005" data-capacity="100"></td>
+                  <td class="microchart sparkline-chart" data-telemetry-id="P4000005" title="P4000005"></td>
                   <td class="readout amps decimal" data-telemetry-id="P4000005" title="P4000005" data-scale="1"></td>
                 </tr>
 
                 <tr>
                   <th>Voltage</th>
-                  <td class="microchart sparkline-chart" data-telemetry-id="P4000004" title="P4000004" data-capacity="100"></td>
+                  <td class="microchart sparkline-chart" data-telemetry-id="P4000004" title="P4000004"></td>
                   <td class="readout volts decimal" data-telemetry-id="P4000004" title="P4000004" data-scale="2"></td>
                 </tr>
               </tbody>
@@ -1385,20 +1390,22 @@
               </colgroup>
 
               <thead>
-                <th></th>
-                <th colspan="2">Channel 1</th>
+                <tr>
+                  <th></th>
+                  <th colspan="2">Channel 1</th>
+                </tr>
               </thead>
 
               <tbody>
                 <tr>
                   <th>Current</th>
-                  <td class="microchart sparkline-chart" data-telemetry-id="S4000002" title="S4000002" data-capacity="100"></td>
+                  <td class="microchart sparkline-chart" data-telemetry-id="S4000002" title="S4000002"></td>
                   <td class="readout amps decimal" data-telemetry-id="S4000002" title="S4000002" data-scale="1"></td>
                 </tr>
 
                 <tr>
                   <th>Voltage</th>
-                  <td class="microchart sparkline-chart" data-telemetry-id="S4000001" title="S4000001" data-capacity="100"></td>
+                  <td class="microchart sparkline-chart" data-telemetry-id="S4000001" title="S4000001"></td>
                   <td class="readout volts decimal" data-telemetry-id="S4000001" title="S4000001" data-scale="2"></td>
                 </tr>
               </tbody>
@@ -1414,20 +1421,22 @@
               </colgroup>
 
               <thead>
-                <th></th>
-                <th colspan="2">Channel 3</th>
+                <tr>
+                  <th></th>
+                  <th colspan="2">Channel 3</th>
+                </tr>
               </thead>
 
               <tbody>
                 <tr>
                   <th>Current</th>
-                  <td class="microchart sparkline-chart" data-telemetry-id="S4000005" title="S4000005" data-capacity="100"></td>
+                  <td class="microchart sparkline-chart" data-telemetry-id="S4000005" title="S4000005"></td>
                   <td class="readout amps decimal" data-telemetry-id="S4000005" title="S4000005" data-scale="1"></td>
                 </tr>
 
                 <tr>
                   <th>Voltage</th>
-                  <td class="microchart sparkline-chart" data-telemetry-id="S4000004" title="S4000004" data-capacity="100"></td>
+                  <td class="microchart sparkline-chart" data-telemetry-id="S4000004" title="S4000004"></td>
                   <td class="readout volts decimal" data-telemetry-id="S4000004" title="S4000004" data-scale="2"></td>
                 </tr>
               </tbody>
@@ -1445,8 +1454,10 @@
               </colgroup>
 
               <thead>
-                <th></th>
-                <th colspan="2"></th>
+                <tr>
+                  <th></th>
+                  <th colspan="2"></th>
+                </tr>
               </thead>
 
               <tbody>
@@ -1468,8 +1479,10 @@
               </colgroup>
 
               <thead>
-                <th></th>
-                <th colspan="2">Channel 2</th>
+                <tr>
+                  <th></th>
+                  <th colspan="2">Channel 2</th>
+                </tr>
               </thead>
 
               <tbody>
@@ -1491,8 +1504,10 @@
               </colgroup>
 
               <thead>
-                <th></th>
-                <th colspan="2">Channel 4</th>
+                <tr>
+                  <th></th>
+                  <th colspan="2">Channel 4</th>
+                </tr>
               </thead>
 
               <tbody>
@@ -1514,8 +1529,10 @@
               </colgroup>
 
               <thead>
-                <th></th>
-                <th colspan="2">Channel 1</th>
+                <tr>
+                  <th></th>
+                  <th colspan="2">Channel 1</th>
+                </tr>
               </thead>
 
               <tbody>
@@ -1537,8 +1554,10 @@
               </colgroup>
 
               <thead>
-                <th></th>
-                <th colspan="2">Channel 3</th>
+                <tr>
+                  <th></th>
+                  <th colspan="2">Channel 3</th>
+                </tr>
               </thead>
 
               <tbody>
@@ -1565,8 +1584,10 @@
               </colgroup>
 
               <thead>
-                <th></th>
-                <th colspan="2">B Arrays</th>
+                <tr>
+                  <th></th>
+                  <th colspan="2">B Arrays</th>
+                </tr>
               </thead>
 
               <tbody>
@@ -1594,20 +1615,22 @@
               </colgroup>
 
               <thead>
-                <th></th>
-                <th colspan="2">Channel 2</th>
+                <tr>
+                  <th></th>
+                  <th colspan="2">Channel 2</th>
+                </tr>
               </thead>
 
               <tbody>
                 <tr>
                   <th>Current</th>
-                  <td class="microchart sparkline-chart" data-telemetry-id="P6000005" title="P6000005" data-capacity="100"></td>
+                  <td class="microchart sparkline-chart" data-telemetry-id="P6000005" title="P6000005"></td>
                   <td class="readout amps decimal" data-telemetry-id="P6000005" title="P6000005" data-scale="1"></td>
                 </tr>
 
                 <tr>
                   <th>Voltage</th>
-                  <td class="microchart sparkline-chart" data-telemetry-id="P6000004" title="P6000004" data-capacity="100"></td>
+                  <td class="microchart sparkline-chart" data-telemetry-id="P6000004" title="P6000004"></td>
                   <td class="readout volts decimal" data-telemetry-id="P6000004" title="P6000004" data-scale="2"></td>
                 </tr>
               </tbody>
@@ -1624,20 +1647,22 @@
               </colgroup>
 
               <thead>
-                <th></th>
-                <th colspan="2">Channel 4</th>
+                <tr>
+                  <th></th>
+                  <th colspan="2">Channel 4</th>
+                </tr>
               </thead>
 
               <tbody>
                 <tr>
                   <th>Current</th>
-                  <td class="microchart sparkline-chart" data-telemetry-id="P6000002" title="P6000002" data-capacity="100"></td>
+                  <td class="microchart sparkline-chart" data-telemetry-id="P6000002" title="P6000002"></td>
                   <td class="readout amps decimal" data-telemetry-id="P6000002" title="P6000002" data-scale="1"></td>
                 </tr>
 
                 <tr>
                   <th>Voltage</th>
-                  <td class="microchart sparkline-chart" data-telemetry-id="P6000001" title="P6000001" data-capacity="100"></td>
+                  <td class="microchart sparkline-chart" data-telemetry-id="P6000001" title="P6000001"></td>
                   <td class="readout volts decimal" data-telemetry-id="P6000001" title="P6000001" data-scale="2"></td>
                 </tr>
               </tbody>
@@ -1653,20 +1678,22 @@
               </colgroup>
 
               <thead>
-                <th></th>
-                <th colspan="2">Channel 1</th>
+                <tr>
+                  <th></th>
+                  <th colspan="2">Channel 1</th>
+                </tr>
               </thead>
 
               <tbody>
                 <tr>
                   <th>Current</th>
-                  <td class="microchart sparkline-chart" data-telemetry-id="S6000005" title="S6000005" data-capacity="100"></td>
+                  <td class="microchart sparkline-chart" data-telemetry-id="S6000005" title="S6000005"></td>
                   <td class="readout amps decimal" data-telemetry-id="S6000005" title="S6000005" data-scale="1"></td>
                 </tr>
 
                 <tr>
                   <th>Voltage</th>
-                  <td class="microchart sparkline-chart" data-telemetry-id="S6000004" title="S6000004" data-capacity="100"></td>
+                  <td class="microchart sparkline-chart" data-telemetry-id="S6000004" title="S6000004"></td>
                   <td class="readout volts decimal" data-telemetry-id="S6000004" title="S6000004" data-scale="2"></td>
                 </tr>
               </tbody>
@@ -1682,20 +1709,22 @@
               </colgroup>
 
               <thead>
-                <th></th>
-                <th colspan="2">Channel 3</th>
+                <tr>
+                  <th></th>
+                  <th colspan="2">Channel 3</th>
+                </tr>
               </thead>
 
               <tbody>
                 <tr>
                   <th>Current</th>
-                  <td class="microchart sparkline-chart" data-telemetry-id="S6000002" title="S6000002" data-capacity="100"></td>
+                  <td class="microchart sparkline-chart" data-telemetry-id="S6000002" title="S6000002"></td>
                   <td class="readout amps decimal" data-telemetry-id="S6000002" title="S6000002" data-scale="1"></td>
                 </tr>
 
                 <tr>
                   <th>Voltage</th>
-                  <td class="microchart sparkline-chart" data-telemetry-id="S6000001" title="S6000001" data-capacity="100"></td>
+                  <td class="microchart sparkline-chart" data-telemetry-id="S6000001" title="S6000001"></td>
                   <td class="readout volts decimal" data-telemetry-id="S6000001" title="S6000001" data-scale="2"></td>
                 </tr>
               </tbody>
@@ -1713,8 +1742,10 @@
               </colgroup>
 
               <thead>
-                <th></th>
-                <th colspan="2"></th>
+                <tr>
+                  <th></th>
+                  <th colspan="2"></th>
+                </tr>
               </thead>
 
               <tbody>
@@ -1736,8 +1767,10 @@
               </colgroup>
 
               <thead>
-                <th></th>
-                <th colspan="2">Channel 2</th>
+                <tr>
+                  <th></th>
+                  <th colspan="2">Channel 2</th>
+                </tr>
               </thead>
 
               <tbody>
@@ -1759,8 +1792,10 @@
               </colgroup>
 
               <thead>
-                <th></th>
-                <th colspan="2">Channel 4</th>
+                <tr>
+                  <th></th>
+                  <th colspan="2">Channel 4</th>
+                </tr>
               </thead>
 
               <tbody>
@@ -1782,8 +1817,10 @@
               </colgroup>
 
               <thead>
-                <th></th>
-                <th colspan="2">Channel 1</th>
+                <tr>
+                  <th></th>
+                  <th colspan="2">Channel 1</th>
+                </tr>
               </thead>
 
               <tbody>
@@ -1805,8 +1842,10 @@
               </colgroup>
 
               <thead>
-                <th></th>
-                <th colspan="2">Channel 3</th>
+                <tr>
+                  <th></th>
+                  <th colspan="2">Channel 3</th>
+                </tr>
               </thead>
 
               <tbody>
@@ -1882,7 +1921,7 @@
                   <tbody>
                     <tr>
                       <th>Air Pressure</th>
-                      <td class="microchart sparkline-chart" data-telemetry-id="AIRLOCK000054" title="AIRLOCK000054" data-scale="1"></td>
+                      <td class="microchart sparkline-chart" data-telemetry-id="AIRLOCK000054" title="AIRLOCK000054"></td>
                       <td class="readout decimal millimeters-of-mercury" data-telemetry-id="AIRLOCK000054" title="AIRLOCK000054" data-scale="1"></td>
                     </tr>
                   </tbody>
@@ -1906,7 +1945,7 @@
                   <tbody>
                     <tr>
                       <th>Air Pressure</th>
-                      <td class="microchart sparkline-chart" data-telemetry-id="AIRLOCK000049" title="AIRLOCK000049" data-scale="1"></td>
+                      <td class="microchart sparkline-chart" data-telemetry-id="AIRLOCK000049" title="AIRLOCK000049"></td>
                       <td class="readout decimal millimeters-of-mercury" data-telemetry-id="AIRLOCK000049" title="AIRLOCK000049" data-scale="1"></td>
                     </tr>
                   </tbody>
@@ -1948,7 +1987,7 @@
               <tbody>
                 <tr>
                   <th>Tank Pressure</th>
-                  <td class="microchart sparkline-chart" data-telemetry-id="AIRLOCK000055" title="AIRLOCK000055" data-scale="1"></td>
+                  <td class="microchart sparkline-chart" data-telemetry-id="AIRLOCK000055" title="AIRLOCK000055"></td>
                   <td class="readout decimal megapascals" data-telemetry-id="AIRLOCK000055" title="AIRLOCK000055" data-conversion="0.001" data-scale="2"></td>
                 </tr>
               </tbody>
@@ -1972,7 +2011,7 @@
               <tbody>
                 <tr>
                   <th>Tank Pressure</th>
-                  <td class="microchart sparkline-chart" data-telemetry-id="AIRLOCK000056" title="AIRLOCK000056" data-scale="1"></td>
+                  <td class="microchart sparkline-chart" data-telemetry-id="AIRLOCK000056" title="AIRLOCK000056"></td>
                   <td class="readout decimal megapascals" data-telemetry-id="AIRLOCK000056" title="AIRLOCK000056" data-conversion="0.001" data-scale="2"></td>
                 </tr>
               </tbody>
@@ -1996,7 +2035,7 @@
               <tbody>
                 <tr>
                   <th>Tank Pressure</th>
-                  <td class="microchart sparkline-chart" data-telemetry-id="AIRLOCK000057" title="AIRLOCK000057" data-scale="1"></td>
+                  <td class="microchart sparkline-chart" data-telemetry-id="AIRLOCK000057" title="AIRLOCK000057"></td>
                   <td class="readout decimal megapascals" data-telemetry-id="AIRLOCK000057" title="AIRLOCK000057" data-conversion="0.001" data-scale="2"></td>
                 </tr>
               </tbody>
@@ -2173,7 +2212,7 @@
       <div class="container">
         <p>Learn about the station from <a href="https://www.nasa.gov/mission_pages/station/main/">NASA</a>, <a href="https://www.esa.int/Our_Activities/Human_Spaceflight/International_Space_Station">ESA</a>, and <a href="https://en.wikipedia.org/wiki/International_Space_Station">Wikipedia</a> and share your ideas (including those for other vehicles), corrections, and pull requests via <a href="https://github.com/sensedata/space-telemetry">GitHub</a>.</p>
 
-        <p class="legal">Development by <a href="https://www.sensedata.com/#matt">Matt</a> and <a href="https://www.sensedata.com/#yuri">Yuri</a> of the <a href="https://www.sensedata.com">SenseData Group</a>; inspired by the <a href="https://2015.spaceappschallenge.org">2015 Space Apps Challenge</a>; written in <a href="https://github.com/lukehoban/es6features">ES6</a> and bundled by <a href="https://vite.dev">Vite</a>; and built on
+        <p class="legal">Development by <a href="https://www.sensedata.com/#matt">Matt</a> and <a href="https://www.sensedata.com/#yuri">Yuri</a> of the <a href="https://www.sensedata.com">SenseData Group</a>; inspired by the <a href="https://2015.spaceappschallenge.org">2015 Space Apps Challenge</a>; written in <a href="https://www.typescriptlang.org">TypeScript</a> and bundled by <a href="https://vite.dev">Vite</a>; and built on
           <a href="https://d3js.org">D3</a>,
           <a href="https://nodejs.org">Node.js</a>,
           <a href="https://threejs.org">Three.js</a>
