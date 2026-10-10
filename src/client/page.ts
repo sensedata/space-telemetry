@@ -22,6 +22,11 @@ import {textReadout} from "./views/readouts/text-readout.ts";
 import {timestampReadout} from "./views/readouts/timestamp-readout.ts";
 import {transmissionDelayReadout} from "./views/readouts/transmission-delay-readout.ts";
 
+// The listener comes first: a throw above it would end page.ts before the listener is added.
+addEventListener("error", () => {
+  pageElement("#page-error").removeAttribute("hidden");
+});
+
 const clock = startClock();
 const stream = startStream(clock);
 

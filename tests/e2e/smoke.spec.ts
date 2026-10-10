@@ -22,6 +22,7 @@ test("the built page boots and shows replayed telemetry", async ({page}) => {
   await page.goto("/");
   // The bundle is a module script, which runs before the load event that goto awaits.
   expect(errors).toEqual([]);
+  await expect(page.getByRole("alert")).toBeHidden();
 
   await expect(page.locator("#telemetry-network")).toHaveText("Connected");
   const numericReadouts = page

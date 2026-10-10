@@ -38,6 +38,24 @@ describe("the dashboard", () => {
     assert.deepEqual(readouts, ["Connected", "Reboost"]);
   });
 
+  test("warns it may be out of date when records it cannot read arrive", async ({
+    stream,
+    takeUncaught,
+  }) => {
+    await import("../../src/client/page.ts");
+
+    stream().open();
+    stream().dispatchEvent(new MessageEvent("records", {data: "{}"}));
+
+    assert.deepEqual(
+      [
+        takeUncaught().map(String),
+        document.querySelector("#page-error")?.hasAttribute("hidden"),
+      ],
+      [["TypeError: an /events event's data is not a list of stream records"], false],
+    );
+  });
+
   test("reads No signal in the header while the stream is up and the feed is down", async ({
     stream,
   }) => {

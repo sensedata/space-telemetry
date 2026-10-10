@@ -22,10 +22,10 @@ html {
   --text: light-dark(#333, #d0d0d0);
   --text-on: light-dark(black, #fff);
   --text-off: light-dark(#999, #808080);
+  --text-alarm: light-dark(darkred, #ff6b6b);
   --link: light-dark(#337ab7, #6ea8e0);
   --link-hover: light-dark(#23527c, #9cc4ea);
   --alarm-off: light-dark(#ccc, #4a4e52);
-  --alarm-time: light-dark(darkred, #ff6b6b);
 
   --rule-faint: light-dark(#f0f0f0, #2c2f32);
   --rule: light-dark(#ddd, #3a3d40);
@@ -278,6 +278,17 @@ th {
   border-top: 0;
 }
 
+.page-error {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 10px 15px;
+  font-size: 14px;
+  color: var(--text-alarm);
+  background-color: var(--surface);
+  border-bottom: 1px solid var(--rule-strong);
+}
+
 .jumbotron {
   margin-bottom: 30px;
   padding: 30px 0 10px;
@@ -483,7 +494,7 @@ td.sparkline-chart {
 }
 
 .time-alarm {
-  color: var(--alarm-time);
+  color: var(--text-alarm);
 }
 
 @font-face {
