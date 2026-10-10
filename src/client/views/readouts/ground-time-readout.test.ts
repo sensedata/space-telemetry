@@ -4,7 +4,7 @@ import {startClock} from "../../signals/clock.ts";
 import {test} from "../../test-helpers/fake-clock.ts";
 import {groundTimeReadout} from "./ground-time-readout.ts";
 
-describe("groundTimeReadout", () => {
+describe("the ground time readout", () => {
   test.override({now: 1_790_620_000_000});
 
   test("shows the UTC time as soon as it mounts", ({mount}) => {

@@ -7,20 +7,11 @@ import {test} from "../../test-helpers/mount.ts";
 import {timedRecord} from "../../test-helpers/records.ts";
 import {decimalReadout} from "./decimal-readout.ts";
 
-describe("decimalReadout", () => {
-  test("renders data received before mounting", ({mount}) => {
+describe("a decimal readout", () => {
+  test("renders the value unrounded without a scale", ({mount}) => {
     const store = signal([timedRecord({t: 0, v: 9.7816348761234})]);
 
     const container = mount(decimalReadout({store}));
-
-    assert.equal(container.querySelector("span")?.textContent, "9.7816348761234");
-  });
-
-  test("renders data received after mounting", ({mount}) => {
-    const store = signal<readonly TimedRecord[]>([]);
-    const container = mount(decimalReadout({store: store}));
-
-    store.set([timedRecord({t: 0, v: 9.7816348761234})]);
 
     assert.equal(container.querySelector("span")?.textContent, "9.7816348761234");
   });

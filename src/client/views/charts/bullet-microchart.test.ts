@@ -7,7 +7,7 @@ import {test} from "../../test-helpers/mount.ts";
 import {timedRecord} from "../../test-helpers/records.ts";
 import {bulletMicrochart} from "./bullet-microchart.ts";
 
-describe("bulletMicrochart", () => {
+describe("a bullet microchart", () => {
   test("renders nothing without data", ({mount}) => {
     const store = signal<readonly TimedRecord[]>([]);
     const container = mount(

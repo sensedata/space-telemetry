@@ -5,7 +5,7 @@ import {sparklinePath} from "./sparkline-path.ts";
 
 const unscaled: LinearScale = (value) => value ?? 0;
 
-test("draws a basis spline through the records", () => {
+test("draws a basis spline over the records", () => {
   const records = [
     timedRecord({t: 0, v: 0}),
     timedRecord({t: 1, v: 2}),

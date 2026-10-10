@@ -15,7 +15,7 @@ function newestSparklineX(): number {
   );
 }
 
-describe("page", () => {
+describe("the dashboard", () => {
   test("boots and renders the network status and station mode the stream sends", async ({
     stream,
   }) => {

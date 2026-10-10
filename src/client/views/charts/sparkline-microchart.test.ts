@@ -99,7 +99,7 @@ test("names itself for a screen reader and for the stylesheet", ({mount}) => {
   );
 });
 
-test("draws a simple set of points correctly", ({mount}) => {
+test("draws a basis spline over each second's value", ({mount}) => {
   const store = signal<readonly TimedRecord[]>([]);
   const clock = startClock();
   const container = mount(
@@ -114,7 +114,7 @@ test("draws a simple set of points correctly", ({mount}) => {
 
   sendEachSecond(store, start, [0, 1, 5, 10]);
 
-  // The path is the basis spline through (-2,10), (0,9), (2,5), and (4,0). Its control
+  // The path is the basis spline over (-2,10), (0,9), (2,5), and (4,0). Its control
   // points are the thirds and sixths between them, which d3-shape rounds to 3 decimals, and
   // 0.0005 px is invisible. The oldest record is a second before the left edge, so it lies
   // left of x = 0.
@@ -141,7 +141,9 @@ test("draws a higher value nearer the top", ({mount}) => {
   assert.equal(container.querySelector("circle")?.getAttribute("cy"), "0");
 });
 
-test("renders a correct qualitative range", ({mount}) => {
+test("draws the qualitative range across the middle four tenths of its height", ({
+  mount,
+}) => {
   const store = signal<readonly TimedRecord[]>([]);
   const clock = startClock();
   const container = mount(

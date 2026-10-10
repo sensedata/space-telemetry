@@ -7,7 +7,7 @@ import {test} from "../../test-helpers/mount.ts";
 import {timedRecord} from "../../test-helpers/records.ts";
 import {networkReadout} from "./network-readout.ts";
 
-describe("networkReadout", () => {
+describe("the network readout", () => {
   test("reads Disconnected while the stream is lost, whatever STATUS last said", ({
     mount,
   }) => {

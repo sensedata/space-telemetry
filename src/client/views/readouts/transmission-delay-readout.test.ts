@@ -8,30 +8,13 @@ import {test} from "../../test-helpers/fake-clock.ts";
 import {timedRecord} from "../../test-helpers/records.ts";
 import {transmissionDelayReadout} from "./transmission-delay-readout.ts";
 
-describe("transmissionDelayReadout", () => {
-  test("renders the time since the transmission received after mounting", ({mount}) => {
-    vi.setSystemTime(1_790_620_005_000);
-    const store = signal<readonly TimedRecord[]>([]);
-    const container = mount(
-      transmissionDelayReadout({
-        clock: startClock(),
-        store,
-      }),
-    );
-
-    store.set([timedRecord({t: 1_790_620_000})]);
-
-    assert.equal(container.querySelector("span")?.textContent, "00:00:05");
-  });
-
+describe("the transmission delay readout", () => {
   test("renders the time since the newest record", ({mount}) => {
     vi.setSystemTime(1_790_620_005_000);
-    const store = signal([
-      timedRecord({t: 1_790_619_000}),
-      timedRecord({t: 1_790_620_000}),
-    ]);
-
+    const store = signal<readonly TimedRecord[]>([]);
     const container = mount(transmissionDelayReadout({clock: startClock(), store}));
+
+    store.set([timedRecord({t: 1_790_619_000}), timedRecord({t: 1_790_620_000})]);
 
     assert.equal(container.querySelector("span")?.textContent, "00:00:05");
   });

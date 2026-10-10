@@ -55,7 +55,7 @@ async function eventNames(response: IncomingMessage, count: number) {
     .toArray();
 }
 
-describe("event fan-out", () => {
+describe("an event fan-out", () => {
   test("sends a connection the events in the order they were appended", async ({
     server,
   }) => {

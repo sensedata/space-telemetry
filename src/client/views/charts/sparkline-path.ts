@@ -6,7 +6,7 @@ import type {LinearScale} from "./linear-scale.ts";
 export type PlacedRecord = Pick<TimedRecord, "t" | "v">;
 
 /**
- * The SVG path of a basis spline through the records, rounded to 3 decimals, undefined for
+ * The SVG path of a basis spline over the records, rounded to 3 decimals, undefined for
  * none.
  */
 export function sparklinePath(

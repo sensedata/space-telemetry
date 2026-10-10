@@ -139,7 +139,7 @@ test("fits a bar at max inside the svg", ({mount}) => {
   );
 });
 
-test("draws a simple set of points correctly", ({mount}) => {
+test("draws each second's value as a bar, oldest at the left", ({mount}) => {
   const store = signal<readonly TimedRecord[]>([]);
   const clock = startClock();
   const container = mount(
@@ -157,7 +157,7 @@ test("draws a simple set of points correctly", ({mount}) => {
   ]);
 });
 
-test("add a left-most point if there isn't one in the data", ({mount}) => {
+test("carries its oldest value back to the left edge", ({mount}) => {
   const store = signal<readonly TimedRecord[]>([]);
   const clock = startClock();
   const container = mount(
@@ -165,17 +165,17 @@ test("add a left-most point if there isn't one in the data", ({mount}) => {
   );
   const start = clock.get() - 3;
 
-  sendEachSecond(store, start, [0, 5, 10]);
+  sendEachSecond(store, start, [1, 5, 10]);
 
   assert.deepEqual(barsOf(container), [
-    ["0", "10", "0"],
-    ["3", "10", "0"],
+    ["0", "9", "1"],
+    ["3", "9", "1"],
     ["6", "5", "5"],
     ["9", "0", "10"],
   ]);
 });
 
-test("adds a right-most point if the newest data is old", ({mount}) => {
+test("carries its newest value forward to the right edge", ({mount}) => {
   const store = signal<readonly TimedRecord[]>([]);
   const clock = startClock();
   const container = mount(

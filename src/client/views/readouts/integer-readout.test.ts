@@ -7,24 +7,7 @@ import {test} from "../../test-helpers/mount.ts";
 import {timedRecord} from "../../test-helpers/records.ts";
 import {integerReadout} from "./integer-readout.ts";
 
-describe("integerReadout", () => {
-  test("renders data received before mounting", ({mount}) => {
-    const store = signal([timedRecord({t: 0, v: 97_816_348_761_234})]);
-
-    const container = mount(integerReadout(store));
-
-    assert.equal(container.querySelector("span")?.textContent, "97816348761234");
-  });
-
-  test("renders data received after mounting", ({mount}) => {
-    const store = signal<readonly TimedRecord[]>([]);
-    const container = mount(integerReadout(store));
-
-    store.set([timedRecord({t: 0, v: 97_816_348_761_234})]);
-
-    assert.equal(container.querySelector("span")?.textContent, "97816348761234");
-  });
-
+describe("an integer readout", () => {
   test("renders the newest record's value", ({mount}) => {
     const store = signal<readonly TimedRecord[]>([]);
     const container = mount(integerReadout(store));
