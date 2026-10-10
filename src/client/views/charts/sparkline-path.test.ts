@@ -1,5 +1,4 @@
 import {assert, test} from "vitest";
-import {timedRecord} from "../../test-helpers/records.ts";
 import type {LinearScale} from "./linear-scale.ts";
 import {sparklinePath} from "./sparkline-path.ts";
 
@@ -7,9 +6,9 @@ const unscaled: LinearScale = (value) => value ?? 0;
 
 test("draws a basis spline over the records", () => {
   const records = [
-    timedRecord({t: 0, v: 0}),
-    timedRecord({t: 1, v: 2}),
-    timedRecord({t: 3, v: 4}),
+    {t: 0, v: 0},
+    {t: 1, v: 2},
+    {t: 3, v: 4},
   ];
 
   // The spline's control points are the thirds and sixths between the records. d3-shape
@@ -21,7 +20,10 @@ test("draws a basis spline over the records", () => {
 });
 
 test("places each record's time on the x scale and its value on the y scale", () => {
-  const records = [timedRecord({t: 1, v: 5}), timedRecord({t: 2, v: 6})];
+  const records = [
+    {t: 1, v: 5},
+    {t: 2, v: 6},
+  ];
 
   assert.equal(
     sparklinePath(

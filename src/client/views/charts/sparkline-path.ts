@@ -1,9 +1,9 @@
 import {curveBasis, line} from "d3-shape";
 
-import type {TimedRecord} from "../../timed-record.ts";
+import type {ValuedRecord} from "../../records/valued-record.ts";
 import type {LinearScale} from "./linear-scale.ts";
 
-export type PlacedRecord = Pick<TimedRecord, "t" | "v">;
+export type PlacedRecord = Pick<ValuedRecord, "t" | "v">;
 
 /**
  * The SVG path of a basis spline over the records, rounded to 3 decimals, undefined for

@@ -201,6 +201,42 @@ describe("at a fixed time", () => {
     );
   });
 
+  test("draws a record without a value as if it were absent", ({mount}) => {
+    const store = signal<readonly TimedRecord[]>([]);
+    const container = mount(
+      sparklineMicrochart({
+        clock: startClock(),
+        store,
+        height: 14,
+        width: 12,
+      }),
+    );
+
+    store.set([
+      timedRecord({t: 999_997, v: 5}),
+      timedRecord({t: 999_998, v: undefined}),
+      timedRecord({t: 999_999, v: 10}),
+      timedRecord({t: 1_000_000, v: undefined}),
+    ]);
+
+    // A width of 12 holds four seconds over 6 pixels and a height of 14 spans 5 to 10
+    // over 10, so the line runs through a copy of the oldest at the left edge, (0,10), then
+    // (2,10) and (6,0), where the dot sits.
+    const circle = container.querySelector("circle");
+    assert.deepEqual(
+      [
+        container.querySelector(":scope svg path")?.getAttribute("d"),
+        circle?.getAttribute("cx"),
+        circle?.getAttribute("cy"),
+      ],
+      [
+        "M0,10L0.333,10C0.667,10,1.333,10,2.333,8.333C3.333,6.667,4.667,3.333,5.333,1.667L6,0",
+        "6",
+        "0",
+      ],
+    );
+  });
+
   test("starts the line at the left edge when its oldest record is older than the chart", ({
     mount,
   }) => {

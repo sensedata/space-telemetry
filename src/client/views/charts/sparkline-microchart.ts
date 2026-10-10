@@ -1,3 +1,4 @@
+import {hasValue} from "../../records/valued-record.ts";
 import type {Reading} from "../../timed-record.ts";
 import type {Readable} from "../../signals/readable.ts";
 import type {View} from "../mount.ts";
@@ -27,7 +28,7 @@ export function sparklineMicrochart({
   // The window's points stay where the records last placed them; each second moves only
   // the x scale under them, so a silent channel's newest point drifts left.
   let placed = store.get();
-  let timeWindow = chartWindow(placed, width, clock.get());
+  let timeWindow = chartWindow(placed.filter(hasValue), width, clock.get());
 
   return {
     sources: [clock, store],
@@ -35,7 +36,7 @@ export function sparklineMicrochart({
       const now = clock.get();
       if (store.get() !== placed) {
         placed = store.get();
-        timeWindow = chartWindow(placed, width, now);
+        timeWindow = chartWindow(placed.filter(hasValue), width, now);
       }
 
       const extent = valueExtent(timeWindow.records);
