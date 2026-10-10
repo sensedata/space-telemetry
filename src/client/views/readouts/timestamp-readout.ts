@@ -10,9 +10,9 @@ export function timestampReadout(store: Readable<readonly Reading[]>): View {
   return {
     sources: [store],
     draw() {
-      const unixTime = newestRecord(store.get())?.t ?? 0;
+      const newest = newestRecord(store.get());
 
-      return span(unixTime === 0 ? "-" : formatUtcTime(unixTime));
+      return span(newest === undefined || newest.t === 0 ? "-" : formatUtcTime(newest.t));
     },
   };
 }
