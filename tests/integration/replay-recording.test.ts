@@ -34,11 +34,11 @@ const recorded = [
   },
 ];
 
-function writeRecording(dir: string) {
+function writeRecording(dir: string, rows: readonly object[]) {
   const file = path.join(dir, "recording.jsonl.gz");
   fs.writeFileSync(
     file,
-    zlib.gzipSync(recorded.map((row) => JSON.stringify(row) + "\n").join("")),
+    zlib.gzipSync(rows.map((row) => JSON.stringify(row) + "\n").join("")),
   );
   return file;
 }
@@ -49,7 +49,7 @@ test("with --no-rebase, replays the gzipped JSONL recording named by --file into
   vi.spyOn(console, "log").mockReturnValue(undefined);
   const {source, records} = collectingSource();
 
-  await start(["--file", writeRecording(dir), "--no-rebase"], source);
+  await start(["--file", writeRecording(dir, recorded), "--no-rebase"], source);
 
   expect(records).to.deep.equal(recorded);
 });
@@ -59,7 +59,7 @@ test("by default, stamps each replayed record with the wall-clock second it fall
 }) => {
   vi.spyOn(console, "log").mockReturnValue(undefined);
   const {source, records} = collectingSource();
-  const file = writeRecording(dir);
+  const file = writeRecording(dir, recorded);
   const before = Math.floor(Date.now() / 1000);
 
   await start(["--file", file], source);
@@ -75,7 +75,7 @@ test("by default, stamps each replayed record with the wall-clock second it fall
 
 test("rejects a recording holding a row that is not a whole record", async ({dir}) => {
   vi.spyOn(console, "log").mockReturnValue(undefined);
-  const recorded = [
+  const file = writeRecording(dir, [
     {
       k: "Z1000014",
       v: 39.72657012939453,
@@ -85,12 +85,7 @@ test("rejects a recording holding a row that is not a whole record", async ({dir
       sid: 1_789_211_888_321,
     },
     {k: "Z1000015", v: -26.246341705322266, cv: "-26.25", t: 1_789_211_884, s: 24},
-  ];
-  const file = path.join(dir, "recording.jsonl.gz");
-  fs.writeFileSync(
-    file,
-    zlib.gzipSync(recorded.map((row) => JSON.stringify(row) + "\n").join("")),
-  );
+  ]);
 
   await expect(start(["--file", file], collectingSource().source)).rejects.toThrow(
     TypeError,

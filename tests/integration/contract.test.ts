@@ -1,7 +1,6 @@
 // The surface the client in src/client/ depends on. The stream is read as unknown: these tests
 // pin what the server sends, not what its types claim.
 
-import http from "node:http";
 import {describe, expect, vi} from "vitest";
 
 import {
@@ -9,7 +8,7 @@ import {
   capturedRows,
 } from "../../src/server/test-helpers/captured-rows.ts";
 import {test} from "./test-helpers/connected-server.ts";
-import {recordsOf} from "./test-helpers/event-stream.ts";
+import {recordsOfChannel} from "./test-helpers/event-stream.ts";
 import {pickFields} from "./test-helpers/pick-fields.ts";
 
 function nowSeconds() {
@@ -28,15 +27,24 @@ function firstRow(item: string): CapturedRow {
 // The channel of each record of a new stream's first event from `serverUrl`, in order.
 async function backfillChannels(serverUrl: string) {
   const response = await fetch(serverUrl + "/events");
+  if (response.body === null) {
+    throw new Error(`${serverUrl}/events answered with no body`);
+  }
+
+  const chunks = response.body.pipeThrough(new TextDecoderStream());
   let text = "";
-  const chunks = response.body?.pipeThrough(new TextDecoderStream()) ?? [];
   for await (const chunk of chunks) {
     text += chunk;
     if (text.includes("\n\n")) {
       break;
     }
   }
-  const data = /^data: (.*)$/m.exec(text)?.[1] ?? "";
+
+  const data = /^data: (.*)$/m.exec(text)?.[1];
+  if (data === undefined) {
+    throw new Error(`the first event from ${serverUrl}/events carries no data`);
+  }
+
   return pickFields(JSON.parse(data), ["k"]);
 }
 
@@ -49,6 +57,14 @@ async function pageScript(serverUrl: string) {
     throw new Error(`the page at ${serverUrl} names no script`);
   }
   return serverUrl + script;
+}
+
+function lastModified(response: Response) {
+  const modified = response.headers.get("last-modified");
+  if (modified === null) {
+    throw new Error(`${response.url} carries no last-modified`);
+  }
+  return modified;
 }
 
 describe("backfill", () => {
@@ -364,6 +380,7 @@ describe("methods", () => {
     "answers %s with 405, allowing GET and HEAD",
     async ([, method, target], {serverUrl}) => {
       const response = await fetch(serverUrl + target, {method});
+      await response.body?.cancel();
 
       expect([response.status, response.headers.get("allow")]).to.deep.equal([
         405,
@@ -382,6 +399,7 @@ describe("methods", () => {
 describe("static files", () => {
   test("serves / cacheable for five minutes", async ({serverUrl}) => {
     const response = await fetch(serverUrl + "/");
+    await response.body?.cancel();
 
     expect([response.status, response.headers.get("cache-control")]).to.deep.equal([
       200,
@@ -391,6 +409,7 @@ describe("static files", () => {
 
   test("serves the page script cacheable for five minutes", async ({serverUrl}) => {
     const response = await fetch(await pageScript(serverUrl));
+    await response.body?.cancel();
 
     expect([response.status, response.headers.get("cache-control")]).to.deep.equal([
       200,
@@ -398,30 +417,19 @@ describe("static files", () => {
     ]);
   });
 
-  // fetch adds cache-control: no-cache to a conditional request, which forbids a 304, so
-  // this request goes through http as a browser reload sends it.
   test("answers a conditional request with 304 and keeps serving", async ({
     serverUrl,
   }) => {
     const script = await pageScript(serverUrl);
     const first = await fetch(script);
-    const conditional = await new Promise((resolve, reject) => {
-      http
-        .get(
-          script,
-          {
-            headers: {"if-modified-since": first.headers.get("last-modified") ?? ""},
-          },
-          (response) => {
-            response.resume();
-            resolve(response.statusCode);
-          },
-        )
-        .on("error", reject);
+    await first.body?.cancel();
+    const conditional = await fetch(script, {
+      headers: {"if-modified-since": lastModified(first)},
     });
     const again = await fetch(serverUrl + "/");
+    await again.body?.cancel();
 
-    expect([conditional, again.status]).to.deep.equal([304, 200]);
+    expect([conditional.status, again.status]).to.deep.equal([304, 200]);
   });
 });
 
@@ -462,7 +470,7 @@ describe("live fan-out", () => {
     await stream.backfill("USLAB000059");
     const uncarried: unknown[] = [];
     stream.source.addEventListener("records", (event: MessageEvent<string>) => {
-      uncarried.push(...recordsOf(JSON.parse(event.data), "USLAB000085"));
+      uncarried.push(...recordsOfChannel(JSON.parse(event.data), "USLAB000085"));
     });
     const carried = stream.live("USLAB000059");
 

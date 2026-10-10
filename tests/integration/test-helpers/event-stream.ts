@@ -1,7 +1,7 @@
 import {test as base} from "vitest";
 
-// The records of `channel` among `data`, an event's records as the stream carries them.
-export function recordsOf(data: unknown, channel: string): unknown[] {
+// `data` is an event's records as the stream carries them.
+export function recordsOfChannel(data: unknown, channel: string): unknown[] {
   if (!Array.isArray(data)) {
     throw new TypeError("the event data is not an array of records");
   }
@@ -13,33 +13,46 @@ export function recordsOf(data: unknown, channel: string): unknown[] {
   );
 }
 
-// Opens `url`'s /events with Node's EventSource, as the page does. Each wait below is
-// called before the event can arrive, and rejects if the stream fails first. next(name)
-// resolves with the data, parsed as JSON, of the next event of that name. backfill(channel)
-// resolves with the records of `channel` in the next records event: on a stream just
-// opened, its backfill. live(channel) resolves with the records of `channel` in the next
-// records event that holds any.
+// Opens `url`'s /events with Node's EventSource, as the page does. EventSource keeps no
+// past event, so call each wait below before its event can arrive. A wait rejects if the
+// stream fails first or sends an event the wait cannot read. next(name) resolves with the
+// data, parsed as JSON, of the next event of that name. backfill(channel) resolves with the
+// records of `channel` in the next records event: on a stream just opened, its backfill.
+// live(channel) resolves with the records of `channel` in the next records event that
+// holds any.
 function openEventStream(url: string) {
   const source = new EventSource(url + "/events");
 
   function until<T>(name: string, settle: (data: unknown) => T | undefined) {
     return new Promise<T>((resolve, reject) => {
-      const listener = (event: MessageEvent<string>) => {
-        const result = settle(JSON.parse(event.data));
-        if (result === undefined) {
-          return;
-        }
+      const settled = new AbortController();
+      source.addEventListener(
+        name,
+        (event: MessageEvent<string>) => {
+          try {
+            const result = settle(JSON.parse(event.data));
+            if (result === undefined) {
+              return;
+            }
 
-        source.removeEventListener(name, listener);
-        resolve(result);
-      };
-      source.addEventListener(name, listener);
+            settled.abort();
+            resolve(result);
+          } catch (error) {
+            settled.abort();
+            reject(
+              new Error(`${url}/events sent an unreadable ${name} event`, {cause: error}),
+            );
+          }
+        },
+        {signal: settled.signal},
+      );
       source.addEventListener(
         "error",
         () => {
-          reject(new Error(url + " /events failed"));
+          settled.abort();
+          reject(new Error(`${url}/events failed`));
         },
-        {once: true},
+        {signal: settled.signal},
       );
     });
   }
@@ -47,10 +60,11 @@ function openEventStream(url: string) {
   return {
     source,
     next: (name: string) => until(name, (data) => data),
-    backfill: (channel: string) => until("records", (data) => recordsOf(data, channel)),
+    backfill: (channel: string) =>
+      until("records", (data) => recordsOfChannel(data, channel)),
     live: (channel: string) =>
       until("records", (data) => {
-        const records = recordsOf(data, channel);
+        const records = recordsOfChannel(data, channel);
         return records.length > 0 ? records : undefined;
       }),
     close: () => {

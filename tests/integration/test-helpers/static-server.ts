@@ -7,7 +7,7 @@ import {serveStaticFile} from "../../../src/server/serve-static-file.ts";
 import {test as tempDirTest} from "../../../src/server/test-helpers/temp-dir.ts";
 
 // root is an empty directory named dist in `dir`; server serves it with serveStaticFile on a
-// free port, and closes after the test.
+// free port, and closes with its connections after the test.
 export const test = tempDirTest
   .extend("root", ({dir}) => {
     const root = path.join(dir, "dist");
@@ -22,6 +22,7 @@ export const test = tempDirTest
       .listen(0);
     await once(server, "listening");
     onCleanup(() => {
+      server.closeAllConnections();
       server.close();
     });
     return server;

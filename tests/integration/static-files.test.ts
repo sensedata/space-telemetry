@@ -160,10 +160,9 @@ test.skipIf(process.platform === "win32" || process.getuid?.() === 0)(
   async ({root, server}) => {
     writeFile(root, "index.html", "<!DOCTYPE html>");
     fs.chmodSync(path.join(root, "index.html"), 0o000);
-    const error = vi.spyOn(console, "error").mockReturnValue(undefined);
+    vi.spyOn(console, "error").mockReturnValue(undefined);
 
     const reply = await get(server, "/index.html");
-    error.mockRestore();
 
     expect(reply.status).to.equal(500);
   },
