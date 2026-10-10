@@ -23,6 +23,8 @@ test("the dashboard renders the seed", async ({page}, testInfo) => {
         );
       }).length,
   );
+  // With no cell given a box, the count below would pass with no chart drawn.
+  expect(cellsWithBox).toBeGreaterThan(0);
   await expect(page.locator(".microchart svg")).toHaveCount(cellsWithBox);
   await page.screenshot({
     path: `${testInfo.project.outputDir}/${testInfo.project.name}.png`,
