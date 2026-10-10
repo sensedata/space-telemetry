@@ -305,9 +305,12 @@ div.microchart {
   display: inline-block;
 }
 
-/* A chart drawn for a wider cell stays inside its own until the page redraws it. */
-td.microchart {
-  overflow: hidden;
+/* page.ts draws a chart at its cell's content box. Sized by the cell, not by its width
+   attribute, the svg adds nothing to a column laid out by content, which would otherwise
+   widen with each chart drawn into it. */
+td.microchart > svg {
+  width: 0;
+  min-width: 100%;
 }
 
 .bar-chart {
@@ -1093,6 +1096,15 @@ th .readout {
       text-align: center;
     }
 
+    /* page.ts draws the chart at the div's content box. Sized by its content, the div
+       would grow by the chart's line box with each chart drawn into it. */
+    .bullet-chart {
+      display: block;
+      height: 19px !important;
+      padding-top: 3px;
+      margin: 0 0 6px;
+    }
+
     .status.off {
       color: var(--text-off);
     }
@@ -1240,11 +1252,6 @@ th .readout {
         grid-column: auto;
       }
 
-      .bullet-chart {
-        height: 19px !important;
-        padding-top: 3px;
-        margin: 0;
-      }
       .saturation-readout-col {
         margin-bottom: 0;
         text-align: right;
@@ -1395,6 +1402,18 @@ th .readout {
   margin-bottom: 35px;
 }
 
+/* These tables lay out by content. A column given a width keeps to its content, or to its
+   share below, and the chart column, given none, takes the rest. */
+@media (max-width: 767px) {
+  .thermal-table,
+  .radiator-loop-table {
+    .column-header,
+    .column-readout {
+      width: 1px;
+    }
+  }
+}
+
 @media (max-width: 375px) {
   .thermal {
     .air-conditioners {
@@ -1417,9 +1436,6 @@ th .readout {
       .column-header {
         width: 30%;
       }
-      .column-microchart {
-        width: 40%;
-      }
       .column-readout {
         width: 20%;
       }
@@ -1428,9 +1444,6 @@ th .readout {
     .radiator-loop-table {
       .column-header {
         width: 30%;
-      }
-      .column-microchart {
-        width: 40%;
       }
       .column-readout {
         width: 20%;

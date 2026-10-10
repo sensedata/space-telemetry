@@ -135,9 +135,7 @@ function pageElement(selector: string): Element {
 
 // Mounts the chart at the cell's content box, now and afresh at each box the cell takes,
 // in place of the chart drawn to the last; a cell with no box, as one hidden, shows no
-// chart. A chart drawn can widen the cells beside it in a table laid out by content, below
-// 768px; the observer then reports those too, and WebKit warns on its console of a loop
-// when it carries them over to the next frame.
+// chart.
 function mountAtEachSize(cell: Element, chartAt: (size: CellSize) => View): void {
   let unmount: (() => void) | undefined;
   new ResizeObserver((entries) => {
