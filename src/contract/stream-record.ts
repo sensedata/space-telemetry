@@ -5,7 +5,7 @@ export type StreamRecord = {
 
   // JSON writes NaN as null, and the server's Lightstreamer adapter reads a missing Value
   // or TimeStamp as NaN.
-  readonly v: number | null; // Value.
+  readonly v: number | null; // Value, rounded to the decimals the page needs of it.
   readonly t: number | null; // Time, in Unix seconds.
 
   // Status class. Never null: the server's buffer stores no record whose status class is

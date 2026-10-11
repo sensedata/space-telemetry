@@ -146,8 +146,8 @@ describe("backfill", () => {
     feedRow(second, now - 2);
 
     expect([pickFields(backfilled, ["v"]), pickFields(await live, ["v"])]).toStrictEqual([
-      [{v: 23.26046371459961}],
-      [{v: 23.32332992553711}],
+      [{v: 23.26}],
+      [{v: 23.32}],
     ]);
   });
 
@@ -218,7 +218,7 @@ describe("record shape", () => {
     expect(await message).toStrictEqual([anyRecord]);
   });
 
-  test("carries the channel name, value, unix time and status class of the feed update", async ({
+  test("carries the channel name, value at the decimals the page needs, unix time and status class of the feed update", async ({
     feedRow,
     open,
   }) => {
@@ -229,7 +229,7 @@ describe("record shape", () => {
     const reply = await open().backfill("NODE3000009");
 
     expect(pickFields(reply, ["k", "v", "t", "s"])).toStrictEqual([
-      {k: "NODE3000009", v: 87.87999725341797, t: now - 10, s: 9},
+      {k: "NODE3000009", v: 87.88, t: now - 10, s: 9},
     ]);
   });
 
@@ -505,6 +505,6 @@ describe("live fan-out", () => {
     feedRow(first, now - 2);
     feedRow(second, now - 1);
 
-    expect(pickFields(await following, ["v"])).toStrictEqual([{v: -0.09021296352148056}]);
+    expect(pickFields(await following, ["v"])).toStrictEqual([{v: -0.090213}]);
   });
 });

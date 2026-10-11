@@ -6,6 +6,7 @@ import type {StreamRecord} from "../contract/stream-record.ts";
 import type {RecordBuffer} from "./buffer.ts";
 import {createEventFanout} from "./event-fanout.ts";
 import type {FeedRecord} from "./feed-record.ts";
+import {roundToSentDecimals} from "./round-to-sent-decimals.ts";
 import {serveStaticFile} from "./serve-static-file.ts";
 import type {Source} from "./source.ts";
 
@@ -19,8 +20,9 @@ function toEvent(records: readonly StreamRecord[]) {
 /**
  * Creates the telemetry server, not yet listening. It stores in `buffer` the records
  * `source` emits, with the feed's STATUS, which starts disconnected, and serves them at
- * /events as one records event of the backfill followed by one per live record. Every
- * other path it serves from `staticDir`.
+ * /events as one records event of the backfill followed by one per live record, each value
+ * rounded to the decimals the page needs of its channel. Every other path it serves from
+ * `staticDir`.
  */
 export function createServer(
   buffer: Pick<RecordBuffer, "add" | "backfill" | "mean">,
@@ -33,7 +35,7 @@ export function createServer(
 
   function toClient(k: string, records: readonly FeedRecord[]): StreamRecord[] {
     const vm = buffer.mean(k);
-    return records.map(({v, t, s}) => ({k, v, t, s, vm}));
+    return records.map(({v, t, s}) => ({k, v: roundToSentDecimals(k, v), t, s, vm}));
   }
 
   function streamEvents(res: ServerResponse) {

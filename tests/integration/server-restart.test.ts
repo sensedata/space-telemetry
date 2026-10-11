@@ -205,9 +205,7 @@ describe("server restart", {timeout: 10_000}, () => {
 
     const reply = await backfill(openStream, url, "USLAB000059");
 
-    expect(pickFields(reply, ["v", "t"])).toStrictEqual([
-      {v: 23.57479476928711, t: 1_789_395_274},
-    ]);
+    expect(pickFields(reply, ["v", "t"])).toStrictEqual([{v: 23.57, t: 1_789_395_274}]);
   });
 
   test("sends no seeded record of a channel it does not carry", async ({

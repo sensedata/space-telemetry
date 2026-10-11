@@ -1,3 +1,4 @@
+import {decimalText} from "../../../contract/decimal-text.ts";
 import {newestRecord} from "../../records/newest-record.ts";
 import type {Reading} from "../../timed-record.ts";
 import type {Readable} from "../../signals/readable.ts";
@@ -23,7 +24,7 @@ export function decimalReadout(props: DecimalReadoutProps): View {
 
       const value = raw * (props.conversion ?? 1);
       const fixed =
-        props.scale === undefined ? String(value) : value.toFixed(props.scale);
+        props.scale === undefined ? String(value) : decimalText(value, props.scale);
       const formatted =
         props.negativePad === true ? fixed.replace(/^([^-])/, "\u{A0}$1") : fixed;
 
