@@ -10,9 +10,9 @@ type BulletMicrochartProps = {
   // A capacity channel's newest value takes the place of capacity.
   capacityStore?: Readable<readonly Reading[]> | undefined;
   // capacity and marker are in converted units. The reading's mean marks the chart where
-  // no marker is given.
+  // no marker is given; "none" marks nothing.
   capacity?: number | undefined;
-  marker?: number | undefined;
+  marker?: number | "none" | undefined;
   // conversion scales the measure and the mean marker from the channel's units.
   conversion?: number | undefined;
   width: number;
@@ -50,8 +50,9 @@ export function bulletMicrochart({
       }
 
       const scale = linearScale({min: 0, max: full}, width);
-      const markerAt = scale(marker ?? converted(meanOf(measure)));
       const measureAt = scale(converted(measure.v ?? 0));
+      const markerAt =
+        marker === "none" ? undefined : scale(marker ?? converted(meanOf(measure)));
 
       // The ranges are quarters of capacity: the stream record carries no standard
       // deviation to size them.
@@ -68,7 +69,10 @@ export function bulletMicrochart({
         "svg",
         {
           role: "img",
-          "aria-label": "Newest value against capacity, with a reference marker",
+          "aria-label":
+            markerAt === undefined
+              ? "Newest value against capacity"
+              : "Newest value against capacity, with a reference marker",
           width,
           height,
         },
@@ -84,13 +88,17 @@ export function bulletMicrochart({
             y1: height * 0.5,
             y2: height * 0.5,
           }),
-          svgElement("line", {
-            class: "marker",
-            x1: markerAt,
-            x2: markerAt,
-            y1: height * 0.15,
-            y2: height * 0.85,
-          }),
+          ...(markerAt === undefined
+            ? []
+            : [
+                svgElement("line", {
+                  class: "marker",
+                  x1: markerAt,
+                  x2: markerAt,
+                  y1: height * 0.15,
+                  y2: height * 0.85,
+                }),
+              ]),
         ],
       );
     },

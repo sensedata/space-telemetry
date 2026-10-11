@@ -112,6 +112,18 @@ describe("a telemetry cell's props", () => {
     });
   });
 
+  test("read a bullet chart's marker of none", () => {
+    const cell = cellOf(
+      '<td class="microchart bullet-chart" data-telemetry-id="S0000003" data-capacity="360" data-marker="none"></td>',
+    );
+
+    assert.deepEqual(parseCellProps(cell), {
+      source: {kind: "channel", channel: "S0000003"},
+      capacity: 360,
+      marker: "none",
+    });
+  });
+
   test("are absent from a cell without data attributes, which the page fills itself", () => {
     const cell = cellOf('<dd id="telemetry-network" class="readout text"></dd>');
 
@@ -158,6 +170,10 @@ describe("a telemetry cell's props", () => {
     [
       "a blank number",
       '<td class="readout decimal" data-telemetry-id="S1000001" data-scale=" "></td>',
+    ],
+    [
+      "a marker neither a number nor none",
+      '<td class="microchart bullet-chart" data-telemetry-id="S0000003" data-capacity="360" data-marker="mean"></td>',
     ],
     [
       "a flag other than true or false",

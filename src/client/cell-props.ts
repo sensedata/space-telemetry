@@ -4,18 +4,12 @@ import {type CellSource, type Combination, COMBINATIONS} from "./cell-source.ts"
 import type {MirroredAngle} from "./records/angle-deviation.ts";
 import type {PowerPair} from "./records/power.ts";
 
-type NumberProp =
-  | "capacity"
-  | "conversion"
-  | "marker"
-  | "max"
-  | "min"
-  | "scale"
-  | "statusOnValue";
+type NumberProp = "capacity" | "conversion" | "max" | "min" | "scale" | "statusOnValue";
 
 export type CellProps = {
   readonly source: CellSource;
   readonly capacityId?: ChannelName;
+  readonly marker?: number | "none";
   readonly negativePad?: boolean;
 } & Readonly<Partial<Record<NumberProp, number>>>;
 
@@ -25,7 +19,6 @@ const NUMBER_ATTRIBUTES: readonly {
 }[] = [
   {prop: "capacity", attribute: "data-capacity"},
   {prop: "conversion", attribute: "data-conversion"},
-  {prop: "marker", attribute: "data-marker"},
   {prop: "max", attribute: "data-max"},
   {prop: "min", attribute: "data-min"},
   {prop: "scale", attribute: "data-scale"},
@@ -38,8 +31,10 @@ const KNOWN_ATTRIBUTES = new Set([
   "colspan",
   "id",
   "title",
+
   "data-capacity-id",
   "data-combine",
+  "data-marker",
   "data-negative-pad",
   "data-telemetry-id",
   "data-telemetry-ids",
@@ -99,6 +94,13 @@ function numberAt(cell: Element, attribute: string): number | undefined {
   return value;
 }
 
+// bulletMicrochart marks the mean where data-marker is absent; "none" marks nothing.
+function markerAt(cell: Element): number | "none" | undefined {
+  return cell.getAttribute("data-marker") === "none"
+    ? "none"
+    : numberAt(cell, "data-marker");
+}
+
 function flagAt(cell: Element, attribute: string): boolean | undefined {
   const text = cell.getAttribute(attribute);
   if (text !== null && text !== "true" && text !== "false") {
@@ -134,9 +136,6 @@ function sourceOf(cell: Element): CellSource {
   throw new TypeError("a telemetry cell with data attributes names no channel");
 }
 
-/**
- * Returns a telemetry cell's data attrs into a new CellProps.
- */
 export function parseCellProps(cell: Element): CellProps | undefined {
   const names = cell.getAttributeNames();
   const unknown = names.find((name) => !KNOWN_ATTRIBUTES.has(name));
@@ -155,11 +154,13 @@ export function parseCellProps(cell: Element): CellProps | undefined {
     }
   }
   const capacityId = cell.getAttribute("data-capacity-id");
+  const marker = markerAt(cell);
   const negativePad = flagAt(cell, "data-negative-pad");
   return {
     source: sourceOf(cell),
     ...numbers,
     ...(capacityId !== null && {capacityId: channelOf(capacityId)}),
+    ...(marker !== undefined && {marker}),
     ...(negativePad !== undefined && {negativePad}),
   };
 }

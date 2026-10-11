@@ -254,6 +254,51 @@ describe("a bullet microchart", () => {
     );
   });
 
+  test("draws no marker where its marker is none", ({mount}) => {
+    const store = signal<readonly Reading[]>([]);
+    const container = mount(
+      bulletMicrochart({
+        store,
+        capacity: 2,
+        marker: "none",
+        height: 10,
+        width: 100,
+      }),
+    );
+
+    store.set([{t: 0, v: 1}]);
+
+    assert.deepEqual(
+      [
+        container.querySelectorAll(":scope svg line.measure").length,
+        container.querySelectorAll(":scope svg line.marker").length,
+      ],
+      [1, 0],
+    );
+  });
+
+  test("names itself without a marker for a screen reader where its marker is none", ({
+    mount,
+  }) => {
+    const store = signal<readonly Reading[]>([]);
+    const container = mount(
+      bulletMicrochart({
+        store,
+        capacity: 2,
+        marker: "none",
+        height: 10,
+        width: 100,
+      }),
+    );
+
+    store.set([{t: 0, v: 1}]);
+
+    assert.equal(
+      container.querySelector("svg")?.getAttribute("aria-label"),
+      "Newest value against capacity",
+    );
+  });
+
   test("applies the conversion to the measure", ({mount}) => {
     const store = signal<readonly TimedRecord[]>([]);
     const capacityStore = signal<readonly TimedRecord[]>([]);
