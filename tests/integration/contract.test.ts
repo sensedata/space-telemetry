@@ -1,6 +1,10 @@
 // The surface the client in src/client/ depends on. The stream is read as unknown: these tests
-// pin what the server sends, not what its types claim.
+// pin what the server sends, not what its types claim. The server sends live records a
+// second at a time, so a test advances the clock a second before it awaits one.
 
+import http, {type IncomingMessage, type OutgoingHttpHeaders} from "node:http";
+import type {Readable} from "node:stream";
+import zlib from "node:zlib";
 import {describe, expect, vi} from "vitest";
 
 import {
@@ -24,23 +28,30 @@ function firstRow(item: string): CapturedRow {
   return row;
 }
 
-// The channel of each record of a new stream's first event from `serverUrl`, in order.
-async function backfillChannels(serverUrl: string) {
-  const response = await fetch(serverUrl + "/events");
-  if (response.body === null) {
-    throw new Error(`${serverUrl}/events answered with no body`);
-  }
+// Opens /events at `serverUrl` sending `headers`, as a client that reads the bytes on the
+// wire; resolves once the response headers arrive.
+function getEvents(serverUrl: string, headers: OutgoingHttpHeaders) {
+  return new Promise<IncomingMessage>((resolve, reject) => {
+    http.get(`${serverUrl}/events`, {headers}, resolve).on("error", reject);
+  });
+}
 
-  const chunks = response.body.pipeThrough(new TextDecoderStream());
+// The text `body` sends up to the end of its first event.
+async function firstEvent(body: Readable) {
   let text = "";
-  for await (const chunk of chunks) {
-    text += chunk;
+  for await (const chunk of body.setEncoding("utf8")) {
+    text += String(chunk);
     if (text.includes("\n\n")) {
       break;
     }
   }
+  return text.slice(0, text.indexOf("\n\n") + 2);
+}
 
-  const data = /^data: (.*)$/m.exec(text)?.[1];
+// The channel of each record of a new stream's first event from `serverUrl`, in order.
+async function backfillChannels(serverUrl: string) {
+  const event = await firstEvent(await getEvents(serverUrl, {}));
+  const data = /^data: (.*)$/m.exec(event)?.[1];
   if (data === undefined) {
     throw new Error(`the first event from ${serverUrl}/events carries no data`);
   }
@@ -149,6 +160,7 @@ describe("backfill", () => {
     const live = stream.live("USLAB000059");
 
     feedRow(second, now - 2);
+    vi.advanceTimersByTime(1000);
 
     expect([pickFields(backfilled, ["v"]), pickFields(await live, ["v"])]).toStrictEqual([
       [{v: 23.26}],
@@ -181,7 +193,7 @@ describe("event stream", () => {
     expect(await ping).to.deep.equal({});
   });
 
-  test("sends the stream with cache-control no-cache, which a proxy must not cache", async ({
+  test("sends the stream with no-cache and no-transform, so a proxy neither caches nor recompresses it", async ({
     serverUrl,
   }) => {
     const response = await fetch(serverUrl + "/events");
@@ -189,9 +201,42 @@ describe("event stream", () => {
 
     expect([response.status, response.headers.get("cache-control")]).to.deep.equal([
       200,
-      "no-cache",
+      "no-cache, no-transform",
     ]);
   });
+
+  test.for([
+    ["accept-encoding as curl --compressed sends it", "deflate, gzip"],
+    ["gzip at weight 0.5", "br, gzip;q=0.5"],
+  ] as const)(
+    "gzips the stream for a client that sends %s and sends the backfill at once",
+    async ([, acceptEncoding], {serverUrl}) => {
+      const response = await getEvents(serverUrl, {"accept-encoding": acceptEncoding});
+      const event = await firstEvent(response.pipe(zlib.createGunzip()));
+
+      expect([
+        response.headers["content-encoding"],
+        event.split("\n", 1)[0],
+      ]).to.deep.equal(["gzip", "event: records"]);
+    },
+  );
+
+  test.for([
+    ["no accept-encoding", {}],
+    ["gzip at weight 0", {"accept-encoding": "gzip;q=0, deflate"}],
+    ["only deflate and br", {"accept-encoding": "deflate, br"}],
+  ] as const)(
+    "sends the stream uncompressed to a client that sends %s",
+    async ([, headers], {serverUrl}) => {
+      const response = await getEvents(serverUrl, headers);
+      const event = await firstEvent(response);
+
+      expect([
+        response.headers["content-encoding"],
+        event.split("\n", 1)[0],
+      ]).to.deep.equal([undefined, "event: records"]);
+    },
+  );
 });
 
 describe("record shape", () => {
@@ -216,6 +261,7 @@ describe("record shape", () => {
     const message = stream.live("NODE3000009");
 
     feedRow(capturedRows("NODE3000009")[0], nowSeconds());
+    vi.advanceTimersByTime(1000);
 
     expect(await message).toStrictEqual([recordOf("k", "v", "t", "s")]);
   });
@@ -241,6 +287,7 @@ describe("record shape", () => {
     const message = stream.live("Z1000005");
 
     feedRow(capturedRows("Z1000005")[0], nowSeconds());
+    vi.advanceTimersByTime(1000);
 
     expect(await message).toStrictEqual([recordOf("k", "v", "t", "s", "vm")]);
   });
@@ -293,6 +340,7 @@ describe("record shape", () => {
     const message = stream.live("Z1000005");
 
     feedRow(live, nowSeconds());
+    vi.advanceTimersByTime(1000);
 
     expect(pickFields(await message, ["vm"])).toStrictEqual([{vm: 0.667}]);
   });
@@ -360,6 +408,7 @@ describe("status channel", () => {
     const message = stream.live("STATUS");
 
     vi.advanceTimersByTime(10_000);
+    vi.advanceTimersByTime(1000);
 
     expect(pickFields(await message, ["k", "v", "s"])).toStrictEqual([
       {k: "STATUS", v: 0, s: 2},
@@ -377,6 +426,7 @@ describe("status channel", () => {
     const message = stream.live("STATUS");
 
     feedTime();
+    vi.advanceTimersByTime(1000);
 
     expect(pickFields(await message, ["v", "s"])).toStrictEqual([{v: 1, s: 24}]);
   });
@@ -396,6 +446,7 @@ describe("status channel", () => {
     const arrivals = Promise.all([arrival("TIME_000001"), arrival("STATUS")]);
 
     feedTime();
+    vi.advanceTimersByTime(1000);
     await arrivals;
 
     expect(order).to.deep.equal(["STATUS", "TIME_000001"]);
@@ -477,6 +528,7 @@ describe("live fan-out", () => {
     const messages = Promise.all([first.live("USLAB000043"), second.live("USLAB000043")]);
 
     feedRow(capturedRows("USLAB000043")[1], now);
+    vi.advanceTimersByTime(1000);
 
     const [toFirst, toSecond] = await messages;
     expect([
@@ -516,6 +568,7 @@ describe("live fan-out", () => {
       sid: 1,
     });
     feedRow(capturedRows("USLAB000059")[0], now - 1);
+    vi.advanceTimersByTime(1000);
     await carried;
 
     expect(uncarried).to.deep.equal([]);
@@ -531,11 +584,13 @@ describe("live fan-out", () => {
     await stream.backfill("USLAB000020");
     const original = stream.live("USLAB000020");
     feedRow(first, now - 2);
+    vi.advanceTimersByTime(1000);
     await original;
     const following = stream.live("USLAB000020");
 
     feedRow(first, now - 2);
     feedRow(second, now - 1);
+    vi.advanceTimersByTime(1000);
 
     expect(pickFields(await following, ["v"])).toStrictEqual([{v: -0.090213}]);
   });
