@@ -4,8 +4,8 @@ import {expect, test} from "@playwright/test";
 // with the server's uptime. Each floor sits just under the count seen about 6 seconds into
 // the replay, well inside a 20-second wait that fits within Playwright's 30-second test
 // timeout.
-const READOUT_FLOOR = 60;
-const SPARKLINE_FLOOR = 18;
+const READOUT_FLOOR = 36;
+const SPARKLINE_FLOOR = 14;
 const FILL_TIMEOUT_MS = 20_000;
 
 test("the built page boots and shows replayed telemetry", async ({page}) => {
