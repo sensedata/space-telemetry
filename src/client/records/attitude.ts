@@ -38,7 +38,7 @@ export function attitude(
           new Quaternion(x.v, y.v, z.v, w.v).normalize(),
           "ZYX",
         );
-        return {v: MathUtils.radToDeg(euler[axis]), vm: 0};
+        return {v: MathUtils.radToDeg(euler[axis])};
       }),
       circularMean,
     );

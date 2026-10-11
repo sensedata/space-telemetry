@@ -12,7 +12,7 @@ export type StreamRecord = {
   // NaN.
   readonly s: number;
 
-  // Value mean. The server computes it over the values it holds for the channel, and the
-  // client reads it as the marker of a bullet chart.
-  readonly vm: number;
+  // Value mean, rounded as the value is. The server computes it over the values it holds
+  // for the channel, and sends it only for the channels of src/server/mean-channels.ts.
+  readonly vm?: number;
 };

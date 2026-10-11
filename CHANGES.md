@@ -9,6 +9,7 @@
 - Replace socket.io with SSE.
 - Round each value the stream sends to the decimals the page needs to reduce stream
   bandwidth.
+- Cut means on channels where no mean is used in presentation. Also bandwidth.
 - Replace webpack+Babel-based building with basic Vite.
 - Replace JS with TS, React/Flummox et al. with Preact.
 - Update all remaining libraries, e.g., D3 and three.js.

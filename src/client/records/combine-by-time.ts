@@ -5,7 +5,7 @@ import {hasValue, type ValuedRecord} from "./valued-record.ts";
 export type CombinedRecord = {
   readonly t: number;
   readonly v: number;
-  readonly vm: number;
+  readonly vm?: number;
 };
 
 /**

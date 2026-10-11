@@ -6,9 +6,15 @@ import type {StreamRecord} from "../contract/stream-record.ts";
 import type {RecordBuffer} from "./buffer.ts";
 import {createEventFanout} from "./event-fanout.ts";
 import type {FeedRecord} from "./feed-record.ts";
+import {meanChannels} from "./mean-channels.ts";
 import {roundToSentDecimals} from "./round-to-sent-decimals.ts";
 import {serveStaticFile} from "./serve-static-file.ts";
 import type {Source} from "./source.ts";
+
+// Rides out about 70 seconds of a client's stalled link at the recording's average of 28
+// records a second on the carried channels. A longer stall costs that client a full
+// backfill.
+const MAX_LAG_EVENTS = 70 * 28; // 1,960
 
 // STATUS leads, as the source sends it live before the TIME_000001 record that moves it.
 const backfillOrder = ["STATUS", ...channels.names.filter((name) => name !== "STATUS")];
@@ -18,24 +24,26 @@ function toEvent(records: readonly StreamRecord[]) {
 }
 
 /**
- * Creates the telemetry server, not yet listening. It stores in `buffer` the records
- * `source` emits, with the feed's STATUS, which starts disconnected, and serves them at
- * /events as one records event of the backfill followed by one per live record, each value
- * rounded to the decimals the page needs of its channel. Every other path it serves from
- * `staticDir`.
+ * Creates the telemetry server. It stores in `buffer` the records `source` emits and
+ * serves them at /events as StreamRecords: one records event of the backfill, then one
+ * per live record. Every other path it serves from `staticDir`.
  */
 export function createServer(
   buffer: Pick<RecordBuffer, "add" | "backfill" | "mean">,
   staticDir: string,
   source: Pick<Source, "on" | "reportDisconnected">,
 ): http.Server {
-  // About 70 seconds of the feed at the recording's average of 28 records a second on the
-  // carried channels.
-  const fanout = createEventFanout(2048);
+  const fanout = createEventFanout(MAX_LAG_EVENTS);
 
   function toClient(k: string, records: readonly FeedRecord[]): StreamRecord[] {
-    const vm = buffer.mean(k);
-    return records.map(({v, t, s}) => ({k, v: roundToSentDecimals(k, v), t, s, vm}));
+    const meanField = meanChannels.has(k) && {vm: roundToSentDecimals(k, buffer.mean(k))};
+    return records.map(({v, t, s}) => ({
+      k,
+      v: roundToSentDecimals(k, v),
+      t,
+      s,
+      ...meanField,
+    }));
   }
 
   function streamEvents(res: ServerResponse) {

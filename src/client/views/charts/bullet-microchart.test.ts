@@ -1,7 +1,7 @@
 import {assert, describe} from "vitest";
 
 import {signal} from "../../signals/signal.ts";
-import type {TimedRecord} from "../../timed-record.ts";
+import type {Reading, TimedRecord} from "../../timed-record.ts";
 import {test} from "../../test-helpers/mount.ts";
 
 import {timedRecord} from "../../test-helpers/records.ts";
@@ -73,7 +73,7 @@ describe("a bullet microchart", () => {
       }),
     );
 
-    store.set([timedRecord({t: 0, v: 1})]);
+    store.set([timedRecord({t: 0, v: 1, vm: 0.5})]);
 
     assert.equal(
       container.querySelector(":scope svg rect.range-3")?.getAttribute("width"),
@@ -140,7 +140,7 @@ describe("a bullet microchart", () => {
     store.set([timedRecord({t: 0, v: 1, vm: 0.5})]);
     capacityStore.set([timedRecord({t: 0, v: 2})]);
 
-    store.set([timedRecord({t: 1, v: 1.5})]);
+    store.set([timedRecord({t: 1, v: 1.5, vm: 0.5})]);
 
     const measure = container.querySelector(":scope svg line.measure");
     assert.deepEqual(
@@ -213,6 +213,44 @@ describe("a bullet microchart", () => {
     assert.deepEqual(
       [marker?.getAttribute("x1"), marker?.getAttribute("x2")],
       ["37.5", "37.5"],
+    );
+  });
+
+  test("renders the marker element as specified for records without a mean", ({
+    mount,
+  }) => {
+    const store = signal<readonly Reading[]>([]);
+    const container = mount(
+      bulletMicrochart({
+        store,
+        capacity: 2,
+        marker: 0.75,
+        height: 10,
+        width: 100,
+      }),
+    );
+
+    store.set([{t: 0, v: 1}]);
+
+    const marker = container.querySelector(":scope svg line.marker");
+    assert.deepEqual(
+      [marker?.getAttribute("x1"), marker?.getAttribute("x2")],
+      ["37.5", "37.5"],
+    );
+  });
+
+  test("refuses to mark the mean of records without one", () => {
+    const chart = bulletMicrochart({
+      store: signal<readonly Reading[]>([{t: 0, v: 1}]),
+      capacity: 2,
+      height: 10,
+      width: 100,
+    });
+
+    assert.throws(
+      () => chart.draw(),
+      TypeError,
+      "a bullet chart with no marker reads records without a mean",
     );
   });
 
@@ -428,7 +466,7 @@ describe("a bullet microchart", () => {
       }),
     );
 
-    store.set([timedRecord({t: 0, v: 1})]);
+    store.set([timedRecord({t: 0, v: 1, vm: 0.5})]);
 
     const widths = ["range-2", "range-1", "range-0"].map((range) =>
       container.querySelector(`:scope svg rect.${range}`)?.getAttribute("width"),

@@ -212,9 +212,10 @@ describe("the dashboard", () => {
     await import("../../src/client/page.ts");
 
     stream().open();
+    // A bullet chart averages USLAB000056, so the server sends its mean.
     stream().send({
       name: "records",
-      data: [streamRecord({k: "USLAB000056", v: 50, t: 1_790_560_000, s: 24})],
+      data: [streamRecord({k: "USLAB000056", v: 50, t: 1_790_560_000, s: 24, vm: 50})],
     });
 
     // Half of 0 to 100 is half of the 16 pixels inside the cell's 2 pixel inset, across a
@@ -232,9 +233,10 @@ describe("the dashboard", () => {
       .mockReturnValue(new DOMRect(0, 0, 32, 22));
     await import("../../src/client/page.ts");
     stream().open();
+    // A bullet chart averages USLAB000056, so the server sends its mean.
     stream().send({
       name: "records",
-      data: [streamRecord({k: "USLAB000056", v: 50, t: 1_790_560_000, s: 24})],
+      data: [streamRecord({k: "USLAB000056", v: 50, t: 1_790_560_000, s: 24, vm: 50})],
     });
 
     // A content box of 15 holds a bar each 3 of the 11 pixels inside its inset, where 30
@@ -265,9 +267,10 @@ describe("the dashboard", () => {
         .mockReturnValue(noBox);
       await import("../../src/client/page.ts");
       stream().open();
+      // A bullet chart averages USLAB000056, so the server sends its mean.
       stream().send({
         name: "records",
-        data: [streamRecord({k: "USLAB000056", v: 50, t: 1_790_560_000, s: 24})],
+        data: [streamRecord({k: "USLAB000056", v: 50, t: 1_790_560_000, s: 24, vm: 50})],
       });
       const chart = document.querySelector('.bar-chart[data-telemetry-id="USLAB000056"]');
       const chartsWhileHidden = chart?.querySelectorAll("svg").length;

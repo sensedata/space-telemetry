@@ -34,7 +34,7 @@ export function angleDeviation(
         return record ? [(negated ? -record.v : record.v) + (turned ? 180 : 0)] : [];
       });
       const mean = circularMean(degrees);
-      return {v: Math.max(...degrees.map((angle) => apart(angle, mean))), vm: 0};
+      return {v: Math.max(...degrees.map((angle) => apart(angle, mean)))};
     }),
     arithmeticMean,
   );

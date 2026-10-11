@@ -9,11 +9,11 @@ type BulletMicrochartProps = {
   store: Readable<readonly Reading[]>;
   // A capacity channel's newest value takes the place of capacity.
   capacityStore?: Readable<readonly Reading[]> | undefined;
-  // capacity and marker are in converted units.
+  // capacity and marker are in converted units. The reading's mean marks the chart where
+  // no marker is given.
   capacity?: number | undefined;
   marker?: number | undefined;
-  // conversion scales the measure and the mean marker from the channel's units. The
-  // channel mean marks the chart where no marker is given.
+  // conversion scales the measure and the mean marker from the channel's units.
   conversion?: number | undefined;
   width: number;
   height: number;
@@ -21,7 +21,8 @@ type BulletMicrochartProps = {
 
 /**
  * A channel's newest value as a bar against its capacity, with a reference marker; empty
- * until the channel holds a record and the capacity is known.
+ * until the channel holds a record and the capacity is known. Its draw throws a TypeError
+ * when given no marker and the newest record carries no mean.
  */
 export function bulletMicrochart({
   store,
@@ -49,7 +50,7 @@ export function bulletMicrochart({
       }
 
       const scale = linearScale({min: 0, max: full}, width);
-      const markerAt = scale(marker ?? converted(measure.vm));
+      const markerAt = scale(marker ?? converted(meanOf(measure)));
       const measureAt = scale(converted(measure.v ?? 0));
 
       // The ranges are quarters of capacity: the stream record carries no standard
@@ -96,7 +97,20 @@ export function bulletMicrochart({
   };
 }
 
-// A capacity record without a value counts as 0, as linearScale counts a value it lacks.
+// A reading lacks vm only where it reads a channel outside src/server/mean-channels.ts,
+// whose mean the server does not send; tests/integration/mean-channels.test.ts keeps
+// every bullet chart of index.html without a data-marker off such channels. Stays
+// beside bulletMicrochart: a file of its own would export a guard no other view reads.
+function meanOf({vm}: Pick<Reading, "vm">): number {
+  if (vm === undefined) {
+    throw new TypeError("a bullet chart with no marker reads records without a mean");
+  }
+  return vm;
+}
+
+// A capacity record without a value counts as 0, as linearScale counts a value it
+// lacks. Stays beside bulletMicrochart: a file of its own would export a rule no other
+// view reads.
 function capacityOf(record: Pick<TimedRecord, "v"> | undefined): number | undefined {
   return record === undefined ? undefined : (record.v ?? 0);
 }

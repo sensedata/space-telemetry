@@ -536,6 +536,43 @@
           "session_id": 1789211888321
         }
       ]
+    },
+    {
+      "purpose": "channel Z1000005, which a bullet chart marks at its mean: its first 4 records in src/harness/recordings/1789211888321.jsonl.gz rather than the telemetry table, so value is the recorded number as text and there is no idx",
+      "rows": [
+        {
+          "item": "Z1000005",
+          "value": "0.66552734375",
+          "value_calibrated": "0.67",
+          "ts": "2026-09-12T11:19:42.000000Z",
+          "status": 24,
+          "session_id": 1789211888321
+        },
+        {
+          "item": "Z1000005",
+          "value": "0.66796875",
+          "value_calibrated": "0.67",
+          "ts": "2026-09-12T11:20:02.000000Z",
+          "status": 24,
+          "session_id": 1789211888321
+        },
+        {
+          "item": "Z1000005",
+          "value": "0.66064453125",
+          "value_calibrated": "0.66",
+          "ts": "2026-09-12T11:20:12.000000Z",
+          "status": 24,
+          "session_id": 1789211888321
+        },
+        {
+          "item": "Z1000005",
+          "value": "0.6630859375",
+          "value_calibrated": "0.66",
+          "ts": "2026-09-12T11:20:42.000000Z",
+          "status": 24,
+          "session_id": 1789211888321
+        }
+      ]
     }
   ]
 }

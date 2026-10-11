@@ -1,25 +1,12 @@
 // @vitest-environment jsdom
-import fs from "node:fs";
-import path from "node:path";
-
 import {expect, test} from "vitest";
 
-import {type CellProps, parseCellProps} from "../../src/client/cell-props.ts";
+import type {CellProps} from "../../src/client/cell-props.ts";
 import type {ChannelName} from "../../src/contract/channels.ts";
 import {sentDecimals} from "../../src/server/sent-decimals.ts";
+import {pageCells} from "./test-helpers/page-cells.ts";
 
 type Need = {readonly channel: ChannelName; readonly needs: number};
-
-function decimalCells(): CellProps[] {
-  const html = fs.readFileSync(
-    path.join(import.meta.dirname, "..", "..", "src", "client", "index.html"),
-    "utf8",
-  );
-  const page = new DOMParser().parseFromString(html, "text/html");
-  return [...page.querySelectorAll(".readout.decimal")].flatMap(
-    (cell) => parseCellProps(cell) ?? [],
-  );
-}
 
 function decimalsOf(scale: number, conversion: number): number {
   const exponent = scale + Math.log10(conversion);
@@ -63,7 +50,7 @@ function needsOf({source, scale, conversion = 1}: CellProps): Need[] {
 }
 
 test("sends each channel the decimals every decimal cell of index.html needs of it", () => {
-  const shortfalls = decimalCells().flatMap((props) =>
+  const shortfalls = pageCells(".readout.decimal").flatMap((props) =>
     needsOf(props)
       .filter(({channel, needs}) => sentDecimals[channel] < needs)
       .map((need) => ({

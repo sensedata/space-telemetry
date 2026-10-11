@@ -32,11 +32,18 @@ describe("parsing an event's records", () => {
     assert.deepEqual(parseTimedRecords("[]"), []);
   });
 
-  test("refuses a record that lacks the value mean the server sends", () => {
-    assert.throws(
-      () => parseTimedRecords('[{"k":"USLAB000059","v":7,"t":1790560000,"s":24}]'),
-      TypeError,
-    );
+  test("keeps a record without a value mean, its mean absent", () => {
+    const data = '[{"k":"USLAB000059","v":7,"t":1790560000,"s":24}]';
+
+    assert.deepEqual(parseTimedRecords(data), [
+      {k: "USLAB000059", v: 7, t: 1_790_560_000, s: 24},
+    ]);
+  });
+
+  test("refuses a record whose value mean is text", () => {
+    const data = '[{"k":"USLAB000059","v":7,"t":1790560000,"s":24,"vm":"7"}]';
+
+    assert.throws(() => parseTimedRecords(data), TypeError);
   });
 
   test("refuses a record whose status class is text", () => {

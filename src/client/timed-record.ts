@@ -9,13 +9,12 @@ export type TimedRecord = {
   readonly v: number | undefined;
   readonly t: number;
   readonly s: number;
-  readonly vm: number;
+  readonly vm?: number;
 };
 
 type NamedStreamRecord = StreamRecord & {readonly k: ChannelName};
 
 const NAMES: ReadonlySet<string> = new Set(channels.names);
-const NUMBER_FIELDS = ["s", "vm"];
 // JSON writes NaN as null.
 const NULLABLE_NUMBER_FIELDS = ["v", "t"];
 
@@ -25,10 +24,12 @@ function isNamedStreamRecord(value: unknown): value is NamedStreamRecord {
   }
   const field = (name: string): unknown => Reflect.get(value, name);
   const k = field("k");
+  const vm = field("vm");
   return (
     typeof k === "string" &&
     NAMES.has(k) &&
-    NUMBER_FIELDS.every((name) => typeof field(name) === "number") &&
+    typeof field("s") === "number" &&
+    (vm === undefined || typeof vm === "number") &&
     NULLABLE_NUMBER_FIELDS.every(
       (name) => field(name) === null || typeof field(name) === "number",
     )

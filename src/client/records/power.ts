@@ -22,7 +22,7 @@ export function power(channels: readonly (readonly TimedRecord[])[]): CombinedRe
         const amps = newest[supply + 1];
         return volts && amps ? [volts.v * amps.v] : [];
       });
-      return watts.length === 0 ? undefined : {v: sum(watts), vm: 0};
+      return watts.length === 0 ? undefined : {v: sum(watts)};
     }),
     arithmeticMean,
   );

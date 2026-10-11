@@ -59,6 +59,11 @@ async function pageScript(serverUrl: string) {
   return serverUrl + script;
 }
 
+// A matcher of a record with exactly `fields`, each of any value but null or undefined.
+function recordOf(...fields: string[]) {
+  return Object.fromEntries(fields.map((field) => [field, expect.anything()]));
+}
+
 function lastModified(response: Response) {
   const modified = response.headers.get("last-modified");
   if (modified === null) {
@@ -190,11 +195,8 @@ describe("event stream", () => {
 });
 
 describe("record shape", () => {
-  const anyRecord = Object.fromEntries(
-    ["k", "v", "t", "s", "vm"].map((field) => [field, expect.anything()]),
-  );
-
-  test("sends backfill records with exactly the fields k, v, t, s, vm", async ({
+  // No bullet chart marks NODE3000009 at its mean.
+  test("sends backfill records of a channel the page marks at no mean with exactly the fields k, v, t, s", async ({
     feedRow,
     open,
   }) => {
@@ -202,10 +204,10 @@ describe("record shape", () => {
 
     const reply = await open().backfill("NODE3000009");
 
-    expect(reply).toStrictEqual([anyRecord]);
+    expect(reply).toStrictEqual([recordOf("k", "v", "t", "s")]);
   });
 
-  test("sends live records with exactly the fields k, v, t, s, vm", async ({
+  test("sends live records of a channel the page marks at no mean with exactly the fields k, v, t, s", async ({
     open,
     feedRow,
   }) => {
@@ -215,7 +217,32 @@ describe("record shape", () => {
 
     feedRow(capturedRows("NODE3000009")[0], nowSeconds());
 
-    expect(await message).toStrictEqual([anyRecord]);
+    expect(await message).toStrictEqual([recordOf("k", "v", "t", "s")]);
+  });
+
+  // A bullet chart marks Z1000005 at its mean.
+  test("sends backfill records of a channel the page marks at its mean with exactly the fields k, v, t, s, vm", async ({
+    feedRow,
+    open,
+  }) => {
+    feedRow(capturedRows("Z1000005")[0], nowSeconds() - 10);
+
+    const reply = await open().backfill("Z1000005");
+
+    expect(reply).toStrictEqual([recordOf("k", "v", "t", "s", "vm")]);
+  });
+
+  test("sends live records of a channel the page marks at its mean with exactly the fields k, v, t, s, vm", async ({
+    open,
+    feedRow,
+  }) => {
+    const stream = open();
+    await stream.backfill("Z1000005");
+    const message = stream.live("Z1000005");
+
+    feedRow(capturedRows("Z1000005")[0], nowSeconds());
+
+    expect(await message).toStrictEqual([recordOf("k", "v", "t", "s", "vm")]);
   });
 
   test("carries the channel name, value at the decimals the page needs, unix time and status class of the feed update", async ({
@@ -233,40 +260,41 @@ describe("record shape", () => {
     ]);
   });
 
-  test("sends backfill records with vm, the mean of the values the channel holds", async ({
+  // index.html shows Z1000005 at data-scale="3".
+  test("sends backfill records with vm, the mean of the values the channel holds at the decimals the page needs", async ({
     feedRow,
     open,
   }) => {
     const now = nowSeconds();
-    const [first, second, third, fourth] = capturedRows("USLAB000043");
+    const [first, second, third, fourth] = capturedRows("Z1000005");
     feedRow(first, now - 40);
     feedRow(second, now - 30);
     feedRow(third, now - 20);
     feedRow(fourth, now - 10);
 
-    const reply = await open().backfill("USLAB000043");
+    const reply = await open().backfill("Z1000005");
 
     expect(pickFields(reply, ["vm"])).toStrictEqual([
-      {vm: 6.25},
-      {vm: 6.25},
-      {vm: 6.25},
-      {vm: 6.25},
+      {vm: 0.664},
+      {vm: 0.664},
+      {vm: 0.664},
+      {vm: 0.664},
     ]);
   });
 
-  test("sends live records with vm, the mean of the values the channel holds", async ({
+  test("sends live records with vm, the mean of the values the channel holds at the decimals the page needs", async ({
     feedRow,
     open,
   }) => {
-    const [held, live] = capturedRows("USLAB000043");
+    const [held, live] = capturedRows("Z1000005");
     feedRow(held, nowSeconds() - 10);
     const stream = open();
-    await stream.backfill("USLAB000043");
-    const message = stream.live("USLAB000043");
+    await stream.backfill("Z1000005");
+    const message = stream.live("Z1000005");
 
     feedRow(live, nowSeconds());
 
-    expect(pickFields(await message, ["vm"])).toStrictEqual([{vm: 5}]);
+    expect(pickFields(await message, ["vm"])).toStrictEqual([{vm: 0.667}]);
   });
 
   test("sends vm as the mean of the numeric values when the feed sends an empty Value", async ({
@@ -274,15 +302,19 @@ describe("record shape", () => {
     open,
   }) => {
     const now = nowSeconds();
-    const [first, second, , fourth] = capturedRows("USLAB000043");
+    const [first, second, third] = capturedRows("Z1000005");
     feedRow(first, now - 30);
     // Estimated: no captured row has an empty Value.
     feedRow(second && {...second, value: ""}, now - 20);
-    feedRow(fourth, now - 10);
+    feedRow(third, now - 10);
 
-    const reply = await open().backfill("USLAB000043");
+    const reply = await open().backfill("Z1000005");
 
-    expect(pickFields(reply, ["vm"])).toStrictEqual([{vm: 7.5}, {vm: 7.5}, {vm: 7.5}]);
+    expect(pickFields(reply, ["vm"])).toStrictEqual([
+      {vm: 0.663},
+      {vm: 0.663},
+      {vm: 0.663},
+    ]);
   });
 });
 

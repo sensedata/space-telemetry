@@ -1,13 +1,12 @@
 import type {StreamRecord} from "../../contract/stream-record.ts";
 import type {TimedRecord} from "../timed-record.ts";
 
-// A USLAB000059 update as /events carries it: the buffer's mean of one record is its value.
+// A USLAB000059 update as /events carries it.
 const uslab000059: StreamRecord & TimedRecord = {
   k: "USLAB000059",
-  v: 23.26046371459961,
+  v: 23.26,
   t: 1_789_212_189,
   s: 24,
-  vm: 23.26046371459961,
 };
 
 // A whole record with `fields` in place of its own.
