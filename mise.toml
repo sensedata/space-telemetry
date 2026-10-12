@@ -192,7 +192,7 @@ depends = ["test:unit", "test:integration", "test:browser"]
 # Run Playwright from node_modules/.bin, not pnpm. mise forwards one SIGINT twice, pnpm
 # turns the second into a SIGTERM. Playwright has no SIGTERM handler, so it zombies along.
 [tasks."test:browser"]
-description = "Playwright, chromium, firefox and webkit, against a fresh build. Slow."
+description = "Playwright, chromium, firefox and webkit, against a fresh build and the seed."
 wait_for = ["fix", "format"]
 shell = "bash -c"
 run = [

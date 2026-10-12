@@ -9,17 +9,11 @@ test("a window narrowed to 375px gives each thermal table's header its share", a
   await page.setViewportSize({width: 390, height: 900});
   await page.goto("/");
   const thermalTables = page.locator(".thermal-table");
-  // The replay fills a channel when the recording first sends it, so a table may wait a
-  // while for its first chart.
   await expect
-    .poll(
-      () =>
-        thermalTables.evaluateAll((tables) =>
-          tables.every(
-            (table) => table.querySelector(":scope td.microchart svg") !== null,
-          ),
-        ),
-      {timeout: 20_000},
+    .poll(() =>
+      thermalTables.evaluateAll((tables) =>
+        tables.every((table) => table.querySelector(":scope td.microchart svg") !== null),
+      ),
     )
     .toBe(true);
 
@@ -49,7 +43,7 @@ test("a window narrowed below 768px keeps the gyroscope momentum chart's height"
   await page.setViewportSize({width: 800, height: 900});
   await page.goto("/");
   const chart = page.locator(".saturation .bullet-chart");
-  await expect(chart.locator("svg")).toHaveCount(1, {timeout: 20_000});
+  await expect(chart.locator("svg")).toHaveCount(1);
   const height = () =>
     chart.evaluate((element) => element.getBoundingClientRect().height);
   const wideHeight = await height();

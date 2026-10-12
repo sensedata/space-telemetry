@@ -1,14 +1,9 @@
 import {expect, test} from "@playwright/test";
 
-// The replay fills a channel when the recording first sends it, so the counts below grow
-// with the server's uptime. Each floor sits just under the count seen about 6 seconds into
-// the replay, well inside a 20-second wait that fits within Playwright's 30-second test
-// timeout.
-const READOUT_FLOOR = 36;
-const SPARKLINE_FLOOR = 14;
-const FILL_TIMEOUT_MS = 20_000;
+// playwright.config.ts starts the server on the seed, so the backfill fills the page at
+// once; the replay then sends a station time each second.
 
-test("the built page boots and shows replayed telemetry", async ({page}) => {
+test("the built page boots and streams without an error", async ({page}) => {
   const errors: string[] = [];
   page.on("pageerror", (error) => {
     errors.push(error.message);
@@ -20,21 +15,50 @@ test("the built page boots and shows replayed telemetry", async ({page}) => {
   });
 
   await page.goto("/");
-  // The bundle is a module script, which runs before the load event that goto awaits.
-  expect(errors).toEqual([]);
-  await expect(page.getByRole("alert")).toBeHidden();
+
+  // The watch spans a clock tick and a live record, as each redraws the page.
+  const groundTime = page.locator("#ground-time");
+  const stationTime = page.locator('[data-telemetry-id="TIME_000001"]');
+  await expect(stationTime).toHaveText(/\d/);
+  const groundTimeBefore = await groundTime.innerText();
+  const stationTimeBefore = await stationTime.innerText();
+  await expect(groundTime).not.toHaveText(groundTimeBefore);
+  await expect(stationTime).not.toHaveText(stationTimeBefore);
 
   await expect(page.locator("#telemetry-network")).toHaveText("Connected");
-  const numericReadouts = page
-    .locator(".readout.decimal")
-    // eslint-disable-next-line security/detect-unsafe-regex -- the literal dot parts the two digit runs, so no input makes it backtrack
-    .filter({hasText: /^\s*-?\d+(\.\d+)?$/});
-  await expect
-    .poll(() => numericReadouts.count(), {timeout: FILL_TIMEOUT_MS})
-    .toBeGreaterThanOrEqual(READOUT_FLOOR);
-  const sparklines = page.locator(".sparkline-chart svg.sparkline path");
-  await expect
-    .poll(() => sparklines.count(), {timeout: FILL_TIMEOUT_MS})
-    .toBeGreaterThanOrEqual(SPARKLINE_FLOOR);
+  await expect(page.getByRole("alert")).toBeHidden();
   expect(errors).toEqual([]);
 });
+
+test("the backfill puts a number in every decimal readout but the masked oxygen rate", async ({
+  page,
+}) => {
+  await page.goto("/");
+
+  // NODE3000011 has sent only a fill value since 2022, which maskFeedFaults blanks, so its
+  // readout shows a dash.
+  const numericReadouts = page
+    .locator('.readout.decimal:not([data-telemetry-id="NODE3000011"])')
+    // eslint-disable-next-line security/detect-unsafe-regex -- the literal dot parts the two digit runs, so no input makes it backtrack
+    .filter({hasText: /^\s*-?\d+(\.\d+)?$/});
+  // index.html holds 131 decimal readouts, NODE3000011's among them.
+  await expect(numericReadouts).toHaveCount(130);
+});
+
+// The replay's default recording first sends USLAB000059 305 seconds in and Z1000005 98
+// seconds in, and never sends NODE2000001. The replay starts with the server, so in a run
+// shorter than 98 seconds only the backfill draws these charts.
+for (const {chart, mark} of [
+  {
+    chart: "sparkline",
+    mark: '.sparkline-chart[data-telemetry-id="USLAB000059"] svg.sparkline path',
+  },
+  {chart: "bar", mark: '.bar-chart[data-telemetry-id="NODE2000001"] svg rect.bar'},
+  {chart: "bullet", mark: '.bullet-chart[data-telemetry-id="Z1000005"] svg line.measure'},
+]) {
+  test(`the backfill draws a ${chart} chart`, async ({page}) => {
+    await page.goto("/");
+
+    await expect(page.locator(mark).first()).toBeAttached();
+  });
+}
