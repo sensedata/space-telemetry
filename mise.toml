@@ -134,16 +134,10 @@ run = [
 ]
 
 
-# Reserved. The project defines its release here; the commented depends are the
-# usual first step.
 [tasks.release]
-description = "Not defined for this project yet."
-run = "echo 'release: not defined. Define it in mise.toml.' && exit 1"
-depends = [
-  # "check",
-  # "test",
-  # "report",
-]
+description = "Gate, then tag HEAD with the version that heads CHANGES.md. Pushes nothing."
+shell = "bash -c"
+run = "tools/release.sh"
 
 
 [tasks.report]
