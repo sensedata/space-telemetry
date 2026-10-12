@@ -1,6 +1,8 @@
 import {once} from "node:events";
 import {vi} from "vitest";
 
+import {signal} from "../../../src/client/signals/signal.ts";
+import {startStream} from "../../../src/client/start-stream.ts";
 import {createBuffer} from "../../../src/server/buffer.ts";
 import {createServer} from "../../../src/server/create-server.ts";
 import {createSource} from "../../../src/server/source.ts";
@@ -14,6 +16,7 @@ import {
   type FakeLightstreamer,
 } from "../../../src/server/test-helpers/lightstreamer-client.ts";
 import {listeningPort} from "../../../src/server/listening-port.ts";
+import {nowSeconds} from "./now-seconds.ts";
 import {test as stubPageTest} from "./stub-page.ts";
 
 // The ISS feed's TimeStamp counts decimal hours from 00:00 UTC on 1 January of the current
@@ -42,7 +45,7 @@ function feedRow(
 }
 
 function feedTime(feed: FakeLightstreamer) {
-  feedRow(feed, capturedRows("TIME_000001")[0], Math.trunc(Date.now() / 1000));
+  feedRow(feed, capturedRows("TIME_000001")[0], nowSeconds());
 }
 
 // Every test of this `test` runs on a fake setTimeout, clearTimeout, setInterval,
@@ -53,6 +56,8 @@ function feedTime(feed: FakeLightstreamer) {
 // reports the feed connected and streams telemetry, and closes with its connections after
 // the test. serverUrl is its address and source its source; feedRow(row, unixSeconds) and
 // feedTime() feed it through its fake Lightstreamer, and open() opens a stream from it.
+// server.dropConnections() ends its connections, and client is a Stream from it, closed
+// after the test.
 export const test = stubPageTest
   .extend("fakeClock", {auto: true}, ({}, {onCleanup}) => {
     vi.useFakeTimers({
@@ -74,7 +79,14 @@ export const test = stubPageTest
     await startSource("lightstreamer", [], source, () => Promise.resolve(feed.module));
     feedTime(feed);
     // By address: resolving localhost can stall for a test's whole timeout.
-    return {url: `http://127.0.0.1:${listeningPort(server)}`, feed, source};
+    return {
+      url: `http://127.0.0.1:${listeningPort(server)}`,
+      feed,
+      source,
+      dropConnections: () => {
+        server.closeAllConnections();
+      },
+    };
   })
   .extend("serverUrl", ({server}) => server.url)
   .extend("source", ({server}) => server.source)
@@ -93,4 +105,11 @@ export const test = stubPageTest
     ({serverUrl, openStream}) =>
       () =>
         openStream(serverUrl),
-  );
+  )
+  .extend("client", ({serverUrl}, {onCleanup}) => {
+    const client = startStream(signal(nowSeconds()), serverUrl);
+    onCleanup(() => {
+      client.close();
+    });
+    return client;
+  });

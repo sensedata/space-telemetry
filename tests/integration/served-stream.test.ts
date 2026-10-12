@@ -4,6 +4,10 @@ import {assert, describe, vi} from "vitest";
 import type {Readable} from "../../src/client/signals/readable.ts";
 import {streamRecord, timedRecord} from "../../src/client/test-helpers/records.ts";
 import type {StreamRecord} from "../../src/contract/stream-record.ts";
+import {capturedRows} from "../../src/server/test-helpers/captured-rows.ts";
+import {test as connectedTest} from "./test-helpers/connected-server.ts";
+import {nowSeconds} from "./test-helpers/now-seconds.ts";
+import {pickFields} from "./test-helpers/pick-fields.ts";
 import {test} from "./test-helpers/served-stream.ts";
 
 function changed(store: Pick<Readable<unknown>, "subscribe">): Promise<void> {
@@ -64,4 +68,38 @@ describe("the stream against a server", () => {
 
     assert.deepEqual(states, [false, true, false]);
   });
+});
+
+describe("the stream against the telemetry server", () => {
+  connectedTest(
+    "holds each record once after a drop, the backfill on reconnect and the next live record",
+    async ({server, feedRow, client}) => {
+      const now = nowSeconds();
+      const [held, missed, live] = capturedRows("USLAB000059");
+      const store = client.channels.USLAB000059;
+      const received = changed(store);
+      feedRow(held, now - 3);
+      await vi.advanceTimersByTimeAsync(1000);
+      await received;
+
+      const lost = changed(client.connection);
+      server.dropConnections();
+      feedRow(missed, now - 2);
+      await lost;
+      // EventSource reopens a dropped stream after 3 seconds.
+      const backfilled = changed(store);
+      await vi.advanceTimersByTimeAsync(3000);
+      await backfilled;
+      const resumed = changed(store);
+      feedRow(live, now - 1);
+      await vi.advanceTimersByTimeAsync(1000);
+      await resumed;
+
+      assert.deepEqual(pickFields(store.get(), ["t", "v"]), [
+        {t: now - 3, v: 23.26},
+        {t: now - 2, v: 23.32},
+        {t: now - 1, v: 23.26},
+      ]);
+    },
+  );
 });

@@ -13,11 +13,8 @@ import {
 } from "../../src/server/test-helpers/captured-rows.ts";
 import {test} from "./test-helpers/connected-server.ts";
 import {recordsOfChannel} from "./test-helpers/event-stream.ts";
+import {nowSeconds} from "./test-helpers/now-seconds.ts";
 import {pickFields} from "./test-helpers/pick-fields.ts";
-
-function nowSeconds() {
-  return Math.trunc(Date.now() / 1000);
-}
 
 // The first row the capture holds of `item`.
 function firstRow(item: string): CapturedRow {
