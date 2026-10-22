@@ -7,7 +7,7 @@ const gpsStatuses = {
   2: "Approximate timing",
   3: "GPS time",
   4: "Need initialization",
-  5: "GDOP needed",
+  5: "GDOP exceeded",
   6: "Bad timing",
   7: "No usable satellite",
   8: "Track 1 satellite",
